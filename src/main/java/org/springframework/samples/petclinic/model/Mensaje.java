@@ -1,82 +1,81 @@
+
 package org.springframework.samples.petclinic.model;
 
-import java.util.Date;
+import java.time.LocalDate;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
-import org.hibernate.annotations.Cascade;
-import org.hibernate.annotations.CascadeType;
-import org.hibernate.annotations.Type;
-import org.hibernate.validator.constraints.Length;
-import org.hibernate.validator.constraints.Range;
-import org.hibernate.validator.constraints.URL;
+import org.springframework.format.annotation.DateTimeFormat;
 
 @Entity
-@Table(name = "mensaje")
+@Table(name = "mensajes")
 public class Mensaje extends BaseEntity {
 
+	//Propiedades
+
 	@Column(name = "asunto")
-	private String asunto;
+	private String		asunto;
 
 	@Column(name = "cuerpo")
-	private String cuerpo;
+	private String		cuerpo;
 
 	@Column(name = "fecha")
-	@Type(type = "date")
-	private Date fecha;
-	
-	@Column(name = "remitente")
-	private Integer remitente;
+	@DateTimeFormat(pattern = "yyyy/MM/dd HH:mm")
+	private LocalDate	fecha;
 
-	@Column(name = "receptor")
-	private Integer receptor;
+	@ManyToOne
+	@JoinColumn(name = "remitente_id")
+	private Cliente		remitente;
+
+	@ManyToOne
+	@JoinColumn(name = "receptor_id")
+	private Cliente		receptor;
+
+
+	//Getters y setters
 
 	public String getAsunto() {
-		return asunto;
+		return this.asunto;
 	}
 
-	public void setAsunto(String asunto) {
+	public void setAsunto(final String asunto) {
 		this.asunto = asunto;
 	}
 
 	public String getCuerpo() {
-		return cuerpo;
+		return this.cuerpo;
 	}
 
-	public void setCuerpo(String cuerpo) {
+	public void setCuerpo(final String cuerpo) {
 		this.cuerpo = cuerpo;
 	}
 
-	public Date getFecha() {
-		return fecha;
+	public LocalDate getFecha() {
+		return this.fecha;
 	}
 
-	public void setFecha(Date fecha) {
+	public void setFecha(final LocalDate fecha) {
 		this.fecha = fecha;
 	}
 
-	public Integer getRemitente() {
-		return remitente;
+	public Cliente getRemitente() {
+		return this.remitente;
 	}
 
-	public void setRemitente(Integer remitente) {
+	public void setRemitente(final Cliente remitente) {
 		this.remitente = remitente;
 	}
 
-	public Integer getReceptor() {
-		return receptor;
+	public Cliente getReceptor() {
+		return this.receptor;
 	}
 
-	public void setReceptor(Integer receptor) {
+	public void setReceptor(final Cliente receptor) {
 		this.receptor = receptor;
 	}
-
-
-
-	
 
 }

@@ -1,52 +1,56 @@
+
 package org.springframework.samples.petclinic.model;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.Pattern;
 
-
 @Entity
-@Table(name="solicitudAsistencia")
+@Table(name = "solicitudes_asistencia")
 public class SolicitudAsistencia extends BaseEntity {
-	
 
-	@ManyToOne(optional = true)
-	private Fiesta fiesta;
-	
+	//Propiedades
 
-	@ManyToOne(optional = true)
-	private Cliente cliente;
-	
+	@ManyToOne
+	@JoinColumn(name = "fiesta_id")
+	private Fiesta	fiesta;
+
+	@ManyToOne
+	@JoinColumn(name = "cliente_id")
+	private Cliente	cliente;
+
 	@Column(name = "decision")
 	@Pattern(regexp = "^(PENDIENTE|ACEPTADO|RECHAZADO)$")
-	private String decision;
+	private String	decision;
+
+
+	//Getters y setters
 
 	public Fiesta getFiesta() {
-		return fiesta;
+		return this.fiesta;
 	}
 
-	public void setFiesta(Fiesta fiesta) {
+	public void setFiesta(final Fiesta fiesta) {
 		this.fiesta = fiesta;
 	}
 
 	public Cliente getCliente() {
-		return cliente;
+		return this.cliente;
 	}
 
-	public void setCliente(Cliente cliente) {
+	public void setCliente(final Cliente cliente) {
 		this.cliente = cliente;
 	}
 
 	public String getDecision() {
-		return decision;
+		return this.decision;
 	}
 
-	public void setDecision(String decision) {
+	public void setDecision(final String decision) {
 		this.decision = decision;
 	}
-	
-	
-	
+
 }

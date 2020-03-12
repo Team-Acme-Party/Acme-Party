@@ -1,64 +1,82 @@
+
 package org.springframework.samples.petclinic.model;
 
-import java.util.Date;
+import java.time.LocalDate;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
-import org.hibernate.annotations.Cascade;
-import org.hibernate.annotations.CascadeType;
-import org.hibernate.annotations.Type;
-import org.hibernate.validator.constraints.Length;
-import org.hibernate.validator.constraints.Range;
-import org.hibernate.validator.constraints.URL;
+import org.springframework.format.annotation.DateTimeFormat;
 
 @Entity
-@Table(name = "comentario")
+@Table(name = "comentarios")
 public class Comentario extends BaseEntity {
 
+	//Propiedades
+
 	@Column(name = "cuerpo")
-	private String cuerpo;
+	private String		cuerpo;
 
 	@Column(name = "fecha")
-	@Type(type = "date")
-	private Date fecha;
-	
-	@ManyToOne(optional = true)
-	@Cascade(CascadeType.DELETE)
-	private Cliente cliente;
+	@DateTimeFormat(pattern = "yyyy/MM/dd HH:mm")
+	private LocalDate	fecha;
 
-	@ManyToOne(optional = true)
-	@Cascade(CascadeType.DELETE)
-	private Local local;
-	
+	@ManyToOne
+	@JoinColumn(name = "cliente_id")
+	private Cliente		cliente;
+
+	@ManyToOne
+	@JoinColumn(name = "local_id")
+	private Local		local;
+
+	@ManyToOne
+	@JoinColumn(name = "fiesta_id")
+	private Fiesta		fiesta;
+
+
+	//Getters y setters
+
 	public String getCuerpo() {
-		return cuerpo;
+		return this.cuerpo;
 	}
 
-	public void setCuerpo(String cuerpo) {
+	public void setCuerpo(final String cuerpo) {
 		this.cuerpo = cuerpo;
 	}
 
-	public Date getFecha() {
-		return fecha;
+	public LocalDate getFecha() {
+		return this.fecha;
 	}
 
-	public void setFecha(Date fecha) {
+	public void setFecha(final LocalDate fecha) {
 		this.fecha = fecha;
 	}
 
 	public Cliente getCliente() {
-		return cliente;
+		return this.cliente;
 	}
 
-	public void setCliente(Cliente cliente) {
+	public void setCliente(final Cliente cliente) {
 		this.cliente = cliente;
 	}
-	
-	
-	
+
+	public Local getLocal() {
+		return this.local;
+	}
+
+	public void setLocal(final Local local) {
+		this.local = local;
+	}
+
+	public Fiesta getFiesta() {
+		return this.fiesta;
+	}
+
+	public void setFiesta(final Fiesta fiesta) {
+		this.fiesta = fiesta;
+	}
 
 }

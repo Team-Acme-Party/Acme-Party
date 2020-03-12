@@ -1,24 +1,28 @@
+
 package org.springframework.samples.petclinic.model;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 
-
 @Entity
-@Table(name="patrocinador")
+@Table(name = "patrocinadores")
 public class Patrocinador extends UsuarioEntity {
-	
-	@Column(name = "descripcionExperiencia")
+
+	//Propiedades
+
+	@Column(name = "descripcion_experiencia")
 	private String descripcionExperiencia;
 
+
+	//Getters y setters
+
 	public String getDescripcionExperiencia() {
-		return descripcionExperiencia;
+		return this.descripcionExperiencia;
 	}
 
-	public void setDescripcionExperiencia(String descripcionExperiencia) {
+	public void setDescripcionExperiencia(final String descripcionExperiencia) {
 		this.descripcionExperiencia = descripcionExperiencia;
 	}
-	
-	
+
 }

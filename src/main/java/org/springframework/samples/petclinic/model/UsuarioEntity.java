@@ -1,81 +1,81 @@
+
 package org.springframework.samples.petclinic.model;
 
-import java.util.List;
-
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
+import javax.persistence.JoinColumn;
 import javax.persistence.MappedSuperclass;
-import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.validation.constraints.Email;
 
 import org.hibernate.validator.constraints.URL;
 
 @MappedSuperclass
 public class UsuarioEntity extends BaseEntity {
-	
+
+	//Propiedades
+
 	@Column(name = "nombre")
-	private String nombre;
-	@Column(name = "apellido")
-	private String apellido;
+	private String	nombre;
+
+	@Column(name = "apellidos")
+	private String	apellidos;
+
 	@Column(name = "email")
 	@Email
-	private String email;
+	private String	email;
+
 	@Column(name = "telefono")
-	private String telefono;
+	private String	telefono;
+
 	@Column(name = "foto")
 	@URL
-	private String foto;
-	
+	private String	foto;
 
-	@OneToMany
-	private List<Mensaje> mensajesEnviados;
-	
+	@OneToOne(cascade = CascadeType.ALL)
+	@JoinColumn(name = "username", referencedColumnName = "username")
+	private User	user;
 
-	@OneToMany
-	private List<Mensaje> mensajesRecibidos;
+
+	//Getters y setters
+
 	public String getNombre() {
-		return nombre;
+		return this.nombre;
 	}
-	public void setNombre(String nombre) {
+	public void setNombre(final String nombre) {
 		this.nombre = nombre;
 	}
-	public String getApellido() {
-		return apellido;
+	public String getApellidos() {
+		return this.apellidos;
 	}
-	public void setApellido(String apellido) {
-		this.apellido = apellido;
+	public void setApellidos(final String apellidos) {
+		this.apellidos = apellidos;
 	}
 	public String getEmail() {
-		return email;
+		return this.email;
 	}
-	public void setEmail(String email) {
+	public void setEmail(final String email) {
 		this.email = email;
 	}
 	public String getTelefono() {
-		return telefono;
+		return this.telefono;
 	}
-	public void setTelefono(String telefono) {
+	public void setTelefono(final String telefono) {
 		this.telefono = telefono;
 	}
 	public String getFoto() {
-		return foto;
+		return this.foto;
 	}
-	public void setFoto(String foto) {
+	public void setFoto(final String foto) {
 		this.foto = foto;
 	}
-	public List<Mensaje> getMensajesEnviados() {
-		return mensajesEnviados;
+
+	public User getUser() {
+		return this.user;
 	}
-	public void setMensajesEnviados(List<Mensaje> mensajesEnviados) {
-		this.mensajesEnviados = mensajesEnviados;
+
+	public void setUser(final User user) {
+		this.user = user;
 	}
-	public List<Mensaje> getMensajesRecibidos() {
-		return mensajesRecibidos;
-	}
-	public void setMensajesRecibidos(List<Mensaje> mensajesRecibidos) {
-		this.mensajesRecibidos = mensajesRecibidos;
-	}
-	
-	
-	
 
 }

@@ -1,164 +1,166 @@
+
 package org.springframework.samples.petclinic.model;
 
-import java.util.Date;
+import java.time.LocalDate;
+import java.time.LocalTime;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.Pattern;
 
-import org.hibernate.annotations.Cascade;
-import org.hibernate.annotations.CascadeType;
-import org.hibernate.annotations.Type;
-import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.Range;
 import org.hibernate.validator.constraints.URL;
-
+import org.springframework.format.annotation.DateTimeFormat;
 
 @Entity
-@Table(name="fiesta")
+@Table(name = "fiestas")
 public class Fiesta extends BaseEntity {
 
-	
+	//Propiedades
+
 	@Column(name = "nombre")
-	private String nombre;
-	
-	@Column(name = "lugar")
-	private String descripción;
-	
+	private String		nombre;
+
+	@Column(name = "descripcion")
+	private String		descripción;
+
 	@Column(name = "precio")
 	@Range(min = 0)
-	private Double precio;
-	
-	@Column(name = "requisitos")
-	private String requisitos;
-	
+	private Double		precio;
 
-	@Column(name = "fechaInicio")
-	@Type(type = "date")
-	private Date fechaInicio;
-	
-	
-	@Column(name = "fechaFin")
-	@Type(type = "date")
-	private Date fechaFin;
-	
-	
-	@Column(name = "numeroAsistentes")
+	@Column(name = "requisitos")
+	private String		requisitos;
+
+	@Column(name = "fecha")
+	@DateTimeFormat(pattern = "yyyy/MM/dd")
+	private LocalDate	fecha;
+
+	@Column(name = "hora_inicio")
+	private LocalTime	horaInicio;
+
+	@Column(name = "hora_fin")
+	private LocalTime	horaFin;
+
+	@Column(name = "numero_asistentes")
 	@Range(min = 0)
-	private Integer numeroAsistentes;
-	
-	
+	private Integer		numeroAsistentes;
+
 	@Column(name = "imagen")
 	@URL
-	private String imagen;
-	
-	
+	private String		imagen;
+
 	@Column(name = "decision")
 	@Pattern(regexp = "^(PENDIENTE|ACEPTADO|RECHAZADO)$")
-	private String decision;
-	
-	@ManyToOne(optional = true)
-	@Cascade(CascadeType.DELETE)
-	private Cliente cliente;
-	
-	@OneToOne(optional = true)
-	private Local local;
+	private String		decision;
+
+	@ManyToOne
+	@JoinColumn(name = "cliente_id")
+	private Cliente		cliente;
+
+	@ManyToOne
+	@JoinColumn(name = "local_id")
+	private Local		local;
+
+
+	//Getters y setters
 
 	public String getNombre() {
-		return nombre;
+		return this.nombre;
 	}
 
-	public void setNombre(String nombre) {
+	public void setNombre(final String nombre) {
 		this.nombre = nombre;
 	}
 
 	public String getDescripción() {
-		return descripción;
+		return this.descripción;
 	}
 
-	public void setDescripción(String descripción) {
+	public void setDescripción(final String descripción) {
 		this.descripción = descripción;
 	}
 
 	public Double getPrecio() {
-		return precio;
+		return this.precio;
 	}
 
-	public void setPrecio(Double precio) {
+	public void setPrecio(final Double precio) {
 		this.precio = precio;
 	}
 
 	public String getRequisitos() {
-		return requisitos;
+		return this.requisitos;
 	}
 
-	public void setRequisitos(String requisitos) {
+	public void setRequisitos(final String requisitos) {
 		this.requisitos = requisitos;
 	}
 
-	public Date getFechaInicio() {
-		return fechaInicio;
+	public LocalDate getFecha() {
+		return this.fecha;
 	}
 
-	public void setFechaInicio(Date fechaInicio) {
-		this.fechaInicio = fechaInicio;
+	public void setFecha(final LocalDate fecha) {
+		this.fecha = fecha;
 	}
 
-	public Date getFechaFin() {
-		return fechaFin;
+	public LocalTime getHoraInicio() {
+		return this.horaInicio;
 	}
 
-	public void setFechaFin(Date fechaFin) {
-		this.fechaFin = fechaFin;
+	public void setHoraInicio(final LocalTime horaInicio) {
+		this.horaInicio = horaInicio;
+	}
+
+	public LocalTime getHoraFin() {
+		return this.horaFin;
+	}
+
+	public void setHoraFin(final LocalTime horaFin) {
+		this.horaFin = horaFin;
 	}
 
 	public Integer getNumeroAsistentes() {
-		return numeroAsistentes;
+		return this.numeroAsistentes;
 	}
 
-	public void setNumeroAsistentes(Integer numeroAsistentes) {
+	public void setNumeroAsistentes(final Integer numeroAsistentes) {
 		this.numeroAsistentes = numeroAsistentes;
 	}
 
 	public String getImagen() {
-		return imagen;
+		return this.imagen;
 	}
 
-	public void setImagen(String imagen) {
+	public void setImagen(final String imagen) {
 		this.imagen = imagen;
 	}
 
 	public String getDecision() {
-		return decision;
+		return this.decision;
 	}
 
-	public void setDecision(String decision) {
+	public void setDecision(final String decision) {
 		this.decision = decision;
 	}
 
 	public Cliente getCliente() {
-		return cliente;
+		return this.cliente;
 	}
 
-	public void setCliente(Cliente cliente) {
+	public void setCliente(final Cliente cliente) {
 		this.cliente = cliente;
 	}
 
 	public Local getLocal() {
-		return local;
+		return this.local;
 	}
 
-	public void setLocal(Local local) {
+	public void setLocal(final Local local) {
 		this.local = local;
 	}
-	
-	
-
-	
-	
-	
 
 }
