@@ -25,7 +25,7 @@ public class Fiesta extends BaseEntity {
 	private String		nombre;
 
 	@Column(name = "descripcion")
-	private String		descripción;
+	private String		descripcion;
 
 	@Column(name = "precio")
 	@Range(min = 0)
@@ -75,12 +75,12 @@ public class Fiesta extends BaseEntity {
 		this.nombre = nombre;
 	}
 
-	public String getDescripción() {
-		return this.descripción;
+	public String getDescripcion() {
+		return this.descripcion;
 	}
 
-	public void setDescripción(final String descripción) {
-		this.descripción = descripción;
+	public void setDescripcion(final String descripción) {
+		this.descripcion = descripción;
 	}
 
 	public Double getPrecio() {
