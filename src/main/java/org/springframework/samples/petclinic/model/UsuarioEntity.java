@@ -78,4 +78,9 @@ public class UsuarioEntity extends BaseEntity {
 		this.user = user;
 	}
 
+	@Override
+	public String toString() {
+		return this.nombre + " " + this.apellidos;
+	}
+
 }
