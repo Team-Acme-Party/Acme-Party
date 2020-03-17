@@ -12,4 +12,6 @@ public interface LocalRepository {
 
 	Local findById(int id) throws DataAccessException;
 
+	Collection<Local> findByDireccion(String direccion) throws DataAccessException;
+
 }

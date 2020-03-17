@@ -31,4 +31,9 @@ public class LocalService {
 		return this.localRepository.findById(localId);
 	}
 
+	@Transactional
+	public Collection<Local> findByDireccion(final String direccion) throws DataAccessException {
+		return this.localRepository.findByDireccion(direccion);
+	}
+
 }
