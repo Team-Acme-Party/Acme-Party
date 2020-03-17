@@ -6,7 +6,10 @@ import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.samples.petclinic.model.Local;
+import org.springframework.samples.petclinic.model.Propietario;
 import org.springframework.samples.petclinic.service.LocalService;
+import org.springframework.samples.petclinic.service.PropietarioService;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -16,12 +19,14 @@ import org.springframework.web.servlet.ModelAndView;
 @Controller
 public class LocalController {
 
-	private final LocalService localService;
+	private final LocalService			localService;
+	private final PropietarioService	propietarioService;
 
 
 	@Autowired
-	public LocalController(final LocalService localService) {
+	public LocalController(final LocalService localService, final PropietarioService propietarioService) {
 		this.localService = localService;
+		this.propietarioService = propietarioService;
 	}
 
 	@GetMapping(value = {
@@ -64,6 +69,19 @@ public class LocalController {
 			model.put("locales", results);
 			return "locales/listaLocales";
 		}
+	}
+
+	@GetMapping(value = {
+		"/propietario/locales"
+	})
+	public String verMisLocales(final Map<String, Object> model) {
+
+		String username = SecurityContextHolder.getContext().getAuthentication().getName();
+		Propietario p = this.propietarioService.findByUsername(username);
+		Collection<Local> locales = this.localService.findByPropietarioId(p.getId());
+		model.put("locales", locales);
+
+		return "locales/listaLocales";
 	}
 
 }
