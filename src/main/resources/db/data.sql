@@ -48,16 +48,16 @@ INSERT INTO patrocinadores(id, nombre, apellidos, email, telefono, foto, descrip
 
 --Locales
 INSERT INTO locales(id, direccion, capacidad, condiciones, imagen, decision, propietario_id) 
-	VALUES(1, 'Luis Montoto 12', 100, 'Para fiestas electrónicas', 
+	VALUES(1, 'Luis Montoto 12', 100, 'Para fiestas electronicas', 
 	'https://salonparafiesta.com/wp-content/uploads/2016/05/local-para-fiestas-hortaleza-1.jpg', 'ACEPTADO', 1);
 INSERT INTO locales(id, direccion, capacidad, condiciones, imagen, decision, propietario_id) 
 	VALUES(2, 'Eduardo Dato 33', 50, 'Para fiestas familiares', 
 	'https://revistafamily.com/wp-content/uploads/2019/01/local-ideal-para-tus-fiestas.jpg', 'PENDIENTE', 1);
 INSERT INTO locales(id, direccion, capacidad, condiciones, imagen, decision, propietario_id) 
-	VALUES(3, 'Polígono Calonge 2', 1000, 'Para fiestas con drogas', 
+	VALUES(3, 'Poligono Calonge 2', 1000, 'Para fiestas con drogas', 
 	'https://salonparafiesta.com/wp-content/uploads/2018/03/alquiler-local-fiesta-privada-madrid-2.jpg', 'RECHAZADO', 1);
 INSERT INTO locales(id, direccion, capacidad, condiciones, imagen, decision, propietario_id) 
-	VALUES(4, 'Afán de Ribera 56', 70, 'Para fiestas de rock', 
+	VALUES(4, 'Afan de Ribera 56', 70, 'Para fiestas de rock', 
 	'https://leonocio.es/wp-content/uploads/bulk/local_a.jpg', 'ACEPTADO', 2);
 INSERT INTO locales(id, direccion, capacidad, condiciones, imagen, decision, propietario_id) 
 	VALUES(5, 'Avenida de la Buhaira 90', 200, 'Para fiestas adolescentes', 
@@ -69,20 +69,20 @@ INSERT INTO fiestas(id, nombre, descripcion, precio, requisitos, fecha, hora_ini
 	'2020-04-15', '18:00', '23:00', 50, 'https://welcometoibiza.com/wp-content/uploads/2018/02/Fiestas-de-disfraces-en-Ibiza.jpg', 'ACEPTADO', 1, 2);
 	
 INSERT INTO fiestas(id, nombre, descripcion, precio, requisitos, fecha, hora_inicio, hora_fin, numero_asistentes, imagen, decision, cliente_id, local_id) 
-	VALUES(2, 'Fiesta electrónica', 'Fiesta de música electrónica para mayores de edad.', 20, 'Ser mayor de edad y no traer drogas.',
+	VALUES(2, 'Fiesta electronica', 'Fiesta de música electronica para mayores de edad.', 20, 'Ser mayor de edad y no traer drogas.',
 	'2020-06-20', '22:00', '5:00', 200, 'https://i.pinimg.com/originals/23/45/77/23457712be420ec1a113139552b091a3.jpg', 'PENDIENTE', 1, 1);
 	
 INSERT INTO fiestas(id, nombre, descripcion, precio, requisitos, fecha, hora_inicio, hora_fin, numero_asistentes, imagen, decision, cliente_id, local_id) 
-	VALUES(3, 'Fiesta de rock', 'Fiesta de música rock para mayores de edad.', 20, 'Ser mayor de edad y no traer drogas.',
+	VALUES(3, 'Fiesta de rock', 'Fiesta de musica rock para mayores de edad.', 20, 'Ser mayor de edad y no traer drogas.',
 	'2020-07-04', '23:00', '7:00', 200, 'https://welcometoibiza.com/wp-content/uploads/2018/06/fiesta-rock-nights-pikes-ibiza-welcometoibiza.jpg', 'ACEPTADO', 2, 4);
 	
 INSERT INTO fiestas(id, nombre, descripcion, precio, requisitos, fecha, hora_inicio, hora_fin, numero_asistentes, imagen, decision, cliente_id, local_id) 
-	VALUES(4, 'Fiesta dubstep', 'Fiesta de música dubstep para mayores de edad.', 30, 'Ser mayor de edad y no traer drogas.',
+	VALUES(4, 'Fiesta dubstep', 'Fiesta de musica dubstep para mayores de edad.', 30, 'Ser mayor de edad y no traer drogas.',
 	'2020-04-30', '23:00', '5:00', 200, 'https://lh3.googleusercontent.com/proxy/xWy-b0Xb6qIf-2djdKb9uSxyphuYr6jkfbXoGRYs3EK90zJuK9Vfo2xb1dpH5U2zXZN4O3d1li
 	n8QRHDQt3SaICQfGGC48XtnZieRnzfTSgTshnG24XGJKYlyepq5F6t9wZRgY0GshjVmD-JexrSIQ0UAGdTpTxZShpiiHH7La0idcG9lKIx4At3eNQ_nA', 'PENDIENTE', 1, 1);
 
 INSERT INTO fiestas(id, nombre, descripcion, precio, requisitos, fecha, hora_inicio, hora_fin, numero_asistentes, imagen, decision, cliente_id, local_id) 
-	VALUES(5, 'Fiesta trap', 'Fiesta de música trap.', 50, 'Cualquier edad y traer mucha droga.',
+	VALUES(5, 'Fiesta trap', 'Fiesta de musica trap.', 50, 'Cualquier edad y traer mucha droga.',
 	'2020-09-09', '23:00', '7:00', 50, 
 	'https://4.bp.blogspot.com/-21qlqUcqgT4/VlUSvE8qmVI/AAAAAAAAAEY/N6RA40TcsQ4/s1600/tumblr_inline_mymygb26FE1ruzwds.jpg', 'RECHAZADO', 2, 1);
 
