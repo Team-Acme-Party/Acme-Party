@@ -40,6 +40,14 @@
 					<span>Buscar fiestas</span>
 				</petclinic:menuItem>
 
+				<sec:authorize access="hasAuthority('propietario')">
+					<petclinic:menuItem active="${name eq 'mislocales'}" url="/propietario/locales"
+						title="home page">
+						<span class="glyphicon glyphicon-home" aria-hidden="true"></span>
+						<span>Mis locales</span>
+					</petclinic:menuItem>
+				</sec:authorize>
+
 				<%-- <petclinic:menuItem active="${name eq 'owners'}" url="/owners/find"
 					title="find owners">
 					<span class="glyphicon glyphicon-search" aria-hidden="true"></span>

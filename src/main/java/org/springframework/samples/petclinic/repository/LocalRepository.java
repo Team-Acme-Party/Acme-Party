@@ -14,4 +14,6 @@ public interface LocalRepository {
 
 	Collection<Local> findByDireccion(String direccion) throws DataAccessException;
 
+	Collection<Local> findByPropietarioId(int id);
+
 }
