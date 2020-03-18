@@ -8,6 +8,8 @@ import org.springframework.samples.petclinic.model.Fiesta;
 
 public interface FiestaRepository {
 
+	Collection<Fiesta> findAll() throws DataAccessException;
+
 	Collection<Fiesta> findAccepted() throws DataAccessException;
 
 	Fiesta findById(int id) throws DataAccessException;

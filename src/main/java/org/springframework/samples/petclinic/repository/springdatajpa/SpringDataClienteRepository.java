@@ -35,4 +35,8 @@ public interface SpringDataClienteRepository extends ClienteRepository, Reposito
 	@Query("SELECT cliente FROM Cliente cliente WHERE cliente.user.username =:username")
 	Cliente findByUsername(@Param("username") String username);
 
+	@Override
+	@Query("SELECT cliente FROM Cliente cliente WHERE cliente.id =:id")
+	Cliente findById(@Param("id") int id);
+
 }

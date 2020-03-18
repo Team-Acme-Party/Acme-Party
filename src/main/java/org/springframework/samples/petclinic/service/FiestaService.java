@@ -43,6 +43,11 @@ public class FiestaService {
 	}
 
 	@Transactional(readOnly = true)
+	public Collection<Fiesta> findAll() throws DataAccessException {
+		return this.fiestaRepository.findAll();
+	}
+
+	@Transactional(readOnly = true)
 	public Collection<Fiesta> findAccepted() throws DataAccessException {
 		return this.fiestaRepository.findAccepted();
 	}

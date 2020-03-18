@@ -22,6 +22,11 @@ public class LocalService {
 	}
 
 	@Transactional(readOnly = true)
+	public Collection<Local> findAll() throws DataAccessException {
+		return this.localRepository.findAll();
+	}
+
+	@Transactional(readOnly = true)
 	public Collection<Local> findAccepted() throws DataAccessException {
 		return this.localRepository.findAccepted();
 	}
