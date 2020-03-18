@@ -2,11 +2,22 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="sec"
+	uri="http://www.springframework.org/security/tags"%>
 <%@ taglib prefix="petclinic" tagdir="/WEB-INF/tags" %>
 
 <petclinic:layout pageName="locales">
 
-    <h2>Información del local</h2>
+    <h2>
+    Información del local 
+    <sec:authorize access="hasAuthority('cliente')">
+    	<%-- <spring:url value="{localId}/fiestas/new" var="addUrl">
+        	<spring:param name="localId" value="${local.id}"/>
+	    </spring:url>
+	    <a href="${fn:escapeXml(addUrl)}" class="btn btn-default">Solicitar fiesta</a> --%>
+	    <a href="/fiestas/new/${local.id }" class="btn btn-default">Solicitar fiesta</a>
+    </sec:authorize>
+    </h2>
 
 
     <table class="table table-striped">
@@ -33,6 +44,6 @@
         <tr>
             <th>Propietario</th>
             <td><c:out value="${local.propietario}"/></td>
-        </tr>  
+        </tr>
     </table>
 </petclinic:layout>

@@ -57,4 +57,10 @@ public class FiestaService {
 		return this.fiestaRepository.findByNombre(nombre);
 	}
 
+	@Transactional
+	public void save(final Fiesta f) {
+		assert f != null;
+		this.fiestaRepository.save(f);
+	}
+
 }
