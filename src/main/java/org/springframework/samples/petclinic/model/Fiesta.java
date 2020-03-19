@@ -45,7 +45,7 @@ public class Fiesta extends BaseEntity {
 	private String		requisitos;
 
 	@Column(name = "fecha")
-	@Temporal(TemporalType.DATE)
+	//@Temporal(TemporalType.DATE)
 	@DateTimeFormat(pattern = "yyyy/MM/dd")
 	@NotNull
 	private LocalDate	fecha;
