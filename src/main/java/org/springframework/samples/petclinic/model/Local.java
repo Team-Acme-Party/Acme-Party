@@ -78,5 +78,10 @@ public class Local extends BaseEntity {
 	public void setPropietario(final Propietario propietario) {
 		this.propietario = propietario;
 	}
+	@Override
+	public String toString() {
+		return this.direccion;
+	}
 
+	
 }

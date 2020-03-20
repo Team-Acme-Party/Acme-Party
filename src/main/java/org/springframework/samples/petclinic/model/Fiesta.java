@@ -176,5 +176,8 @@ public class Fiesta extends BaseEntity {
 	public void setLocal(final Local local) {
 		this.local = local;
 	}
-
+	@Override
+	public String toString() {
+		return this.nombre + "[ "+ this.numeroAsistentes + " personas ]";
+	}
 }
