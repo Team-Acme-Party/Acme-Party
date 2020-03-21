@@ -7,41 +7,35 @@
 	uri="http://www.springframework.org/security/tags"%>
 <%@ taglib prefix="petclinic" tagdir="/WEB-INF/tags" %>
 
-<c:choose>
-	<c:when test="${misfiestas }">
-		<c:set var="name" value="misfiestas"/>
-	</c:when>
-	<c:otherwise>
-		<c:set var="name" value="fiestas"/>
-	</c:otherwise>
-</c:choose>
+<petclinic:layout pageName="misasistencias">
+    <h2>Mis solicitudes de asistencia</h2>
 
-<petclinic:layout pageName="${name}">
-    <h2>Fiestas</h2>
-
-    <table id="fiestasTable" class="table table-striped">
+    <table class="table table-striped">
 	        <thead>
 	        <tr>
-	            <th>Nombre</th>
-	            <th>Fecha</th>
-	            <th>Precio</th>
+	            <th>Cliente</th>
+	            <th>Fiesta</th>
+	            <th>Decision</th>
 	            <th></th>
 	        </tr>
 	        </thead>
 	        <tbody>
-	        <c:forEach items="${fiestas}" var="fiesta">
+	        <c:forEach items="${asistencias}" var="asistencia">
 	            <tr>
 	                <td>
-	                    <c:out value="${fiesta.nombre}"/>
+	                    <c:out value="${asistencia.cliente}"/>
 	                </td>
 	                <td>
-	                    <c:out value="${fiesta.fecha}"/>
+	                    <c:out value="${asistencia.fiesta}"/>
 	                </td>
 	                <td>
-	                    <c:out value="${fiesta.precio}"/>
+	                    <c:out value="${asistencia.decision}"/>
 	                </td>
 	                <td>
-	                    <button type="button" class="btn btn-default" onclick="window.location.replace('/fiestas/${fiesta.id}')">Ver detalles</button>
+	                    <button type="button" class="btn btn-default" 
+	                    onclick="window.location.replace('/fiestas/${asistencia.fiesta.id}')">
+	                    	Ver fiesta
+	                    </button>
 	                </td>
 	            </tr>
 	        </c:forEach>

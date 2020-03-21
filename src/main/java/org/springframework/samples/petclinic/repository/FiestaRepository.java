@@ -16,5 +16,9 @@ public interface FiestaRepository {
 
 	Collection<Fiesta> findByNombre(String nombre) throws DataAccessException;
 
+	Collection<Fiesta> findByClienteId(int id) throws DataAccessException;
+
+	Collection<Fiesta> findAsistenciasByClienteId(int id) throws DataAccessException;
+
 	void save(Fiesta fiesta) throws DataAccessException;
 }
