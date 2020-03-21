@@ -28,6 +28,9 @@
                 <td>
 	                    <button type="button" class="btn btn-default" onclick="window.location.replace('/locales/${local.id}')">Ver detalles</button>
 	            </td>
+	               <td>
+	                    <button type="button" class="btn btn-default" onclick="window.location.replace('/local/${local.id}/fiestas')">Ver solicitudes</button>
+	            </td>
             </tr>
         </c:forEach>
         </tbody>

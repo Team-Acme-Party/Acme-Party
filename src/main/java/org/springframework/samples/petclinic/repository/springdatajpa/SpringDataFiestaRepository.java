@@ -45,4 +45,7 @@ public interface SpringDataFiestaRepository extends FiestaRepository, Repository
 	@Query("SELECT fiesta FROM Fiesta fiesta WHERE fiesta.decision = 'ACEPTADO' and fiesta.nombre LIKE %:nombre%")
 	Collection<Fiesta> findByNombre(@Param("nombre") String nombre);
 
+	@Override
+	@Query("SELECT DISTINCT fiesta FROM Fiesta fiesta WHERE fiesta.local.id =:localId")
+	Collection<Fiesta> findFiestasByLocalId(@Param ("localId") int localId );
 }
