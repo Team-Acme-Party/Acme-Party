@@ -99,6 +99,19 @@ public class FiestaController {
 		}
 	}
 
+	@GetMapping(value = {
+		"/cliente/fiestas"
+	})
+	public String verMisFiestas(final Map<String, Object> model) {
+
+		String username = SecurityContextHolder.getContext().getAuthentication().getName();
+		Cliente c = this.clienteService.findByUsername(username);
+		Collection<Fiesta> fiestas = this.fiestaService.findByClienteId(c.getId());
+		model.put("fiestas", fiestas);
+		model.put("misfiestas", true);
+
+		return "fiestas/listaFiestas";
+	}
 
 	@GetMapping(value = {
 		"/cliente/asistencias"
