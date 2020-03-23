@@ -41,6 +41,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 				.antMatchers("/vets/**").authenticated()
 				.antMatchers("/fiestas/**").permitAll()
 				.antMatchers("/locales/**").permitAll()
+        .antMatchers("/local/**").hasAnyAuthority("propietario")
 				.antMatchers("/propietario/**").hasAnyAuthority("propietario")
 				.antMatchers("/patrocinador/**").hasAnyAuthority("patrocinador")
 				.antMatchers("/anuncio/**").hasAnyAuthority("patrocinador")
@@ -84,5 +85,4 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 	}
 	
 }
-
 

@@ -9,6 +9,8 @@ import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.samples.petclinic.model.Cliente;
 import org.springframework.samples.petclinic.model.Fiesta;
+import org.springframework.samples.petclinic.model.Propietario;
+import org.springframework.samples.petclinic.service.PropietarioService;
 import org.springframework.samples.petclinic.model.Local;
 import org.springframework.samples.petclinic.service.ClienteService;
 import org.springframework.samples.petclinic.service.FiestaService;
@@ -28,13 +30,15 @@ public class FiestaController {
 	private final FiestaService		fiestaService;
 	private final LocalService		localService;
 	private final ClienteService	clienteService;
+  private final PropietarioService propietarioService;
 
 
 	@Autowired
-	public FiestaController(final FiestaService fiestaService, final LocalService localService, final ClienteService clienteService) {
+	public FiestaController(final FiestaService fiestaService, final LocalService localService, final ClienteService clienteService, PropietarioService propietarioService) {
 		this.fiestaService = fiestaService;
 		this.localService = localService;
 		this.clienteService = clienteService;
+    this.propietarioService=propietarioService;
 	}
 
 	@GetMapping(value = {
@@ -42,7 +46,12 @@ public class FiestaController {
 	})
 	public ModelAndView showFiesta(@PathVariable("fiestaId") final int fiestaId) {
 		ModelAndView mav = new ModelAndView("fiestas/fiestaDetails");
-		mav.addObject(this.fiestaService.findFiestaById(fiestaId));
+		String username = SecurityContextHolder.getContext().getAuthentication().getName();
+		Propietario p = this.propietarioService.findByUsername(username);
+		mav.addObject("fiesta",this.fiestaService.findFiestaById(fiestaId));
+		if(p !=null) {
+		mav.addObject("userId", p.getId());
+		}
 		return mav;
 	}
 
