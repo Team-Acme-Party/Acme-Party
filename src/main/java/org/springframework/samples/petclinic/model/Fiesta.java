@@ -9,11 +9,14 @@ import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 
 import org.hibernate.validator.constraints.Range;
 import org.hibernate.validator.constraints.URL;
 import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.format.annotation.NumberFormat;
 
 @Entity
 @Table(name = "fiestas")
@@ -22,34 +25,45 @@ public class Fiesta extends BaseEntity {
 	//Propiedades
 
 	@Column(name = "nombre")
+	@NotBlank
 	private String		nombre;
 
 	@Column(name = "descripcion")
+	@NotBlank
 	private String		descripcion;
 
 	@Column(name = "precio")
 	@Range(min = 0)
+	@NotNull
+	@NumberFormat
 	private Double		precio;
 
 	@Column(name = "requisitos")
+	@NotBlank
 	private String		requisitos;
 
 	@Column(name = "fecha")
 	@DateTimeFormat(pattern = "yyyy/MM/dd")
+	@NotNull
 	private LocalDate	fecha;
 
 	@Column(name = "hora_inicio")
+	@NotNull
 	private LocalTime	horaInicio;
 
 	@Column(name = "hora_fin")
+	@NotNull
 	private LocalTime	horaFin;
 
 	@Column(name = "numero_asistentes")
 	@Range(min = 0)
+	@NotNull
+	@NumberFormat
 	private Integer		numeroAsistentes;
 
 	@Column(name = "imagen")
 	@URL
+	@NotBlank
 	private String		imagen;
 
 	@Column(name = "decision")
@@ -162,5 +176,8 @@ public class Fiesta extends BaseEntity {
 	public void setLocal(final Local local) {
 		this.local = local;
 	}
-
+	@Override
+	public String toString() {
+		return this.nombre + "[ "+ this.numeroAsistentes + " personas ]";
+	}
 }

@@ -44,4 +44,9 @@ public class PropietarioService {
 	public Propietario findByUsername(final String username) throws DataAccessException {
 		return this.propietarioRepository.findByUsername(username);
 	}
+
+	@Transactional
+	public Propietario findById(final int id) throws DataAccessException {
+		return this.propietarioRepository.findById(id);
+	}
 }

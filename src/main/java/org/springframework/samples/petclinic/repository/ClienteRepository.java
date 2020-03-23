@@ -8,4 +8,6 @@ public interface ClienteRepository {
 
 	Cliente findByUsername(String username) throws DataAccessException;
 
+	Cliente findById(int id) throws DataAccessException;
+
 }

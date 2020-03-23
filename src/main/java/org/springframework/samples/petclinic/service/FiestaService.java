@@ -43,6 +43,11 @@ public class FiestaService {
 	}
 
 	@Transactional(readOnly = true)
+	public Collection<Fiesta> findAll() throws DataAccessException {
+		return this.fiestaRepository.findAll();
+	}
+
+	@Transactional(readOnly = true)
 	public Collection<Fiesta> findAccepted() throws DataAccessException {
 		return this.fiestaRepository.findAccepted();
 	}
@@ -53,8 +58,21 @@ public class FiestaService {
 	}
 
 	@Transactional
-	public Collection<Fiesta> findByNombre(final String nombre) throws DataAccessException {
-		return this.fiestaRepository.findByNombre(nombre);
+	public Collection<Fiesta> findByClienteId(final int id) throws DataAccessException {
+		return this.fiestaRepository.findByClienteId(id);
+	}
+
+
+
+	@Transactional
+	public Collection<Fiesta> findAsistenciasByClienteId(final int id) throws DataAccessException {
+		return this.fiestaRepository.findAsistenciasByClienteId(id);
+	}
+
+	@Transactional
+	public void save(final Fiesta f) {
+		assert f != null;
+		this.fiestaRepository.save(f);
 	}
 
 	@Transactional

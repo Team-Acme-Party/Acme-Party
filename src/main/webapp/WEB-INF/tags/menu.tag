@@ -28,6 +28,14 @@
 					<span>Home</span>
 				</petclinic:menuItem>
 				
+				<sec:authorize access="hasAuthority('patrocinador')">
+					<petclinic:menuItem active="${name eq 'misanuncios'}" url="/patrocinador/anuncios"
+						title="home page">
+						<span class="glyphicon glyphicon-home" aria-hidden="true"></span>
+						<span>Mis Anuncios</span>
+					</petclinic:menuItem>
+				</sec:authorize>
+				
 				<petclinic:menuItem active="${name eq 'locales'}" url="/locales/buscar"
 					title="home page">
 					<span class="glyphicon glyphicon-home" aria-hidden="true"></span>

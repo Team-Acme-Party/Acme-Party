@@ -44,4 +44,9 @@ public class ClienteService {
 	public Cliente findByUsername(final String username) throws DataAccessException {
 		return this.clienteRepository.findByUsername(username);
 	}
+
+	@Transactional
+	public Cliente findById(final int id) throws DataAccessException {
+		return this.clienteRepository.findById(id);
+	}
 }
