@@ -62,7 +62,10 @@ public class FiestaService {
 		return this.fiestaRepository.findByClienteId(id);
 	}
 
-
+	@Transactional
+	public Collection<Fiesta> findByNombre(final String nombre) throws DataAccessException {
+		return this.fiestaRepository.findByNombre(nombre);
+	}
 
 	@Transactional
 	public Collection<Fiesta> findAsistenciasByClienteId(final int id) throws DataAccessException {

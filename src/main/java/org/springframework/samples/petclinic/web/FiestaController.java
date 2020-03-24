@@ -1,4 +1,3 @@
-
 package org.springframework.samples.petclinic.web;
 
 import java.util.Collection;
@@ -110,15 +109,15 @@ public class FiestaController {
 
 
 	@GetMapping(value = {
-		"/cliente/asistencias"
+		"/cliente/fiestas"
 	})
-	public String verMisAsistencias(final Map<String, Object> model) {
+	public String verMisFiestas(final Map<String, Object> model) {
 
 		String username = SecurityContextHolder.getContext().getAuthentication().getName();
 		Cliente c = this.clienteService.findByUsername(username);
-		Collection<Fiesta> fiestas = this.fiestaService.findAsistenciasByClienteId(c.getId());
+		Collection<Fiesta> fiestas = this.fiestaService.findByClienteId(c.getId());
 		model.put("fiestas", fiestas);
-		model.put("misasistencias", true);
+		model.put("misfiestas", true);
 
 		return "fiestas/listaFiestas";
 	}
