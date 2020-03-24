@@ -16,4 +16,6 @@ public interface LocalRepository {
 
 	Collection<Local> findByPropietarioId(int id);
 
+	void save(Local local) throws DataAccessException;
+
 }

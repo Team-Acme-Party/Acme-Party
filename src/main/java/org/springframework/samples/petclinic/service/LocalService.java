@@ -41,4 +41,9 @@ public class LocalService {
 		return this.localRepository.findByPropietarioId(id);
 	}
 
+	@Transactional
+	public void saveLocal(final Local local) throws DataAccessException {
+		this.localRepository.save(local);
+	}
+
 }
