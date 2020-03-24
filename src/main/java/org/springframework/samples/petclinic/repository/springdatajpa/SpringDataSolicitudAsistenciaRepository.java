@@ -21,9 +21,9 @@ import java.util.Collection;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.Repository;
 import org.springframework.data.repository.query.Param;
-import org.springframework.samples.petclinic.model.Local;
-import org.springframework.samples.petclinic.repository.LocalRepository;
+import org.springframework.samples.petclinic.model.SolicitudAsistencia;
 import org.springframework.samples.petclinic.repository.OwnerRepository;
+import org.springframework.samples.petclinic.repository.SolicitudAsistenciaRepository;
 
 /**
  * Spring Data JPA specialization of the {@link OwnerRepository} interface
@@ -31,26 +31,10 @@ import org.springframework.samples.petclinic.repository.OwnerRepository;
  * @author Michael Isvy
  * @since 15.1.2013
  */
-public interface SpringDataLocalRepository extends LocalRepository, Repository<Local, Integer> {
+public interface SpringDataSolicitudAsistenciaRepository extends SolicitudAsistenciaRepository, Repository<SolicitudAsistencia, Integer> {
 
 	@Override
-	@Query("SELECT DISTINCT local FROM Local local WHERE local.decision = 'ACEPTADO'")
-	Collection<Local> findAccepted();
-	
-	@Override
-	@Query("SELECT DISTINCT local FROM Local local WHERE local.decision = 'PENDIENTE'")
-	Collection<Local> findPending();
-
-	@Override
-	@Query("SELECT local FROM Local local WHERE local.id =:id")
-	Local findById(@Param("id") int id);
-
-	@Override
-	@Query("SELECT local FROM Local local WHERE local.decision = 'ACEPTADO' and local.direccion LIKE %:direccion%")
-	Collection<Local> findByDireccion(@Param("direccion") String direccion);
-
-	@Override
-	@Query("SELECT local FROM Local local WHERE local.propietario.id = :id")
-	Collection<Local> findByPropietarioId(@Param("id") int id);
+	@Query("SELECT sa FROM SolicitudAsistencia sa WHERE sa.cliente.id =:id")
+	Collection<SolicitudAsistencia> findByClienteId(@Param("id") int id);
 
 }
