@@ -8,6 +8,8 @@ import org.springframework.samples.petclinic.model.Local;
 
 public interface LocalRepository {
 
+	Collection<Local> findAll() throws DataAccessException;
+
 	Collection<Local> findAccepted() throws DataAccessException;
 
 	Local findById(int id) throws DataAccessException;
