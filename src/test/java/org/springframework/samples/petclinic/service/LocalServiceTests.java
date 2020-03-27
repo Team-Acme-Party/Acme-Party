@@ -4,8 +4,6 @@ package org.springframework.samples.petclinic.service;
 import java.util.ArrayList;
 import java.util.Collection;
 
-import java.util.List;
-
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -112,28 +110,28 @@ public class LocalServiceTests {
 		Boolean contenido = locales.contains(local);
 		Assertions.assertEquals(contenido, true);
 	}
-	
+
 	@Test
 	void testAceptarSolicitud() {
-		Collection <Local> locales = this.localService.findPending();
+		Collection<Local> locales = this.localService.findPending();
 		Local local = locales.stream().findFirst().get();
-		Assertions.assertEquals(local.getDecision()=="PENDIENTE", true);
+		System.out.println(local.getDecision());
+		System.out.println(local.getDecision().equals("PENDIENTE"));
+		Assertions.assertEquals(local.getDecision().equals("PENDIENTE"), true);
 		Local localAceptado = this.localService.aceptarSolicitudLocal(local.getId());
-		Assertions.assertEquals(localAceptado.getDecision()=="ACEPTADO", true);
-		
-		
+		Assertions.assertEquals(localAceptado.getDecision().equals("ACEPTADO"), true);
+
 	}
-	
+
 	@Test
 	void testRechazarSolicitud() {
-		Collection <Local> locales = this.localService.findPending();
+		Collection<Local> locales = this.localService.findPending();
 		Local local1 = locales.stream().findFirst().get();
 		Local local = this.localService.findLocalById(local1.getId());
-		Boolean contenido = local.getDecision()=="PENDIENTE";
+		Boolean contenido = local.getDecision().equals("PENDIENTE");
 		Assertions.assertEquals(contenido, true);
 		Local localRechazado = this.localService.denegarSolicitudLocal(local.getId());
-		Assertions.assertEquals(localRechazado.getDecision()=="RECHAZADO", true);
-		
-		
+		Assertions.assertEquals(localRechazado.getDecision().equals("RECHAZADO"), true);
 	}
+
 }

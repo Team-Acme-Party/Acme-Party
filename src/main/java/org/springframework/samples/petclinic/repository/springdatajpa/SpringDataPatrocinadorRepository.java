@@ -35,4 +35,8 @@ public interface SpringDataPatrocinadorRepository extends PatrocinadorRepository
 	@Query("SELECT patrocinador FROM Patrocinador patrocinador WHERE patrocinador.user.username =:username")
 	Patrocinador findByUsername(@Param("username") String username);
 
+	@Override
+	@Query("SELECT p FROM Patrocinador p WHERE p.id =:id")
+	Patrocinador findById(@Param("id") int id);
+
 }

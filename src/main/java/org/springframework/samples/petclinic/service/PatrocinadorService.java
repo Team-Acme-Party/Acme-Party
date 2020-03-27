@@ -44,4 +44,9 @@ public class PatrocinadorService {
 	public Patrocinador findByUsername(final String username) throws DataAccessException {
 		return this.patrocinadorRepository.findByUsername(username);
 	}
+
+	@Transactional
+	public Patrocinador findById(final int id) throws DataAccessException {
+		return this.patrocinadorRepository.findById(id);
+	}
 }

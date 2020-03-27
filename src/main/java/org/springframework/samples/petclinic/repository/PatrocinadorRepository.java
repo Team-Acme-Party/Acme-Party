@@ -8,4 +8,6 @@ public interface PatrocinadorRepository {
 
 	Patrocinador findByUsername(String username) throws DataAccessException;
 
+	Patrocinador findById(int id) throws DataAccessException;
+
 }
