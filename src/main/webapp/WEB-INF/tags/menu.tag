@@ -35,6 +35,13 @@
 						<span>Mis Anuncios</span>
 					</petclinic:menuItem>
 				</sec:authorize>
+			<sec:authorize access="hasAuthority('admin')">
+				<petclinic:menuItem active="${name eq 'locales'}" url="/administrador/locales"
+					title="home page">
+					<span class="glyphicon glyphicon-home" aria-hidden="true"></span>
+					<span>Locales</span>
+				</petclinic:menuItem>
+			</sec:authorize>
 				
 				<petclinic:menuItem active="${name eq 'locales'}" url="/locales/buscar"
 					title="home page">
@@ -73,6 +80,7 @@
 					<span class="glyphicon glyphicon-warning-sign" aria-hidden="true"></span>
 					<span>Error</span>
 				</petclinic:menuItem>
+				
 
 			</ul>
 

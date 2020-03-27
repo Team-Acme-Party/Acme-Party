@@ -116,5 +116,33 @@ public class LocalController {
 		model.put("fiestas", fiestas);
 		return "fiestas/listaFiestas";
 	}
+	
+	@GetMapping(value = {
+			"administrador/locales"
+		})
+		public String todosLosLocales(final Map<String, Object> model) {
+
+			Collection<Local> locales = this.localService.findPending();
+			model.put("locales", locales);
+
+			return "locales/listaLocales";
+		}
+	
+	@GetMapping(value= {"/administrador/local/{localId}/rechazar"})
+	public String denegarSolicitudLocal(@PathVariable("localId") int localId,final Map<String, Object> model) {
+		Local local=localService.denegarSolicitudLocal(localId);
+		
+		model.put("local", local);
+		return "redirect:/administrador/locales";
+	}
+	
+	@GetMapping(value= {"/administrador/local/{localId}/aceptar"})
+	public String aceptarSolicitudLocal(@PathVariable("localId") int localId,final Map<String, Object> model) {
+		Local local=localService.aceptarSolicitudLocal(localId);
+		
+		model.put("local", local);
+		return "redirect:/administrador/locales";
+	}
+
 
 }
