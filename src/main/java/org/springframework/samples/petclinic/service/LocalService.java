@@ -68,4 +68,9 @@ public class LocalService {
 		return localEdit;
 	}
 
+	@Transactional
+	public void saveLocal(final Local local) throws DataAccessException {
+		this.localRepository.save(local);
+	}
+
 }

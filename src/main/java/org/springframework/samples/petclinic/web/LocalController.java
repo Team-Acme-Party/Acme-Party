@@ -5,6 +5,8 @@ import java.awt.Window;
 import java.util.Collection;
 import java.util.Map;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.samples.petclinic.model.Fiesta;
 import org.springframework.samples.petclinic.model.Local;
@@ -17,11 +19,13 @@ import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 @Controller
 public class LocalController {
 
+	private static final String			VIEWS_CAUSE_CREATE_FORM	= "locales/createLocalForm";
 	private final LocalService			localService;
 	private final PropietarioService	propietarioService;
 	private final FiestaService fiestaService;
@@ -144,5 +148,32 @@ public class LocalController {
 		return "redirect:/administrador/locales";
 	}
 
+
+	@GetMapping(value = {
+		"/locales/new"
+	})
+	public String initCreationForm(final Map<String, Object> model) {
+		Local local = new Local();
+		model.put("local", local);
+		return LocalController.VIEWS_CAUSE_CREATE_FORM;
+	}
+
+	@PostMapping(value = {
+		"/locales/new"
+	})
+	public String processNewCauseForm(@Valid final Local local, final BindingResult result, final Map<String, Object> model) {
+
+		if (result.hasErrors()) {
+			model.put("local", local);
+			return LocalController.VIEWS_CAUSE_CREATE_FORM;
+		} else {
+			local.setDecision("PENDIENTE");
+			String username = SecurityContextHolder.getContext().getAuthentication().getName();
+			Propietario p = this.propietarioService.findByUsername(username);
+			local.setPropietario(p);
+			this.localService.saveLocal(local);
+			return "redirect:/propietario/locales";
+		}
+	}
 
 }

@@ -6,6 +6,8 @@
 <%@ taglib prefix="sec"
 	uri="http://www.springframework.org/security/tags"%>
 <%@ taglib prefix="petclinic" tagdir="/WEB-INF/tags" %>
+<%@ taglib prefix="sec"
+	uri="http://www.springframework.org/security/tags"%>
 
 <petclinic:layout pageName="locales">
     <h2>Locales</h2>
@@ -13,7 +15,7 @@
     <table id="localesTable" class="table table-striped">
         <thead>
         <tr>
-            <th>Dirección</th>
+            <th>DirecciÃ³n</th>
             <th>Capacidad</th>
             <th></th>
         </tr>
@@ -38,5 +40,8 @@
         </tbody>
     </table>
     
-     
+   <sec:authorize access="hasAuthority('propietario')">
+		<a class="btn btn-default" href='<spring:url value="/locales/new" htmlEscape="true"/>'>Nuevo local</a>
+   </sec:authorize>
+	
 </petclinic:layout>

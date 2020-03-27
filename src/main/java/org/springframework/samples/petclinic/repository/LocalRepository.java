@@ -23,4 +23,6 @@ public interface LocalRepository {
 	
 	void save(Local local) throws DataAccessException;
 
+	void save(Local local) throws DataAccessException;
+
 }
