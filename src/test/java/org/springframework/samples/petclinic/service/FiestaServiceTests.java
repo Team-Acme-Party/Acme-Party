@@ -1,11 +1,15 @@
 
 package org.springframework.samples.petclinic.service;
 
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.Collection;
+import java.util.LinkedList;
 
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
@@ -80,4 +84,22 @@ public class FiestaServiceTests {
 		Assertions.assertEquals(contenida, true);
 	}
 
+	@Test
+	@DisplayName("Test positivo para ver las fiestas organizadas por un cliente")
+	void testFindFiestasByClienteId() {
+		Collection<Fiesta> fiestas = new LinkedList<>();
+		Cliente cliente = this.clienteService.findById(2);
+		fiestas = fiestaService.findByClienteId(cliente.getId());
+		assertTrue(!fiestas.isEmpty() && fiestas.size() == 2, "El cliente 2 debe tener 2 fiestas organizadas segun la BD");	
+	}
+	
+	@Test
+	@DisplayName("Test negativo para ver las fiestas organizadas por un cliente que no existe")
+	void testNegativoFindFiestasByClienteId() {
+		Collection<Fiesta> fiestas = new LinkedList<>();
+		Integer idCliente = -1;
+		fiestas = fiestaService.findByClienteId(idCliente);
+		assertTrue(fiestas.isEmpty() , "El cliente con id -1 no existe, no debe tener ninguna fiesta");	
+	}
+	
 }
