@@ -7,6 +7,14 @@
 <%@ taglib prefix="petclinic" tagdir="/WEB-INF/tags" %>
 
 <petclinic:layout pageName="fiestas">
+<jsp:attribute name="customScript">
+        <script>
+            $(function () {
+                $("#fecha").datepicker({dateFormat: 'yy/mm/dd'});
+            });
+        </script>
+    </jsp:attribute>
+    <jsp:body>
     <h2>
         Formulario de fiesta
     </h2>
@@ -16,7 +24,7 @@
             <petclinic:textField label="Descripcion" name="descripcion"/>
             <petclinic:inputField label="Precio" name="precio"/>
             <petclinic:textField label="Requisitos" name="requisitos"/>
-            <petclinic:inputField label="Fecha" name="fecha"/>
+            <petclinic:inputField label="Fecha" name="fecha" />
             <petclinic:inputField label="Hora de inicio" name="horaInicio"/>
             <petclinic:inputField label="Hora de fin" name="horaFin"/>
             <petclinic:inputField label="Numero de asistentes" name="numeroAsistentes"/>
@@ -28,4 +36,5 @@
             </div>
         </div>
     </form:form>
+    </jsp:body>
 </petclinic:layout>
