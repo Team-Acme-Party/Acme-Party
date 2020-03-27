@@ -21,27 +21,6 @@
 		</div>
 		<div class="navbar-collapse collapse" id="main-navbar">
 			<ul class="nav navbar-nav">
-
-				<petclinic:menuItem active="${name eq 'home'}" url="/"
-					title="home page">
-					<span class="glyphicon glyphicon-home" aria-hidden="true"></span>
-					<span>Home</span>
-				</petclinic:menuItem>
-				
-				<sec:authorize access="hasAuthority('patrocinador')">
-					<petclinic:menuItem active="${name eq 'misanuncios'}" url="/patrocinador/anuncios"
-						title="home page">
-						<span class="glyphicon glyphicon-home" aria-hidden="true"></span>
-						<span>Mis Anuncios</span>
-					</petclinic:menuItem>
-				</sec:authorize>
-			<sec:authorize access="hasAuthority('admin')">
-				<petclinic:menuItem active="${name eq 'locales'}" url="/administrador/locales"
-					title="home page">
-					<span class="glyphicon glyphicon-home" aria-hidden="true"></span>
-					<span>Locales</span>
-				</petclinic:menuItem>
-			</sec:authorize>
 				
 				<petclinic:menuItem active="${name eq 'locales'}" url="/locales/buscar"
 					title="home page">
@@ -62,25 +41,36 @@
 						<span>Mis locales</span>
 					</petclinic:menuItem>
 				</sec:authorize>
-
-				<%-- <petclinic:menuItem active="${name eq 'owners'}" url="/owners/find"
-					title="find owners">
-					<span class="glyphicon glyphicon-search" aria-hidden="true"></span>
-					<span>Find owners</span>
-				</petclinic:menuItem>
-
-				<petclinic:menuItem active="${name eq 'vets'}" url="/vets"
-					title="veterinarians">
-					<span class="glyphicon glyphicon-th-list" aria-hidden="true"></span>
-					<span>Veterinarians</span>
-				</petclinic:menuItem> --%>
-
-				<petclinic:menuItem active="${name eq 'error'}" url="/oups"
-					title="trigger a RuntimeException to see how it is handled">
-					<span class="glyphicon glyphicon-warning-sign" aria-hidden="true"></span>
-					<span>Error</span>
-				</petclinic:menuItem>
 				
+				<sec:authorize access="hasAuthority('cliente')">
+					<petclinic:menuItem active="${name eq 'misfiestas'}" url="/cliente/fiestas"
+						title="home page">
+						<span class="glyphicon glyphicon-home" aria-hidden="true"></span>
+						<span>Mis fiestas</span>
+					</petclinic:menuItem>
+					<petclinic:menuItem active="${name eq 'misasistencias'}" url="/cliente/solicitudesAsistencias"
+						title="home page">
+						<span class="glyphicon glyphicon-home" aria-hidden="true"></span>
+						<span>Mis asistencias</span>
+					</petclinic:menuItem>
+				</sec:authorize>
+				
+				
+				<sec:authorize access="hasAuthority('patrocinador')">
+					<petclinic:menuItem active="${name eq 'misanuncios'}" url="/patrocinador/anuncios"
+						title="home page">
+						<span class="glyphicon glyphicon-home" aria-hidden="true"></span>
+						<span>Mis Anuncios</span>
+					</petclinic:menuItem>
+				</sec:authorize>
+				
+				<sec:authorize access="hasAuthority('admin')">
+					<petclinic:menuItem active="${name eq 'locales'}" url="/administrador/locales"
+						title="home page">
+						<span class="glyphicon glyphicon-home" aria-hidden="true"></span>
+						<span>Locales</span>
+					</petclinic:menuItem>
+				</sec:authorize>
 
 			</ul>
 

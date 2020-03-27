@@ -45,12 +45,15 @@
             <th>Propietario</th>
             <td><c:out value="${local.propietario}"/></td>
         </tr>
-        <tr>
-        <th>
-        <td>
-         <button type="button" class="btn btn-default" onclick="window.location.replace('/administrador/local/${local.id}/aceptar')">ACEPTAR</button>
-         <button type="button" class="btn btn-default"onclick="window.location.replace('/administrador/local/${local.id}/rechazar')">RECHAZAR</button>
-       	</td>
-        </tr>
+        <sec:authorize access="hasAuthority('admin')">
+        	<c:if test="${local.decision == 'PENDIENTE'}">
+		        <tr>	        
+			        <td>
+			         <button type="button" class="btn btn-default" onclick="window.location.replace('/administrador/local/${local.id}/aceptar')">ACEPTAR</button>
+			         <button type="button" class="btn btn-default"onclick="window.location.replace('/administrador/local/${local.id}/rechazar')">RECHAZAR</button>
+			       	</td>
+		        </tr>
+	        </c:if>
+        </sec:authorize>
     </table>
 </petclinic:layout>

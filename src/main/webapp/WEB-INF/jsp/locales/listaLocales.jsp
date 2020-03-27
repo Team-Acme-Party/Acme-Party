@@ -15,8 +15,9 @@
     <table id="localesTable" class="table table-striped">
         <thead>
         <tr>
-            <th>Dirección</th>
+            <th>Direccion</th>
             <th>Capacidad</th>
+            <th></th>
             <th></th>
         </tr>
         </thead>
@@ -32,9 +33,11 @@
                 <td>
 	                    <button type="button" class="btn btn-default" onclick="window.location.replace('/locales/${local.id}')">Ver detalles</button>
 	            </td>
-	               <td>
+	            <sec:authorize access="hasAuthority('propietario')">
+	               	<td>
 	                    <button type="button" class="btn btn-default" onclick="window.location.replace('/local/${local.id}/fiestas')">Ver solicitudes</button>
-	            </td>
+		            </td>
+	            </sec:authorize>
             </tr>
         </c:forEach>
         </tbody>

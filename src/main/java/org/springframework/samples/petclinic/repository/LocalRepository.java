@@ -4,7 +4,6 @@ package org.springframework.samples.petclinic.repository;
 import java.util.Collection;
 
 import org.springframework.dao.DataAccessException;
-import org.springframework.samples.petclinic.model.Fiesta;
 import org.springframework.samples.petclinic.model.Local;
 
 public interface LocalRepository {
@@ -12,7 +11,7 @@ public interface LocalRepository {
 	Collection<Local> findAll() throws DataAccessException;
 
 	Collection<Local> findAccepted() throws DataAccessException;
-	
+
 	Collection<Local> findPending() throws DataAccessException;
 
 	Local findById(int id) throws DataAccessException;
@@ -20,8 +19,6 @@ public interface LocalRepository {
 	Collection<Local> findByDireccion(String direccion) throws DataAccessException;
 
 	Collection<Local> findByPropietarioId(int id);
-	
-	void save(Local local) throws DataAccessException;
 
 	void save(Local local) throws DataAccessException;
 
