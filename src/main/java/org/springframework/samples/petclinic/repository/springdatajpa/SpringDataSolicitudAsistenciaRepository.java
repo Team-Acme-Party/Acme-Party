@@ -21,9 +21,9 @@ import java.util.Collection;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.Repository;
 import org.springframework.data.repository.query.Param;
-import org.springframework.samples.petclinic.model.Fiesta;
-import org.springframework.samples.petclinic.repository.FiestaRepository;
+import org.springframework.samples.petclinic.model.SolicitudAsistencia;
 import org.springframework.samples.petclinic.repository.OwnerRepository;
+import org.springframework.samples.petclinic.repository.SolicitudAsistenciaRepository;
 
 /**
  * Spring Data JPA specialization of the {@link OwnerRepository} interface
@@ -31,25 +31,10 @@ import org.springframework.samples.petclinic.repository.OwnerRepository;
  * @author Michael Isvy
  * @since 15.1.2013
  */
-public interface SpringDataFiestaRepository extends FiestaRepository, Repository<Fiesta, Integer> {
+public interface SpringDataSolicitudAsistenciaRepository extends SolicitudAsistenciaRepository, Repository<SolicitudAsistencia, Integer> {
 
 	@Override
-	@Query("SELECT DISTINCT fiesta FROM Fiesta fiesta WHERE fiesta.decision = 'ACEPTADO'")
-	Collection<Fiesta> findAccepted();
+	@Query("SELECT sa FROM SolicitudAsistencia sa WHERE sa.cliente.id =:id")
+	Collection<SolicitudAsistencia> findByClienteId(@Param("id") int id);
 
-	@Override
-	@Query("SELECT fiesta FROM Fiesta fiesta WHERE fiesta.id =:id")
-	Fiesta findById(@Param("id") int id);
-
-	@Override
-	@Query("SELECT fiesta FROM Fiesta fiesta WHERE fiesta.decision = 'ACEPTADO' and fiesta.nombre LIKE %:nombre%")
-	Collection<Fiesta> findByNombre(@Param("nombre") String nombre);
-
-	@Override
-
-	@Query("SELECT fiesta FROM Fiesta fiesta WHERE fiesta.cliente.id =:id")
-	Collection<Fiesta> findByClienteId(@Param("id") int id);
-
-	@Query("SELECT DISTINCT fiesta FROM Fiesta fiesta WHERE fiesta.local.id =:localId")
-	Collection<Fiesta> findFiestasByLocalId(@Param ("localId") int localId );
 }

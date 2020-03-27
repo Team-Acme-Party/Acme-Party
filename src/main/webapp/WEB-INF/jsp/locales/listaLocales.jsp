@@ -3,6 +3,8 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<%@ taglib prefix="sec"
+	uri="http://www.springframework.org/security/tags"%>
 <%@ taglib prefix="petclinic" tagdir="/WEB-INF/tags" %>
 <%@ taglib prefix="sec"
 	uri="http://www.springframework.org/security/tags"%>
@@ -13,7 +15,7 @@
     <table id="localesTable" class="table table-striped">
         <thead>
         <tr>
-            <th>Dirección</th>
+            <th>DirecciÃ³n</th>
             <th>Capacidad</th>
             <th></th>
         </tr>
@@ -29,6 +31,9 @@
                 </td>
                 <td>
 	                    <button type="button" class="btn btn-default" onclick="window.location.replace('/locales/${local.id}')">Ver detalles</button>
+	            </td>
+	               <td>
+	                    <button type="button" class="btn btn-default" onclick="window.location.replace('/local/${local.id}/fiestas')">Ver solicitudes</button>
 	            </td>
             </tr>
         </c:forEach>

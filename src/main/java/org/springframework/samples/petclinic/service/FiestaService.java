@@ -21,6 +21,7 @@ import java.util.Collection;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.samples.petclinic.model.Fiesta;
+import org.springframework.samples.petclinic.model.Vet;
 import org.springframework.samples.petclinic.repository.FiestaRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -36,10 +37,14 @@ public class FiestaService {
 
 	private FiestaRepository fiestaRepository;
 
-
 	@Autowired
 	public FiestaService(final FiestaRepository fiestaRepository) {
 		this.fiestaRepository = fiestaRepository;
+	}
+
+	@Transactional(readOnly = true)
+	public Collection<Fiesta> findAll() throws DataAccessException {
+		return this.fiestaRepository.findAll();
 	}
 
 	@Transactional(readOnly = true)
@@ -53,8 +58,45 @@ public class FiestaService {
 	}
 
 	@Transactional
+	public Collection<Fiesta> findByClienteId(final int id) throws DataAccessException {
+		return this.fiestaRepository.findByClienteId(id);
+	}
+
+	@Transactional
 	public Collection<Fiesta> findByNombre(final String nombre) throws DataAccessException {
 		return this.fiestaRepository.findByNombre(nombre);
+	}
+
+	@Transactional
+	public Collection<Fiesta> findAsistenciasByClienteId(final int id) throws DataAccessException {
+		return this.fiestaRepository.findAsistenciasByClienteId(id);
+	}
+
+	@Transactional
+	public void save(final Fiesta f) {
+		assert f != null;
+		this.fiestaRepository.save(f);
+	}
+
+	@Transactional
+	public Collection<Fiesta> findFiestasByLocalId(int localId) throws DataAccessException {
+		return this.fiestaRepository.findFiestasByLocalId(localId);
+	}
+
+	@Transactional
+	public Fiesta aceptarSolicitud(int fiestaId) throws DataAccessException {
+		Fiesta fiestaEdit = this.findFiestaById(fiestaId);
+		fiestaEdit.setDecision("ACEPTADO");
+		this.fiestaRepository.save(fiestaEdit);
+		return fiestaEdit;
+	}
+	
+	@Transactional
+	public Fiesta denegarSolicitud(int fiestaId) throws DataAccessException {
+		Fiesta fiestaEdit = this.findFiestaById(fiestaId);
+		fiestaEdit.setDecision("RECHAZADO");
+		this.fiestaRepository.save(fiestaEdit);
+		return fiestaEdit;
 	}
 
 }

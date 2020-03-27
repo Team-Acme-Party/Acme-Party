@@ -4,9 +4,9 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="petclinic" tagdir="/WEB-INF/tags" %>
 
-<petclinic:layout pageName="owners">
+<petclinic:layout pageName="fiestaDetails">
 
-    <h2>Información de la fiesta</h2>
+    <h2>InformaciÃ³n de la fiesta</h2>
 
 
     <table class="table table-striped">
@@ -35,7 +35,7 @@
             <td><c:out value="${fiesta.horaInicio}"/></td>
         </tr>
         <tr>
-            <th>Hora de fín</th>
+            <th>Hora de fÃ­n</th>
             <td><c:out value="${fiesta.horaFin}"/></td>
         </tr>
         <tr>
@@ -47,7 +47,7 @@
             <td><img src="${fiesta.imagen}" alt="${fiesta.imagen}"/></td>
         </tr>
         <tr>
-            <th>Decisión</th>
+            <th>DecisiÃ³n</th>
             <td><c:out value="${fiesta.decision}"/></td>
         </tr>
         <tr>
@@ -59,4 +59,15 @@
             <td><c:out value="${fiesta.local.direccion}"/></td>
         </tr>
      </table>   
+  
+  <sec:authorize access="hasAuthority('propietario')">
+	  <c:if test="${fiesta.local.propietario.id==userId}">
+        
+    <button type="button" class="btn btn-default"
+      onclick="window.location.replace('/local/fiesta/${fiesta.id}/aceptar')">Aceptar</button>
+    <button type="button" class="btn btn-default"
+			onclick="window.location.replace('/local/fiesta/${fiesta.id}/denegar')">Denegar</button>
+		</c:if>
+  </sec:authorize>
+  
 </petclinic:layout>
