@@ -35,4 +35,8 @@ public interface SpringDataPropietarioRepository extends PropietarioRepository, 
 	@Query("SELECT propietario FROM Propietario propietario WHERE propietario.user.username =:username")
 	Propietario findByUsername(@Param("username") String username);
 
+	@Override
+	@Query("SELECT propietario FROM Propietario propietario WHERE propietario.id =:id")
+	Propietario findById(@Param("id") int id);
+
 }

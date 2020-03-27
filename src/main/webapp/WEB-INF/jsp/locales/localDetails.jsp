@@ -45,5 +45,12 @@
             <th>Propietario</th>
             <td><c:out value="${local.propietario}"/></td>
         </tr>
+        <tr>
+        <th>
+        <td>
+         <button type="button" class="btn btn-default" onclick="window.location.replace('/administrador/local/${local.id}/aceptar')">ACEPTAR</button>
+         <button type="button" class="btn btn-default"onclick="window.location.replace('/administrador/local/${local.id}/rechazar')">RECHAZAR</button>
+       	</td>
+        </tr>
     </table>
 </petclinic:layout>

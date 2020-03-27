@@ -1,4 +1,3 @@
-
 package org.springframework.samples.petclinic.model;
 
 import java.time.LocalDate;
@@ -9,8 +8,6 @@ import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
@@ -45,7 +42,6 @@ public class Fiesta extends BaseEntity {
 	private String		requisitos;
 
 	@Column(name = "fecha")
-	//@Temporal(TemporalType.DATE)
 	@DateTimeFormat(pattern = "yyyy/MM/dd")
 	@NotNull
 	private LocalDate	fecha;
@@ -179,5 +175,8 @@ public class Fiesta extends BaseEntity {
 	public void setLocal(final Local local) {
 		this.local = local;
 	}
-
+	@Override
+	public String toString() {
+		return this.nombre + "[ "+ this.numeroAsistentes + " personas ]";
+	}
 }

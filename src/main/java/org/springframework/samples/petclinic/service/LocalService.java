@@ -5,6 +5,7 @@ import java.util.Collection;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
+import org.springframework.samples.petclinic.model.Fiesta;
 import org.springframework.samples.petclinic.model.Local;
 import org.springframework.samples.petclinic.repository.LocalRepository;
 import org.springframework.stereotype.Service;
@@ -22,8 +23,18 @@ public class LocalService {
 	}
 
 	@Transactional(readOnly = true)
+	public Collection<Local> findAll() throws DataAccessException {
+		return this.localRepository.findAll();
+	}
+
+	@Transactional(readOnly = true)
 	public Collection<Local> findAccepted() throws DataAccessException {
 		return this.localRepository.findAccepted();
+	}
+	
+	@Transactional(readOnly = true)
+	public Collection<Local> findPending() throws DataAccessException {
+		return this.localRepository.findPending();
 	}
 
 	@Transactional
@@ -39,6 +50,22 @@ public class LocalService {
 	@Transactional
 	public Collection<Local> findByPropietarioId(final int id) throws DataAccessException {
 		return this.localRepository.findByPropietarioId(id);
+	}
+	
+	@Transactional
+	public Local denegarSolicitudLocal(int localId) throws DataAccessException {
+		Local localEdit = this.findLocalById(localId);
+		localEdit.setDecision("RECHAZADO");
+		this.localRepository.save(localEdit);
+		return localEdit;
+	}
+	
+	@Transactional
+	public Local aceptarSolicitudLocal(int localId) throws DataAccessException {
+		Local localEdit = this.findLocalById(localId);
+		localEdit.setDecision("ACEPTADO");
+		this.localRepository.save(localEdit);
+		return localEdit;
 	}
 
 }
