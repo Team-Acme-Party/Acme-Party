@@ -26,37 +26,33 @@ import org.springframework.web.servlet.ModelAndView;
 @Controller
 public class FiestaController {
 
-	private final FiestaService		fiestaService;
-	private final LocalService		localService;
-	private final ClienteService	clienteService;
-  private final PropietarioService propietarioService;
-
+	private final FiestaService fiestaService;
+	private final LocalService localService;
+	private final ClienteService clienteService;
+	private final PropietarioService propietarioService;
 
 	@Autowired
-	public FiestaController(final FiestaService fiestaService, final LocalService localService, final ClienteService clienteService, PropietarioService propietarioService) {
+	public FiestaController(final FiestaService fiestaService, final LocalService localService,
+			final ClienteService clienteService, PropietarioService propietarioService) {
 		this.fiestaService = fiestaService;
 		this.localService = localService;
 		this.clienteService = clienteService;
-    this.propietarioService=propietarioService;
+		this.propietarioService = propietarioService;
 	}
 
-	@GetMapping(value = {
-		"/fiestas/{fiestaId}"
-	})
+	@GetMapping(value = { "/fiestas/{fiestaId}" })
 	public ModelAndView showFiesta(@PathVariable("fiestaId") final int fiestaId) {
 		ModelAndView mav = new ModelAndView("fiestas/fiestaDetails");
 		String username = SecurityContextHolder.getContext().getAuthentication().getName();
 		Propietario p = this.propietarioService.findByUsername(username);
-		mav.addObject("fiesta",this.fiestaService.findFiestaById(fiestaId));
-		if(p !=null) {
-		mav.addObject("userId", p.getId());
+		mav.addObject("fiesta", this.fiestaService.findFiestaById(fiestaId));
+		if (p != null) {
+			mav.addObject("userId", p.getId());
 		}
 		return mav;
 	}
 
-	@GetMapping(value = {
-		"/fiestas/buscar"
-	})
+	@GetMapping(value = { "/fiestas/buscar" })
 	public String formularioBuscarLocales(final Map<String, Object> model) {
 
 		Fiesta f = new Fiesta();
@@ -91,13 +87,15 @@ public class FiestaController {
 	}
 
 	@PostMapping(value = "/fiestas/new/{localId}")
-	public String processCreationForm(@PathVariable("localId") final int localId, @Valid final Fiesta fiesta, final BindingResult result, final ModelMap model) {
+	public String processCreationForm(@PathVariable("localId") final int localId, @Valid final Fiesta fiesta,
+			final BindingResult result, final ModelMap model) {
 		if (result.hasErrors()) {
 			System.out.println(result.getAllErrors());
 			model.put("fiesta", fiesta);
 			return "fiestas/new";
 		} else {
-			Cliente cliente = this.clienteService.findByUsername(SecurityContextHolder.getContext().getAuthentication().getName());
+			Cliente cliente = this.clienteService
+					.findByUsername(SecurityContextHolder.getContext().getAuthentication().getName());
 			Local local = this.localService.findLocalById(localId);
 			fiesta.setLocal(local);
 			fiesta.setCliente(cliente);
@@ -107,10 +105,7 @@ public class FiestaController {
 		}
 	}
 
-
-	@GetMapping(value = {
-		"/cliente/fiestas"
-	})
+	@GetMapping(value = { "/cliente/fiestas" })
 	public String verMisFiestas(final Map<String, Object> model) {
 
 		String username = SecurityContextHolder.getContext().getAuthentication().getName();
