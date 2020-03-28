@@ -3,6 +3,7 @@ package org.springframework.samples.petclinic.web;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.LinkedList;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -31,9 +32,6 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 @WebMvcTest(controllers = LocalController.class, excludeFilters = @ComponentScan.Filter(type = FilterType.ASSIGNABLE_TYPE, classes = WebSecurityConfigurer.class), excludeAutoConfiguration = SecurityConfiguration.class)
 public class LocalControllerTests {
 
-	@Autowired
-	private LocalController		localController;
-
 	@MockBean
 	private LocalService		localService;
 
@@ -51,18 +49,27 @@ public class LocalControllerTests {
 
 	@Autowired
 	private MockMvc				mockMvc;
+  
+  private Propietario			george;
 
-	private Propietario			bob;
+	private Local				test	= new Local();
 
-	private Local				local1;
+	private Local				local1 = new Local();
 
-	private Local				local2;
-
+	private Local				local2 = new Local();
 
 	@BeforeEach
-	void datosIniciales() {
-
-		Collection<Local> locales = new ArrayList<Local>();
+	void datosPropietario() {
+		this.george = new Propietario();
+		this.george.setApellidos("Apellidos prueba");
+		this.george.setEmail("email@prueba.es");
+		this.george.setFoto("http://url.com");
+		this.george.setId(10);
+		this.george.setNombre("george");
+		this.george.setTelefono("654321987");
+		BDDMockito.given(this.propietarioService.findByUsername("george")).willReturn(this.george);
+    
+    Collection<Local> locales = new ArrayList<Local>();
 		Collection<Fiesta> fiestas = new ArrayList<Fiesta>();
 		Local localA = new Local();
 		Local localB = new Local();
@@ -72,43 +79,35 @@ public class LocalControllerTests {
 		locales.add(localB);
 		fiestas.add(fiestaA);
 		fiestas.add(fiestaB);
-
-		this.bob = new Propietario();
-		this.bob.setNombre("bobby");
-		this.bob.setApellidos("Apellidos prueba");
-		this.bob.setEmail("email@prueba.es");
-		this.bob.setTelefono("654321987");
-		this.bob.setFoto("http://url.com");
-		this.bob.setId(10);
-
-		this.local1 = new Local();
-		this.local1.setDireccion("Direccion pruebaaaaa");
-		this.local1.setCapacidad(21313);
-		this.local1.setCondiciones("Ninguna");
-		this.local1.setImagen("https://bangbranding.com/blog/wp-content/uploads/2016/11/700x511_SliderInterior.jpg");
-		this.local1.setDecision("ACEPTADO");
-		this.local1.setPropietario(this.propietarioService.findById(1));
-
-		Collection<Local> localesXD = this.localService.findByPropietarioId(1);
-		for (Local l : localesXD) {
-			if (l.getDireccion().equals("Direccion pruebaaaaa")) {
-				BDDMockito.given(l).willReturn(this.local1);
-			}
-		}
-
-		BDDMockito.given(this.propietarioService.findByUsername("bob")).willReturn(this.bob);
-		BDDMockito.given(this.localService.findAccepted()).willReturn(locales);
+    BDDMockito.given(this.localService.findAccepted()).willReturn(locales);
 		BDDMockito.given(this.fiestaService.findAccepted()).willReturn(fiestas);
+    
+		Local l1 = new Local();
+		Local l2 = new Local();
+		Collection<Local> locales = new LinkedList<Local>();
+		locales.add(l1);
+		locales.add(l2);
+		BDDMockito.given(this.localService.findByPropietarioId(this.george.getId())).willReturn(locales);
+		Collection<Local> locales2 = new LinkedList<Local>();
+		this.test.setDireccion("Luis Montoto");
+		locales2.add(this.test);
+		BDDMockito.given(this.localService.findByDireccion(this.test.getDireccion())).willReturn(locales2);
 	}
 
-	//LISTAR LOCALES Y FIESTAS POR CUALQUIER USUARIO
-
-	@WithMockUser(value = "spring")
+  @WithMockUser(value = "spring")
 	@Test
 	@DisplayName("Test para peticion GET de los locales registrados aceptados por cualquier usuario")
 	public void testWelcome() throws Exception {
 		this.mockMvc.perform(MockMvcRequestBuilders.get("/")).andExpect(MockMvcResultMatchers.status().isOk()).andExpect(MockMvcResultMatchers.model().attributeExists("fiestas")).andExpect(MockMvcResultMatchers.model().attributeExists("locales"))
 			.andExpect(MockMvcResultMatchers.view().name("welcome"));
+  }
+  
+	@WithMockUser(value = "spring")
+	@Test
+	@DisplayName("Test para peticion GET del formulario de busqueda de locales")
+	void testFormularioBusquedaLocales() throws Exception {
+		this.mockMvc.perform(MockMvcRequestBuilders.get("/locales/buscar")).andExpect(MockMvcResultMatchers.model().attributeExists("local")).andExpect(MockMvcResultMatchers.status().is2xxSuccessful())
+			.andExpect(MockMvcResultMatchers.view().name("locales/buscarLocales"));
 	}
 
 	@WithMockUser(value = "spring")
@@ -159,8 +158,37 @@ public class LocalControllerTests {
 	@WithMockUser(value = "spring")
 	@Test
 	@DisplayName("Test Negativo para peticion GET de los detalles de un local cuyo id no existe")
-	void testNegativoDetallesAnuncio() throws Exception {
-		this.mockMvc.perform(MockMvcRequestBuilders.get("/locales/{localId}", this.a2.getId())).andExpect(MockMvcResultMatchers.status().is4xxClientError());
+  void testNegativoDetallesAnuncio() throws Exception {
+    this.mockMvc.perform(MockMvcRequestBuilders.get("/locales/{localId}", this.a2.getId())).andExpect(MockMvcResultMatchers.status().is4xxClientError());
+  }
+
+    @DisplayName("Test para peticion GET del resultado del formulario de busqueda de locales")
+	void testResultadoFormularioBusquedaLocales() throws Exception {
+		this.mockMvc.perform(MockMvcRequestBuilders.get("/locales").param("direccion", "Luis Montoto")).andExpect(MockMvcResultMatchers.status().is2xxSuccessful()).andExpect(MockMvcResultMatchers.view().name("locales/listaLocales"));
+	}
+
+	@WithMockUser(value = "spring")
+	@Test
+	@DisplayName("Test para peticion GET del resultado del formulario de busqueda de locales")
+	void testResultadoFormularioBusquedaLocalesNegativo() throws Exception {
+		this.mockMvc.perform(MockMvcRequestBuilders.get("/locales", this.test)).andExpect(MockMvcResultMatchers.model().attributeDoesNotExist("locales")).andExpect(MockMvcResultMatchers.status().is2xxSuccessful())
+			.andExpect(MockMvcResultMatchers.view().name("locales/buscarLocales"));
+	}
+
+	@WithMockUser(value = "george")
+	@Test
+	@DisplayName("Test para peticion GET de los locales de un propietario logeado")
+	void testVerMisLocales() throws Exception {
+		this.mockMvc.perform(MockMvcRequestBuilders.get("/propietario/locales")).andExpect(MockMvcResultMatchers.model().attributeExists("locales")).andExpect(MockMvcResultMatchers.status().is2xxSuccessful())
+			.andExpect(MockMvcResultMatchers.view().name("locales/listaLocales"));
+	}
+
+	@WithMockUser(value = "paco")
+	@Test
+	@DisplayName("Test Negativo para peticion GET de los locales de un propietario que no existe")
+	void testNegativoVerMisLocales() throws Exception {
+		this.mockMvc.perform(MockMvcRequestBuilders.get("/propietario/locales")).andExpect(MockMvcResultMatchers.model().attributeDoesNotExist("locales")).andExpect(MockMvcResultMatchers.status().is2xxSuccessful())
+			.andExpect(MockMvcResultMatchers.view().name("exception"));
 	}
 
 }
