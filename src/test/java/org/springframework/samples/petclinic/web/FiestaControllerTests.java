@@ -1,6 +1,7 @@
 
 package org.springframework.samples.petclinic.web;
 
+import java.time.LocalTime;
 import java.util.Collection;
 import java.util.LinkedList;
 
@@ -101,6 +102,7 @@ public class FiestaControllerTests {
 		BDDMockito.given(this.fiestaService.findByClienteId(this.cliente.getId())).willReturn(fiestas1);
 		BDDMockito.given(this.fiestaService.findByNombre(this.test.getNombre())).willReturn(fiestas2);
 		BDDMockito.given(this.fiestaService.findFiestaById(3)).willReturn(fiesta1);
+		BDDMockito.given(this.fiestaService.findFiestaById(1)).willReturn(fiesta1);
 		BDDMockito.given(this.localService.findLocalById(3)).willReturn(this.local);
 		BDDMockito.given(this.fiestaService.findFiestasByLocalId(3)).willReturn(fiestas1);
 	}
@@ -167,14 +169,15 @@ public class FiestaControllerTests {
 				.with(SecurityMockMvcRequestPostProcessors.csrf())
 				.param("nombre", "Joe")
 				.param("descripcion", "Bloggs")
+				.param("id", "1")
 				.param("precio", "3.3")
 				.param("requisitos", "Testing")
 				.param("fecha", "2015/05/25")
-				.param("horaInicio", "23:00")
-				.param("horaFin", "12:00")
+//				.param("horaInicio", "23:00:00")
+//				.param("horaFin",  "12:00:00")
 				.param("numeroAsistentes", "12")
 				.param("imagen", "https://welcometoibiza.jpg"))
-				.andExpect(MockMvcResultMatchers.status().is2xxSuccessful())
+				.andExpect(MockMvcResultMatchers.status().is3xxRedirection())
 				.andExpect(MockMvcResultMatchers.view().name("redirect:/fiestas/1"))
 				;
 		}

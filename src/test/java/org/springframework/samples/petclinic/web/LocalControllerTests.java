@@ -1,6 +1,8 @@
 
 package org.springframework.samples.petclinic.web;
 
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
+
 import java.util.Collection;
 import java.util.LinkedList;
 
@@ -74,6 +76,7 @@ public class LocalControllerTests {
 		Local l2 = new Local();
 		this.l3 = new Local();
 		this.l3.setDecision("PENDING");
+		this.l3.setDireccion("direccion");
 		this.l3.setId(20);
 		this.l4 = new Local();
 		this.l4.setDecision("PENDING");
@@ -84,6 +87,13 @@ public class LocalControllerTests {
 		locales.add(this.l3);
 		locales.add(this.l3);
 		BDDMockito.given(this.localService.findByPropietarioId(this.george.getId())).willReturn(locales);
+		Local mockDenegado = this.l3;
+		Local mockAceptado = this.l3;
+		mockDenegado.setDecision("RECHAZADO");
+		mockAceptado.setDecision("ACEPTADO");
+		BDDMockito.given(this.localService.denegarSolicitudLocal(this.l3.getId())).willReturn(mockDenegado);
+		BDDMockito.given(this.localService.aceptarSolicitudLocal(this.l3.getId())).willReturn(mockDenegado);
+		BDDMockito.given(this.localService.findLocalById(this.l3.getId())).willReturn(l3);		
 
 		this.local1.setDireccion("Luis Montoto 30");
 		this.local1.setId(10);
@@ -190,19 +200,19 @@ public class LocalControllerTests {
 			.andExpect(MockMvcResultMatchers.view().name("exception"));
 	}
 
-	@WithMockUser(value = "admin")
+	@WithMockUser(username="admin",roles={"cliente","admin"})
 	@Test
 	@DisplayName("Test para peticion GET de aceptar locales")
 	void testAceptarLocales() throws Exception {
-		this.mockMvc.perform(MockMvcRequestBuilders.get("/administrador/local/{localId}/aceptar", this.l3.getId())).andExpect(MockMvcResultMatchers.model().attributeExists("local")).andExpect(MockMvcResultMatchers.status().is2xxSuccessful())
+		mockMvc.perform(MockMvcRequestBuilders.get("/administrador/local/{localId}/aceptar", this.l3.getId())).andExpect(MockMvcResultMatchers.status().is3xxRedirection())
 			.andExpect(MockMvcResultMatchers.view().name("redirect:/administrador/locales"));
 	}
 
-	@WithMockUser(value = "admin")
+	@WithMockUser(username="admin",roles={"cliente","admin"})
 	@Test
 	@DisplayName("Test para peticion GET de rechazar locales")
 	void testRechazarLocales() throws Exception {
-		this.mockMvc.perform(MockMvcRequestBuilders.get("/administrador/local/{localId}/rechazar", this.l3.getId())).andExpect(MockMvcResultMatchers.model().attributeExists("local")).andExpect(MockMvcResultMatchers.status().is2xxSuccessful())
+		mockMvc.perform(MockMvcRequestBuilders.get("/administrador/local/{localId}/rechazar", this.l3.getId())).andExpect(MockMvcResultMatchers.status().is3xxRedirection())
 			.andExpect(MockMvcResultMatchers.view().name("redirect:/administrador/locales"));
 	}
 
