@@ -1,7 +1,6 @@
 
 package org.springframework.samples.petclinic.web;
 
-import java.awt.Window;
 import java.util.Collection;
 import java.util.Map;
 
@@ -29,13 +28,14 @@ public class LocalController {
 	private static final String			VIEWS_CAUSE_CREATE_FORM	= "locales/createLocalForm";
 	private final LocalService			localService;
 	private final PropietarioService	propietarioService;
-	private final FiestaService fiestaService;
+	private final FiestaService			fiestaService;
+
 
 	@Autowired
 	public LocalController(final LocalService localService, final PropietarioService propietarioService, final FiestaService fiestaService) {
 		this.localService = localService;
 		this.propietarioService = propietarioService;
-		this.fiestaService=fiestaService;
+		this.fiestaService = fiestaService;
 	}
 
 	@GetMapping(value = {
@@ -92,7 +92,7 @@ public class LocalController {
 
 		return "locales/listaLocales";
 	}
-	
+
 	@GetMapping(value = {
 			"/local/{localId}/fiestas"
 		})
@@ -143,34 +143,37 @@ public class LocalController {
 			return "exception";
 		}
 	}
-	
+
 	@GetMapping(value = {
-			"administrador/locales"
-		})
-		public String todosLosLocales(final Map<String, Object> model) {
+		"administrador/locales"
+	})
+	public String todosLosLocales(final Map<String, Object> model) {
 
-			Collection<Local> locales = this.localService.findPending();
-			model.put("locales", locales);
+		Collection<Local> locales = this.localService.findPending();
+		model.put("locales", locales);
 
-			return "locales/listaLocales";
-		}
-	
-	@GetMapping(value= {"/administrador/local/{localId}/rechazar"})
-	public String denegarSolicitudLocal(@PathVariable("localId") int localId,final Map<String, Object> model) {
-		Local local=localService.denegarSolicitudLocal(localId);
-		
-		model.put("local", local);
-		return "redirect:/administrador/locales";
+		return "locales/listaLocales";
 	}
-	
-	@GetMapping(value= {"/administrador/local/{localId}/aceptar"})
-	public String aceptarSolicitudLocal(@PathVariable("localId") int localId,final Map<String, Object> model) {
-		Local local=localService.aceptarSolicitudLocal(localId);
-		
+
+	@GetMapping(value = {
+		"/administrador/local/{localId}/rechazar"
+	})
+	public String denegarSolicitudLocal(@PathVariable("localId") final int localId, final Map<String, Object> model) {
+		Local local = this.localService.denegarSolicitudLocal(localId);
+
 		model.put("local", local);
 		return "redirect:/administrador/locales";
 	}
 
+	@GetMapping(value = {
+		"/administrador/local/{localId}/aceptar"
+	})
+	public String aceptarSolicitudLocal(@PathVariable("localId") final int localId, final Map<String, Object> model) {
+		Local local = this.localService.aceptarSolicitudLocal(localId);
+
+		model.put("local", local);
+		return "redirect:/administrador/locales";
+	}
 
 	@GetMapping(value = {
 		"/locales/new"

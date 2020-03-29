@@ -23,7 +23,6 @@ import org.springframework.data.repository.Repository;
 import org.springframework.data.repository.query.Param;
 import org.springframework.samples.petclinic.model.Local;
 import org.springframework.samples.petclinic.repository.LocalRepository;
-import org.springframework.samples.petclinic.repository.OwnerRepository;
 
 /**
  * Spring Data JPA specialization of the {@link OwnerRepository} interface
@@ -36,7 +35,7 @@ public interface SpringDataLocalRepository extends LocalRepository, Repository<L
 	@Override
 	@Query("SELECT DISTINCT local FROM Local local WHERE local.decision = 'ACEPTADO'")
 	Collection<Local> findAccepted();
-	
+
 	@Override
 	@Query("SELECT DISTINCT local FROM Local local WHERE local.decision = 'PENDIENTE'")
 	Collection<Local> findPending();

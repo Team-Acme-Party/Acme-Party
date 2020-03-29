@@ -21,7 +21,6 @@ import java.util.Collection;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.samples.petclinic.model.Fiesta;
-import org.springframework.samples.petclinic.model.Vet;
 import org.springframework.samples.petclinic.repository.FiestaRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -36,6 +35,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class FiestaService {
 
 	private FiestaRepository fiestaRepository;
+
 
 	@Autowired
 	public FiestaService(final FiestaRepository fiestaRepository) {
@@ -79,20 +79,20 @@ public class FiestaService {
 	}
 
 	@Transactional
-	public Collection<Fiesta> findFiestasByLocalId(int localId) throws DataAccessException {
+	public Collection<Fiesta> findFiestasByLocalId(final int localId) throws DataAccessException {
 		return this.fiestaRepository.findFiestasByLocalId(localId);
 	}
 
 	@Transactional
-	public Fiesta aceptarSolicitud(int fiestaId) throws DataAccessException {
+	public Fiesta aceptarSolicitud(final int fiestaId) throws DataAccessException {
 		Fiesta fiestaEdit = this.findFiestaById(fiestaId);
 		fiestaEdit.setDecision("ACEPTADO");
 		this.fiestaRepository.save(fiestaEdit);
 		return fiestaEdit;
 	}
-	
+
 	@Transactional
-	public Fiesta denegarSolicitud(int fiestaId) throws DataAccessException {
+	public Fiesta denegarSolicitud(final int fiestaId) throws DataAccessException {
 		Fiesta fiestaEdit = this.findFiestaById(fiestaId);
 		fiestaEdit.setDecision("RECHAZADO");
 		this.fiestaRepository.save(fiestaEdit);

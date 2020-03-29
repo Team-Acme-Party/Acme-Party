@@ -21,7 +21,6 @@ import org.springframework.data.repository.Repository;
 import org.springframework.data.repository.query.Param;
 import org.springframework.samples.petclinic.model.Cliente;
 import org.springframework.samples.petclinic.repository.ClienteRepository;
-import org.springframework.samples.petclinic.repository.OwnerRepository;
 
 /**
  * Spring Data JPA specialization of the {@link OwnerRepository} interface

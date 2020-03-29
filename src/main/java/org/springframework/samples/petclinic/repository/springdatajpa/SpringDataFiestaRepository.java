@@ -23,7 +23,6 @@ import org.springframework.data.repository.Repository;
 import org.springframework.data.repository.query.Param;
 import org.springframework.samples.petclinic.model.Fiesta;
 import org.springframework.samples.petclinic.repository.FiestaRepository;
-import org.springframework.samples.petclinic.repository.OwnerRepository;
 
 /**
  * Spring Data JPA specialization of the {@link OwnerRepository} interface
@@ -50,6 +49,7 @@ public interface SpringDataFiestaRepository extends FiestaRepository, Repository
 	@Query("SELECT fiesta FROM Fiesta fiesta WHERE fiesta.cliente.id =:id")
 	Collection<Fiesta> findByClienteId(@Param("id") int id);
 
+	@Override
 	@Query("SELECT DISTINCT fiesta FROM Fiesta fiesta WHERE fiesta.local.id =:localId")
-	Collection<Fiesta> findFiestasByLocalId(@Param ("localId") int localId );
+	Collection<Fiesta> findFiestasByLocalId(@Param("localId") int localId);
 }
