@@ -7,7 +7,6 @@ import java.util.Map;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.samples.petclinic.model.Cliente;
 import org.springframework.samples.petclinic.model.Fiesta;
 import org.springframework.samples.petclinic.model.Local;
 import org.springframework.samples.petclinic.model.Propietario;
@@ -94,52 +93,56 @@ public class LocalController {
 	}
 
 	@GetMapping(value = {
-			"/local/{localId}/fiestas"
-		})
-		public String verSolicitudes(@PathVariable("localId") final int localId,final Map<String, Object> model) {
-			
-			Collection<Fiesta> fiestas = this.fiestaService.findFiestasByLocalId(localId);
-			
-			model.put("fiestas", fiestas);
-			return "fiestas/listaFiestas";
-		}
-	
-	@GetMapping(value= {"/local/{localId}/fiesta/{fiestaId}/aceptar"})
-	public String aceptarSolicitud(@PathVariable("localId") int localId, @PathVariable("fiestaId") int fiestaId,final Map<String, Object> model) {		
+		"/local/{localId}/fiestas"
+	})
+	public String verSolicitudes(@PathVariable("localId") final int localId, final Map<String, Object> model) {
+
+		Collection<Fiesta> fiestas = this.fiestaService.findFiestasByLocalId(localId);
+
+		model.put("fiestas", fiestas);
+		return "fiestas/listaFiestas";
+	}
+
+	@GetMapping(value = {
+		"/local/{localId}/fiesta/{fiestaId}/aceptar"
+	})
+	public String aceptarSolicitud(@PathVariable("localId") final int localId, @PathVariable("fiestaId") final int fiestaId, final Map<String, Object> model) {
 		try {
 			String username = SecurityContextHolder.getContext().getAuthentication().getName();
-			Propietario propietario = this.propietarioService.findByUsername(username);			
-			
-			if (propietario == null || localService.findLocalById(localId).getPropietario()!=propietario) {
-				throw new Exception();		
+			Propietario propietario = this.propietarioService.findByUsername(username);
+
+			if (propietario == null || this.localService.findLocalById(localId).getPropietario() != propietario) {
+				throw new Exception();
 			} else {
-				Fiesta fiesta=fiestaService.aceptarSolicitud(fiestaId);
+				Fiesta fiesta = this.fiestaService.aceptarSolicitud(fiestaId);
 				Collection<Fiesta> fiestas = this.fiestaService.findFiestasByLocalId(fiesta.getLocal().getId());
 				model.put("fiestas", fiestas);
 				return "fiestas/listaFiestas";
 			}
 		} catch (Exception e) {
-			model.put("message","No tienes acceso para aceptar una fiesta en este local");
+			model.put("message", "No tienes acceso para aceptar una fiesta en este local");
 			return "exception";
 		}
 	}
-	
-	@GetMapping(value= {"/local/{localId}/fiesta/{fiestaId}/denegar"})
-	public String denegarSolicitud(@PathVariable("localId") int localId,@PathVariable("fiestaId") int fiestaId,final Map<String, Object> model) {
-				try {
+
+	@GetMapping(value = {
+		"/local/{localId}/fiesta/{fiestaId}/denegar"
+	})
+	public String denegarSolicitud(@PathVariable("localId") final int localId, @PathVariable("fiestaId") final int fiestaId, final Map<String, Object> model) {
+		try {
 			String username = SecurityContextHolder.getContext().getAuthentication().getName();
-			Propietario propietario = this.propietarioService.findByUsername(username);			
-			
-			if (propietario == null || localService.findLocalById(localId).getPropietario()!=propietario) {
-				throw new Exception();		
+			Propietario propietario = this.propietarioService.findByUsername(username);
+
+			if (propietario == null || this.localService.findLocalById(localId).getPropietario() != propietario) {
+				throw new Exception();
 			} else {
-				Fiesta fiesta=fiestaService.denegarSolicitud(fiestaId);
+				Fiesta fiesta = this.fiestaService.denegarSolicitud(fiestaId);
 				Collection<Fiesta> fiestas = this.fiestaService.findFiestasByLocalId(fiesta.getLocal().getId());
 				model.put("fiestas", fiestas);
 				return "fiestas/listaFiestas";
 			}
 		} catch (Exception e) {
-			model.put("message","No tienes acceso para aceptar una fiesta en este local");
+			model.put("message", "No tienes acceso para aceptar una fiesta en este local");
 			return "exception";
 		}
 	}
