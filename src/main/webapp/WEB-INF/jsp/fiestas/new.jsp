@@ -15,11 +15,12 @@
         </script>
     </jsp:attribute>
     <jsp:body>
-    <h2>
-        Formulario de fiesta
-    </h2>
-    <form:form modelAttribute="fiesta" class="form-horizontal" action="/fiestas/new/${localId}">
+      <h2>
+            <c:if test="${fiesta['new']}">Nueva </c:if> Fiesta
+        </h2>
+    <form:form modelAttribute="fiesta" class="form-horizontal">
         <div class="form-group has-feedback">
+          <input type="hidden" name="id" value="${fiesta.id}"/>
             <petclinic:inputField label="Nombre" name="nombre"/>
             <petclinic:textField label="Descripcion" name="descripcion"/>
             <petclinic:inputField label="Precio" name="precio"/>
@@ -31,9 +32,16 @@
             <petclinic:inputField label="Imagen" name="imagen"/>
         </div>
         <div class="form-group">
-            <div class="col-sm-offset-2 col-sm-10">
-            	<button class="btn btn-default" type="submit">Registrar</button>
-            </div>
+             <div class="col-sm-offset-2 col-sm-10">
+                    <c:choose>
+                        <c:when test="${fiesta['new']}">
+                            <button class="btn btn-default" type="submit">Registrar fiesta</button>
+                        </c:when>
+                        <c:otherwise>
+                            <button class="btn btn-default" type="submit">Actualizar Fiesta</button>
+                        </c:otherwise>
+                    </c:choose>
+                </div>
         </div>
     </form:form>
     </jsp:body>

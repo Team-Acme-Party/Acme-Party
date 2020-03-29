@@ -5,12 +5,17 @@ import java.util.Map;
 
 import javax.validation.Valid;
 
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.samples.petclinic.model.Cliente;
 import org.springframework.samples.petclinic.model.Fiesta;
 import org.springframework.samples.petclinic.model.Propietario;
 import org.springframework.samples.petclinic.service.PropietarioService;
+import org.springframework.samples.petclinic.service.exceptions.DuplicateFiestaNameException;
+import org.springframework.samples.petclinic.service.exceptions.DuplicatedPetNameException;
 import org.springframework.samples.petclinic.model.Local;
+import org.springframework.samples.petclinic.model.Owner;
+import org.springframework.samples.petclinic.model.Pet;
 import org.springframework.samples.petclinic.service.ClienteService;
 import org.springframework.samples.petclinic.service.FiestaService;
 import org.springframework.samples.petclinic.service.LocalService;
@@ -18,10 +23,13 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.samples.petclinic.service.exceptions.DuplicateFiestaNameException;;
 
 @Controller
 public class FiestaController {
@@ -39,16 +47,28 @@ public class FiestaController {
 		this.clienteService = clienteService;
 		this.propietarioService = propietarioService;
 	}
+	
+	@InitBinder("fiesta")
+	public void initPetBinder(WebDataBinder dataBinder) {
+		dataBinder.setValidator(new FiestaValidator());
+	}
 
 	@GetMapping(value = { "/fiestas/{fiestaId}" })
 	public ModelAndView showFiesta(@PathVariable("fiestaId") final int fiestaId) {
 		ModelAndView mav = new ModelAndView("fiestas/fiestaDetails");
+
 		String username = SecurityContextHolder.getContext().getAuthentication().getName();
+
 		Propietario p = this.propietarioService.findByUsername(username);
-		mav.addObject("fiesta", this.fiestaService.findFiestaById(fiestaId));
+		Cliente cliente = this.clienteService.findByUsername(username);
+
 		if (p != null) {
-			mav.addObject("userId", p.getId());
+			mav.addObject("userLoggedId", p.getId());
+		} else if (cliente != null) {
+			mav.addObject("userLoggedId", cliente.getId());
 		}
+
+		mav.addObject("fiesta", this.fiestaService.findFiestaById(fiestaId));
 		return mav;
 	}
 
@@ -78,12 +98,36 @@ public class FiestaController {
 		}
 	}
 
+	@GetMapping(value = { "/cliente/fiestas" })
+	public String verMisFiestas(final Map<String, Object> model) {
+
+		String username = SecurityContextHolder.getContext().getAuthentication().getName();
+		Cliente c = this.clienteService.findByUsername(username);
+		Collection<Fiesta> fiestas = this.fiestaService.findByClienteId(c.getId());
+		model.put("fiestas", fiestas);
+		model.put("misfiestas", true);
+
+		return "fiestas/listaFiestas";
+	}
+
+	// CREATE
 	@GetMapping(value = "/fiestas/new/{localId}")
 	public String initCreationForm(@PathVariable("localId") final int localId, final ModelMap model) {
-		Fiesta fiesta = new Fiesta();
-		model.put("fiesta", fiesta);
-		model.put("localId", localId);
-		return "fiestas/new";
+		try {
+			String username = SecurityContextHolder.getContext().getAuthentication().getName();
+			Cliente cliente = this.clienteService.findByUsername(username);
+			if (cliente == null) {
+				throw new Exception();				
+			} else {
+				Fiesta fiesta = new Fiesta();
+				model.put("fiesta", fiesta);
+				model.put("localId", localId);
+				return "fiestas/new";
+			}
+		} catch (Exception e) {
+			model.put("exception","No tienes acceso para crear una fiesta");
+			return "exception";
+		}		
 	}
 
 	@PostMapping(value = "/fiestas/new/{localId}")
@@ -105,16 +149,46 @@ public class FiestaController {
 		}
 	}
 
-	@GetMapping(value = { "/cliente/fiestas" })
-	public String verMisFiestas(final Map<String, Object> model) {
+	// EDIT
+		@GetMapping(value = "/fiestas/{fiestaId}/editar")
+		public String initUpdateForm(@PathVariable("fiestaId") int fiestaId, ModelMap model) {
+			Fiesta fiesta = this.fiestaService.findFiestaById(fiestaId);
 
-		String username = SecurityContextHolder.getContext().getAuthentication().getName();
-		Cliente c = this.clienteService.findByUsername(username);
-		Collection<Fiesta> fiestas = this.fiestaService.findByClienteId(c.getId());
-		model.put("fiestas", fiestas);
-		model.put("misfiestas", true);
+			try {
+				String username = SecurityContextHolder.getContext().getAuthentication().getName();
+				Cliente cliente = this.clienteService.findByUsername(username);
+				if (cliente == null) {
+					throw new Exception();		
+				} else {
+					model.put("fiesta", fiesta);
+					return "fiestas/new";
+				}
+			} catch (Exception e) {
+				model.put("message","No tienes acceso para editar una fiesta");
+				return "exception";
+			}
+		}
 
-		return "fiestas/listaFiestas";
+	@PostMapping(value = { "/fiestas/{fiestaId}/editar" })
+	public String processUpdateForm(@Valid Fiesta fiesta, BindingResult result, @PathVariable("fiestaId") int fiestaId,
+			ModelMap model) {
+		if (result.hasErrors()) {			
+			model.put("fiesta", fiesta);
+			return "fiestas/new";
+		} else {
+			Fiesta fiestaToUpdate = this.fiestaService.findFiestaById(fiestaId);
+			BeanUtils.copyProperties(fiesta, fiestaToUpdate, "decision", "cliente", "local");
+			try {
+				this.fiestaService.save(fiestaToUpdate);
+			} catch (Exception e) {
+				result.rejectValue("name", "duplicate", "already exists");
+				return "fiestas/new";
+			}
+
+			return "redirect:/fiestas/" + fiesta.getId();
+		}
 	}
+	
+	
 
 }
