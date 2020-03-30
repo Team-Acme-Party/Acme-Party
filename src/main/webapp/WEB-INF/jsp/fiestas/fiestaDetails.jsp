@@ -65,10 +65,18 @@
   <sec:authorize access="hasAuthority('propietario')">
 	  <c:if test="${fiesta.local.propietario.id==userLoggedId}">
 	    <button type="button" class="btn btn-default"
-	     onclick="window.location.replace('/local/fiesta/${fiesta.id}/aceptar')">Aceptar</button>
+	     onclick="window.location.replace('/local/${fiesta.local.id}/fiesta/${fiesta.id}/aceptar')">Aceptar</button>
 	    <button type="button" class="btn btn-default"
-		onclick="window.location.replace('/local/fiesta/${fiesta.id}/denegar')">Denegar</button>
+		onclick="window.location.replace('/local/${fiesta.local.id}fiesta/${fiesta.id}/denegar')">Denegar</button>
 	</c:if>
   </sec:authorize>
+  
+    <sec:authorize access="hasAuthority('cliente')">
+	  <c:if test="${fiesta.cliente.id==userLoggedId}">
+	    <button type="button" class="btn btn-default"
+	     onclick="window.location.replace('/fiestas/${fiesta.id}/editar')">Editar</button>	   
+	</c:if>
+  </sec:authorize>
+  
   
 </petclinic:layout>

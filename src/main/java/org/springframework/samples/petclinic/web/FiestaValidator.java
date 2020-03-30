@@ -15,8 +15,40 @@ public class FiestaValidator implements Validator{
 	public void validate(Object target, Errors errors) {
 		Fiesta fiesta=(Fiesta)target;
 		
-		if(fiesta.getNumeroAsistentes()==null) {		
-			errors.rejectValue("numeroAsistentes", "joe", "joe");
+		if(fiesta.getHoraFin()==null) {
+			errors.rejectValue("horaFin", "ValidateHora");
+		}
+		
+		if(fiesta.getHoraInicio()==null) {
+			errors.rejectValue("horaInicio", "ValidateHora");
+		}	
+		
+		if(fiesta.getNombre()=="") {
+			errors.rejectValue("nombre","ValidateNotBlank");
+		}
+		
+		if(fiesta.getImagen()=="") {
+			errors.rejectValue("imagen", "ValidateNotBlank");
+		}
+		
+		if(fiesta.getDescripcion()=="") {
+			errors.rejectValue("descripcion", "ValidateNotBlank");			
+		}
+		
+		if(fiesta.getRequisitos()=="") {
+			errors.rejectValue("requisitos", "ValidateNotBlank");
+		}
+		
+		if(fiesta.getPrecio()==null) {
+			errors.rejectValue("precio", "ValidatePrecio");
+		}
+		
+		if(fiesta.getFecha()==null) {
+			errors.rejectValue("fecha", "ValidateFecha");
+		}
+		
+		if(fiesta.getNumeroAsistentes()==0 || fiesta.getNumeroAsistentes()==null) {		
+			errors.rejectValue("numeroAsistentes", "ValidateNumeroAsistentes");
 		}
 		
 	}

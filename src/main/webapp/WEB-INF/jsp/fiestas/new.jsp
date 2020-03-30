@@ -20,7 +20,7 @@
         </h2>
     <form:form modelAttribute="fiesta" class="form-horizontal">
         <div class="form-group has-feedback">
-          <input type="hidden" name="id" value="${fiesta.id}"/>
+       <input type="hidden" name="Id" value="${fiesta.id}"/> 
             <petclinic:inputField label="Nombre" name="nombre"/>
             <petclinic:textField label="Descripcion" name="descripcion"/>
             <petclinic:inputField label="Precio" name="precio"/>

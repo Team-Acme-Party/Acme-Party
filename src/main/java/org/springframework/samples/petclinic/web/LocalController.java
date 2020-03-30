@@ -24,31 +24,27 @@ import org.springframework.web.servlet.ModelAndView;
 @Controller
 public class LocalController {
 
-	private static final String			VIEWS_CAUSE_CREATE_FORM	= "locales/createLocalForm";
-	private final LocalService			localService;
-	private final PropietarioService	propietarioService;
-	private final FiestaService			fiestaService;
-
+	private static final String VIEWS_CAUSE_CREATE_FORM = "locales/createLocalForm";
+	private final LocalService localService;
+	private final PropietarioService propietarioService;
+	private final FiestaService fiestaService;
 
 	@Autowired
-	public LocalController(final LocalService localService, final PropietarioService propietarioService, final FiestaService fiestaService) {
+	public LocalController(final LocalService localService, final PropietarioService propietarioService,
+			final FiestaService fiestaService) {
 		this.localService = localService;
 		this.propietarioService = propietarioService;
 		this.fiestaService = fiestaService;
 	}
 
-	@GetMapping(value = {
-		"/locales/{localId}"
-	})
+	@GetMapping(value = { "/locales/{localId}" })
 	public ModelAndView showLocal(@PathVariable("localId") final int localId) {
 		ModelAndView mav = new ModelAndView("locales/localDetails");
 		mav.addObject(this.localService.findLocalById(localId));
 		return mav;
 	}
 
-	@GetMapping(value = {
-		"/locales/buscar"
-	})
+	@GetMapping(value = { "/locales/buscar" })
 	public String formularioBuscarLocales(final Map<String, Object> model) {
 
 		Local local = new Local();
@@ -70,18 +66,16 @@ public class LocalController {
 			result.rejectValue("direccion", "notFound", "not found");
 			return "locales/buscarLocales";
 		}
-		//		else if (results.size() == 1) {
-		//			Local res = results.iterator().next();
-		//			return "redirect:/locales/" + res.getId();}
+		// else if (results.size() == 1) {
+		// Local res = results.iterator().next();
+		// return "redirect:/locales/" + res.getId();}
 		else {
 			model.put("locales", results);
 			return "locales/listaLocales";
 		}
 	}
 
-	@GetMapping(value = {
-		"/propietario/locales"
-	})
+	@GetMapping(value = { "/propietario/locales" })
 	public String verMisLocales(final Map<String, Object> model) {
 
 		String username = SecurityContextHolder.getContext().getAuthentication().getName();
@@ -93,9 +87,7 @@ public class LocalController {
 		return "locales/listaLocales";
 	}
 
-	@GetMapping(value = {
-		"/local/{localId}/fiestas"
-	})
+	@GetMapping(value = { "/local/{localId}/fiestas" })
 	public String verSolicitudes(@PathVariable("localId") final int localId, final Map<String, Object> model) {
 
 		Collection<Fiesta> fiestas = this.fiestaService.findFiestasPendientesByLocalId(localId);
@@ -104,57 +96,53 @@ public class LocalController {
 		return "fiestas/listaFiestas";
 	}
 
-	@GetMapping(value = {
-		"/local/fiesta/{fiestaId}/aceptar"
-	})
-	public String aceptarSolicitud(@PathVariable("fiestaId") final int fiestaId, final Map<String, Object> model) {
+	@GetMapping(value = { "/local/{localId}/fiesta/{fiestaId}/aceptar" })
+	public String aceptarSolicitud(@PathVariable("fiestaId") final int fiestaId, @PathVariable("localId") int localId,
+			final Map<String, Object> model) {
 		try {
-			//			String username = SecurityContextHolder.getContext().getAuthentication().getName();
-			//			Propietario propietario = this.propietarioService.findByUsername(username);
-			//
-			//			if (propietario == null || this.localService.findLocalById(localId).getPropietario() != propietario) {
-			//				throw new Exception();
-			//			} else {
-			this.fiestaService.aceptarSolicitud(fiestaId);
-			Collection<Fiesta> fiestas = this.fiestaService.findAccepted();
-			Collection<Local> locales = this.localService.findAccepted();
-			model.put("fiestas", fiestas);
-			model.put("locales", locales);
-			return "welcome";
-			//}
+			String username = SecurityContextHolder.getContext().getAuthentication().getName();
+			Propietario propietario = this.propietarioService.findByUsername(username);
+
+			if (propietario == null || this.localService.findLocalById(localId).getPropietario() != propietario) {
+				throw new Exception();
+			} else {
+				this.fiestaService.aceptarSolicitud(fiestaId);
+				Collection<Fiesta> fiestas = this.fiestaService.findAccepted();
+				Collection<Local> locales = this.localService.findAccepted();
+				model.put("fiestas", fiestas);
+				model.put("locales", locales);
+				return "welcome";
+			}
 		} catch (Exception e) {
 			model.put("message", "No tienes acceso para aceptar una fiesta en este local");
 			return "exception";
 		}
 	}
 
-	@GetMapping(value = {
-		"/local/fiesta/{fiestaId}/denegar"
-	})
-	public String denegarSolicitud(@PathVariable("fiestaId") final int fiestaId, final Map<String, Object> model) {
+	@GetMapping(value = { "/local/{localId}/fiesta/{fiestaId}/denegar" })
+	public String denegarSolicitud(@PathVariable("fiestaId") final int fiestaId,@PathVariable("localId") int localId, final Map<String, Object> model) {
 		try {
-			//			String username = SecurityContextHolder.getContext().getAuthentication().getName();
-			//			Propietario propietario = this.propietarioService.findByUsername(username);
-			//
-			//			if (propietario == null || this.localService.findLocalById(localId).getPropietario() != propietario) {
-			//				throw new Exception();
-			//			} else {
+			 String username = SecurityContextHolder.getContext().getAuthentication().getName();
+			 Propietario propietario = this.propietarioService.findByUsername(username);
+			
+			 if (propietario == null ||
+			 this.localService.findLocalById(localId).getPropietario() != propietario) {
+			 throw new Exception();
+			 } else {
 			this.fiestaService.denegarSolicitud(fiestaId);
 			Collection<Fiesta> fiestas = this.fiestaService.findAccepted();
 			Collection<Local> locales = this.localService.findAccepted();
 			model.put("fiestas", fiestas);
 			model.put("locales", locales);
 			return "welcome";
-			//}
+			 }
 		} catch (Exception e) {
 			model.put("message", "No tienes acceso para aceptar una fiesta en este local");
 			return "exception";
 		}
 	}
 
-	@GetMapping(value = {
-		"administrador/locales"
-	})
+	@GetMapping(value = { "administrador/locales" })
 	public String todosLosLocales(final Map<String, Object> model) {
 
 		Collection<Local> locales = this.localService.findPending();
@@ -164,9 +152,7 @@ public class LocalController {
 		return "locales/listaLocales";
 	}
 
-	@GetMapping(value = {
-		"/administrador/local/{localId}/rechazar"
-	})
+	@GetMapping(value = { "/administrador/local/{localId}/rechazar" })
 	public String denegarSolicitudLocal(@PathVariable("localId") final int localId, final Map<String, Object> model) {
 		Local local = this.localService.denegarSolicitudLocal(localId);
 
@@ -174,9 +160,7 @@ public class LocalController {
 		return "redirect:/administrador/locales";
 	}
 
-	@GetMapping(value = {
-		"/administrador/local/{localId}/aceptar"
-	})
+	@GetMapping(value = { "/administrador/local/{localId}/aceptar" })
 	public String aceptarSolicitudLocal(@PathVariable("localId") final int localId, final Map<String, Object> model) {
 		Local local = this.localService.aceptarSolicitudLocal(localId);
 
@@ -184,19 +168,16 @@ public class LocalController {
 		return "redirect:/administrador/locales";
 	}
 
-	@GetMapping(value = {
-		"/locales/new"
-	})
+	@GetMapping(value = { "/locales/new" })
 	public String initCreationForm(final Map<String, Object> model) {
 		Local local = new Local();
 		model.put("local", local);
 		return LocalController.VIEWS_CAUSE_CREATE_FORM;
 	}
 
-	@PostMapping(value = {
-		"/locales/new"
-	})
-	public String processNewCauseForm(@Valid final Local local, final BindingResult result, final Map<String, Object> model) {
+	@PostMapping(value = { "/locales/new" })
+	public String processNewCauseForm(@Valid final Local local, final BindingResult result,
+			final Map<String, Object> model) {
 
 		if (result.hasErrors()) {
 			model.put("local", local);

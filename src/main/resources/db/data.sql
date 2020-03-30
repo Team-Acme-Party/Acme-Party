@@ -78,8 +78,7 @@ INSERT INTO fiestas(id, nombre, descripcion, precio, requisitos, fecha, hora_ini
 	
 INSERT INTO fiestas(id, nombre, descripcion, precio, requisitos, fecha, hora_inicio, hora_fin, numero_asistentes, imagen, decision, cliente_id, local_id) 
 	VALUES(4, 'Fiesta dubstep', 'Fiesta de musica dubstep para mayores de edad.', 30, 'Ser mayor de edad y no traer drogas.',
-	'2020-04-30', '23:00', '5:00', 200, 'https://lh3.googleusercontent.com/proxy/xWy-b0Xb6qIf-2djdKb9uSxyphuYr6jkfbXoGRYs3EK90zJuK9Vfo2xb1dpH5U2zXZN4O3d1li
-	n8QRHDQt3SaICQfGGC48XtnZieRnzfTSgTshnG24XGJKYlyepq5F6t9wZRgY0GshjVmD-JexrSIQ0UAGdTpTxZShpiiHH7La0idcG9lKIx4At3eNQ_nA', 'PENDIENTE', 1, 1);
+	'2020-04-30', '23:00', '5:00', 200, 'https://lh3.googleusercontent.jpg', 'PENDIENTE', 1, 1);
 
 INSERT INTO fiestas(id, nombre, descripcion, precio, requisitos, fecha, hora_inicio, hora_fin, numero_asistentes, imagen, decision, cliente_id, local_id) 
 	VALUES(5, 'Fiesta trap', 'Fiesta de musica trap.', 50, 'Cualquier edad y traer mucha droga.',
