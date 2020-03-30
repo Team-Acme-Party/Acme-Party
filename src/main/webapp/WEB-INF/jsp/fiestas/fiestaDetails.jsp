@@ -3,6 +3,8 @@
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="petclinic" tagdir="/WEB-INF/tags" %>
+<%@ taglib prefix="sec"
+	uri="http://www.springframework.org/security/tags"%>
 
 <petclinic:layout pageName="fiestaDetails">
 
@@ -61,13 +63,12 @@
      </table>   
   
   <sec:authorize access="hasAuthority('propietario')">
-	  <c:if test="${fiesta.local.propietario.id==userId}">
-        
-    <button type="button" class="btn btn-default"
-      onclick="window.location.replace('/local/fiesta/${fiesta.id}/aceptar')">Aceptar</button>
-    <button type="button" class="btn btn-default"
-			onclick="window.location.replace('/local/fiesta/${fiesta.id}/denegar')">Denegar</button>
-		</c:if>
+	  <c:if test="${fiesta.local.propietario.id==userLoggedId}">
+	    <button type="button" class="btn btn-default"
+	     onclick="window.location.replace('/local/fiesta/${fiesta.id}/aceptar')">Aceptar</button>
+	    <button type="button" class="btn btn-default"
+		onclick="window.location.replace('/local/fiesta/${fiesta.id}/denegar')">Denegar</button>
+	</c:if>
   </sec:authorize>
   
 </petclinic:layout>

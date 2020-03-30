@@ -88,6 +88,7 @@ public class LocalController {
 		Propietario p = this.propietarioService.findByUsername(username);
 		Collection<Local> locales = this.localService.findByPropietarioId(p.getId());
 		model.put("locales", locales);
+		model.put("mislocales", true);
 
 		return "locales/listaLocales";
 	}
@@ -97,28 +98,30 @@ public class LocalController {
 	})
 	public String verSolicitudes(@PathVariable("localId") final int localId, final Map<String, Object> model) {
 
-		Collection<Fiesta> fiestas = this.fiestaService.findFiestasByLocalId(localId);
+		Collection<Fiesta> fiestas = this.fiestaService.findFiestasPendientesByLocalId(localId);
 
 		model.put("fiestas", fiestas);
 		return "fiestas/listaFiestas";
 	}
 
 	@GetMapping(value = {
-		"/local/{localId}/fiesta/{fiestaId}/aceptar"
+		"/local/fiesta/{fiestaId}/aceptar"
 	})
-	public String aceptarSolicitud(@PathVariable("localId") final int localId, @PathVariable("fiestaId") final int fiestaId, final Map<String, Object> model) {
+	public String aceptarSolicitud(@PathVariable("fiestaId") final int fiestaId, final Map<String, Object> model) {
 		try {
-			String username = SecurityContextHolder.getContext().getAuthentication().getName();
-			Propietario propietario = this.propietarioService.findByUsername(username);
-
-			if (propietario == null || this.localService.findLocalById(localId).getPropietario() != propietario) {
-				throw new Exception();
-			} else {
-				Fiesta fiesta = this.fiestaService.aceptarSolicitud(fiestaId);
-				Collection<Fiesta> fiestas = this.fiestaService.findFiestasByLocalId(fiesta.getLocal().getId());
-				model.put("fiestas", fiestas);
-				return "fiestas/listaFiestas";
-			}
+			//			String username = SecurityContextHolder.getContext().getAuthentication().getName();
+			//			Propietario propietario = this.propietarioService.findByUsername(username);
+			//
+			//			if (propietario == null || this.localService.findLocalById(localId).getPropietario() != propietario) {
+			//				throw new Exception();
+			//			} else {
+			this.fiestaService.aceptarSolicitud(fiestaId);
+			Collection<Fiesta> fiestas = this.fiestaService.findAccepted();
+			Collection<Local> locales = this.localService.findAccepted();
+			model.put("fiestas", fiestas);
+			model.put("locales", locales);
+			return "welcome";
+			//}
 		} catch (Exception e) {
 			model.put("message", "No tienes acceso para aceptar una fiesta en este local");
 			return "exception";
@@ -126,21 +129,23 @@ public class LocalController {
 	}
 
 	@GetMapping(value = {
-		"/local/{localId}/fiesta/{fiestaId}/denegar"
+		"/local/fiesta/{fiestaId}/denegar"
 	})
-	public String denegarSolicitud(@PathVariable("localId") final int localId, @PathVariable("fiestaId") final int fiestaId, final Map<String, Object> model) {
+	public String denegarSolicitud(@PathVariable("fiestaId") final int fiestaId, final Map<String, Object> model) {
 		try {
-			String username = SecurityContextHolder.getContext().getAuthentication().getName();
-			Propietario propietario = this.propietarioService.findByUsername(username);
-
-			if (propietario == null || this.localService.findLocalById(localId).getPropietario() != propietario) {
-				throw new Exception();
-			} else {
-				Fiesta fiesta = this.fiestaService.denegarSolicitud(fiestaId);
-				Collection<Fiesta> fiestas = this.fiestaService.findFiestasByLocalId(fiesta.getLocal().getId());
-				model.put("fiestas", fiestas);
-				return "fiestas/listaFiestas";
-			}
+			//			String username = SecurityContextHolder.getContext().getAuthentication().getName();
+			//			Propietario propietario = this.propietarioService.findByUsername(username);
+			//
+			//			if (propietario == null || this.localService.findLocalById(localId).getPropietario() != propietario) {
+			//				throw new Exception();
+			//			} else {
+			this.fiestaService.denegarSolicitud(fiestaId);
+			Collection<Fiesta> fiestas = this.fiestaService.findAccepted();
+			Collection<Local> locales = this.localService.findAccepted();
+			model.put("fiestas", fiestas);
+			model.put("locales", locales);
+			return "welcome";
+			//}
 		} catch (Exception e) {
 			model.put("message", "No tienes acceso para aceptar una fiesta en este local");
 			return "exception";
@@ -154,6 +159,7 @@ public class LocalController {
 
 		Collection<Local> locales = this.localService.findPending();
 		model.put("locales", locales);
+		model.put("mislocales", true);
 
 		return "locales/listaLocales";
 	}

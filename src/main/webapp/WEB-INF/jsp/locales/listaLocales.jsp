@@ -9,7 +9,16 @@
 <%@ taglib prefix="sec"
 	uri="http://www.springframework.org/security/tags"%>
 
-<petclinic:layout pageName="locales">
+<c:choose>
+	<c:when test="${mislocales}">
+		<c:set var="name" value="mislocales"></c:set>
+	</c:when>
+	<c:otherwise>
+		<c:set var="name" value="locales"></c:set>
+	</c:otherwise>
+</c:choose>
+
+<petclinic:layout pageName="${name}">
     <h2>Locales</h2>
 
     <table id="localesTable" class="table table-striped">

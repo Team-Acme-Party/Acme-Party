@@ -52,4 +52,8 @@ public interface SpringDataFiestaRepository extends FiestaRepository, Repository
 	@Override
 	@Query("SELECT DISTINCT fiesta FROM Fiesta fiesta WHERE fiesta.local.id =:localId")
 	Collection<Fiesta> findFiestasByLocalId(@Param("localId") int localId);
+
+	@Override
+	@Query("SELECT DISTINCT fiesta FROM Fiesta fiesta WHERE fiesta.local.id =:localId and fiesta.decision = 'PENDIENTE'")
+	Collection<Fiesta> findFiestasPendientesByLocalId(@Param("localId") int localId);
 }

@@ -84,6 +84,11 @@ public class FiestaService {
 	}
 
 	@Transactional
+	public Collection<Fiesta> findFiestasPendientesByLocalId(final int localId) throws DataAccessException {
+		return this.fiestaRepository.findFiestasPendientesByLocalId(localId);
+	}
+
+	@Transactional
 	public Fiesta aceptarSolicitud(final int fiestaId) throws DataAccessException {
 		Fiesta fiestaEdit = this.findFiestaById(fiestaId);
 		fiestaEdit.setDecision("ACEPTADO");

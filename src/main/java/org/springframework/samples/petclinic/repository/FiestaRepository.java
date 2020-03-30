@@ -18,6 +18,8 @@ public interface FiestaRepository {
 
 	Collection<Fiesta> findFiestasByLocalId(int localId) throws DataAccessException;
 
+	Collection<Fiesta> findFiestasPendientesByLocalId(int localId) throws DataAccessException;
+
 	Collection<Fiesta> findByClienteId(int id) throws DataAccessException;
 
 	Collection<Fiesta> findAsistenciasByClienteId(int id) throws DataAccessException;
