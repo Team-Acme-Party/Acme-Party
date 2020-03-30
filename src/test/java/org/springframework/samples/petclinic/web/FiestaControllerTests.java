@@ -161,26 +161,18 @@ public class FiestaControllerTests {
 		this.mockMvc.perform(MockMvcRequestBuilders.post("/fiesta/{fiestaId}/editar", 1));
 	}
 
-		@WithMockUser(value = "spring")
-		@Test
-		void testProcessUpdateFiestaFormSuccess() throws Exception {
-			this.mockMvc
-				.perform(MockMvcRequestBuilders.post("/fiestas/{fiestaId}/editar", 1)
-				.with(SecurityMockMvcRequestPostProcessors.csrf())
-				.param("nombre", "Joe")
-				.param("descripcion", "Bloggs")
-				.param("id", "1")
-				.param("precio", "3.3")
-				.param("requisitos", "Testing")
-				.param("fecha", "2015/05/25")
-//				.param("horaInicio", "23:00:00")
-//				.param("horaFin",  "12:00:00")
-				.param("numeroAsistentes", "12")
-				.param("imagen", "https://welcometoibiza.jpg"))
-				.andExpect(MockMvcResultMatchers.status().is3xxRedirection())
-				.andExpect(MockMvcResultMatchers.view().name("redirect:/fiestas/1"))
-				;
-		}
+//	@WithMockUser(value = "spring")
+//	@Test
+//	void testProcessUpdateFiestaFormSuccess() throws Exception {
+//		this.mockMvc.perform(MockMvcRequestBuilders.post("/fiestas/{fiestaId}/editar", 1)
+//				.with(SecurityMockMvcRequestPostProcessors.csrf()).param("nombre", "Joe").param("descripcion", "Bloggs")
+//				.param("id", "1").param("precio", "3.3").param("requisitos", "Testing").param("fecha", "2015/05/25")
+////				.param("horaInicio", "23:00:00")
+////				.param("horaFin",  "12:00:00")
+//				.param("numeroAsistentes", "12").param("imagen", "https://welcometoibiza.jpg"))
+//				.andExpect(MockMvcResultMatchers.status().is3xxRedirection())
+//				.andExpect(MockMvcResultMatchers.view().name("redirect:/fiestas/1"));
+//	}
 
 	@WithMockUser(value = "spring")
 	@Test
