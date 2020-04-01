@@ -20,7 +20,7 @@ public class Valoracion extends BaseEntity {
 
 	@Column(name = "valor")
 	@Range(min = 0, max = 5)
-	private Integer	valor;
+	private Double	valor;
 
 	@ManyToOne
 	@JoinColumn(name = "cliente_id")
@@ -45,11 +45,11 @@ public class Valoracion extends BaseEntity {
 		this.comentario = comentario;
 	}
 
-	public Integer getValor() {
+	public Double getValor() {
 		return this.valor;
 	}
 
-	public void setValor(final Integer valor) {
+	public void setValor(final Double valor) {
 		this.valor = valor;
 	}
 

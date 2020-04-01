@@ -21,7 +21,7 @@ public class Comentario extends BaseEntity {
 	private String		cuerpo;
 
 	@Column(name = "fecha")
-	@DateTimeFormat(pattern = "yyyy/MM/dd HH:mm")
+	@DateTimeFormat(pattern = "yyyy/MM/dd")
 	private LocalDate	fecha;
 
 	@ManyToOne

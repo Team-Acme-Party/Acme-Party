@@ -105,6 +105,27 @@ INSERT INTO anuncios(id, imagen, patrocinador_id, local_id, decision)
 
 INSERT INTO anuncios(id, imagen, patrocinador_id, local_id, decision) 
 	VALUES(4, 'https://media.istockphoto.com/vectors/square-neon-light-banner-for-party-flyer-design-vector-id607268144', 2, 2, 'PENDIENTE');
+
+	
+--Comentarios
+INSERT INTO comentarios(id, cuerpo, fecha, cliente_id, local_id) 
+	VALUES(1, 'De los mejores locales en los que he estado. Repetiré.', '2020-04-20', 1, 1);
+INSERT INTO comentarios(id, cuerpo, fecha, cliente_id, fiesta_id) 
+	VALUES(2, '¡Muy divertida!.', '2020-07-07', 2, 1);
+INSERT INTO comentarios(id, cuerpo, fecha, cliente_id, fiesta_id) 
+	VALUES(3, 'Un poco aburrida.', '2020-07-10', 2, 3);
+INSERT INTO comentarios(id, cuerpo, fecha, cliente_id, local_id) 
+	VALUES(4, '¿Merece la pena contratarlo?', '2020-07-10', 2, 4);
+
+
+--Valoraciones
+INSERT INTO valoraciones(id, comentario, valor, cliente_id, local_id) 
+	VALUES(1, 'Solo le falta algunos servicios más', 4.5, 1, 1);
+INSERT INTO valoraciones(id, valor, cliente_id, fiesta_id) 
+	VALUES(2, 4.0, 2, 1);
+INSERT INTO valoraciones(id, valor, cliente_id, fiesta_id) 
+	VALUES(3, 2.5, 2, 3);
+	
 	
 	
 	
