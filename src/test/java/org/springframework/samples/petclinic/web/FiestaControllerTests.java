@@ -1,7 +1,6 @@
 
 package org.springframework.samples.petclinic.web;
 
-import java.time.LocalTime;
 import java.util.Collection;
 import java.util.LinkedList;
 
@@ -19,6 +18,7 @@ import org.springframework.samples.petclinic.model.Cliente;
 import org.springframework.samples.petclinic.model.Fiesta;
 import org.springframework.samples.petclinic.model.Local;
 import org.springframework.samples.petclinic.model.Propietario;
+import org.springframework.samples.petclinic.service.AnuncioService;
 import org.springframework.samples.petclinic.service.AuthoritiesService;
 import org.springframework.samples.petclinic.service.ClienteService;
 import org.springframework.samples.petclinic.service.FiestaService;
@@ -43,6 +43,9 @@ public class FiestaControllerTests {
 
 	@MockBean
 	private LocalService		localService;
+
+	@MockBean
+	private AnuncioService		anuncioService;
 
 	@MockBean
 	private PropietarioService	propietarioService;
@@ -161,34 +164,24 @@ public class FiestaControllerTests {
 		this.mockMvc.perform(MockMvcRequestBuilders.post("/fiesta/{fiestaId}/editar", 1));
 	}
 
-//	@WithMockUser(value = "spring")
-//	@Test
-//	void testProcessUpdateFiestaFormSuccess() throws Exception {
-//		this.mockMvc.perform(MockMvcRequestBuilders.post("/fiestas/{fiestaId}/editar", 1)
-//				.with(SecurityMockMvcRequestPostProcessors.csrf()).param("nombre", "Joe").param("descripcion", "Bloggs")
-//				.param("id", "1").param("precio", "3.3").param("requisitos", "Testing").param("fecha", "2015/05/25")
-////				.param("horaInicio", "23:00:00")
-////				.param("horaFin",  "12:00:00")
-//				.param("numeroAsistentes", "12").param("imagen", "https://welcometoibiza.jpg"))
-//				.andExpect(MockMvcResultMatchers.status().is3xxRedirection())
-//				.andExpect(MockMvcResultMatchers.view().name("redirect:/fiestas/1"));
-//	}
+	//	@WithMockUser(value = "spring")
+	//	@Test
+	//	void testProcessUpdateFiestaFormSuccess() throws Exception {
+	//		this.mockMvc.perform(MockMvcRequestBuilders.post("/fiestas/{fiestaId}/editar", 1)
+	//				.with(SecurityMockMvcRequestPostProcessors.csrf()).param("nombre", "Joe").param("descripcion", "Bloggs")
+	//				.param("id", "1").param("precio", "3.3").param("requisitos", "Testing").param("fecha", "2015/05/25")
+	////				.param("horaInicio", "23:00:00")
+	////				.param("horaFin",  "12:00:00")
+	//				.param("numeroAsistentes", "12").param("imagen", "https://welcometoibiza.jpg"))
+	//				.andExpect(MockMvcResultMatchers.status().is3xxRedirection())
+	//				.andExpect(MockMvcResultMatchers.view().name("redirect:/fiestas/1"));
+	//	}
 
 	@WithMockUser(value = "spring")
 	@Test
 	void testProcessUpdateFiestaFormHasErrors() throws Exception {
-		this.mockMvc
-			.perform(MockMvcRequestBuilders.post("/fiestas/{fiestasId}/editar", 1)
-			.with(SecurityMockMvcRequestPostProcessors.csrf())
-			.param("nombre", "Joe")
-			.param("descripcion", "Bloggs")
-			.param("precio", "3.3")
-			.param("fecha", "2015/05/25")
-			.param("horaInicio", "23:00")
-			.param("horaFin", "14:00"))
-			.andExpect(MockMvcResultMatchers.status().is2xxSuccessful())
-			.andExpect(MockMvcResultMatchers.view().name("fiestas/new"))
-			;
+		this.mockMvc.perform(MockMvcRequestBuilders.post("/fiestas/{fiestasId}/editar", 1).with(SecurityMockMvcRequestPostProcessors.csrf()).param("nombre", "Joe").param("descripcion", "Bloggs").param("precio", "3.3").param("fecha", "2015/05/25")
+			.param("horaInicio", "23:00").param("horaFin", "14:00")).andExpect(MockMvcResultMatchers.status().is2xxSuccessful()).andExpect(MockMvcResultMatchers.view().name("fiestas/new"));
 	}
 
 	//	@WithMockUser(value = "propietario")
