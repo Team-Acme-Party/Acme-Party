@@ -110,7 +110,7 @@ public class AnuncioController {
 			anuncio.setPatrocinador(patrocinador);
 			anuncio.setDecision("PENDIENTE");
 			this.anuncioService.save(anuncio);
-			return "redirect:/anuncio/" + anuncio.getId();
+			return "redirect:/patrocinador/anuncios";
 		}
 	}
 
@@ -147,7 +147,7 @@ public class AnuncioController {
 			anuncio.setPatrocinador(patrocinador);
 			anuncio.setDecision("PENDIENTE");
 			this.anuncioService.save(anuncio);
-			return "redirect:/anuncio/" + anuncio.getId();
+			return "redirect:/patrocinador/anuncios";
 		}
 	}
 
