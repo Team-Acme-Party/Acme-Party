@@ -114,8 +114,10 @@ public class LocalControllerTests {
 	@Test
 	@DisplayName("Test para peticion POST para crear un formulario")
 	public void testInitCreationForm() throws Exception {
-		this.mockMvc.perform(MockMvcRequestBuilders.get("/locales/new")).andExpect(MockMvcResultMatchers.status().isOk()).andExpect(MockMvcResultMatchers.model().attributeExists("local"))
-			.andExpect(MockMvcResultMatchers.view().name("locales/createLocalForm"));
+		this.mockMvc.perform(MockMvcRequestBuilders.get("/locales/new"))
+		.andExpect(MockMvcResultMatchers.status().isOk())
+		.andExpect(MockMvcResultMatchers.model().attributeExists("local"))
+		.andExpect(MockMvcResultMatchers.view().name("locales/createLocalForm"));
 	}
 
 	@WithMockUser(value = "george")

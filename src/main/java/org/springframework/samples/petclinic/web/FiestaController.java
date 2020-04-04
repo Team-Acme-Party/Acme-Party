@@ -8,10 +8,12 @@ import javax.validation.Valid;
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.samples.petclinic.model.Anuncio;
 import org.springframework.samples.petclinic.model.Cliente;
 import org.springframework.samples.petclinic.model.Fiesta;
 import org.springframework.samples.petclinic.model.Local;
 import org.springframework.samples.petclinic.model.Propietario;
+import org.springframework.samples.petclinic.service.AnuncioService;
 import org.springframework.samples.petclinic.service.ClienteService;
 import org.springframework.samples.petclinic.service.FiestaService;
 import org.springframework.samples.petclinic.service.LocalService;
@@ -34,14 +36,16 @@ public class FiestaController {
 	private final LocalService			localService;
 	private final ClienteService		clienteService;
 	private final PropietarioService	propietarioService;
+	private final AnuncioService		anuncioService;
 
 
 	@Autowired
-	public FiestaController(final FiestaService fiestaService, final LocalService localService, final ClienteService clienteService, final PropietarioService propietarioService) {
+	public FiestaController(final FiestaService fiestaService, final LocalService localService, final ClienteService clienteService, final PropietarioService propietarioService, final AnuncioService anuncioService) {
 		this.fiestaService = fiestaService;
 		this.localService = localService;
 		this.clienteService = clienteService;
 		this.propietarioService = propietarioService;
+		this.anuncioService = anuncioService;
 	}
 
 	@InitBinder("fiesta")
@@ -66,7 +70,9 @@ public class FiestaController {
 			mav.addObject("userLoggedId", cliente.getId());
 		}
 
+		Collection<Anuncio> anuncios = this.anuncioService.findByFiestaId(fiestaId);
 		mav.addObject("fiesta", this.fiestaService.findFiestaById(fiestaId));
+		mav.addObject("anuncios", anuncios);
 		return mav;
 	}
 

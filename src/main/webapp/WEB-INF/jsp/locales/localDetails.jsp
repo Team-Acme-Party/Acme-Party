@@ -8,15 +8,21 @@
 
 <petclinic:layout pageName="locales">
 
+	<c:forEach items="${anuncios}" var="anuncio">
+		<img src="${anuncio.imagen }" alt="${anuncio.imagen }" height="150" width="100%"/>
+	</c:forEach>
+	<br>
+
     <h2>
-    Información del local 
-    <sec:authorize access="hasAuthority('cliente')">
-    	<%-- <spring:url value="{localId}/fiestas/new" var="addUrl">
-        	<spring:param name="localId" value="${local.id}"/>
-	    </spring:url>
-	    <a href="${fn:escapeXml(addUrl)}" class="btn btn-default">Solicitar fiesta</a> --%>
-	    <a href="/fiestas/new/${local.id }" class="btn btn-default">Solicitar fiesta</a>
-    </sec:authorize>
+	    Informacion del local 
+	    <c:if test="${local.decision == 'ACEPTADO' }">
+		    <sec:authorize access="hasAuthority('cliente')">
+		    	<a href="/fiestas/new/${local.id}" class="btn btn-default">Solicitar fiesta</a>
+		    </sec:authorize>
+		    <sec:authorize access="hasAuthority('patrocinador')">
+		    	<a href="/anuncio/new/${local.id}/local" class="btn btn-default">Ofrecer anuncio</a>
+		    </sec:authorize>
+	    </c:if>
     </h2>
 
 
