@@ -8,8 +8,19 @@
 
 <petclinic:layout pageName="fiestaDetails">
 
-    <h2>Información de la fiesta</h2>
+	<c:forEach items="${anuncios}" var="anuncio">
+		<img src="${anuncio.imagen }" alt="${anuncio.imagen }" height="150" width="100%"/>
+	</c:forEach>
+	<br>
 
+    <h2>
+	    Informacion de la fiesta 
+	    <c:if test="${fiesta.decision == 'ACEPTADO' }">
+		    <sec:authorize access="hasAuthority('patrocinador')">
+		    	<a href="/anuncio/new/${fiesta.id}/fiesta" class="btn btn-default">Ofrecer anuncio</a>
+		    </sec:authorize>
+	    </c:if>
+    </h2>
 
     <table class="table table-striped">
         <tr>

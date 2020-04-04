@@ -14,10 +14,18 @@
             <th>Patrocinador</th>
             <td><b><c:out value="${anuncio.patrocinador}"/></b></td>
         </tr>
-        <tr>
-            <th>Fiesta</th>
+        <c:if test="${anuncio.fiesta != null }">
+        	<tr>
+            	<th>Fiesta</th>
             <td><c:out value="${anuncio.fiesta}"/></td>
         </tr>
+        </c:if>
+        <c:if test="${anuncio.local != null }">
+        	<tr>
+            	<th>Local</th>
+            <td><c:out value="${anuncio.local}"/></td>
+        </tr>
+        </c:if>
         <tr>
             <th>Decision</th>
             <td><c:out value="${anuncio.decision}"/></td>
