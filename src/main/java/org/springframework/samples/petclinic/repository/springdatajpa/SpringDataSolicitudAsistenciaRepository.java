@@ -21,6 +21,7 @@ import java.util.Collection;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.Repository;
 import org.springframework.data.repository.query.Param;
+import org.springframework.samples.petclinic.model.Fiesta;
 import org.springframework.samples.petclinic.model.SolicitudAsistencia;
 import org.springframework.samples.petclinic.repository.SolicitudAsistenciaRepository;
 
@@ -36,4 +37,8 @@ public interface SpringDataSolicitudAsistenciaRepository extends SolicitudAsiste
 	@Query("SELECT sa FROM SolicitudAsistencia sa WHERE sa.cliente.id =:id")
 	Collection<SolicitudAsistencia> findByClienteId(@Param("id") int id);
 
+	@Override
+	@Query("SELECT s FROM SolicitudAsistencia s WHERE s.id =:id")
+	SolicitudAsistencia findById(@Param("id") int id);
+	
 }

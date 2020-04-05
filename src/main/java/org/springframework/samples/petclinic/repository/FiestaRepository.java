@@ -25,4 +25,5 @@ public interface FiestaRepository {
 	Collection<Fiesta> findAsistenciasByClienteId(int id) throws DataAccessException;
 
 	void save(Fiesta fiesta) throws DataAccessException;
+
 }

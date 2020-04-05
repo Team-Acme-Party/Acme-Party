@@ -12,10 +12,12 @@ import org.springframework.samples.petclinic.model.Cliente;
 import org.springframework.samples.petclinic.model.Fiesta;
 import org.springframework.samples.petclinic.model.Local;
 import org.springframework.samples.petclinic.model.Propietario;
+import org.springframework.samples.petclinic.model.SolicitudAsistencia;
 import org.springframework.samples.petclinic.service.ClienteService;
 import org.springframework.samples.petclinic.service.FiestaService;
 import org.springframework.samples.petclinic.service.LocalService;
 import org.springframework.samples.petclinic.service.PropietarioService;
+import org.springframework.samples.petclinic.service.SolicitudAsistenciaService;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -34,8 +36,7 @@ public class FiestaController {
 	private final LocalService			localService;
 	private final ClienteService		clienteService;
 	private final PropietarioService	propietarioService;
-
-
+	
 	@Autowired
 	public FiestaController(final FiestaService fiestaService, final LocalService localService, final ClienteService clienteService, final PropietarioService propietarioService) {
 		this.fiestaService = fiestaService;
@@ -59,14 +60,19 @@ public class FiestaController {
 
 		Propietario p = this.propietarioService.findByUsername(username);
 		Cliente cliente = this.clienteService.findByUsername(username);
+		Fiesta fiesta = this.fiestaService.findFiestaById(fiestaId);
 
 		if (p != null) {
 			mav.addObject("userLoggedId", p.getId());
 		} else if (cliente != null) {
 			mav.addObject("userLoggedId", cliente.getId());
+			
+			Collection<Fiesta> solicitudesCliente = fiestaService.findAsistenciasByClienteId(cliente.getId());
+			Boolean esFiestaSolicitadaPorCliente = solicitudesCliente.contains(fiesta);
+			mav.addObject("esFiestaSolicitadaPorCliente",esFiestaSolicitadaPorCliente);
 		}
 
-		mav.addObject("fiesta", this.fiestaService.findFiestaById(fiestaId));
+		mav.addObject("fiesta", fiesta);
 		return mav;
 	}
 
