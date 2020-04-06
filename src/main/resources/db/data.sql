@@ -103,8 +103,11 @@ INSERT INTO anuncios(id, imagen, patrocinador_id, fiesta_id, decision)
 INSERT INTO anuncios(id, imagen, patrocinador_id, local_id, decision) 
 	VALUES(3, 'https://www.rottentomatoes.com/assets/pizza-pie/images/icons/global/cf-lg.3c29eff04f2.png', 2, 1, 'ACEPTADO');
 
+INSERT INTO anuncios(id, imagen, patrocinador_id, fiesta_id, decision) 
+	VALUES(4, 'https://www.safaridiscoclub.com/wp/wp-content/uploads/2018/04/ven-tu-fiesta-header-banner.png', 1, 1, 'PENDIENTE');
+	
 INSERT INTO anuncios(id, imagen, patrocinador_id, local_id, decision) 
-	VALUES(4, 'https://media.istockphoto.com/vectors/square-neon-light-banner-for-party-flyer-design-vector-id607268144', 2, 2, 'PENDIENTE');
+	VALUES(5, 'https://png.pngtree.com/thumb_back/fw800/background/20190827/pngtree-happy-halloween-party-night-banner-background-image_307080.jpg', 1, 1, 'PENDIENTE');
 
 	
 --Comentarios

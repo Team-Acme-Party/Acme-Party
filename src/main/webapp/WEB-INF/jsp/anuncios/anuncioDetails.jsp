@@ -3,6 +3,8 @@
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="petclinic" tagdir="/WEB-INF/tags" %>
+<%@ taglib prefix="sec"
+	uri="http://www.springframework.org/security/tags"%>
 
 <petclinic:layout pageName="anuncioDetails">
 
@@ -35,6 +37,26 @@
             <th>Imagen</th>
             <td><img src="${anuncio.imagen}" alt="${anuncio.imagen}"/></td>
         </tr>
+        <sec:authorize access="hasAuthority('cliente')">
+        	<c:if test="${anuncio.decision == 'PENDIENTE'}">
+		        <tr>	        
+			        <td>
+			         <button type="button" class="btn btn-default" onclick="window.location.replace('/cliente/anuncio/${anuncio.id}/aceptar')">ACEPTAR</button>
+			         <button type="button" class="btn btn-default"onclick="window.location.replace('/cliente/anuncio/${anuncio.id}/rechazar')">RECHAZAR</button>
+			       	</td>
+		        </tr>
+	        </c:if>
+        </sec:authorize>
+        <sec:authorize access="hasAuthority('propietario')">
+        	<c:if test="${anuncio.decision == 'PENDIENTE'}">
+		        <tr>	        
+			        <td>
+			         <button type="button" class="btn btn-default" onclick="window.location.replace('/propietario/anuncio/${anuncio.id}/aceptar')">ACEPTAR</button>
+			         <button type="button" class="btn btn-default"onclick="window.location.replace('/propietario/anuncio/${anuncio.id}/rechazar')">RECHAZAR</button>
+			       	</td>
+		        </tr>
+	        </c:if>
+        </sec:authorize>
         
      </table>   
 </petclinic:layout>

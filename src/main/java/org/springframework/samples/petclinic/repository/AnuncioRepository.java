@@ -14,6 +14,10 @@ public interface AnuncioRepository {
 
 	Collection<Anuncio> findByPatrocinadorId(int id) throws DataAccessException;
 
+	Collection<Anuncio> findByClienteId(int id) throws DataAccessException;
+
+	Collection<Anuncio> findByPropietarioId(int id) throws DataAccessException;
+
 	Collection<Anuncio> findByFiestaId(int id) throws DataAccessException;
 
 	Collection<Anuncio> findByLocalId(int id) throws DataAccessException;

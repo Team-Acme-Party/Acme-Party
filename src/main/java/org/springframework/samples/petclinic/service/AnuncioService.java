@@ -32,6 +32,16 @@ public class AnuncioService {
 	}
 
 	@Transactional
+	public Collection<Anuncio> findByClienteId(final int id) throws DataAccessException {
+		return this.anuncioRepository.findByClienteId(id);
+	}
+
+	@Transactional
+	public Collection<Anuncio> findByPropietarioId(final int id) throws DataAccessException {
+		return this.anuncioRepository.findByPropietarioId(id);
+	}
+
+	@Transactional
 	public Collection<Anuncio> findByFiestaId(final int id) throws DataAccessException {
 		return this.anuncioRepository.findByFiestaId(id);
 	}
@@ -41,6 +51,7 @@ public class AnuncioService {
 		return this.anuncioRepository.findByLocalId(id);
 	}
 
+	@Transactional
 	public Anuncio findById(final int id) throws DataAccessException {
 		return this.anuncioRepository.findById(id);
 	}
@@ -49,6 +60,22 @@ public class AnuncioService {
 	public void save(final Anuncio a) {
 		assert a != null;
 		this.anuncioRepository.save(a);
+	}
+
+	@Transactional
+	public Anuncio aceptar(final Anuncio a) {
+		assert a != null;
+		a.setDecision("ACEPTADO");
+		this.anuncioRepository.save(a);
+		return a;
+	}
+
+	@Transactional
+	public Anuncio rechazar(final Anuncio a) {
+		assert a != null;
+		a.setDecision("RECHAZADO");
+		this.anuncioRepository.save(a);
+		return a;
 	}
 
 }
