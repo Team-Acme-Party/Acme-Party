@@ -8,13 +8,17 @@ import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.samples.petclinic.model.Anuncio;
+import org.springframework.samples.petclinic.model.Comentario;
 import org.springframework.samples.petclinic.model.Fiesta;
 import org.springframework.samples.petclinic.model.Local;
 import org.springframework.samples.petclinic.model.Propietario;
+import org.springframework.samples.petclinic.model.Valoracion;
 import org.springframework.samples.petclinic.service.AnuncioService;
+import org.springframework.samples.petclinic.service.ComentarioService;
 import org.springframework.samples.petclinic.service.FiestaService;
 import org.springframework.samples.petclinic.service.LocalService;
 import org.springframework.samples.petclinic.service.PropietarioService;
+import org.springframework.samples.petclinic.service.ValoracionService;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
@@ -31,14 +35,19 @@ public class LocalController {
 	private final PropietarioService	propietarioService;
 	private final FiestaService			fiestaService;
 	private final AnuncioService		anuncioService;
+	private final ComentarioService		comentarioService;
+	private final ValoracionService		valoracionService;
 
 
 	@Autowired
-	public LocalController(final LocalService localService, final PropietarioService propietarioService, final FiestaService fiestaService, final AnuncioService anuncioService) {
+	public LocalController(final LocalService localService, final PropietarioService propietarioService, final FiestaService fiestaService, final AnuncioService anuncioService, final ComentarioService comentarioService,
+		final ValoracionService valoracionService) {
 		this.localService = localService;
 		this.propietarioService = propietarioService;
 		this.fiestaService = fiestaService;
 		this.anuncioService = anuncioService;
+		this.comentarioService = comentarioService;
+		this.valoracionService = valoracionService;
 	}
 
 	@GetMapping(value = {
@@ -47,6 +56,10 @@ public class LocalController {
 	public ModelAndView showLocal(@PathVariable("localId") final int localId) {
 		ModelAndView mav = new ModelAndView("locales/localDetails");
 		Collection<Anuncio> anuncios = this.anuncioService.findByLocalId(localId);
+		Collection<Comentario> comentarios = this.comentarioService.findByLocalId(localId);
+		Collection<Valoracion> valoraciones = this.valoracionService.findByLocalId(localId);
+		mav.addObject("valoraciones", valoraciones);
+		mav.addObject("comentarios", comentarios);
 		mav.addObject(this.localService.findLocalById(localId));
 		mav.addObject("anuncios", anuncios);
 		return mav;
@@ -100,7 +113,7 @@ public class LocalController {
 	}
 
 	@GetMapping(value = {
-		"/local/{localId}/fiestas"
+		"/locales/{localId}/fiestas"
 	})
 	public String verSolicitudes(@PathVariable("localId") final int localId, final Map<String, Object> model) {
 

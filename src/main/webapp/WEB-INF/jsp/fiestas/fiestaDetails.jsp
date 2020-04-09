@@ -71,7 +71,55 @@
             <th>Local</th>
             <td><c:out value="${fiesta.local.direccion}"/></td>
         </tr>
-     </table>   
+     </table>  
+     
+    <h5>
+    	Comentarios
+    </h5>
+    <table id="comentariosTable" class="table table-striped">
+        <thead>
+        <tr>
+            <th>Cuerpo</th>
+            <th>Fecha</th>
+        </tr>
+        </thead>
+        <tbody>
+        <c:forEach items="${comentarios}" var="comentario">
+            <tr>
+                <td>
+                    <c:out value="${comentario.cuerpo}"/>
+                </td>
+                <td>
+                    <c:out value="${comentario.fecha}"/>
+                </td>
+            </tr>
+        </c:forEach>
+        </tbody>
+    </table> 
+    
+    <h5>
+    	Valoraciones
+    </h5>
+    <table id="valoracionesTable" class="table table-striped">
+        <thead>
+        <tr>
+            <th>Comentario</th>
+            <th>Valoración</th>
+        </tr>
+        </thead>
+        <tbody>
+        <c:forEach items="${valoraciones}" var="valoracion">
+            <tr>
+                <td>
+                    <c:out value="${valoracion.comentario}"/>
+                </td>
+                <td>
+                    <c:out value="${valoracion.valor}"/>
+                </td>
+            </tr>
+        </c:forEach>
+        </tbody>
+    </table>
   
   <sec:authorize access="hasAuthority('propietario')">
 	  <c:if test="${fiesta.local.propietario.id==userLoggedId}">

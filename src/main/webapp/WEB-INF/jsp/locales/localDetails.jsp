@@ -62,4 +62,53 @@
 	        </c:if>
         </sec:authorize>
     </table>
+   
+    <h5>
+    	Comentarios
+    </h5>
+    <table id="comentariosTable" class="table table-striped">
+        <thead>
+        <tr>
+            <th>Cuerpo</th>
+            <th>Fecha</th>
+        </tr>
+        </thead>
+        <tbody>
+        <c:forEach items="${comentarios}" var="comentario">
+            <tr>
+                <td>
+                    <c:out value="${comentario.cuerpo}"/>
+                </td>
+                <td>
+                    <c:out value="${comentario.fecha}"/>
+                </td>
+            </tr>
+        </c:forEach>
+        </tbody>
+    </table>
+    
+    <h5>
+    	Valoraciones
+    </h5>
+    <table id="valoracionesTable" class="table table-striped">
+        <thead>
+        <tr>
+            <th>Comentario</th>
+            <th>Valoración</th>
+        </tr>
+        </thead>
+        <tbody>
+        <c:forEach items="${valoraciones}" var="valoracion">
+            <tr>
+                <td>
+                    <c:out value="${valoracion.comentario}"/>
+                </td>
+                <td>
+                    <c:out value="${valoracion.valor}"/>
+                </td>
+            </tr>
+        </c:forEach>
+        </tbody>
+    </table>
+    
 </petclinic:layout>
