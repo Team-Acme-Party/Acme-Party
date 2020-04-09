@@ -7,9 +7,11 @@ import java.util.Map;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.samples.petclinic.model.Cliente;
 import org.springframework.samples.petclinic.model.Fiesta;
 import org.springframework.samples.petclinic.model.Local;
 import org.springframework.samples.petclinic.model.Propietario;
+import org.springframework.samples.petclinic.service.ClienteService;
 import org.springframework.samples.petclinic.service.FiestaService;
 import org.springframework.samples.petclinic.service.LocalService;
 import org.springframework.samples.petclinic.service.PropietarioService;
@@ -28,18 +30,23 @@ public class LocalController {
 	private final LocalService localService;
 	private final PropietarioService propietarioService;
 	private final FiestaService fiestaService;
+	private final ClienteService clienteService;
 
 	@Autowired
 	public LocalController(final LocalService localService, final PropietarioService propietarioService,
-			final FiestaService fiestaService) {
+			final FiestaService fiestaService, final ClienteService clienteService) {
 		this.localService = localService;
 		this.propietarioService = propietarioService;
 		this.fiestaService = fiestaService;
+		this.clienteService= clienteService;
 	}
 
 	@GetMapping(value = { "/locales/{localId}" })
-	public ModelAndView showLocal(@PathVariable("localId") final int localId) {
+	public ModelAndView showLocal(@PathVariable("localId") final int localId ,final Map<String, Object> model) {
 		ModelAndView mav = new ModelAndView("locales/localDetails");
+		String username = SecurityContextHolder.getContext().getAuthentication().getName();
+		Cliente c = this.clienteService.findByUsername(username);
+		if(c!=null) model.put("cliente",c);
 		mav.addObject(this.localService.findLocalById(localId));
 		return mav;
 	}
