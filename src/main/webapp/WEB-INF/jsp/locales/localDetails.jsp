@@ -58,17 +58,19 @@
 				</tr>
 			</c:if>
 		</sec:authorize>
-
-		<tr>
-			<td>
-				<button type="button" class="btn btn-default"onclick="window.location.replace('/administrador/local/${local.id}/aceptar')">VER COMENTARIOS</button>
 				<sec:authorize access="hasAuthority('cliente')">
-					<%--         	<c:if test="${cliente.asistencia contains(local.id)}"> --%>
-					<button type="button" class="btn btn-default" onclick="window.location.replace('/administrador/local/${local.id}/rechazar')">COMENTAR </button>
-					<%-- 					</c:if> --%>
-				</sec:authorize>
-			</td>
-		</tr>
+			<c:if test="${cliente.}">
+				<tr>
+					<td>
+						<button type="button" class="btn btn-default"
+							onclick="window.location.replace('/administrador/local/${local.id}/aceptar')">ACEPTAR</button>
+						<button type="button" class="btn btn-default"
+							onclick="window.location.replace('/administrador/local/${local.id}/rechazar')">RECHAZAR</button>
+					</td>
+				</tr>
+			</c:if>
+		</sec:authorize>
+
 
 	</table>
 </petclinic:layout>
