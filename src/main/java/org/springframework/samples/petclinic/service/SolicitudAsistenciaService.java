@@ -20,6 +20,8 @@ import java.util.Collection;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
+import org.springframework.samples.petclinic.model.Fiesta;
+import org.springframework.samples.petclinic.model.Local;
 import org.springframework.samples.petclinic.model.SolicitudAsistencia;
 import org.springframework.samples.petclinic.repository.SolicitudAsistenciaRepository;
 import org.springframework.stereotype.Service;
@@ -46,5 +48,12 @@ public class SolicitudAsistenciaService {
 	public Collection<SolicitudAsistencia> findAsistenciasByClienteId(final int id) throws DataAccessException {
 		return this.solicitudAsistenciaRepository.findByClienteId(id);
 	}
+	
+	@Transactional
+	public Collection<Fiesta> findSolicitudFiestaByClienteId(final int id) throws DataAccessException {
+		return this.solicitudAsistenciaRepository.findSolicitudFiestasByClienteId(id);
+	}
+	
+
 
 }

@@ -8,14 +8,18 @@ import javax.validation.Valid;
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.samples.petclinic.model.Anuncio;
 import org.springframework.samples.petclinic.model.Cliente;
+import org.springframework.samples.petclinic.model.Comentario;
 import org.springframework.samples.petclinic.model.Fiesta;
 import org.springframework.samples.petclinic.model.Local;
 import org.springframework.samples.petclinic.model.Propietario;
+import org.springframework.samples.petclinic.service.AnuncioService;
 import org.springframework.samples.petclinic.service.ClienteService;
 import org.springframework.samples.petclinic.service.FiestaService;
 import org.springframework.samples.petclinic.service.LocalService;
 import org.springframework.samples.petclinic.service.PropietarioService;
+import org.springframework.samples.petclinic.service.SolicitudAsistenciaService;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -34,14 +38,20 @@ public class FiestaController {
 	private final LocalService			localService;
 	private final ClienteService		clienteService;
 	private final PropietarioService	propietarioService;
+	private final AnuncioService		anuncioService;
+	private final SolicitudAsistenciaService solicitudAsistenciaService;
 
 
 	@Autowired
-	public FiestaController(final FiestaService fiestaService, final LocalService localService, final ClienteService clienteService, final PropietarioService propietarioService) {
+	public FiestaController(final FiestaService fiestaService, final LocalService localService,
+			final ClienteService clienteService, final PropietarioService propietarioService,
+			final AnuncioService anuncioService,final SolicitudAsistenciaService solicitudAsistenciaService) {
 		this.fiestaService = fiestaService;
 		this.localService = localService;
 		this.clienteService = clienteService;
 		this.propietarioService = propietarioService;
+		this.anuncioService = anuncioService;
+		this.solicitudAsistenciaService = solicitudAsistenciaService;
 	}
 
 	@InitBinder("fiesta")
@@ -64,9 +74,17 @@ public class FiestaController {
 			mav.addObject("userLoggedId", p.getId());
 		} else if (cliente != null) {
 			mav.addObject("userLoggedId", cliente.getId());
+			Collection<Fiesta> fiestasCliente = solicitudAsistenciaService.findSolicitudFiestaByClienteId(cliente.getId());
+			if(fiestasCliente.contains(fiestaService.findFiestaById(fiestaId))) {
+				mav.addObject("clienteFiesta", true);
+				Comentario comentario = new Comentario();
+				mav.addObject("comentario", comentario);
+			}
 		}
 
+		Collection<Anuncio> anuncios = this.anuncioService.findByFiestaId(fiestaId);
 		mav.addObject("fiesta", this.fiestaService.findFiestaById(fiestaId));
+		mav.addObject("anuncios", anuncios);
 		return mav;
 	}
 

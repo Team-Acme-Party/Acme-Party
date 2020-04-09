@@ -5,11 +5,23 @@
 <%@ taglib prefix="petclinic" tagdir="/WEB-INF/tags" %>
 <%@ taglib prefix="sec"
 	uri="http://www.springframework.org/security/tags"%>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 
 <petclinic:layout pageName="fiestaDetails">
 
-    <h2>Información de la fiesta</h2>
+	<c:forEach items="${anuncios}" var="anuncio">
+		<img src="${anuncio.imagen }" alt="${anuncio.imagen }" height="150" width="100%"/>
+	</c:forEach>
+	<br>
 
+    <h2>
+	    Informacion de la fiesta 
+	    <c:if test="${fiesta.decision == 'ACEPTADO' }">
+		    <sec:authorize access="hasAuthority('patrocinador')">
+		    	<a href="/anuncio/new/${fiesta.id}/fiesta" class="btn btn-default">Ofrecer anuncio</a>
+		    </sec:authorize>
+	    </c:if>
+    </h2>
 
     <table class="table table-striped">
         <tr>
@@ -77,6 +89,39 @@
 	     onclick="window.location.replace('/fiestas/${fiesta.id}/editar')">Editar</button>	   
 	</c:if>
   </sec:authorize>
-  
-  
+ 	<sec:authorize access="hasAuthority('cliente')">
+		<c:if test="${clienteFiesta}">
+			<h2>Comentar fiesta</h2>
+			
+			<form:form id="form" modelAttribute="comentario" class="form-horizontal" action="/comentario/new/fiesta/${fiestaId}">
+				<div class="form-group has-feedback">
+
+					<petclinic:inputField label="Cuerpo" name="cuerpo" />
+
+
+				</div>
+				<div class="form-group">
+					<div class="col-sm-offset-2 col-sm-10">
+						<button class="btn btn-default" type="submit">Enviar</button>
+					</div>
+				</div>
+			</form:form>
+	<script>
+	$(document).ready(function(){
+		$("#form").submit(function(){
+			var cuerpo = $("#cuerpo").val();
+			alert(cuerpo);
+			if(cuerpo==""){
+				alert("El comentario no puede estar vacio");
+				return false;
+			}
+			return true;
+		});
+	});
+	
+	</script>
+		</c:if>
+	</sec:authorize>
+
+
 </petclinic:layout>

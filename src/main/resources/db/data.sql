@@ -52,7 +52,7 @@ INSERT INTO locales(id, direccion, capacidad, condiciones, imagen, decision, pro
 	'https://salonparafiesta.com/wp-content/uploads/2016/05/local-para-fiestas-hortaleza-1.jpg', 'ACEPTADO', 1);
 INSERT INTO locales(id, direccion, capacidad, condiciones, imagen, decision, propietario_id) 
 	VALUES(2, 'Eduardo Dato 33', 50, 'Para fiestas familiares', 
-	'https://revistafamily.com/wp-content/uploads/2019/01/local-ideal-para-tus-fiestas.jpg', 'PENDIENTE', 1);
+	'https://revistafamily.com/wp-content/uploads/2019/01/local-ideal-para-tus-fiestas.jpg', 'ACEPTADO', 1);
 INSERT INTO locales(id, direccion, capacidad, condiciones, imagen, decision, propietario_id) 
 	VALUES(3, 'Poligono Calonge 2', 1000, 'Para fiestas con drogas', 
 	'https://salonparafiesta.com/wp-content/uploads/2018/03/alquiler-local-fiesta-privada-madrid-2.jpg', 'RECHAZADO', 1);

@@ -13,6 +13,8 @@ public interface ComentarioRepository {
 	Collection<Comentario> findByLocalId(int id) throws DataAccessException;
 
 	Comentario findById(int id) throws DataAccessException;
+
+	void save(Comentario comentario);
 	
 
 }

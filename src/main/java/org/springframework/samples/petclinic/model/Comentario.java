@@ -8,6 +8,7 @@ import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.validation.constraints.NotBlank;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -16,7 +17,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 public class Comentario extends BaseEntity {
 
 	//Propiedades
-
+	@NotBlank
 	@Column(name = "cuerpo")
 	private String		cuerpo;
 

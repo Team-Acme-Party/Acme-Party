@@ -5,6 +5,7 @@ import java.util.Collection;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.samples.petclinic.model.Comentario;
+import org.springframework.samples.petclinic.model.Fiesta;
 import org.springframework.samples.petclinic.repository.ComentarioRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -30,6 +31,12 @@ public class ComentarioService{
 	
 	public Comentario findById(int id) throws DataAccessException{
 		return this.comentarioRepository.findById(id);
+	}
+	
+	@Transactional
+	public void save(final Comentario comentario) {
+		assert comentario != null;
+		this.comentarioRepository.save(comentario);
 	}
 
 }

@@ -8,23 +8,19 @@
 <%@ taglib prefix="petclinic" tagdir="/WEB-INF/tags" %>
 
 <petclinic:layout pageName="misanuncios">
-    <h2>Anuncios</h2>
+    <h2>Anuncios hechos a fiestas</h2>
 
     <table id="anunciosTable" class="table table-striped">
         <thead>
         <tr>
-            <th>Local</th>
             <th>Fiesta</th>
             <th>Decision</th>
             <th></th>
         </tr>
         </thead>
         <tbody>
-        <c:forEach items="${anuncios}" var="anuncios">
+        <c:forEach items="${paraFiestas}" var="anuncios">
             <tr>
-                <td>
-                    <c:out value="${anuncios.local}"/>
-                </td>
                 <td>
                     <c:out value="${anuncios.fiesta}"/>
                 </td>
@@ -32,12 +28,40 @@
                     <c:out value="${anuncios.decision}"/>
                 </td>
                 <td>
-	                    <button type="button" class="btn btn-default" onclick="window.location.replace('/anuncio/${anuncios.id}')">Ver detalles</button>
+	            	<button type="button" class="btn btn-default" onclick="window.location.replace('/anuncio/${anuncios.id}')">Ver detalles</button>
 	            </td>
             </tr>
         </c:forEach>
         </tbody>
     </table>
+    <hr>
     
+    <h2>Anuncios hechos a locales</h2>
+
+    <table id="anunciosTable" class="table table-striped">
+        <thead>
+        <tr>
+            <th>Local</th>
+            <th>Decision</th>
+            <th></th>
+        </tr>
+        </thead>
+        <tbody>
+        <c:forEach items="${paraLocales}" var="anuncios">
+            <tr>
+                <td>
+                    <c:out value="${anuncios.local}"/>
+                </td>
+                <td>
+                    <c:out value="${anuncios.decision}"/>
+                </td>
+                <td>
+	            	<button type="button" class="btn btn-default" onclick="window.location.replace('/anuncio/${anuncios.id}')">Ver detalles</button>
+	            </td>
+            </tr>
+        </c:forEach>
+        </tbody>
+    </table>
+
      
 </petclinic:layout>
