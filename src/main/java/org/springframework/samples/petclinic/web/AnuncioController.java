@@ -189,6 +189,7 @@ public class AnuncioController {
 		}
 	}
 
+	//Aceptar y recazar para local
 	@GetMapping(value = {
 		"/propietario/anuncio/{anuncioId}/aceptar"
 	})
@@ -231,6 +232,7 @@ public class AnuncioController {
 		}
 	}
 
+	//Aceptar y rechazar para fiesta
 	@GetMapping(value = {
 		"/cliente/anuncio/{anuncioId}/aceptar"
 	})
