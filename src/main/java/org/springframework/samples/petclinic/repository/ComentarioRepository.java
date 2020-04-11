@@ -15,6 +15,8 @@ public interface ComentarioRepository {
 	Comentario findById(int id) throws DataAccessException;
 
 	void save(Comentario comentario);
+
+	Collection<Comentario> findAll() throws DataAccessException;;
 	
 
 }

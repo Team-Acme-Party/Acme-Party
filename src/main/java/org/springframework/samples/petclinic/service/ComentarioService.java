@@ -16,9 +16,25 @@ public class ComentarioService{
 	private ComentarioRepository comentarioRepository;
 	
 	@Autowired
+	private SolicitudAsistenciaService		solicitudAsistenciaService;
+	
+	@Autowired
+	private LocalService		localService;
+	
+	@Autowired
+	private FiestaService		fiestaService;
+	
+	@Autowired
 	public ComentarioService(ComentarioRepository comentarioRepository) {
 		this.comentarioRepository= comentarioRepository;
 	}
+	
+	@Transactional(readOnly = true)
+	public Collection<Comentario> findAll() throws DataAccessException {
+		return this.comentarioRepository.findAll();
+	}
+
+	
 	@Transactional
 	public Collection<Comentario> findByFiestaId(final int id) throws DataAccessException {
 		return this.comentarioRepository.findByFiestaId(id);
@@ -36,6 +52,13 @@ public class ComentarioService{
 	@Transactional
 	public void save(final Comentario comentario) {
 		assert comentario != null;
+		Collection<Fiesta> fiestasCliente = solicitudAsistenciaService.findSolicitudFiestaByClienteId(comentario.getCliente().getId());
+		if(comentario.getLocal()!=null) {
+			assert(fiestasCliente.stream().anyMatch(a->a.getLocal().equals(localService.findLocalById(comentario.getLocal().getId()))));
+		}
+		if(comentario.getFiesta()!=null) {
+			assert(fiestasCliente.contains(fiestaService.findFiestaById(comentario.getFiesta().getId())));
+		}
 		this.comentarioRepository.save(comentario);
 	}
 
