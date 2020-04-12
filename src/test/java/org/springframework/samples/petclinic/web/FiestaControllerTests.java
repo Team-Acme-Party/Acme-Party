@@ -24,6 +24,7 @@ import org.springframework.samples.petclinic.service.ClienteService;
 import org.springframework.samples.petclinic.service.FiestaService;
 import org.springframework.samples.petclinic.service.LocalService;
 import org.springframework.samples.petclinic.service.PropietarioService;
+import org.springframework.samples.petclinic.service.SolicitudAsistenciaService;
 import org.springframework.samples.petclinic.service.UserService;
 import org.springframework.security.config.annotation.web.WebSecurityConfigurer;
 import org.springframework.security.test.context.support.WithMockUser;
@@ -52,6 +53,9 @@ public class FiestaControllerTests {
 
 	@MockBean
 	private AuthoritiesService	authoritiesService;
+	
+	@MockBean
+	private SolicitudAsistenciaService solicitudAsistenciaService;
 
 	@Autowired
 	private MockMvc				mockMvc;
