@@ -18,9 +18,11 @@ import org.springframework.samples.petclinic.model.Local;
 import org.springframework.samples.petclinic.model.Propietario;
 import org.springframework.samples.petclinic.service.AnuncioService;
 import org.springframework.samples.petclinic.service.AuthoritiesService;
+import org.springframework.samples.petclinic.service.ClienteService;
 import org.springframework.samples.petclinic.service.FiestaService;
 import org.springframework.samples.petclinic.service.LocalService;
 import org.springframework.samples.petclinic.service.PropietarioService;
+import org.springframework.samples.petclinic.service.SolicitudAsistenciaService;
 import org.springframework.samples.petclinic.service.UserService;
 import org.springframework.security.config.annotation.web.WebSecurityConfigurer;
 import org.springframework.security.test.context.support.WithMockUser;
@@ -49,6 +51,12 @@ public class LocalControllerTests {
 
 	@MockBean
 	private AuthoritiesService	authoritiesService;
+	
+	@MockBean
+	private ClienteService	clienteService;
+	
+	@MockBean
+	private SolicitudAsistenciaService	solicitudAsistenciaService;
 
 	@Autowired
 	private MockMvc				mockMvc;
