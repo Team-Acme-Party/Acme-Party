@@ -15,6 +15,8 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.FilterType;
 import org.springframework.samples.petclinic.configuration.SecurityConfiguration;
 import org.springframework.samples.petclinic.model.Anuncio;
+import org.springframework.samples.petclinic.model.Fiesta;
+import org.springframework.samples.petclinic.model.Local;
 import org.springframework.samples.petclinic.model.Cliente;
 import org.springframework.samples.petclinic.model.Patrocinador;
 import org.springframework.samples.petclinic.model.Propietario;
@@ -64,6 +66,7 @@ public class AnuncioControllerTests {
 	private MockMvc				mockMvc;
 
 	private Patrocinador		patrocinador;
+
 	private Propietario			propietario;
 	private Propietario			propietario2;
 	private Cliente				cliente;
@@ -72,6 +75,8 @@ public class AnuncioControllerTests {
 	private Anuncio				anuncio;
 	private Anuncio				a2;
 
+	private Local				local	= new Local();
+	private Fiesta				fiesta	= new Fiesta();
 
 	@BeforeEach
 	void datosIniciales() {
@@ -128,7 +133,7 @@ public class AnuncioControllerTests {
 		anuncios.add(this.anuncio);
 		anuncios.add(this.a2);
 		BDDMockito.given(this.anuncioService.findByPatrocinadorId(this.patrocinador.getId())).willReturn(anuncios);
-		BDDMockito.given(this.anuncioService.findById(10)).willReturn(this.anuncio);
+    BDDMockito.given(this.anuncioService.findById(10)).willReturn(this.anuncio);
 		BDDMockito.given(this.anuncioService.findByPropietarioId(this.propietario.getId())).willReturn(anuncios);
 		BDDMockito.given(this.anuncioService.findByClienteId(this.cliente.getId())).willReturn(anuncios);
 	}

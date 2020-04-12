@@ -18,10 +18,12 @@ import org.springframework.samples.petclinic.model.Local;
 import org.springframework.samples.petclinic.model.Propietario;
 import org.springframework.samples.petclinic.service.AnuncioService;
 import org.springframework.samples.petclinic.service.AuthoritiesService;
+import org.springframework.samples.petclinic.service.ComentarioService;
 import org.springframework.samples.petclinic.service.FiestaService;
 import org.springframework.samples.petclinic.service.LocalService;
 import org.springframework.samples.petclinic.service.PropietarioService;
 import org.springframework.samples.petclinic.service.UserService;
+import org.springframework.samples.petclinic.service.ValoracionService;
 import org.springframework.security.config.annotation.web.WebSecurityConfigurer;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors;
@@ -34,6 +36,12 @@ public class LocalControllerTests {
 
 	@MockBean
 	private LocalService		localService;
+
+	@MockBean
+	private ComentarioService	comentarioService;
+
+	@MockBean
+	private ValoracionService	valoracionService;
 
 	@MockBean
 	private FiestaService		fiestaService;
@@ -140,14 +148,15 @@ public class LocalControllerTests {
 	@WithMockUser(value = "spring")
 	@Test
 	@DisplayName("Test para peticion GET de los detalles del local ")
-	void testDetallesAnuncio() throws Exception {
-		this.mockMvc.perform(MockMvcRequestBuilders.get("/locales/{localId}", this.local1.getId())).andExpect(MockMvcResultMatchers.status().is2xxSuccessful()).andExpect(MockMvcResultMatchers.view().name("locales/localDetails"));
+	void testDetallesLocal() throws Exception {
+		this.mockMvc.perform(MockMvcRequestBuilders.get("/locales/{localId}", this.local1.getId())).andExpect(MockMvcResultMatchers.model().attributeExists("valoraciones")).andExpect(MockMvcResultMatchers.model().attributeExists("comentarios"))
+			.andExpect(MockMvcResultMatchers.status().is2xxSuccessful()).andExpect(MockMvcResultMatchers.view().name("locales/localDetails"));
 	}
 
 	@WithMockUser(value = "spring")
 	@Test
 	@DisplayName("Test negativo para peticion GET de los detalles de un local cuyo id no existe")
-	void testNegativoDetallesAnuncio() throws Exception {
+	void testNegativoDetallesLocal() throws Exception {
 		this.mockMvc.perform(MockMvcRequestBuilders.get("/locales/{localId}", 50)).andExpect(MockMvcResultMatchers.status().is2xxSuccessful()).andExpect(MockMvcResultMatchers.view().name("exception"));
 	}
 
