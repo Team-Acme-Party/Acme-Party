@@ -8,15 +8,21 @@
 
 <petclinic:layout pageName="locales">
 
+	<c:forEach items="${anuncios}" var="anuncio">
+		<img src="${anuncio.imagen }" alt="${anuncio.imagen }" height="150" width="100%"/>
+	</c:forEach>
+	<br>
+
     <h2>
-    Información del local 
-    <sec:authorize access="hasAuthority('cliente')">
-    	<%-- <spring:url value="{localId}/fiestas/new" var="addUrl">
-        	<spring:param name="localId" value="${local.id}"/>
-	    </spring:url>
-	    <a href="${fn:escapeXml(addUrl)}" class="btn btn-default">Solicitar fiesta</a> --%>
-	    <a href="/fiestas/new/${local.id }" class="btn btn-default">Solicitar fiesta</a>
-    </sec:authorize>
+	    Informacion del local 
+	    <c:if test="${local.decision == 'ACEPTADO' }">
+		    <sec:authorize access="hasAuthority('cliente')">
+		    	<a href="/fiestas/new/${local.id}" class="btn btn-default">Solicitar fiesta</a>
+		    </sec:authorize>
+		    <sec:authorize access="hasAuthority('patrocinador')">
+		    	<a href="/anuncio/new/${local.id}/local" class="btn btn-default">Ofrecer anuncio</a>
+		    </sec:authorize>
+	    </c:if>
     </h2>
 
 
@@ -56,4 +62,53 @@
 	        </c:if>
         </sec:authorize>
     </table>
+   
+    <h5>
+    	Comentarios
+    </h5>
+    <table id="comentariosTable" class="table table-striped">
+        <thead>
+        <tr>
+            <th>Cuerpo</th>
+            <th>Fecha</th>
+        </tr>
+        </thead>
+        <tbody>
+        <c:forEach items="${comentarios}" var="comentario">
+            <tr>
+                <td>
+                    <c:out value="${comentario.cuerpo}"/>
+                </td>
+                <td>
+                    <c:out value="${comentario.fecha}"/>
+                </td>
+            </tr>
+        </c:forEach>
+        </tbody>
+    </table>
+    
+    <h5>
+    	Valoraciones
+    </h5>
+    <table id="valoracionesTable" class="table table-striped">
+        <thead>
+        <tr>
+            <th>Comentario</th>
+            <th>Valoración</th>
+        </tr>
+        </thead>
+        <tbody>
+        <c:forEach items="${valoraciones}" var="valoracion">
+            <tr>
+                <td>
+                    <c:out value="${valoracion.comentario}"/>
+                </td>
+                <td>
+                    <c:out value="${valoracion.valor}"/>
+                </td>
+            </tr>
+        </c:forEach>
+        </tbody>
+    </table>
+    
 </petclinic:layout>

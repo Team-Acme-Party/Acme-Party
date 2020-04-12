@@ -1,3 +1,4 @@
+<<<<<<< Aceptar-o-rechazar-asistencias
 
 package org.springframework.samples.petclinic.web;
 
@@ -37,14 +38,18 @@ public class FiestaController {
 	private final ClienteService		clienteService;
 	private final PropietarioService	propietarioService;
 	private final SolicitudAsistenciaService solicitudAsistenciaService;
-	
-	@Autowired
-	public FiestaController(final FiestaService fiestaService, final LocalService localService, final ClienteService clienteService, final PropietarioService propietarioService, final SolicitudAsistenciaService solicitudAsistenciaService) {
+  
+  @Autowired
+	public FiestaController(final FiestaService fiestaService, final LocalService localService, final ClienteService clienteService, final PropietarioService propietarioService, final AnuncioService anuncioService,
+		final ComentarioService comentarioService, final ValoracionService valoracionService, final SolicitudAsistenciaService solicitudAsistenciaService) {
 		this.fiestaService = fiestaService;
 		this.localService = localService;
 		this.clienteService = clienteService;
 		this.propietarioService = propietarioService;
-		this.solicitudAsistenciaService = solicitudAsistenciaService;
+		this.anuncioService = anuncioService;
+		this.comentarioService = comentarioService;
+		this.valoracionService = valoracionService;
+    this.solicitudAsistenciaService = solicitudAsistenciaService;
 	}
 
 	@InitBinder("fiesta")
@@ -76,7 +81,14 @@ public class FiestaController {
 			mav.addObject("solicitudes",solicitudes);
 		}
 
-		mav.addObject("fiesta", fiesta);
+    Collection<Anuncio> anuncios = this.anuncioService.findByFiestaId(fiestaId);
+		Collection<Comentario> comentarios = this.comentarioService.findByFiestaId(fiestaId);
+		Collection<Valoracion> valoraciones = this.valoracionService.findByFiestaId(fiestaId);
+    
+		mav.addObject("valoraciones", valoraciones);
+		mav.addObject("comentarios", comentarios);
+		mav.addObject("fiesta", this.fiestaService.findFiestaById(fiestaId));
+		mav.addObject("anuncios", anuncios);
 		return mav;
 	}
 

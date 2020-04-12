@@ -9,7 +9,19 @@
 
 <petclinic:layout pageName="fiestaDetails">
 
-	<h2>Información de la fiesta</h2>
+  <c:forEach items="${anuncios}" var="anuncio">
+		<img src="${anuncio.imagen }" alt="${anuncio.imagen }" height="150" width="100%"/>
+	</c:forEach>
+	<br>
+
+	<h2>
+	    Informacion de la fiesta 
+	    <c:if test="${fiesta.decision == 'ACEPTADO' }">
+		    <sec:authorize access="hasAuthority('patrocinador')">
+		    	<a href="/anuncio/new/${fiesta.id}/fiesta" class="btn btn-default">Ofrecer anuncio</a>
+		    </sec:authorize>
+	    </c:if>
+    </h2>
 
 
 	<table class="table table-striped">
@@ -38,7 +50,7 @@
 			<td><c:out value="${fiesta.horaInicio}" /></td>
 		</tr>
 		<tr>
-			<th>Hora de fín</th>
+			<th>Hora de fÃ­n</th>
 			<td><c:out value="${fiesta.horaFin}" /></td>
 		</tr>
 		<tr>
@@ -50,7 +62,7 @@
 			<td><img src="${fiesta.imagen}" alt="${fiesta.imagen}" /></td>
 		</tr>
 		<tr>
-			<th>Decisión</th>
+			<th>DecisiÃ³n</th>
 			<td><c:out value="${fiesta.decision}" /></td>
 		</tr>
 		<tr>
@@ -62,6 +74,54 @@
 			<td><c:out value="${fiesta.local.direccion}" /></td>
 		</tr>
 	</table>
+
+<h5>
+    	Comentarios
+    </h5>
+    <table id="comentariosTable" class="table table-striped">
+        <thead>
+        <tr>
+            <th>Cuerpo</th>
+            <th>Fecha</th>
+        </tr>
+        </thead>
+        <tbody>
+        <c:forEach items="${comentarios}" var="comentario">
+            <tr>
+                <td>
+                    <c:out value="${comentario.cuerpo}"/>
+                </td>
+                <td>
+                    <c:out value="${comentario.fecha}"/>
+                </td>
+            </tr>
+        </c:forEach>
+        </tbody>
+    </table> 
+    
+    <h5>
+    	Valoraciones
+    </h5>
+    <table id="valoracionesTable" class="table table-striped">
+        <thead>
+        <tr>
+            <th>Comentario</th>
+            <th>Valoración</th>
+        </tr>
+        </thead>
+        <tbody>
+        <c:forEach items="${valoraciones}" var="valoracion">
+            <tr>
+                <td>
+                    <c:out value="${valoracion.comentario}"/>
+                </td>
+                <td>
+                    <c:out value="${valoracion.valor}"/>
+                </td>
+            </tr>
+        </c:forEach>
+        </tbody>
+    </table>
 
 	<sec:authorize access="hasAuthority('propietario')">
 		<c:if test="${fiesta.local.propietario.id==userLoggedId}">
@@ -133,7 +193,7 @@
 
 <script type="text/javascript">
 	function alerta(form) {
-		var opcion = confirm("�Desea solicitar la asistencia a esta fiesta?");
+		var opcion = confirm("¿Desea solicitar la asistencia a esta fiesta?");
 		if (opcion == true) {
 			return true;
 		} else {

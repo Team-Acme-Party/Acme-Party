@@ -134,6 +134,26 @@ public class FiestaControllerTests {
 			.andExpect(MockMvcResultMatchers.view().name("fiestas/buscarFiestas"));
 	}
 
+  //-----------------Detalles fiesta (todos)----------------------------------------------------------------------------
+
+	@WithMockUser(value = "spring")
+	@Test
+	@DisplayName("Test para peticion GET de los detalles de la fiesta ")
+	void testDetallesFiesta() throws Exception {
+		this.mockMvc.perform(MockMvcRequestBuilders.get("/fiestas/{fiestaId}", this.test.getId())).andExpect(MockMvcResultMatchers.model().attributeExists("valoraciones")).andExpect(MockMvcResultMatchers.model().attributeExists("comentarios"))
+			.andExpect(MockMvcResultMatchers.status().is2xxSuccessful()).andExpect(MockMvcResultMatchers.view().name("fiestas/fiestaDetails"));
+	}
+
+	//	@WithMockUser(value = "spring")
+	//	@Test
+	//	@DisplayName("Test negativo para peticion GET de los detalles de una fiesta cuyo id no existe")
+	//	void testNegativoDetallesFiesta() throws Exception {
+	//		this.mockMvc.perform(MockMvcRequestBuilders.get("/fiestas/21")).andExpect(MockMvcResultMatchers.status().is2xxSuccessful()).andExpect(MockMvcResultMatchers.view().name("exception"));
+	//	}
+
+	//------------------------------------------------------------------------------------------------------------------
+
+  
 	@WithMockUser(value = "cliente")
 	@Test
 	@DisplayName("Test para peticion GET de las fiestas organizadas por un cliente logeado")
