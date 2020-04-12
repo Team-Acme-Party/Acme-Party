@@ -108,4 +108,42 @@ public class AnuncioServiceTest {
 		}
 	}
 
+	@Test
+	@DisplayName("Test aceptar anuncio")
+	void testAceptarAnuncio() {
+		Anuncio anuncio = this.anuncioService.findById(4);
+		Anuncio aceptado = this.anuncioService.aceptar(anuncio);
+		Assertions.assertEquals(aceptado.getDecision().equals("ACEPTADO"), true);
+	}
+
+	@Test
+	@DisplayName("Test negativo aceptar anuncio")
+	void testNegativoAceptarAnuncio() {
+		try {
+			Anuncio anuncio = this.anuncioService.findById(50);
+			this.anuncioService.aceptar(anuncio);
+		} catch (AssertionError e) {
+			System.out.println("El anuncio no existe");
+		}
+	}
+
+	@Test
+	@DisplayName("Test rechazar anuncio")
+	void testRechazarAnuncio() {
+		Anuncio anuncio = this.anuncioService.findById(4);
+		Anuncio aceptado = this.anuncioService.rechazar(anuncio);
+		Assertions.assertEquals(aceptado.getDecision().equals("RECHAZADO"), true);
+	}
+
+	@Test
+	@DisplayName("Test negativo rechazar anuncio")
+	void testNegativoRechazarAnuncio() {
+		try {
+			Anuncio anuncio = this.anuncioService.findById(50);
+			this.anuncioService.rechazar(anuncio);
+		} catch (AssertionError e) {
+			System.out.println("El anuncio no existe");
+		}
+	}
+
 }
