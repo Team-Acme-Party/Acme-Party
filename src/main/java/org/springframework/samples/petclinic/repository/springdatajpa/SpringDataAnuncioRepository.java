@@ -20,11 +20,19 @@ public interface SpringDataAnuncioRepository extends AnuncioRepository, Reposito
 	Collection<Anuncio> findByPatrocinadorId(@Param("id") int id);
 
 	@Override
-	@Query("SELECT anuncio FROM Anuncio anuncio WHERE anuncio.fiesta.id = :id")
+	@Query("SELECT anuncio FROM Anuncio anuncio WHERE anuncio.fiesta.cliente.id = :id and anuncio.decision = 'PENDIENTE'")
+	Collection<Anuncio> findByClienteId(@Param("id") int id);
+
+	@Override
+	@Query("SELECT anuncio FROM Anuncio anuncio WHERE anuncio.local.propietario.id = :id and anuncio.decision = 'PENDIENTE'")
+	Collection<Anuncio> findByPropietarioId(@Param("id") int id);
+
+	@Override
+	@Query("SELECT anuncio FROM Anuncio anuncio WHERE anuncio.fiesta.id = :id and anuncio.decision = 'ACEPTADO'")
 	Collection<Anuncio> findByFiestaId(@Param("id") int id);
 
 	@Override
-	@Query("SELECT anuncio FROM Anuncio anuncio WHERE anuncio.local.id = :id")
+	@Query("SELECT anuncio FROM Anuncio anuncio WHERE anuncio.local.id = :id and anuncio.decision = 'ACEPTADO'")
 	Collection<Anuncio> findByLocalId(@Param("id") int id);
 
 	@Override

@@ -17,12 +17,16 @@ import org.springframework.samples.petclinic.configuration.SecurityConfiguration
 import org.springframework.samples.petclinic.model.Anuncio;
 import org.springframework.samples.petclinic.model.Fiesta;
 import org.springframework.samples.petclinic.model.Local;
+import org.springframework.samples.petclinic.model.Cliente;
 import org.springframework.samples.petclinic.model.Patrocinador;
+import org.springframework.samples.petclinic.model.Propietario;
 import org.springframework.samples.petclinic.service.AnuncioService;
 import org.springframework.samples.petclinic.service.AuthoritiesService;
+import org.springframework.samples.petclinic.service.ClienteService;
 import org.springframework.samples.petclinic.service.FiestaService;
 import org.springframework.samples.petclinic.service.LocalService;
 import org.springframework.samples.petclinic.service.PatrocinadorService;
+import org.springframework.samples.petclinic.service.PropietarioService;
 import org.springframework.samples.petclinic.service.UserService;
 import org.springframework.security.config.annotation.web.WebSecurityConfigurer;
 import org.springframework.security.test.context.support.WithMockUser;
@@ -41,6 +45,12 @@ public class AnuncioControllerTests {
 	private PatrocinadorService	patrocinadorService;
 
 	@MockBean
+	private PropietarioService	propietarioService;
+
+	@MockBean
+	private ClienteService		clienteService;
+
+	@MockBean
 	private LocalService		localService;
 
 	@MockBean
@@ -57,15 +67,19 @@ public class AnuncioControllerTests {
 
 	private Patrocinador		patrocinador;
 
+	private Propietario			propietario;
+	private Propietario			propietario2;
+	private Cliente				cliente;
+	private Cliente				cliente2;
+
 	private Anuncio				anuncio;
 	private Anuncio				a2;
 
 	private Local				local	= new Local();
 	private Fiesta				fiesta	= new Fiesta();
 
-
 	@BeforeEach
-	void datosPatrocinador() {
+	void datosIniciales() {
 		this.patrocinador = new Patrocinador();
 		this.patrocinador.setApellidos("Apellidos prueba");
 		this.patrocinador.setEmail("email@prueba.es");
@@ -75,6 +89,43 @@ public class AnuncioControllerTests {
 		this.patrocinador.setTelefono("654321987");
 		this.patrocinador.setDescripcionExperiencia("Descipción experiencia");
 		BDDMockito.given(this.patrocinadorService.findByUsername("george")).willReturn(this.patrocinador);
+
+		this.propietario = new Propietario();
+		this.propietario.setApellidos("Apellidos prueba");
+		this.propietario.setEmail("email@prueba.es");
+		this.propietario.setFoto("http://url.com/%22");
+		this.propietario.setId(10);
+		this.propietario.setNombre("propietario");
+		this.propietario.setTelefono("654321987");
+		BDDMockito.given(this.propietarioService.findByUsername("propietario")).willReturn(this.propietario);
+
+		this.propietario2 = new Propietario();
+		this.propietario2.setApellidos("Apellidos prueba");
+		this.propietario2.setEmail("email@prueba.es");
+		this.propietario2.setFoto("http://url.com/%22");
+		this.propietario2.setId(11);
+		this.propietario2.setNombre("propietario");
+		this.propietario2.setTelefono("654321987");
+		BDDMockito.given(this.propietarioService.findByUsername("propietario2")).willReturn(this.propietario2);
+
+		this.cliente = new Cliente();
+		this.cliente.setApellidos("Apellidos prueba");
+		this.cliente.setEmail("email@prueba.es");
+		this.cliente.setFoto("http://url.com/%22");
+		this.cliente.setId(10);
+		this.cliente.setNombre("cliente");
+		this.cliente.setTelefono("654321987");
+		BDDMockito.given(this.clienteService.findByUsername("cliente")).willReturn(this.cliente);
+
+		this.cliente2 = new Cliente();
+		this.cliente2.setApellidos("Apellidos prueba");
+		this.cliente2.setEmail("email@prueba.es");
+		this.cliente2.setFoto("http://url.com/%22");
+		this.cliente2.setId(11);
+		this.cliente2.setNombre("cliente");
+		this.cliente2.setTelefono("654321987");
+		BDDMockito.given(this.clienteService.findByUsername("cliente2")).willReturn(this.cliente2);
+
 		this.anuncio = new Anuncio();
 		this.anuncio.setId(10);
 		this.a2 = new Anuncio();
@@ -82,7 +133,9 @@ public class AnuncioControllerTests {
 		anuncios.add(this.anuncio);
 		anuncios.add(this.a2);
 		BDDMockito.given(this.anuncioService.findByPatrocinadorId(this.patrocinador.getId())).willReturn(anuncios);
-		BDDMockito.given(this.anuncioService.findById(this.anuncio.getId())).willReturn(this.anuncio);
+    BDDMockito.given(this.anuncioService.findById(10)).willReturn(this.anuncio);
+		BDDMockito.given(this.anuncioService.findByPropietarioId(this.propietario.getId())).willReturn(anuncios);
+		BDDMockito.given(this.anuncioService.findByClienteId(this.cliente.getId())).willReturn(anuncios);
 	}
 
 	//Ver anuncios
@@ -106,14 +159,14 @@ public class AnuncioControllerTests {
 	@Test
 	@DisplayName("Test para peticion GET de los detalles del anuncio ")
 	void testDetallesAnuncio() throws Exception {
-		this.mockMvc.perform(MockMvcRequestBuilders.get("/anuncio/{anuncioId}", this.anuncio.getId())).andExpect(MockMvcResultMatchers.status().is2xxSuccessful()).andExpect(MockMvcResultMatchers.view().name("anuncios/anuncioDetails"));
+		this.mockMvc.perform(MockMvcRequestBuilders.get("/anuncios/10")).andExpect(MockMvcResultMatchers.status().is2xxSuccessful()).andExpect(MockMvcResultMatchers.view().name("anuncios/anuncioDetails"));
 	}
 
 	@WithMockUser(value = "george")
 	@Test
 	@DisplayName("Test Negativo para peticion GET de los detalles de un anuncio cuyo id no existe")
 	void testNegativoDetallesAnuncio() throws Exception {
-		this.mockMvc.perform(MockMvcRequestBuilders.get("/anuncio/{anuncioId}", this.a2.getId())).andExpect(MockMvcResultMatchers.status().is4xxClientError());
+		this.mockMvc.perform(MockMvcRequestBuilders.get("/anuncios/{anuncioId}", this.a2.getId())).andExpect(MockMvcResultMatchers.status().is4xxClientError());
 	}
 
 	//Crear anuncio para local
@@ -180,4 +233,61 @@ public class AnuncioControllerTests {
 		this.mockMvc.perform(MockMvcRequestBuilders.post("/anuncio/new/10/fiesta").with(SecurityMockMvcRequestPostProcessors.csrf())).andExpect(MockMvcResultMatchers.status().is2xxSuccessful()).andExpect(MockMvcResultMatchers.view().name("anuncios/new"));
 	}
 
+	//Aceptar y rechazar anuncio para local
+	@WithMockUser(username = "propietario")
+	@Test
+	@DisplayName("Test aceptar anuncio para local")
+	void testAceptarAnuncioParaLocal() throws Exception {
+		this.mockMvc.perform(MockMvcRequestBuilders.get("/propietario/anuncio/10/aceptar")).andExpect(MockMvcResultMatchers.status().is3xxRedirection()).andExpect(MockMvcResultMatchers.view().name("redirect:/propietario/anuncios"));
+	}
+
+	@WithMockUser(username = "propietario2")
+	@Test
+	@DisplayName("Test negativo aceptar anuncio para local")
+	void testNegativoAceptarAnuncioParaLocal() throws Exception {
+		this.mockMvc.perform(MockMvcRequestBuilders.get("/propietario/anuncio/10/aceptar")).andExpect(MockMvcResultMatchers.status().is2xxSuccessful()).andExpect(MockMvcResultMatchers.view().name("exception"));
+	}
+
+	@WithMockUser(username = "propietario")
+	@Test
+	@DisplayName("Test rechazar anuncio para local")
+	void testRechazarAnuncioParaLocal() throws Exception {
+		this.mockMvc.perform(MockMvcRequestBuilders.get("/propietario/anuncio/10/rechazar")).andExpect(MockMvcResultMatchers.status().is3xxRedirection()).andExpect(MockMvcResultMatchers.view().name("redirect:/propietario/anuncios"));
+	}
+
+	@WithMockUser(username = "propietario2")
+	@Test
+	@DisplayName("Test negativo rechazar anuncio para local")
+	void testNegativoRechazarAnuncioParaLocal() throws Exception {
+		this.mockMvc.perform(MockMvcRequestBuilders.get("/propietario/anuncio/10/rechazar")).andExpect(MockMvcResultMatchers.status().is2xxSuccessful()).andExpect(MockMvcResultMatchers.view().name("exception"));
+	}
+
+	//Aceptar y rechazar anuncio para fiesta
+	@WithMockUser(username = "cliente")
+	@Test
+	@DisplayName("Test aceptar anuncio para fiesta")
+	void testAceptarAnuncioParaFiesta() throws Exception {
+		this.mockMvc.perform(MockMvcRequestBuilders.get("/cliente/anuncio/10/aceptar")).andExpect(MockMvcResultMatchers.status().is3xxRedirection()).andExpect(MockMvcResultMatchers.view().name("redirect:/cliente/anuncios"));
+	}
+
+	@WithMockUser(username = "cliente2")
+	@Test
+	@DisplayName("Test negativo aceptar anuncio para local")
+	void testNegativoAceptarAnuncioParaFiesta() throws Exception {
+		this.mockMvc.perform(MockMvcRequestBuilders.get("/cliente/anuncio/10/aceptar")).andExpect(MockMvcResultMatchers.status().is2xxSuccessful()).andExpect(MockMvcResultMatchers.view().name("exception"));
+	}
+
+	@WithMockUser(username = "cliente")
+	@Test
+	@DisplayName("Test rechazar anuncio para fiesta")
+	void testRechazarAnuncioParaFiesta() throws Exception {
+		this.mockMvc.perform(MockMvcRequestBuilders.get("/cliente/anuncio/10/rechazar")).andExpect(MockMvcResultMatchers.status().is3xxRedirection()).andExpect(MockMvcResultMatchers.view().name("redirect:/cliente/anuncios"));
+	}
+
+	@WithMockUser(username = "cliente2")
+	@Test
+	@DisplayName("Test negativo rechazar anuncio para local")
+	void testNegativoRechazarAnuncioParaFiesta() throws Exception {
+		this.mockMvc.perform(MockMvcRequestBuilders.get("/cliente/anuncio/10/rechazar")).andExpect(MockMvcResultMatchers.status().is2xxSuccessful()).andExpect(MockMvcResultMatchers.view().name("exception"));
+	}
 }
