@@ -17,4 +17,6 @@ public interface SolicitudAsistenciaRepository {
 
 	void save(SolicitudAsistencia solicitudAsistencia) throws DataAccessException;
 
+	Collection<SolicitudAsistencia> findByFiesta(int id) throws DataAccessException;
+
 }

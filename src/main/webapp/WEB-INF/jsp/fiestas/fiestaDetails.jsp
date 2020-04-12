@@ -77,7 +77,8 @@
 			<button type="button" class="btn btn-default"
 				onclick="window.location.replace('/fiestas/${fiesta.id}/editar')">Editar</button>
 		</c:if>
-		<c:if test="${fiesta.cliente.id ne userLoggedId and !esFiestaSolicitadaPorCliente}">
+		<c:if
+			test="${fiesta.cliente.id ne userLoggedId and !esFiestaSolicitadaPorCliente}">
 			<form onsubmit="return alerta(this)" method="get"
 				action="/cliente/solicitudAsistencia/fiesta/${fiesta.id}">
 
@@ -86,6 +87,44 @@
 					class="btn btn-default" name="save" value="Solicitar asistencia" />
 
 			</form>
+		</c:if>
+	</sec:authorize>
+	<sec:authorize access="hasAuthority('cliente')">
+		<c:if test="${fiesta.cliente.id==userLoggedId}">
+	<h2>Solicitudes de asistencia</h2>
+		</c:if>
+	</sec:authorize>
+
+	<sec:authorize access="hasAuthority('cliente')">
+		<c:if test="${fiesta.cliente.id==userLoggedId}">
+
+			<table id="solicitudesTable" class="table table-striped">
+				<thead>
+					<tr>
+						<th>Cliente</th>
+						<th>Decision</th>
+						<th></th>
+						<th></th>
+					</tr>
+				</thead>
+				<tbody>
+					<c:forEach items="${solicitudes}" var="solicitud">
+						<tr>
+							<td><c:out value="${solicitud.cliente.nombre}" /></td>
+							<td><c:out value="${solicitud.decision}" /></td>
+							<td><c:if test="${solicitud.decision eq 'PENDIENTE'}">
+									<button type="button" class="btn btn-default"
+										onclick="window.location.replace('/cliente/solicitudAsistencia/aceptar/${solicitud.id}')">Aceptar</button>
+								</c:if></td>
+							<td><c:if test="${solicitud.decision eq 'PENDIENTE'}">
+									<button type="button" class="btn btn-default"
+										onclick="window.location.replace('/cliente/solicitudAsistencia/rechazar/${solicitud.id}')">Rechazar</button>
+								</c:if></td>
+						</tr>
+					</c:forEach>
+				</tbody>
+			</table>
+
 		</c:if>
 	</sec:authorize>
 

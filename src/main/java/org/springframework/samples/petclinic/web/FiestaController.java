@@ -36,13 +36,15 @@ public class FiestaController {
 	private final LocalService			localService;
 	private final ClienteService		clienteService;
 	private final PropietarioService	propietarioService;
+	private final SolicitudAsistenciaService solicitudAsistenciaService;
 	
 	@Autowired
-	public FiestaController(final FiestaService fiestaService, final LocalService localService, final ClienteService clienteService, final PropietarioService propietarioService) {
+	public FiestaController(final FiestaService fiestaService, final LocalService localService, final ClienteService clienteService, final PropietarioService propietarioService, final SolicitudAsistenciaService solicitudAsistenciaService) {
 		this.fiestaService = fiestaService;
 		this.localService = localService;
 		this.clienteService = clienteService;
 		this.propietarioService = propietarioService;
+		this.solicitudAsistenciaService = solicitudAsistenciaService;
 	}
 
 	@InitBinder("fiesta")
@@ -69,7 +71,9 @@ public class FiestaController {
 			
 			Collection<Fiesta> solicitudesCliente = fiestaService.findAsistenciasByClienteId(cliente.getId());
 			Boolean esFiestaSolicitadaPorCliente = solicitudesCliente.contains(fiesta);
+			Collection<SolicitudAsistencia> solicitudes = solicitudAsistenciaService.findByFiesta(fiesta);
 			mav.addObject("esFiestaSolicitadaPorCliente",esFiestaSolicitadaPorCliente);
+			mav.addObject("solicitudes",solicitudes);
 		}
 
 		mav.addObject("fiesta", fiesta);

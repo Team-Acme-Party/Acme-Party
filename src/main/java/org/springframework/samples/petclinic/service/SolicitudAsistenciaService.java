@@ -89,4 +89,24 @@ public class SolicitudAsistenciaService {
 		return this.solicitudAsistenciaRepository.findByClienteId(id);
 	}
 	
+	public Collection<SolicitudAsistencia> findByFiesta(Fiesta fiesta) throws DataAccessException {
+		return this.solicitudAsistenciaRepository.findByFiesta(fiesta.getId());		
+	}
+	
+	public void aceptarSolicitud(int id, Cliente cliente) {
+		SolicitudAsistencia solicitud = findById(id);
+		Assert.isTrue(solicitud.getFiesta().getCliente().equals(cliente),
+				"La fiesta no es del cliente que va tomar la decision");
+		solicitud.setDecision("ACEPTADO");
+		save(solicitud);
+	}
+	
+	public void rechazarSolicitud(int id,Cliente cliente) {
+		SolicitudAsistencia solicitud = findById(id);
+		Assert.isTrue(solicitud.getFiesta().getCliente().equals(cliente),
+				"La fiesta no es del cliente que va tomar la decision");
+		solicitud.setDecision("RECHAZADO");
+		save(solicitud);
+	}
+	
 }

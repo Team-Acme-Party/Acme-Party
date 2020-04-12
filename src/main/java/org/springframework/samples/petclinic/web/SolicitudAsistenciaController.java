@@ -13,6 +13,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.Assert;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -36,7 +37,8 @@ public class SolicitudAsistenciaController {
 	public String verMisAsistencias(final Map<String, Object> model) {
 
 		String username = SecurityContextHolder.getContext().getAuthentication().getName();
-		Cliente c = this.clienteService.findByUsername(username);
+		Assert.notNull(username, "Username no logueado");
+		Cliente c = clienteService.findByUsername(username);
 		Collection<SolicitudAsistencia> asistencias = this.solicitudAsistenciaService
 				.findAsistenciasByClienteId(c.getId());
 		model.put("asistencias", asistencias);
@@ -57,6 +59,42 @@ public class SolicitudAsistenciaController {
 			SolicitudAsistencia sol = solicitudAsistenciaService.create(fiestaId, cliente);
 			solicitudAsistenciaService.save(sol);
 			return verMisAsistencias(model);
+
+		} catch (Exception e) {
+			model.put("message", e.getMessage());
+			return "exception";
+		}
+	}
+
+	@GetMapping("/cliente/solicitudAsistencia/aceptar/{solicitudId}")
+	public String aceptarSolicitudAsistencia(@PathVariable("solicitudId") int solicitudId,
+			final Map<String, Object> model) {
+
+		try {
+			String username = SecurityContextHolder.getContext().getAuthentication().getName();
+			Assert.notNull(username, "Username no logueado");
+			Cliente cliente = clienteService.findByUsername(username);
+			Assert.notNull(cliente, "Cliente no logueado");
+			this.solicitudAsistenciaService.aceptarSolicitud(solicitudId, cliente);
+			return "redirect:/cliente/fiestas";
+
+		} catch (Exception e) {
+			model.put("message", e.getMessage());
+			return "exception";
+		}
+	}
+
+	@GetMapping("/cliente/solicitudAsistencia/rechazar/{solicitudId}")
+	public String rechazarSolicitudAsistencia(@PathVariable("solicitudId") int solicitudId,
+			final Map<String, Object> model) {
+
+		try {
+			String username = SecurityContextHolder.getContext().getAuthentication().getName();
+			Assert.notNull(username, "Username no logueado");
+			Cliente cliente = clienteService.findByUsername(username);
+			Assert.notNull(cliente, "Cliente no logueado");
+			this.solicitudAsistenciaService.rechazarSolicitud(solicitudId, cliente);
+			return "redirect:/cliente/fiestas";
 
 		} catch (Exception e) {
 			model.put("message", e.getMessage());

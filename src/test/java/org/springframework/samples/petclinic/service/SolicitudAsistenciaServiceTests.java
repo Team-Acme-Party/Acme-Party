@@ -85,4 +85,51 @@ public class SolicitudAsistenciaServiceTests {
 		Assertions.assertTrue(saList.contains(sa));
 	}
 	
+	//-------------------------------------------
+	@Test
+	@DisplayName("Test positivo para aceptar una solicitud")
+	void testPositivoAceptarSolicitud() {
+
+		Cliente cliente = clienteService.findById(2);
+		SolicitudAsistencia solicitud = this.solicitudAsistenciaService.findById(3);
+		assertTrue(solicitud.getDecision().equals("PENDIENTE"), "La solicitud no esta pendiente");
+		this.solicitudAsistenciaService.aceptarSolicitud(solicitud.getId(), cliente);
+		assertTrue(solicitud.getDecision().equals("ACEPTADO"), "La solicitud no esta aceptada");
+
+	}
+	
+	@Test
+	@DisplayName("Test negativo para aceptar una solicitud, la fiesta no pertenece al cliente que va tomar la decision")
+	void testNegativoAceptarSolicitud() {
+
+		Cliente cliente = clienteService.findById(1);
+		SolicitudAsistencia solicitud = this.solicitudAsistenciaService.findById(3);
+		assertTrue(solicitud.getDecision().equals("PENDIENTE"), "La solicitud no esta pendiente");
+		Assertions.assertThrows(IllegalArgumentException.class, () ->this.solicitudAsistenciaService.aceptarSolicitud(solicitud.getId(), cliente));
+
+	}
+	
+	//-------------------------------------------
+	@Test
+	@DisplayName("Test positivo para rechazar una solicitud")
+	void testPositivoRechazarSolicitud() {
+
+		Cliente cliente = clienteService.findById(2);
+		SolicitudAsistencia solicitud = this.solicitudAsistenciaService.findById(3);
+		assertTrue(solicitud.getDecision().equals("PENDIENTE"), "La solicitud no esta pendiente");
+		this.solicitudAsistenciaService.rechazarSolicitud(solicitud.getId(), cliente);
+		assertTrue(solicitud.getDecision().equals("RECHAZADO"), "La solicitud no esta aceptada");
+
+	}
+	
+	@Test
+	@DisplayName("Test negativo para Rechazar una solicitud, la fiesta no pertenece al cliente que va tomar la decision")
+	void testNegativoRechazarSolicitud() {
+
+		Cliente cliente = clienteService.findById(1);
+		SolicitudAsistencia solicitud = this.solicitudAsistenciaService.findById(3);
+		assertTrue(solicitud.getDecision().equals("PENDIENTE"), "La solicitud no esta pendiente");
+		Assertions.assertThrows(IllegalArgumentException.class, () ->this.solicitudAsistenciaService.rechazarSolicitud(solicitud.getId(), cliente));
+
+	}
 }
