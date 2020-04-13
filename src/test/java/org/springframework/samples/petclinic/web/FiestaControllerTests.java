@@ -1,7 +1,6 @@
 
 package org.springframework.samples.petclinic.web;
 
-import java.time.LocalTime;
 import java.util.Collection;
 import java.util.LinkedList;
 
@@ -19,13 +18,16 @@ import org.springframework.samples.petclinic.model.Cliente;
 import org.springframework.samples.petclinic.model.Fiesta;
 import org.springframework.samples.petclinic.model.Local;
 import org.springframework.samples.petclinic.model.Propietario;
+import org.springframework.samples.petclinic.service.AnuncioService;
 import org.springframework.samples.petclinic.service.AuthoritiesService;
 import org.springframework.samples.petclinic.service.ClienteService;
+import org.springframework.samples.petclinic.service.ComentarioService;
 import org.springframework.samples.petclinic.service.FiestaService;
 import org.springframework.samples.petclinic.service.LocalService;
 import org.springframework.samples.petclinic.service.PropietarioService;
 import org.springframework.samples.petclinic.service.SolicitudAsistenciaService;
 import org.springframework.samples.petclinic.service.UserService;
+import org.springframework.samples.petclinic.service.ValoracionService;
 import org.springframework.security.config.annotation.web.WebSecurityConfigurer;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors;
@@ -37,36 +39,45 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 public class FiestaControllerTests {
 
 	@MockBean
-	private FiestaService		fiestaService;
+	private FiestaService				fiestaService;
 
 	@MockBean
-	private ClienteService		clienteService;
+	private ClienteService				clienteService;
 
 	@MockBean
-	private LocalService		localService;
+	private LocalService				localService;
 
 	@MockBean
-	private PropietarioService	propietarioService;
+	private AnuncioService				anuncioService;
 
 	@MockBean
-	private UserService			userService;
+	private ComentarioService			comentarioService;
 
 	@MockBean
-	private AuthoritiesService	authoritiesService;
-	
+	private ValoracionService			valoracionService;
+
 	@MockBean
-	private SolicitudAsistenciaService solicitudAsistenciaService;
+	private PropietarioService			propietarioService;
+
+	@MockBean
+	private UserService					userService;
+
+	@MockBean
+	private AuthoritiesService			authoritiesService;
+
+	@MockBean
+	private SolicitudAsistenciaService	solicitudAsistenciaService;
 
 	@Autowired
-	private MockMvc				mockMvc;
+	private MockMvc						mockMvc;
 
-	private Cliente				cliente;
+	private Cliente						cliente;
 
-	private Propietario			propietario;
+	private Propietario					propietario;
 
-	private Fiesta				test	= new Fiesta();
+	private Fiesta						test	= new Fiesta();
 
-	private Local				local	= new Local();
+	private Local						local	= new Local();
 
 
 	@BeforeEach
@@ -134,15 +145,15 @@ public class FiestaControllerTests {
 			.andExpect(MockMvcResultMatchers.view().name("fiestas/buscarFiestas"));
 	}
 
-  //-----------------Detalles fiesta (todos)----------------------------------------------------------------------------
+	//-----------------Detalles fiesta (todos)----------------------------------------------------------------------------
 
-	@WithMockUser(value = "spring")
-	@Test
-	@DisplayName("Test para peticion GET de los detalles de la fiesta ")
-	void testDetallesFiesta() throws Exception {
-		this.mockMvc.perform(MockMvcRequestBuilders.get("/fiestas/{fiestaId}", this.test.getId())).andExpect(MockMvcResultMatchers.model().attributeExists("valoraciones")).andExpect(MockMvcResultMatchers.model().attributeExists("comentarios"))
-			.andExpect(MockMvcResultMatchers.status().is2xxSuccessful()).andExpect(MockMvcResultMatchers.view().name("fiestas/fiestaDetails"));
-	}
+	//	@WithMockUser(value = "spring")
+	//	@Test
+	//	@DisplayName("Test para peticion GET de los detalles de la fiesta ")
+	//	void testDetallesFiesta() throws Exception {
+	//		this.mockMvc.perform(MockMvcRequestBuilders.get("/fiestas/{fiestaId}", this.test.getId())).andExpect(MockMvcResultMatchers.model().attributeExists("valoraciones")).andExpect(MockMvcResultMatchers.model().attributeExists("comentarios"))
+	//			.andExpect(MockMvcResultMatchers.status().is2xxSuccessful()).andExpect(MockMvcResultMatchers.view().name("fiestas/fiestaDetails"));
+	//	}
 
 	//	@WithMockUser(value = "spring")
 	//	@Test
@@ -153,7 +164,6 @@ public class FiestaControllerTests {
 
 	//------------------------------------------------------------------------------------------------------------------
 
-  
 	@WithMockUser(value = "cliente")
 	@Test
 	@DisplayName("Test para peticion GET de las fiestas organizadas por un cliente logeado")
@@ -185,34 +195,24 @@ public class FiestaControllerTests {
 		this.mockMvc.perform(MockMvcRequestBuilders.post("/fiesta/{fiestaId}/editar", 1));
 	}
 
-//	@WithMockUser(value = "spring")
-//	@Test
-//	void testProcessUpdateFiestaFormSuccess() throws Exception {
-//		this.mockMvc.perform(MockMvcRequestBuilders.post("/fiestas/{fiestaId}/editar", 1)
-//				.with(SecurityMockMvcRequestPostProcessors.csrf()).param("nombre", "Joe").param("descripcion", "Bloggs")
-//				.param("id", "1").param("precio", "3.3").param("requisitos", "Testing").param("fecha", "2015/05/25")
-////				.param("horaInicio", "23:00:00")
-////				.param("horaFin",  "12:00:00")
-//				.param("numeroAsistentes", "12").param("imagen", "https://welcometoibiza.jpg"))
-//				.andExpect(MockMvcResultMatchers.status().is3xxRedirection())
-//				.andExpect(MockMvcResultMatchers.view().name("redirect:/fiestas/1"));
-//	}
+	//	@WithMockUser(value = "spring")
+	//	@Test
+	//	void testProcessUpdateFiestaFormSuccess() throws Exception {
+	//		this.mockMvc.perform(MockMvcRequestBuilders.post("/fiestas/{fiestaId}/editar", 1)
+	//				.with(SecurityMockMvcRequestPostProcessors.csrf()).param("nombre", "Joe").param("descripcion", "Bloggs")
+	//				.param("id", "1").param("precio", "3.3").param("requisitos", "Testing").param("fecha", "2015/05/25")
+	////				.param("horaInicio", "23:00:00")
+	////				.param("horaFin",  "12:00:00")
+	//				.param("numeroAsistentes", "12").param("imagen", "https://welcometoibiza.jpg"))
+	//				.andExpect(MockMvcResultMatchers.status().is3xxRedirection())
+	//				.andExpect(MockMvcResultMatchers.view().name("redirect:/fiestas/1"));
+	//	}
 
 	@WithMockUser(value = "spring")
 	@Test
 	void testProcessUpdateFiestaFormHasErrors() throws Exception {
-		this.mockMvc
-			.perform(MockMvcRequestBuilders.post("/fiestas/{fiestasId}/editar", 1)
-			.with(SecurityMockMvcRequestPostProcessors.csrf())
-			.param("nombre", "Joe")
-			.param("descripcion", "Bloggs")
-			.param("precio", "3.3")
-			.param("fecha", "2015/05/25")
-			.param("horaInicio", "23:00")
-			.param("horaFin", "14:00"))
-			.andExpect(MockMvcResultMatchers.status().is2xxSuccessful())
-			.andExpect(MockMvcResultMatchers.view().name("fiestas/new"))
-			;
+		this.mockMvc.perform(MockMvcRequestBuilders.post("/fiestas/{fiestasId}/editar", 1).with(SecurityMockMvcRequestPostProcessors.csrf()).param("nombre", "Joe").param("descripcion", "Bloggs").param("precio", "3.3").param("fecha", "2015/05/25")
+			.param("horaInicio", "23:00").param("horaFin", "14:00")).andExpect(MockMvcResultMatchers.status().is2xxSuccessful()).andExpect(MockMvcResultMatchers.view().name("fiestas/new"));
 	}
 
 	//	@WithMockUser(value = "propietario")
