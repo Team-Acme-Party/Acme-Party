@@ -18,7 +18,6 @@ package org.springframework.samples.petclinic.repository.springdatajpa;
 
 import java.util.Collection;
 
-import org.springframework.dao.DataAccessException;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.Repository;
 import org.springframework.data.repository.query.Param;
@@ -41,9 +40,13 @@ public interface SpringDataSolicitudAsistenciaRepository extends SolicitudAsiste
 	@Override
 	@Query("SELECT s FROM SolicitudAsistencia s WHERE s.id =:id")
 	SolicitudAsistencia findById(@Param("id") int id);
-	
+
 	@Override
 	@Query("SELECT s FROM SolicitudAsistencia s WHERE s.fiesta.id =:id")
 	Collection<SolicitudAsistencia> findByFiesta(@Param("id") int id);
-	
+
+	@Override
+	@Query("select solicitud.fiesta from SolicitudAsistencia solicitud where solicitud.cliente.id = :id and solicitud.decision = 'ACEPTADO'")
+	Collection<Fiesta> findSolicitudFiestasByClienteId(@Param("id") int id);
+
 }

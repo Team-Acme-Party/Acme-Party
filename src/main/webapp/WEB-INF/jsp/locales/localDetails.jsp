@@ -4,6 +4,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="sec"
 	uri="http://www.springframework.org/security/tags"%>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <%@ taglib prefix="petclinic" tagdir="/WEB-INF/tags" %>
 
 <petclinic:layout pageName="locales">
@@ -110,5 +111,39 @@
         </c:forEach>
         </tbody>
     </table>
+    
+    <sec:authorize access="hasAuthority('cliente')">
+		<c:if test="${clienteLocal}">
+			<h2>Comentar local</h2>
+			
+			<form:form id="form" modelAttribute="comentario" class="form-horizontal" action="/comentario/new/local/${localId}">
+				<div class="form-group has-feedback">
+
+					<petclinic:inputField label="Cuerpo" name="cuerpo" />
+
+
+				</div>
+				<div class="form-group">
+					<div class="col-sm-offset-2 col-sm-10">
+						<button class="btn btn-default" type="submit">Enviar</button>
+					</div>
+				</div>
+			</form:form>
+	<script>
+	$(document).ready(function(){
+		$("#form").submit(function(){
+			var cuerpo = $("#cuerpo").val();
+			alert(cuerpo);
+			if(cuerpo==""){
+				alert("El comentario no puede estar vacio");
+				return false;
+			}
+			return true;
+		});
+	});
+	
+	</script>
+		</c:if>
+	</sec:authorize>
     
 </petclinic:layout>

@@ -10,7 +10,7 @@ import org.springframework.samples.petclinic.model.SolicitudAsistencia;
 public interface SolicitudAsistenciaRepository {
 
 	Collection<SolicitudAsistencia> findByClienteId(int id) throws DataAccessException;
-	
+
 	Collection<SolicitudAsistencia> findAll() throws DataAccessException;
 
 	SolicitudAsistencia findById(int id) throws DataAccessException;
@@ -18,5 +18,7 @@ public interface SolicitudAsistenciaRepository {
 	void save(SolicitudAsistencia solicitudAsistencia) throws DataAccessException;
 
 	Collection<SolicitudAsistencia> findByFiesta(int id) throws DataAccessException;
+
+	Collection<Fiesta> findSolicitudFiestasByClienteId(int id);
 
 }

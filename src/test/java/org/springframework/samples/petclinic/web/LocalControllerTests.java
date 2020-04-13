@@ -18,10 +18,12 @@ import org.springframework.samples.petclinic.model.Local;
 import org.springframework.samples.petclinic.model.Propietario;
 import org.springframework.samples.petclinic.service.AnuncioService;
 import org.springframework.samples.petclinic.service.AuthoritiesService;
+import org.springframework.samples.petclinic.service.ClienteService;
 import org.springframework.samples.petclinic.service.ComentarioService;
 import org.springframework.samples.petclinic.service.FiestaService;
 import org.springframework.samples.petclinic.service.LocalService;
 import org.springframework.samples.petclinic.service.PropietarioService;
+import org.springframework.samples.petclinic.service.SolicitudAsistenciaService;
 import org.springframework.samples.petclinic.service.UserService;
 import org.springframework.samples.petclinic.service.ValoracionService;
 import org.springframework.security.config.annotation.web.WebSecurityConfigurer;
@@ -35,41 +37,47 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 public class LocalControllerTests {
 
 	@MockBean
-	private LocalService		localService;
+	private LocalService				localService;
 
 	@MockBean
-	private ComentarioService	comentarioService;
+	private ComentarioService			comentarioService;
 
 	@MockBean
-	private ValoracionService	valoracionService;
+	private ValoracionService			valoracionService;
 
 	@MockBean
-	private FiestaService		fiestaService;
+	private FiestaService				fiestaService;
 
 	@MockBean
-	private AnuncioService		anuncioService;
+	private ClienteService				clienteService;
 
 	@MockBean
-	private PropietarioService	propietarioService;
+	private SolicitudAsistenciaService	solicitudAsistenciaService;
 
 	@MockBean
-	private UserService			userService;
+	private AnuncioService				anuncioService;
 
 	@MockBean
-	private AuthoritiesService	authoritiesService;
+	private PropietarioService			propietarioService;
+
+	@MockBean
+	private UserService					userService;
+
+	@MockBean
+	private AuthoritiesService			authoritiesService;
 
 	@Autowired
-	private MockMvc				mockMvc;
+	private MockMvc						mockMvc;
 
-	private Propietario			george;
+	private Propietario					george;
 
-	private Local				l3;
+	private Local						l3;
 
-	private Local				l4;
+	private Local						l4;
 
-	private Local				local1	= new Local();
+	private Local						local1	= new Local();
 
-	private Local				local2	= new Local();
+	private Local						local2	= new Local();
 
 
 	@BeforeEach

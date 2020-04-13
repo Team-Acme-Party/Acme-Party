@@ -18,4 +18,6 @@ public interface ComentarioRepository {
 
 	Collection<Comentario> findByClienteId(int id) throws DataAccessException;
 
+	void save(Comentario comentario);
+
 }

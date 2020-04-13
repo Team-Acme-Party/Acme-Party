@@ -156,6 +156,40 @@
 	</sec:authorize>
 
 	<sec:authorize access="hasAuthority('cliente')">
+		<c:if test="${clienteFiesta}">
+			<h2>Comentar fiesta</h2>
+			
+			<form:form id="form" modelAttribute="comentario" class="form-horizontal" action="/comentario/new/fiesta/${fiestaId}">
+				<div class="form-group has-feedback">
+
+					<petclinic:inputField label="Cuerpo" name="cuerpo" />
+
+
+				</div>
+				<div class="form-group">
+					<div class="col-sm-offset-2 col-sm-10">
+						<button class="btn btn-default" type="submit">Enviar</button>
+					</div>
+				</div>
+			</form:form>
+	<script>
+	$(document).ready(function(){
+		$("#form").submit(function(){
+			var cuerpo = $("#cuerpo").val();
+			alert(cuerpo);
+			if(cuerpo==""){
+				alert("El comentario no puede estar vacio");
+				return false;
+			}
+			return true;
+		});
+	});
+	
+	</script>
+		</c:if>
+	</sec:authorize>
+
+	<sec:authorize access="hasAuthority('cliente')">
 		<c:if test="${fiesta.cliente.id==userLoggedId}">
 
 			<table id="solicitudesTable" class="table table-striped">

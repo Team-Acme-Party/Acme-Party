@@ -88,6 +88,13 @@ public class FiestaController {
 			Collection<SolicitudAsistencia> solicitudes = this.solicitudAsistenciaService.findByFiesta(fiesta);
 			mav.addObject("esFiestaSolicitadaPorCliente", esFiestaSolicitadaPorCliente);
 			mav.addObject("solicitudes", solicitudes);
+
+			Collection<Fiesta> fiestasCliente = this.solicitudAsistenciaService.findSolicitudFiestaByClienteId(cliente.getId());
+			if (fiestasCliente.contains(this.fiestaService.findFiestaById(fiestaId))) {
+				mav.addObject("clienteFiesta", true);
+				Comentario comentario = new Comentario();
+				mav.addObject("comentario", comentario);
+			}
 		}
 
 		Collection<Anuncio> anuncios = this.anuncioService.findByFiestaId(fiestaId);
