@@ -14,6 +14,7 @@ import org.springframework.samples.petclinic.model.Comentario;
 import org.springframework.samples.petclinic.model.Fiesta;
 import org.springframework.samples.petclinic.model.Local;
 import org.springframework.samples.petclinic.model.Propietario;
+import org.springframework.samples.petclinic.model.SolicitudAsistencia;
 import org.springframework.samples.petclinic.model.Valoracion;
 import org.springframework.samples.petclinic.service.AnuncioService;
 import org.springframework.samples.petclinic.service.ClienteService;
@@ -21,6 +22,7 @@ import org.springframework.samples.petclinic.service.ComentarioService;
 import org.springframework.samples.petclinic.service.FiestaService;
 import org.springframework.samples.petclinic.service.LocalService;
 import org.springframework.samples.petclinic.service.PropietarioService;
+import org.springframework.samples.petclinic.service.SolicitudAsistenciaService;
 import org.springframework.samples.petclinic.service.ValoracionService;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
@@ -36,18 +38,19 @@ import org.springframework.web.servlet.ModelAndView;;
 @Controller
 public class FiestaController {
 
-	private final FiestaService			fiestaService;
-	private final LocalService			localService;
-	private final ClienteService		clienteService;
-	private final PropietarioService	propietarioService;
-	private final AnuncioService		anuncioService;
-	private final ComentarioService		comentarioService;
-	private final ValoracionService		valoracionService;
+	private final FiestaService					fiestaService;
+	private final LocalService					localService;
+	private final ClienteService				clienteService;
+	private final PropietarioService			propietarioService;
+	private final AnuncioService				anuncioService;
+	private final ComentarioService				comentarioService;
+	private final ValoracionService				valoracionService;
+	private final SolicitudAsistenciaService	solicitudAsistenciaService;
 
 
 	@Autowired
 	public FiestaController(final FiestaService fiestaService, final LocalService localService, final ClienteService clienteService, final PropietarioService propietarioService, final AnuncioService anuncioService,
-		final ComentarioService comentarioService, final ValoracionService valoracionService) {
+		final ComentarioService comentarioService, final ValoracionService valoracionService, final SolicitudAsistenciaService solicitudAsistenciaService) {
 		this.fiestaService = fiestaService;
 		this.localService = localService;
 		this.clienteService = clienteService;
@@ -55,6 +58,7 @@ public class FiestaController {
 		this.anuncioService = anuncioService;
 		this.comentarioService = comentarioService;
 		this.valoracionService = valoracionService;
+		this.solicitudAsistenciaService = solicitudAsistenciaService;
 	}
 
 	@InitBinder("fiesta")
@@ -72,11 +76,18 @@ public class FiestaController {
 
 		Propietario p = this.propietarioService.findByUsername(username);
 		Cliente cliente = this.clienteService.findByUsername(username);
+		Fiesta fiesta = this.fiestaService.findFiestaById(fiestaId);
 
 		if (p != null) {
 			mav.addObject("userLoggedId", p.getId());
 		} else if (cliente != null) {
 			mav.addObject("userLoggedId", cliente.getId());
+
+			Collection<Fiesta> solicitudesCliente = this.fiestaService.findAsistenciasByClienteId(cliente.getId());
+			Boolean esFiestaSolicitadaPorCliente = solicitudesCliente.contains(fiesta);
+			Collection<SolicitudAsistencia> solicitudes = this.solicitudAsistenciaService.findByFiesta(fiesta);
+			mav.addObject("esFiestaSolicitadaPorCliente", esFiestaSolicitadaPorCliente);
+			mav.addObject("solicitudes", solicitudes);
 		}
 
 		Collection<Anuncio> anuncios = this.anuncioService.findByFiestaId(fiestaId);
