@@ -70,42 +70,23 @@
     <table id="comentariosTable" class="table table-striped">
         <thead>
         <tr>
+        	<th>Cliente</th>
             <th>Cuerpo</th>
             <th>Fecha</th>
+            <th></th>
         </tr>
         </thead>
         <tbody>
         <c:forEach items="${comentarios}" var="comentario">
             <tr>
+            	<td>
+                    <c:out value="${comentario.cliente}"/>
+                </td>
                 <td>
                     <c:out value="${comentario.cuerpo}"/>
                 </td>
                 <td>
                     <c:out value="${comentario.fecha}"/>
-                </td>
-            </tr>
-        </c:forEach>
-        </tbody>
-    </table>
-    
-    <h5>
-    	Valoraciones
-    </h5>
-    <table id="valoracionesTable" class="table table-striped">
-        <thead>
-        <tr>
-            <th>Comentario</th>
-            <th>Valoración</th>
-        </tr>
-        </thead>
-        <tbody>
-        <c:forEach items="${valoraciones}" var="valoracion">
-            <tr>
-                <td>
-                    <c:out value="${valoracion.comentario}"/>
-                </td>
-                <td>
-                    <c:out value="${valoracion.valor}"/>
                 </td>
             </tr>
         </c:forEach>
@@ -133,7 +114,6 @@
 	$(document).ready(function(){
 		$("#form").submit(function(){
 			var cuerpo = $("#cuerpo").val();
-			alert(cuerpo);
 			if(cuerpo==""){
 				alert("El comentario no puede estar vacio");
 				return false;
@@ -145,5 +125,31 @@
 	</script>
 		</c:if>
 	</sec:authorize>
+    
+    <h5>
+    	Valoraciones
+    </h5>
+    <table id="valoracionesTable" class="table table-striped">
+        <thead>
+        <tr>
+            <th>Comentario</th>
+            <th>Valoración</th>
+        </tr>
+        </thead>
+        <tbody>
+        <c:forEach items="${valoraciones}" var="valoracion">
+            <tr>
+                <td>
+                    <c:out value="${valoracion.comentario}"/>
+                </td>
+                <td>
+                    <c:out value="${valoracion.valor}"/>
+                </td>
+            </tr>
+        </c:forEach>
+        </tbody>
+    </table>
+    
+    
     
 </petclinic:layout>

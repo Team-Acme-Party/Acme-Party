@@ -75,54 +75,6 @@
 		</tr>
 	</table>
 
-<h5>
-    	Comentarios
-    </h5>
-    <table id="comentariosTable" class="table table-striped">
-        <thead>
-        <tr>
-            <th>Cuerpo</th>
-            <th>Fecha</th>
-        </tr>
-        </thead>
-        <tbody>
-        <c:forEach items="${comentarios}" var="comentario">
-            <tr>
-                <td>
-                    <c:out value="${comentario.cuerpo}"/>
-                </td>
-                <td>
-                    <c:out value="${comentario.fecha}"/>
-                </td>
-            </tr>
-        </c:forEach>
-        </tbody>
-    </table> 
-    
-    <h5>
-    	Valoraciones
-    </h5>
-    <table id="valoracionesTable" class="table table-striped">
-        <thead>
-        <tr>
-            <th>Comentario</th>
-            <th>Valoración</th>
-        </tr>
-        </thead>
-        <tbody>
-        <c:forEach items="${valoraciones}" var="valoracion">
-            <tr>
-                <td>
-                    <c:out value="${valoracion.comentario}"/>
-                </td>
-                <td>
-                    <c:out value="${valoracion.valor}"/>
-                </td>
-            </tr>
-        </c:forEach>
-        </tbody>
-    </table>
-
 	<sec:authorize access="hasAuthority('propietario')">
 		<c:if test="${fiesta.local.propietario.id==userLoggedId}">
 			<button type="button" class="btn btn-default"
@@ -149,13 +101,37 @@
 			</form>
 		</c:if>
 	</sec:authorize>
-	<sec:authorize access="hasAuthority('cliente')">
-		<c:if test="${fiesta.cliente.id==userLoggedId}">
-	<h2>Solicitudes de asistencia</h2>
-		</c:if>
-	</sec:authorize>
-
-	<sec:authorize access="hasAuthority('cliente')">
+	
+	<h5>
+    	Comentarios
+    </h5>
+    <table id="comentariosTable" class="table table-striped">
+        <thead>
+        <tr>
+        	<th>Cliente</th>
+            <th>Cuerpo</th>
+            <th>Fecha</th>
+            <th></th>
+        </tr>
+        </thead>
+        <tbody>
+        <c:forEach items="${comentarios}" var="comentario">
+            <tr>
+            	<td>
+                    <c:out value="${comentario.cliente}"/>
+                </td>
+                <td>
+                    <c:out value="${comentario.cuerpo}"/>
+                </td>
+                <td>
+                    <c:out value="${comentario.fecha}"/>
+                </td>
+            </tr>
+        </c:forEach>
+        </tbody>
+    </table> 
+    
+    <sec:authorize access="hasAuthority('cliente')">
 		<c:if test="${clienteFiesta}">
 			<h2>Comentar fiesta</h2>
 			
@@ -172,22 +148,52 @@
 					</div>
 				</div>
 			</form:form>
-	<script>
-	$(document).ready(function(){
-		$("#form").submit(function(){
-			var cuerpo = $("#cuerpo").val();
-			alert(cuerpo);
-			if(cuerpo==""){
-				alert("El comentario no puede estar vacio");
-				return false;
-			}
-			return true;
-		});
-	});
-	
-	</script>
+			<script>
+				$(document).ready(function(){
+					$("#form").submit(function(){
+						var cuerpo = $("#cuerpo").val();
+						if(cuerpo==""){
+							alert("El comentario no puede estar vacio");
+							return false;
+						}
+						return true;
+					});
+				});
+			</script>
 		</c:if>
 	</sec:authorize>
+    
+    <h5>
+    	Valoraciones
+    </h5>
+    <table id="valoracionesTable" class="table table-striped">
+        <thead>
+        <tr>
+            <th>Comentario</th>
+            <th>Valoracion</th>
+        </tr>
+        </thead>
+        <tbody>
+        <c:forEach items="${valoraciones}" var="valoracion">
+            <tr>
+                <td>
+                    <c:out value="${valoracion.comentario}"/>
+                </td>
+                <td>
+                    <c:out value="${valoracion.valor}"/>
+                </td>
+            </tr>
+        </c:forEach>
+        </tbody>
+    </table>
+	
+	<sec:authorize access="hasAuthority('cliente')">
+		<c:if test="${fiesta.cliente.id==userLoggedId}">
+	<h2>Solicitudes de asistencia</h2>
+		</c:if>
+	</sec:authorize>
+
+	
 
 	<sec:authorize access="hasAuthority('cliente')">
 		<c:if test="${fiesta.cliente.id==userLoggedId}">

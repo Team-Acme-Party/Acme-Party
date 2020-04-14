@@ -132,7 +132,7 @@ public class LocalController {
 	}
 
 	@GetMapping(value = {
-		"/locales/{localId}/fiestas"
+		"/local/{localId}/fiestas"
 	})
 	public String verSolicitudes(@PathVariable("localId") final int localId, final Map<String, Object> model) {
 
