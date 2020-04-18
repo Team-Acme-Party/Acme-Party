@@ -15,11 +15,12 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.FilterType;
 import org.springframework.samples.petclinic.configuration.SecurityConfiguration;
 import org.springframework.samples.petclinic.model.Anuncio;
+import org.springframework.samples.petclinic.model.Cliente;
 import org.springframework.samples.petclinic.model.Fiesta;
 import org.springframework.samples.petclinic.model.Local;
-import org.springframework.samples.petclinic.model.Cliente;
 import org.springframework.samples.petclinic.model.Patrocinador;
 import org.springframework.samples.petclinic.model.Propietario;
+import org.springframework.samples.petclinic.service.AdministradorService;
 import org.springframework.samples.petclinic.service.AnuncioService;
 import org.springframework.samples.petclinic.service.AuthoritiesService;
 import org.springframework.samples.petclinic.service.ClienteService;
@@ -39,44 +40,48 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 public class AnuncioControllerTests {
 
 	@MockBean
-	private AnuncioService		anuncioService;
+	private AnuncioService			anuncioService;
 
 	@MockBean
-	private PatrocinadorService	patrocinadorService;
+	private PatrocinadorService		patrocinadorService;
 
 	@MockBean
-	private PropietarioService	propietarioService;
+	private PropietarioService		propietarioService;
 
 	@MockBean
-	private ClienteService		clienteService;
+	private ClienteService			clienteService;
 
 	@MockBean
-	private LocalService		localService;
+	private LocalService			localService;
 
 	@MockBean
-	private FiestaService		fiestaService;
+	private FiestaService			fiestaService;
 
 	@MockBean
-	private UserService			userService;
+	private AdministradorService	administradorService;
 
 	@MockBean
-	private AuthoritiesService	authoritiesService;
+	private UserService				userService;
+
+	@MockBean
+	private AuthoritiesService		authoritiesService;
 
 	@Autowired
-	private MockMvc				mockMvc;
+	private MockMvc					mockMvc;
 
-	private Patrocinador		patrocinador;
+	private Patrocinador			patrocinador;
 
-	private Propietario			propietario;
-	private Propietario			propietario2;
-	private Cliente				cliente;
-	private Cliente				cliente2;
+	private Propietario				propietario;
+	private Propietario				propietario2;
+	private Cliente					cliente;
+	private Cliente					cliente2;
 
-	private Anuncio				anuncio;
-	private Anuncio				a2;
+	private Anuncio					anuncio;
+	private Anuncio					a2;
 
-	private Local				local	= new Local();
-	private Fiesta				fiesta	= new Fiesta();
+	private Local					local	= new Local();
+	private Fiesta					fiesta	= new Fiesta();
+
 
 	@BeforeEach
 	void datosIniciales() {
@@ -133,7 +138,7 @@ public class AnuncioControllerTests {
 		anuncios.add(this.anuncio);
 		anuncios.add(this.a2);
 		BDDMockito.given(this.anuncioService.findByPatrocinadorId(this.patrocinador.getId())).willReturn(anuncios);
-    BDDMockito.given(this.anuncioService.findById(10)).willReturn(this.anuncio);
+		BDDMockito.given(this.anuncioService.findById(10)).willReturn(this.anuncio);
 		BDDMockito.given(this.anuncioService.findByPropietarioId(this.propietario.getId())).willReturn(anuncios);
 		BDDMockito.given(this.anuncioService.findByClienteId(this.cliente.getId())).willReturn(anuncios);
 	}

@@ -18,6 +18,7 @@ import org.springframework.samples.petclinic.model.Cliente;
 import org.springframework.samples.petclinic.model.Fiesta;
 import org.springframework.samples.petclinic.model.Local;
 import org.springframework.samples.petclinic.model.Propietario;
+import org.springframework.samples.petclinic.service.AdministradorService;
 import org.springframework.samples.petclinic.service.AnuncioService;
 import org.springframework.samples.petclinic.service.AuthoritiesService;
 import org.springframework.samples.petclinic.service.ClienteService;
@@ -58,6 +59,9 @@ public class FiestaControllerTests {
 
 	@MockBean
 	private PropietarioService			propietarioService;
+
+	@MockBean
+	private AdministradorService		administradorService;
 
 	@MockBean
 	private UserService					userService;

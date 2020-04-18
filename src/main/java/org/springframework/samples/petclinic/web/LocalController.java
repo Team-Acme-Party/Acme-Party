@@ -7,6 +7,7 @@ import java.util.Map;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.samples.petclinic.model.Administrador;
 import org.springframework.samples.petclinic.model.Anuncio;
 import org.springframework.samples.petclinic.model.Cliente;
 import org.springframework.samples.petclinic.model.Comentario;
@@ -14,6 +15,7 @@ import org.springframework.samples.petclinic.model.Fiesta;
 import org.springframework.samples.petclinic.model.Local;
 import org.springframework.samples.petclinic.model.Propietario;
 import org.springframework.samples.petclinic.model.Valoracion;
+import org.springframework.samples.petclinic.service.AdministradorService;
 import org.springframework.samples.petclinic.service.AnuncioService;
 import org.springframework.samples.petclinic.service.ClienteService;
 import org.springframework.samples.petclinic.service.ComentarioService;
@@ -42,11 +44,12 @@ public class LocalController {
 	private final ComentarioService				comentarioService;
 	private final ValoracionService				valoracionService;
 	private final SolicitudAsistenciaService	solicitudAsistenciaService;
+	private final AdministradorService			administradorService;
 
 
 	@Autowired
 	public LocalController(final LocalService localService, final PropietarioService propietarioService, final FiestaService fiestaService, final AnuncioService anuncioService, final ComentarioService comentarioService,
-		final ValoracionService valoracionService, final SolicitudAsistenciaService solicitudAsistenciaService, final ClienteService clienteService) {
+		final ValoracionService valoracionService, final SolicitudAsistenciaService solicitudAsistenciaService, final ClienteService clienteService, final AdministradorService administradorService) {
 		this.localService = localService;
 		this.propietarioService = propietarioService;
 		this.fiestaService = fiestaService;
@@ -55,31 +58,41 @@ public class LocalController {
 		this.valoracionService = valoracionService;
 		this.solicitudAsistenciaService = solicitudAsistenciaService;
 		this.clienteService = clienteService;
+		this.administradorService = administradorService;
 	}
 
 	@GetMapping(value = {
 		"/locales/{localId}"
 	})
 	public ModelAndView showLocal(@PathVariable("localId") final int localId) {
-		ModelAndView mav = new ModelAndView("locales/localDetails");
-		Collection<Anuncio> anuncios = this.anuncioService.findByLocalId(localId);
-		Collection<Comentario> comentarios = this.comentarioService.findByLocalId(localId);
-		Collection<Valoracion> valoraciones = this.valoracionService.findByLocalId(localId);
-		mav.addObject("valoraciones", valoraciones);
-		mav.addObject("comentarios", comentarios);
-		mav.addObject(this.localService.findLocalById(localId));
-		mav.addObject("anuncios", anuncios);
-
+		ModelAndView mav;
+		Local local = this.localService.findLocalById(localId);
 		String username = SecurityContextHolder.getContext().getAuthentication().getName();
 		Cliente c = this.clienteService.findByUsername(username);
-		if (c != null) {
-			mav.addObject("cliente", c);
-			Collection<Fiesta> fiestasCliente = this.solicitudAsistenciaService.findSolicitudFiestaByClienteId(c.getId());
-			if (fiestasCliente.stream().anyMatch(a -> a.getLocal().equals(this.localService.findLocalById(localId)))) {
-				mav.addObject("clienteLocal", true);
-				Comentario comentario = new Comentario();
-				mav.addObject("comentario", comentario);
+		Propietario propietario = this.propietarioService.findByUsername(username);
+		Administrador admin = this.administradorService.findByUsername(username);
+		if (local.getDecision().equals("ACEPTADO") || admin != null || this.localService.findByPropietarioId(propietario.getId()).contains(local)) {
+			mav = new ModelAndView("locales/localDetails");
+			Collection<Anuncio> anuncios = this.anuncioService.findByLocalId(localId);
+			Collection<Comentario> comentarios = this.comentarioService.findByLocalId(localId);
+			Collection<Valoracion> valoraciones = this.valoracionService.findByLocalId(localId);
+			mav.addObject("valoraciones", valoraciones);
+			mav.addObject("comentarios", comentarios);
+			mav.addObject(this.localService.findLocalById(localId));
+			mav.addObject("anuncios", anuncios);
+
+			if (c != null) {
+				mav.addObject("cliente", c);
+				Collection<Fiesta> fiestasCliente = this.solicitudAsistenciaService.findSolicitudFiestaByClienteId(c.getId());
+				if (fiestasCliente.stream().anyMatch(a -> a.getLocal().equals(this.localService.findLocalById(localId)))) {
+					mav.addObject("clienteLocal", true);
+					Comentario comentario = new Comentario();
+					mav.addObject("comentario", comentario);
+				}
 			}
+		} else {
+			mav = new ModelAndView("exception");
+			mav.addObject("message", "No puede ver este local");
 		}
 		return mav;
 	}

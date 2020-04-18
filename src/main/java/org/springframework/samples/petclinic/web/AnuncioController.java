@@ -8,12 +8,14 @@ import java.util.Map;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.samples.petclinic.model.Administrador;
 import org.springframework.samples.petclinic.model.Anuncio;
 import org.springframework.samples.petclinic.model.Cliente;
 import org.springframework.samples.petclinic.model.Fiesta;
 import org.springframework.samples.petclinic.model.Local;
 import org.springframework.samples.petclinic.model.Patrocinador;
 import org.springframework.samples.petclinic.model.Propietario;
+import org.springframework.samples.petclinic.service.AdministradorService;
 import org.springframework.samples.petclinic.service.AnuncioService;
 import org.springframework.samples.petclinic.service.ClienteService;
 import org.springframework.samples.petclinic.service.FiestaService;
@@ -38,25 +40,42 @@ public class AnuncioController {
 	private final PropietarioService	propietarioService;
 	private final LocalService			localService;
 	private final FiestaService			fiestaService;
+	private final AdministradorService	administradorService;
 
 
 	@Autowired
 	public AnuncioController(final AnuncioService anuncioService, final PatrocinadorService patrocinadorService, final LocalService localService, final FiestaService fiestaService, final ClienteService clienteService,
-		final PropietarioService propietarioService) {
+		final PropietarioService propietarioService, final AdministradorService administradorService) {
 		this.anuncioService = anuncioService;
 		this.patrocinadorService = patrocinadorService;
 		this.localService = localService;
 		this.fiestaService = fiestaService;
 		this.clienteService = clienteService;
 		this.propietarioService = propietarioService;
+		this.administradorService = administradorService;
 	}
 
 	@GetMapping(value = {
 		"/anuncios/{anuncioId}"
 	})
 	public ModelAndView showAnuncio(@PathVariable("anuncioId") final int anuncioId) {
-		ModelAndView mav = new ModelAndView("anuncios/anuncioDetails");
-		mav.addObject(this.anuncioService.findById(anuncioId));
+		ModelAndView mav;
+
+		Anuncio anuncio = this.anuncioService.findById(anuncioId);
+		String username = SecurityContextHolder.getContext().getAuthentication().getName();
+		Patrocinador patrocinador = this.patrocinadorService.findByUsername(username);
+		Cliente cliente = this.clienteService.findByUsername(username);
+		Propietario propietario = this.propietarioService.findByUsername(username);
+		Administrador admin = this.administradorService.findByUsername(username);
+
+		if (patrocinador != null && this.anuncioService.findByPatrocinadorId(patrocinador.getId()).contains(anuncio) || cliente != null && this.anuncioService.findByClienteId(cliente.getId()).contains(anuncio)
+			|| propietario != null && this.anuncioService.findByPropietarioId(propietario.getId()).contains(anuncio) || admin != null) {
+			mav = new ModelAndView("anuncios/anuncioDetails");
+			mav.addObject(anuncio);
+		} else {
+			mav = new ModelAndView("exception");
+			mav.addObject("message", "No puede ver ese anuncio");
+		}
 		return mav;
 	}
 

@@ -8,6 +8,7 @@ import javax.validation.Valid;
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.samples.petclinic.model.Administrador;
 import org.springframework.samples.petclinic.model.Anuncio;
 import org.springframework.samples.petclinic.model.Cliente;
 import org.springframework.samples.petclinic.model.Comentario;
@@ -16,6 +17,7 @@ import org.springframework.samples.petclinic.model.Local;
 import org.springframework.samples.petclinic.model.Propietario;
 import org.springframework.samples.petclinic.model.SolicitudAsistencia;
 import org.springframework.samples.petclinic.model.Valoracion;
+import org.springframework.samples.petclinic.service.AdministradorService;
 import org.springframework.samples.petclinic.service.AnuncioService;
 import org.springframework.samples.petclinic.service.ClienteService;
 import org.springframework.samples.petclinic.service.ComentarioService;
@@ -46,11 +48,12 @@ public class FiestaController {
 	private final ComentarioService				comentarioService;
 	private final ValoracionService				valoracionService;
 	private final SolicitudAsistenciaService	solicitudAsistenciaService;
+	private final AdministradorService			administradorService;
 
 
 	@Autowired
 	public FiestaController(final FiestaService fiestaService, final LocalService localService, final ClienteService clienteService, final PropietarioService propietarioService, final AnuncioService anuncioService,
-		final ComentarioService comentarioService, final ValoracionService valoracionService, final SolicitudAsistenciaService solicitudAsistenciaService) {
+		final ComentarioService comentarioService, final ValoracionService valoracionService, final SolicitudAsistenciaService solicitudAsistenciaService, final AdministradorService administradorService) {
 		this.fiestaService = fiestaService;
 		this.localService = localService;
 		this.clienteService = clienteService;
@@ -59,6 +62,7 @@ public class FiestaController {
 		this.comentarioService = comentarioService;
 		this.valoracionService = valoracionService;
 		this.solicitudAsistenciaService = solicitudAsistenciaService;
+		this.administradorService = administradorService;
 	}
 
 	@InitBinder("fiesta")
@@ -70,41 +74,48 @@ public class FiestaController {
 		"/fiestas/{fiestaId}"
 	})
 	public ModelAndView showFiesta(@PathVariable("fiestaId") final int fiestaId) {
-		ModelAndView mav = new ModelAndView("fiestas/fiestaDetails");
+		ModelAndView mav;
 
+		Fiesta fiesta = this.fiestaService.findFiestaById(fiestaId);
 		String username = SecurityContextHolder.getContext().getAuthentication().getName();
-
 		Propietario p = this.propietarioService.findByUsername(username);
 		Cliente cliente = this.clienteService.findByUsername(username);
-		Fiesta fiesta = this.fiestaService.findFiestaById(fiestaId);
+		Administrador admin = this.administradorService.findByUsername(username);
 
-		if (p != null) {
-			mav.addObject("userLoggedId", p.getId());
-		} else if (cliente != null) {
-			mav.addObject("userLoggedId", cliente.getId());
+		if (fiesta.getDecision().equals("ACEPTADO") || admin != null || cliente != null && this.fiestaService.findByClienteId(cliente.getId()).contains(fiesta) || p != null && this.localService.findByPropietarioId(p.getId()).contains(fiesta.getLocal())) {
+			mav = new ModelAndView("fiestas/fiestaDetails");
 
-			Collection<Fiesta> solicitudesCliente = this.fiestaService.findAsistenciasByClienteId(cliente.getId());
-			Boolean esFiestaSolicitadaPorCliente = solicitudesCliente.contains(fiesta);
-			Collection<SolicitudAsistencia> solicitudes = this.solicitudAsistenciaService.findByFiesta(fiesta);
-			mav.addObject("esFiestaSolicitadaPorCliente", esFiestaSolicitadaPorCliente);
-			mav.addObject("solicitudes", solicitudes);
+			if (p != null) {
+				mav.addObject("userLoggedId", p.getId());
+			} else if (cliente != null) {
+				mav.addObject("userLoggedId", cliente.getId());
 
-			Collection<Fiesta> fiestasCliente = this.solicitudAsistenciaService.findSolicitudFiestaByClienteId(cliente.getId());
-			if (fiestasCliente.contains(this.fiestaService.findFiestaById(fiestaId))) {
-				mav.addObject("clienteFiesta", true);
-				Comentario comentario = new Comentario();
-				mav.addObject("comentario", comentario);
+				Collection<Fiesta> solicitudesCliente = this.fiestaService.findAsistenciasByClienteId(cliente.getId());
+				Boolean esFiestaSolicitadaPorCliente = solicitudesCliente.contains(fiesta);
+				Collection<SolicitudAsistencia> solicitudes = this.solicitudAsistenciaService.findByFiesta(fiesta);
+				mav.addObject("esFiestaSolicitadaPorCliente", esFiestaSolicitadaPorCliente);
+				mav.addObject("solicitudes", solicitudes);
+
+				Collection<Fiesta> fiestasCliente = this.solicitudAsistenciaService.findSolicitudFiestaByClienteId(cliente.getId());
+				if (fiestasCliente.contains(this.fiestaService.findFiestaById(fiestaId))) {
+					mav.addObject("clienteFiesta", true);
+					Comentario comentario = new Comentario();
+					mav.addObject("comentario", comentario);
+				}
 			}
+
+			Collection<Anuncio> anuncios = this.anuncioService.findByFiestaId(fiestaId);
+			Collection<Comentario> comentarios = this.comentarioService.findByFiestaId(fiestaId);
+			Collection<Valoracion> valoraciones = this.valoracionService.findByFiestaId(fiestaId);
+
+			mav.addObject("valoraciones", valoraciones);
+			mav.addObject("comentarios", comentarios);
+			mav.addObject("fiesta", this.fiestaService.findFiestaById(fiestaId));
+			mav.addObject("anuncios", anuncios);
+		} else {
+			mav = new ModelAndView("exception");
+			mav.addObject("message", "No puede ver esta fiesta");
 		}
-
-		Collection<Anuncio> anuncios = this.anuncioService.findByFiestaId(fiestaId);
-		Collection<Comentario> comentarios = this.comentarioService.findByFiestaId(fiestaId);
-		Collection<Valoracion> valoraciones = this.valoracionService.findByFiestaId(fiestaId);
-
-		mav.addObject("valoraciones", valoraciones);
-		mav.addObject("comentarios", comentarios);
-		mav.addObject("fiesta", this.fiestaService.findFiestaById(fiestaId));
-		mav.addObject("anuncios", anuncios);
 		return mav;
 	}
 
@@ -156,7 +167,9 @@ public class FiestaController {
 		try {
 			String username = SecurityContextHolder.getContext().getAuthentication().getName();
 			Cliente cliente = this.clienteService.findByUsername(username);
-			if (cliente == null) {
+			Local local = this.localService.findLocalById(localId);
+
+			if (cliente == null || !local.getDecision().equals("ACEPTADO")) {
 				throw new Exception();
 			} else {
 				Fiesta fiesta = new Fiesta();
@@ -195,7 +208,7 @@ public class FiestaController {
 		try {
 			String username = SecurityContextHolder.getContext().getAuthentication().getName();
 			Cliente cliente = this.clienteService.findByUsername(username);
-			if (cliente == null) {
+			if (cliente == null || !this.fiestaService.findByClienteId(cliente.getId()).contains(fiesta)) {
 				throw new Exception();
 			} else {
 				model.put("fiesta", fiesta);
