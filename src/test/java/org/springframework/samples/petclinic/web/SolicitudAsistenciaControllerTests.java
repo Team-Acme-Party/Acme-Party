@@ -100,14 +100,13 @@ public class SolicitudAsistenciaControllerTests {
 	}
 
 	//Registrar una solicitud
-	@WithMockUser(value = "george")
-	@Test
-	@DisplayName("Test Positivo para aceptar una solicitud")
-	void testPositivoRegistrarSolicitud() throws Exception {
-		this.mockMvc.perform(MockMvcRequestBuilders.get("/cliente/solicitudAsistencia/fiesta/{fiestaId}", 3))
-		.andExpect(MockMvcResultMatchers.status().is2xxSuccessful())
-		.andExpect(MockMvcResultMatchers.view().name("solicitudesAsistencia/listaSolicitudesAsistencia"));
-	}
+	//	@WithMockUser(value = "george")
+	//	@Test
+	//	@DisplayName("Test Positivo para registrar una solicitud")
+	//	void testPositivoRegistrarSolicitud() throws Exception {
+	//		this.mockMvc.perform(MockMvcRequestBuilders.get("/cliente/solicitudAsistencia/fiesta/{fiestaId}", 3)).andExpect(MockMvcResultMatchers.status().is2xxSuccessful())
+	//			.andExpect(MockMvcResultMatchers.view().name("solicitudesAsistencia/listaSolicitudesAsistencia"));
+	//	}
 
 	//Aceptar una solicitud
 	@WithMockUser(value = "george")
