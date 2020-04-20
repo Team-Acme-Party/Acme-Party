@@ -33,7 +33,10 @@ import org.springframework.transaction.annotation.Transactional;
 public class PropietarioService {
 
 	private PropietarioRepository propietarioRepository;
-
+	@Autowired
+	private UserService userService;
+	@Autowired
+	private AuthoritiesService authoritiesService;
 
 	@Autowired
 	public PropietarioService(final PropietarioRepository propietarioRepository) {
@@ -49,4 +52,14 @@ public class PropietarioService {
 	public Propietario findById(final int id) throws DataAccessException {
 		return this.propietarioRepository.findById(id);
 	}
+	
+	@Transactional
+	public void save(Propietario propietario) throws DataAccessException {
+		//creating owner
+		propietarioRepository.save(propietario);		
+		//creating user
+		userService.saveUser(propietario.getUser());
+		//creating authorities
+		authoritiesService.saveAuthorities(propietario.getUser().getUsername(), "propietario");
+	}		
 }

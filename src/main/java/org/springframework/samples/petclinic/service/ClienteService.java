@@ -19,6 +19,7 @@ package org.springframework.samples.petclinic.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.samples.petclinic.model.Cliente;
+import org.springframework.samples.petclinic.model.Propietario;
 import org.springframework.samples.petclinic.repository.ClienteRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -33,7 +34,10 @@ import org.springframework.transaction.annotation.Transactional;
 public class ClienteService {
 
 	private ClienteRepository clienteRepository;
-
+	@Autowired
+	private UserService userService;
+	@Autowired
+	private AuthoritiesService authoritiesService;
 
 	@Autowired
 	public ClienteService(final ClienteRepository clienteRepository) {
@@ -49,4 +53,14 @@ public class ClienteService {
 	public Cliente findById(final int id) throws DataAccessException {
 		return this.clienteRepository.findById(id);
 	}
+	
+	@Transactional
+	public void save(Cliente cliente) throws DataAccessException {
+		//creating owner
+		clienteRepository.save(cliente);		
+		//creating user
+		userService.saveUser(cliente.getUser());
+		//creating authorities
+		authoritiesService.saveAuthorities(cliente.getUser().getUsername(), "cliente");
+	}		
 }

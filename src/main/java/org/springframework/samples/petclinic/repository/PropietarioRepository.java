@@ -9,5 +9,6 @@ public interface PropietarioRepository {
 	Propietario findByUsername(String username) throws DataAccessException;
 
 	Propietario findById(int id) throws DataAccessException;
+	void save(Propietario propietario) throws DataAccessException;
 
 }

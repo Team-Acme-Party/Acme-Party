@@ -21,62 +21,62 @@
 		</div>
 		<div class="navbar-collapse collapse" id="main-navbar">
 			<ul class="nav navbar-nav">
-				
-				<petclinic:menuItem active="${name eq 'locales'}" url="/locales/buscar"
-					title="Buscar locales">
+
+				<petclinic:menuItem active="${name eq 'locales'}"
+					url="/locales/buscar" title="Buscar locales">
 					<span class="glyphicon glyphicon-home" aria-hidden="true"></span>
 					<span>Buscar locales</span>
 				</petclinic:menuItem>
-				
-				<petclinic:menuItem active="${name eq 'fiestas'}" url="/fiestas/buscar"
-					title="Buscar fiestas">
+
+				<petclinic:menuItem active="${name eq 'fiestas'}"
+					url="/fiestas/buscar" title="Buscar fiestas">
 					<span class="glyphicon glyphicon-home" aria-hidden="true"></span>
 					<span>Buscar fiestas</span>
 				</petclinic:menuItem>
 
 				<sec:authorize access="hasAuthority('propietario')">
-					<petclinic:menuItem active="${name eq 'mislocales'}" url="/propietario/locales"
-						title="Mis locales">
+					<petclinic:menuItem active="${name eq 'mislocales'}"
+						url="/propietario/locales" title="Mis locales">
 						<span class="glyphicon glyphicon-home" aria-hidden="true"></span>
 						<span>Mis locales</span>
 					</petclinic:menuItem>
-					<petclinic:menuItem active="${name eq 'misanuncios'}" url="/propietario/anuncios"
-						title="Mis anuncios">
+					<petclinic:menuItem active="${name eq 'misanuncios'}"
+						url="/propietario/anuncios" title="Mis anuncios">
 						<span class="glyphicon glyphicon-home" aria-hidden="true"></span>
 						<span>Mis anuncios</span>
 					</petclinic:menuItem>
 				</sec:authorize>
-				
+
 				<sec:authorize access="hasAuthority('cliente')">
-					<petclinic:menuItem active="${name eq 'misfiestas'}" url="/cliente/fiestas"
-						title="Mis fiestas">
+					<petclinic:menuItem active="${name eq 'misfiestas'}"
+						url="/cliente/fiestas" title="Mis fiestas">
 						<span class="glyphicon glyphicon-home" aria-hidden="true"></span>
 						<span>Mis fiestas</span>
 					</petclinic:menuItem>
-					<petclinic:menuItem active="${name eq 'misasistencias'}" url="/cliente/solicitudesAsistencias"
-						title="Mis asistencias">
+					<petclinic:menuItem active="${name eq 'misasistencias'}"
+						url="/cliente/solicitudesAsistencias" title="Mis asistencias">
 						<span class="glyphicon glyphicon-home" aria-hidden="true"></span>
 						<span>Mis asistencias</span>
 					</petclinic:menuItem>
-					<petclinic:menuItem active="${name eq 'misanuncios'}" url="/cliente/anuncios"
-						title="Mis anuncios">
+					<petclinic:menuItem active="${name eq 'misanuncios'}"
+						url="/cliente/anuncios" title="Mis anuncios">
 						<span class="glyphicon glyphicon-home" aria-hidden="true"></span>
 						<span>Mis anuncios</span>
 					</petclinic:menuItem>
 				</sec:authorize>
-				
-				
+
+
 				<sec:authorize access="hasAuthority('patrocinador')">
-					<petclinic:menuItem active="${name eq 'misanuncios'}" url="/patrocinador/anuncios"
-						title="Mis Anuncios">
+					<petclinic:menuItem active="${name eq 'misanuncios'}"
+						url="/patrocinador/anuncios" title="Mis Anuncios">
 						<span class="glyphicon glyphicon-home" aria-hidden="true"></span>
 						<span>Mis Anuncios</span>
 					</petclinic:menuItem>
 				</sec:authorize>
-				
+
 				<sec:authorize access="hasAuthority('admin')">
-					<petclinic:menuItem active="${name eq 'locales'}" url="/administrador/locales"
-						title="Locales">
+					<petclinic:menuItem active="${name eq 'locales'}"
+						url="/administrador/locales" title="Locales">
 						<span class="glyphicon glyphicon-home" aria-hidden="true"></span>
 						<span>Locales</span>
 					</petclinic:menuItem>
@@ -90,7 +90,29 @@
 			<ul class="nav navbar-nav navbar-right">
 				<sec:authorize access="!isAuthenticated()">
 					<li><a href="<c:url value="/login" />">Login</a></li>
-					<li><a href="<c:url value="/users/new" />">Register</a></li>
+					<li class="dropdown"><a href="#" class="dropdown-toggle"
+						data-toggle="dropdown"> <strong>REGISTRO</strong> <span
+							class="glyphicon glyphicon-chevron-down"></span>
+					</a>
+						<ul class="dropdown-menu">
+							<li>
+								<div class="navbar-login">
+									<p>
+										<a href="<c:url value="/propietario/new" />" class="btn btn-block">Propietario</a>
+									</p>
+								</div>
+							</li>
+							<li>
+								<div class="navbar-login">
+									<a href="<c:url value="/cliente/new" />" class="btn btn-block">Cliente</a>
+								</div>
+							</li>
+							<li>
+								<div class="navbar-login">
+									<a href="<c:url value="/patrocinador/new" />" class="btn btn-block">Patrocinador</a>
+								</div>
+							</li>
+						</ul>
 				</sec:authorize>
 				<sec:authorize access="isAuthenticated()">
 					<li class="dropdown"><a href="#" class="dropdown-toggle"
@@ -120,7 +142,7 @@
 								</div>
 							</li>
 							<li class="divider"></li>
-<!-- 							
+							<!-- 							
                             <li> 
 								<div class="navbar-login navbar-login-session">
 									<div class="row">
