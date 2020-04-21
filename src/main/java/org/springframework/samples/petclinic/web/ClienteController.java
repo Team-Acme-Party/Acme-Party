@@ -1,3 +1,4 @@
+
 package org.springframework.samples.petclinic.web;
 
 import java.util.Map;
@@ -6,7 +7,6 @@ import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.samples.petclinic.model.Cliente;
-import org.springframework.samples.petclinic.model.Propietario;
 import org.springframework.samples.petclinic.service.ClienteService;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
@@ -18,9 +18,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 @Controller
 public class ClienteController {
 
-	private static final String VIEWS_CLIENTE_CREATE_OR_UPDATE_FORM = "clientes/createOrUpdateClienteForm";
+	private static final String		VIEWS_CLIENTE_CREATE_OR_UPDATE_FORM	= "clientes/createOrUpdateClienteForm";
 
-	private final ClienteService clienteService;
+	private final ClienteService	clienteService;
+
 
 	@Autowired
 	public ClienteController(final ClienteService clienteService) {
@@ -33,23 +34,23 @@ public class ClienteController {
 	}
 
 	@GetMapping(value = "/cliente/new")
-	public String initCreationForm(Map<String, Object> model) {
+	public String initCreationForm(final Map<String, Object> model) {
 		Cliente cliente = new Cliente();
 		model.put("cliente", cliente);
-		return VIEWS_CLIENTE_CREATE_OR_UPDATE_FORM;
+		return ClienteController.VIEWS_CLIENTE_CREATE_OR_UPDATE_FORM;
 	}
 
 	@PostMapping(value = "/cliente/new")
-	public String processCreationForm(@Valid Cliente cliente, BindingResult result, Map<String, Object> model) {
+	public String processCreationForm(@Valid final Cliente cliente, final BindingResult result, final Map<String, Object> model) {
 		if (result.hasErrors()) {
 			model.put("cliente", cliente);
-			return VIEWS_CLIENTE_CREATE_OR_UPDATE_FORM;
+			return ClienteController.VIEWS_CLIENTE_CREATE_OR_UPDATE_FORM;
 		} else {
 			try {
 				// creating owner, user and authorities
 				this.clienteService.save(cliente);
-				return "redirect:/cliente/locales";
-				
+				return "redirect:/cliente/fiestas";
+
 			} catch (Exception e) {
 				model.put("message", "Ya existe un usario con este nombre de usuario");
 				return "exception";
