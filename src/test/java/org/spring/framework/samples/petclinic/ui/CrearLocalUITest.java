@@ -14,7 +14,7 @@ import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 
-public class BuscarLocalUITest {
+public class CrearLocalUITest {
 
 	private WebDriver		driver;
 	private String			baseUrl;
@@ -32,14 +32,32 @@ public class BuscarLocalUITest {
 	}
 
 	@Test
-	public void testBuscarUnLocal() throws Exception {
+	public void testCrearLocal1() throws Exception {
 		this.driver.get("http://localhost:8080/");
-		this.driver.findElement(By.xpath("//a[contains(@href, '/locales/buscar')]")).click();
-		this.driver.findElement(By.name("direccion")).click();
-		this.driver.findElement(By.name("direccion")).clear();
-		this.driver.findElement(By.name("direccion")).sendKeys("Luis Montoto");
+		this.driver.findElement(By.xpath("//a[contains(@href, '/login')]")).click();
+		this.driver.findElement(By.id("password")).clear();
+		this.driver.findElement(By.id("password")).sendKeys("propietario1");
+		this.driver.findElement(By.id("username")).clear();
+		this.driver.findElement(By.id("username")).sendKeys("propietario1");
 		this.driver.findElement(By.xpath("//button[@type='submit']")).click();
-		Assert.assertEquals("Luis Montoto 12", this.driver.findElement(By.xpath("//table[@id='localesTable']/tbody/tr/td")).getText());
+		Assert.assertEquals("PROPIETARIO1", this.driver.findElement(By.xpath("//div[@id='main-navbar']/ul[2]/li/a/strong")).getText());
+		this.driver.findElement(By.xpath("//a[contains(@href, '/propietario/locales')]")).click();
+		this.driver.findElement(By.linkText("Nuevo local")).click();
+		this.driver.findElement(By.id("direccion")).click();
+		this.driver.findElement(By.id("direccion")).clear();
+		this.driver.findElement(By.id("direccion")).sendKeys("test");
+		this.driver.findElement(By.id("capacidad")).click();
+		this.driver.findElement(By.id("capacidad")).clear();
+		this.driver.findElement(By.id("capacidad")).sendKeys("100");
+		this.driver.findElement(By.id("condiciones")).click();
+		this.driver.findElement(By.id("condiciones")).clear();
+		this.driver.findElement(By.id("condiciones")).sendKeys("Ninguna");
+		this.driver.findElement(By.id("imagen")).click();
+		this.driver.findElement(By.id("imagen")).clear();
+		this.driver.findElement(By.id("imagen")).sendKeys("https://image.shutterstock.com/image-vector/shop-local-small-business-stamp-260nw-204052588.jpg");
+		this.driver.findElement(By.xpath("//button[@type='submit']")).click();
+		this.driver.findElement(By.xpath("(//button[@type='button'])[8]")).click();
+		Assert.assertEquals("test", this.driver.findElement(By.xpath("//b")).getText());
 	}
 
 	@AfterEach

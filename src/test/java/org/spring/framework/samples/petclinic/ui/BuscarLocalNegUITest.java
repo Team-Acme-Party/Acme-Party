@@ -12,9 +12,9 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.NoAlertPresentException;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.chrome.ChromeDriver;;
+import org.openqa.selenium.firefox.FirefoxDriver;
 
-public class LoginUITest {
+public class BuscarLocalNegUITest {
 
 	private WebDriver		driver;
 	private String			baseUrl;
@@ -24,23 +24,22 @@ public class LoginUITest {
 
 	@BeforeEach
 	public void setUp() throws Exception {
-		//		String pathToGeckoDriver = "C:\\Users\\Jesus\\Downloads";
-		//		System.setProperty("webdriver.chrome.driver", pathToGeckoDriver + "\\chromedriver.exe");
-		this.driver = new ChromeDriver();
+		String pathToGeckoDriver = "C:\\Users\\Frank\\Downloads";
+		System.setProperty("webdriver.gecko.driver", pathToGeckoDriver + "\\geckodriver.exe");
+		this.driver = new FirefoxDriver();
 		this.baseUrl = "https://www.google.com/";
 		this.driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
 	}
 
 	@Test
-	public void testUntitledTestCase() throws Exception {
-		this.driver.get("http://localhost:8080/login");
-		this.driver.findElement(By.id("username")).clear();
-		this.driver.findElement(By.id("username")).sendKeys("propietario1");
-		this.driver.findElement(By.id("password")).click();
-		this.driver.findElement(By.id("password")).clear();
-		this.driver.findElement(By.id("password")).sendKeys("propietario1");
-		this.driver.findElement(By.xpath("//button[@type='submit']")).click();
-		Assert.assertEquals("PROPIETARIO1", this.driver.findElement(By.xpath("//div[@id='main-navbar']/ul[2]/li/a/strong")).getText());
+	public void testBuscarUnLocalN() throws Exception {
+		this.driver.get("http://localhost:8080/");
+		this.driver.findElement(By.xpath("//a[contains(@href, '/locales/buscar')]")).click();
+		this.driver.findElement(By.name("direccion")).click();
+		this.driver.findElement(By.name("direccion")).clear();
+		this.driver.findElement(By.name("direccion")).sendKeys("LUIS");
+		this.driver.findElement(By.id("search-owner-form")).submit();
+		Assert.assertEquals("has not been found", this.driver.findElement(By.id("local.errors")).getText());
 	}
 
 	@AfterEach

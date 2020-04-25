@@ -14,7 +14,7 @@ import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 
-public class BuscarLocalUITest {
+public class BuscarFiestaUITest {
 
 	private WebDriver		driver;
 	private String			baseUrl;
@@ -32,14 +32,14 @@ public class BuscarLocalUITest {
 	}
 
 	@Test
-	public void testBuscarUnLocal() throws Exception {
+	public void testBuscarUnaFiesta() throws Exception {
 		this.driver.get("http://localhost:8080/");
-		this.driver.findElement(By.xpath("//a[contains(@href, '/locales/buscar')]")).click();
-		this.driver.findElement(By.name("direccion")).click();
-		this.driver.findElement(By.name("direccion")).clear();
-		this.driver.findElement(By.name("direccion")).sendKeys("Luis Montoto");
+		this.driver.findElement(By.xpath("//a[contains(@href, '/fiestas/buscar')]")).click();
+		this.driver.findElement(By.name("nombre")).click();
+		this.driver.findElement(By.name("nombre")).clear();
+		this.driver.findElement(By.name("nombre")).sendKeys("disfraces");
 		this.driver.findElement(By.xpath("//button[@type='submit']")).click();
-		Assert.assertEquals("Luis Montoto 12", this.driver.findElement(By.xpath("//table[@id='localesTable']/tbody/tr/td")).getText());
+		Assert.assertEquals("Fiesta de disfraces", this.driver.findElement(By.xpath("//table[@id='fiestasTable']/tbody/tr/td")).getText());
 	}
 
 	@AfterEach
