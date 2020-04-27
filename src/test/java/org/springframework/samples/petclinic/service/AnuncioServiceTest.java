@@ -35,12 +35,14 @@ public class AnuncioServiceTest {
 	@DisplayName("Test positivo listar mis anuncios")
 	void testListAnuncios() {
 		Collection<Anuncio> anuncios = this.anuncioService.findByPatrocinadorId(1);
-		Anuncio anuncio = this.anuncioService.findById(1);
-		Assertions.assertEquals(anuncios.contains(anuncio), true);
+		Anuncio anuncio1 = this.anuncioService.findById(1);
+		Anuncio anuncio3 = this.anuncioService.findById(3);
+		Assertions.assertEquals(anuncios.contains(anuncio1), true);
+		Assertions.assertEquals(anuncios.contains(anuncio3), false);
 	}
 
 	@Test
-	@DisplayName("Test positivo mostrar formulario de registro para locales")
+	@DisplayName("Test positivo registro para locales")
 	void testNewAnuncioForLocal() {
 		Collection<Anuncio> before = this.anuncioService.findAll();
 		Patrocinador patrocinador = this.patrocinadorService.findById(1);
@@ -51,13 +53,18 @@ public class AnuncioServiceTest {
 		anuncio.setDecision("PENDIENTE");
 		anuncio.setPatrocinador(patrocinador);
 		anuncio.setLocal(local);
-		this.anuncioService.save(anuncio);
-		Collection<Anuncio> after = this.anuncioService.findAll();
-		Assertions.assertEquals(before.size(), after.size() - 1);
+		try {
+			this.anuncioService.save(anuncio);
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			Collection<Anuncio> after = this.anuncioService.findAll();
+			Assertions.assertEquals(before.size(), after.size() - 1);
+		}
 	}
 
 	@Test
-	@DisplayName("Test negativo mostrar formulario de registro para locales")
+	@DisplayName("Test negativo registro para locales")
 	void testNegativoNewAnuncioForLocal() {
 		Patrocinador patrocinador = this.patrocinadorService.findById(1);
 		Local local = this.localService.findLocalById(1);
@@ -70,12 +77,12 @@ public class AnuncioServiceTest {
 		try {
 			this.anuncioService.save(anuncio);
 		} catch (Exception e) {
-
+			e.printStackTrace();
 		}
 	}
 
 	@Test
-	@DisplayName("Test positivo mostrar formulario de registro para fiestas")
+	@DisplayName("Test positivo registro para fiestas")
 	void testNewAnuncioForFiesta() {
 		Collection<Anuncio> before = this.anuncioService.findAll();
 		Patrocinador patrocinador = this.patrocinadorService.findById(1);
@@ -85,13 +92,18 @@ public class AnuncioServiceTest {
 		anuncio.setDecision("PENDIENTE");
 		anuncio.setPatrocinador(patrocinador);
 		anuncio.setFiesta(fiesta);
-		this.anuncioService.save(anuncio);
-		Collection<Anuncio> after = this.anuncioService.findAll();
-		Assertions.assertEquals(before.size(), after.size() - 1);
+		try {
+			this.anuncioService.save(anuncio);
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			Collection<Anuncio> after = this.anuncioService.findAll();
+			Assertions.assertEquals(before.size(), after.size() - 1);
+		}
 	}
 
 	@Test
-	@DisplayName("Test negativo mostrar formulario de registro para fiestas")
+	@DisplayName("Test negativo registro para fiestas")
 	void testNegativoNewAnuncioForFiesta() {
 		Patrocinador patrocinador = this.patrocinadorService.findById(1);
 		Fiesta fiesta = this.fiestaService.findFiestaById(1);
@@ -104,7 +116,7 @@ public class AnuncioServiceTest {
 		try {
 			this.anuncioService.save(anuncio);
 		} catch (Exception e) {
-
+			e.printStackTrace();
 		}
 	}
 
@@ -112,18 +124,23 @@ public class AnuncioServiceTest {
 	@DisplayName("Test aceptar anuncio")
 	void testAceptarAnuncio() {
 		Anuncio anuncio = this.anuncioService.findById(4);
-		Anuncio aceptado = this.anuncioService.aceptar(anuncio);
-		Assertions.assertEquals(aceptado.getDecision().equals("ACEPTADO"), true);
+		try {
+			anuncio = this.anuncioService.aceptar(anuncio);
+		} catch (AssertionError ae) {
+			ae.printStackTrace();
+		} finally {
+			Assertions.assertEquals(anuncio.getDecision().equals("ACEPTADO"), true);
+		}
 	}
 
 	@Test
 	@DisplayName("Test negativo aceptar anuncio")
 	void testNegativoAceptarAnuncio() {
+		Anuncio anuncio = this.anuncioService.findById(50);
 		try {
-			Anuncio anuncio = this.anuncioService.findById(50);
 			this.anuncioService.aceptar(anuncio);
-		} catch (AssertionError e) {
-			System.out.println("El anuncio no existe");
+		} catch (AssertionError ae) {
+			ae.printStackTrace();
 		}
 	}
 
@@ -131,18 +148,23 @@ public class AnuncioServiceTest {
 	@DisplayName("Test rechazar anuncio")
 	void testRechazarAnuncio() {
 		Anuncio anuncio = this.anuncioService.findById(4);
-		Anuncio aceptado = this.anuncioService.rechazar(anuncio);
-		Assertions.assertEquals(aceptado.getDecision().equals("RECHAZADO"), true);
+		try {
+			anuncio = this.anuncioService.rechazar(anuncio);
+		} catch (AssertionError ae) {
+			ae.printStackTrace();
+		} finally {
+			Assertions.assertEquals(anuncio.getDecision().equals("RECHAZADO"), true);
+		}
 	}
 
 	@Test
 	@DisplayName("Test negativo rechazar anuncio")
 	void testNegativoRechazarAnuncio() {
+		Anuncio anuncio = this.anuncioService.findById(50);
 		try {
-			Anuncio anuncio = this.anuncioService.findById(50);
 			this.anuncioService.rechazar(anuncio);
-		} catch (AssertionError e) {
-			System.out.println("El anuncio no existe");
+		} catch (AssertionError ae) {
+			ae.printStackTrace();
 		}
 	}
 

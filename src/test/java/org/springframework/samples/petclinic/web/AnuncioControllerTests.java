@@ -16,8 +16,6 @@ import org.springframework.context.annotation.FilterType;
 import org.springframework.samples.petclinic.configuration.SecurityConfiguration;
 import org.springframework.samples.petclinic.model.Anuncio;
 import org.springframework.samples.petclinic.model.Cliente;
-import org.springframework.samples.petclinic.model.Fiesta;
-import org.springframework.samples.petclinic.model.Local;
 import org.springframework.samples.petclinic.model.Patrocinador;
 import org.springframework.samples.petclinic.model.Propietario;
 import org.springframework.samples.petclinic.service.AdministradorService;
@@ -78,9 +76,6 @@ public class AnuncioControllerTests {
 
 	private Anuncio					anuncio;
 	private Anuncio					a2;
-
-	private Local					local	= new Local();
-	private Fiesta					fiesta	= new Fiesta();
 
 
 	@BeforeEach

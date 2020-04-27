@@ -1,8 +1,6 @@
 
 package org.springframework.samples.petclinic.service;
 
-import static org.junit.jupiter.api.Assertions.assertTrue;
-
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.Collection;
@@ -31,6 +29,7 @@ public class FiestaServiceTests {
 
 
 	@Test
+	@DisplayName("Test positivo registrar una fiesta")
 	void testNewFiesta() {
 		Collection<Fiesta> antes = this.fiestaService.findAll();
 		Cliente cliente = this.clienteService.findById(1);
@@ -48,9 +47,62 @@ public class FiestaServiceTests {
 		newFiesta.setDecision("PENDIENTE");
 		newFiesta.setCliente(cliente);
 		newFiesta.setLocal(local);
-		this.fiestaService.save(newFiesta);
-		Collection<Fiesta> despues = this.fiestaService.findAll();
-		Assertions.assertEquals(antes.size(), despues.size() - 1);
+		try {
+			this.fiestaService.save(newFiesta);
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			Collection<Fiesta> despues = this.fiestaService.findAll();
+			Assertions.assertEquals(antes.size(), despues.size() - 1);
+		}
+	}
+
+	@Test
+	@DisplayName("Test negativo registrar una fiesta")
+	void testNegativoNewFiesta() {
+		Cliente cliente = this.clienteService.findById(1);
+		Local local = this.localService.findLocalById(1);
+		Fiesta newFiesta = new Fiesta();
+		newFiesta.setNombre("Test");
+		newFiesta.setDescripcion("Test");
+		newFiesta.setPrecio(12.);
+		newFiesta.setRequisitos("Test");
+		newFiesta.setFecha(LocalDate.now());
+		newFiesta.setHoraInicio(LocalTime.parse("22:00"));
+		newFiesta.setHoraFin(LocalTime.parse("05:00"));
+		newFiesta.setNumeroAsistentes(50);
+		newFiesta.setDecision("PENDIENTE");
+		newFiesta.setCliente(cliente);
+		newFiesta.setLocal(local);
+		try {
+			this.fiestaService.save(newFiesta);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
+	@Test
+	@DisplayName("Test editar una fiesta")
+	void testEditarFiesta() {
+		Fiesta fiesta = this.fiestaService.findFiestaById(1);
+		fiesta.setDescripcion("Testing");
+		try {
+			this.fiestaService.save(fiesta);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
+	@Test
+	@DisplayName("Test negativo editar una fiesta")
+	void testNegativoEditarFiesta() {
+		Fiesta fiesta = this.fiestaService.findFiestaById(1);
+		fiesta.setCliente(null);
+		try {
+			this.fiestaService.save(fiesta);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 
 	@Test
@@ -89,17 +141,63 @@ public class FiestaServiceTests {
 	void testFindFiestasByClienteId() {
 		Collection<Fiesta> fiestas = new LinkedList<>();
 		Cliente cliente = this.clienteService.findById(2);
-		fiestas = fiestaService.findByClienteId(cliente.getId());
-		assertTrue(!fiestas.isEmpty() && fiestas.size() == 2, "El cliente 2 debe tener 2 fiestas organizadas segun la BD");	
+		fiestas = this.fiestaService.findByClienteId(cliente.getId());
+		Assertions.assertTrue(!fiestas.isEmpty() && fiestas.size() == 2, "El cliente 2 debe tener 2 fiestas organizadas segun la BD");
 	}
-	
+
 	@Test
 	@DisplayName("Test negativo para ver las fiestas organizadas por un cliente que no existe")
 	void testNegativoFindFiestasByClienteId() {
 		Collection<Fiesta> fiestas = new LinkedList<>();
 		Integer idCliente = -1;
-		fiestas = fiestaService.findByClienteId(idCliente);
-		assertTrue(fiestas.isEmpty() , "El cliente con id -1 no existe, no debe tener ninguna fiesta");	
+		fiestas = this.fiestaService.findByClienteId(idCliente);
+		Assertions.assertTrue(fiestas.isEmpty(), "El cliente con id -1 no existe, no debe tener ninguna fiesta");
 	}
-	
+
+	@Test
+	@DisplayName("Test positivo aceptar fiesta")
+	void testAceptarFiesta() {
+		Fiesta fiesta = this.fiestaService.findFiestaById(2);
+		try {
+			this.fiestaService.aceptarSolicitud(2);
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			Assertions.assertEquals(fiesta.getDecision(), "ACEPTADO");
+		}
+	}
+
+	@Test
+	@DisplayName("Test negativo aceptar fiesta")
+	void testNegativoAceptarFiesta() {
+		try {
+			this.fiestaService.aceptarSolicitud(50);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
+	@Test
+	@DisplayName("Test positivo rechazar fiesta")
+	void testRechazarFiesta() {
+		Fiesta fiesta = this.fiestaService.findFiestaById(2);
+		try {
+			this.fiestaService.denegarSolicitud(2);
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			Assertions.assertEquals(fiesta.getDecision(), "RECHAZADO");
+		}
+	}
+
+	@Test
+	@DisplayName("Test negativo aceptar fiesta")
+	void testNegativoRechazarFiesta() {
+		try {
+			this.fiestaService.denegarSolicitud(50);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
 }
