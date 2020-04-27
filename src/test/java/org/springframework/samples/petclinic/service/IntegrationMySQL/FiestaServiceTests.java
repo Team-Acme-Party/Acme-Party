@@ -10,14 +10,16 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
-import org.springframework.context.annotation.ComponentScan;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.samples.petclinic.model.Cliente;
 import org.springframework.samples.petclinic.model.Fiesta;
 import org.springframework.samples.petclinic.model.Local;
-import org.springframework.stereotype.Service;
+import org.springframework.samples.petclinic.service.ClienteService;
+import org.springframework.samples.petclinic.service.FiestaService;
+import org.springframework.samples.petclinic.service.LocalService;
 
-@DataJpaTest(includeFilters = @ComponentScan.Filter(Service.class))
+@SpringBootTest
+@TestPropertySource(locations = "classpath:application-mysql.properties")
 public class FiestaServiceTests {
 
 	@Autowired
@@ -132,7 +134,10 @@ public class FiestaServiceTests {
 	void testFindByNombre() {
 		Fiesta fiesta1 = this.fiestaService.findFiestaById(1);
 		Collection<Fiesta> todas = this.fiestaService.findByNombre("Fiesta de disfraces");
-		Boolean contenida = todas.contains(fiesta1);
+		Boolean contenida = false;
+		for(Fiesta a : todas) {
+			if(a.getId() == fiesta1.getId()) contenida = true;
+		}
 		Assertions.assertEquals(contenida, true);
 	}
 
@@ -157,12 +162,12 @@ public class FiestaServiceTests {
 	@Test
 	@DisplayName("Test positivo aceptar fiesta")
 	void testAceptarFiesta() {
-		Fiesta fiesta = this.fiestaService.findFiestaById(2);
 		try {
 			this.fiestaService.aceptarSolicitud(2);
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
+			Fiesta fiesta = this.fiestaService.findFiestaById(2);
 			Assertions.assertEquals(fiesta.getDecision(), "ACEPTADO");
 		}
 	}
@@ -180,12 +185,12 @@ public class FiestaServiceTests {
 	@Test
 	@DisplayName("Test positivo rechazar fiesta")
 	void testRechazarFiesta() {
-		Fiesta fiesta = this.fiestaService.findFiestaById(2);
 		try {
 			this.fiestaService.denegarSolicitud(2);
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
+			Fiesta fiesta = this.fiestaService.findFiestaById(2);
 			Assertions.assertEquals(fiesta.getDecision(), "RECHAZADO");
 		}
 	}

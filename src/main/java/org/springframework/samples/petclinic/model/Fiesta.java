@@ -58,7 +58,7 @@ public class Fiesta extends BaseEntity {
 	@Range(min = 0)
 	@NotNull
 	@NumberFormat
-	private int		numeroAsistentes;
+	private Integer		numeroAsistentes;
 
 	@Column(name = "imagen")
 	@URL

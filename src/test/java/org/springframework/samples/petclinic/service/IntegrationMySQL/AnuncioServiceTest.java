@@ -7,15 +7,18 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
-import org.springframework.context.annotation.ComponentScan;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.samples.petclinic.model.Anuncio;
 import org.springframework.samples.petclinic.model.Fiesta;
 import org.springframework.samples.petclinic.model.Local;
 import org.springframework.samples.petclinic.model.Patrocinador;
-import org.springframework.stereotype.Service;
+import org.springframework.samples.petclinic.service.AnuncioService;
+import org.springframework.samples.petclinic.service.FiestaService;
+import org.springframework.samples.petclinic.service.LocalService;
+import org.springframework.samples.petclinic.service.PatrocinadorService;
 
-@DataJpaTest(includeFilters = @ComponentScan.Filter(Service.class))
+@SpringBootTest
+@TestPropertySource(locations = "classpath:application-mysql.properties")
 public class AnuncioServiceTest {
 
 	@Autowired
@@ -37,8 +40,17 @@ public class AnuncioServiceTest {
 		Collection<Anuncio> anuncios = this.anuncioService.findByPatrocinadorId(1);
 		Anuncio anuncio1 = this.anuncioService.findById(1);
 		Anuncio anuncio3 = this.anuncioService.findById(3);
-		Assertions.assertEquals(anuncios.contains(anuncio1), true);
-		Assertions.assertEquals(anuncios.contains(anuncio3), false);
+		Boolean existe = false;
+		Boolean existe2 = false;
+		for(Anuncio a : anuncios) {
+			if(a.getId() == anuncio1.getId()) existe = true;
+		}
+		for(Anuncio a : anuncios) {
+			if(a.getId() == anuncio3.getId()) existe2 = true;
+		}
+		
+		Assertions.assertEquals(existe, true);
+		Assertions.assertEquals(existe2, false);
 	}
 
 	@Test

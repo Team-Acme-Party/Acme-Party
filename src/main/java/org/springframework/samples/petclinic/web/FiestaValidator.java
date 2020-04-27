@@ -39,7 +39,7 @@ public class FiestaValidator implements Validator{
 			errors.rejectValue("requisitos", "ValidateNotBlank");
 		}
 		
-		if(fiesta.getPrecio()==null) {
+		if(fiesta.getPrecio()==null  || fiesta.getPrecio()<0) {
 			errors.rejectValue("precio", "ValidatePrecio");
 		}
 		
@@ -47,7 +47,7 @@ public class FiestaValidator implements Validator{
 			errors.rejectValue("fecha", "ValidateFecha");
 		}
 		
-		if(fiesta.getNumeroAsistentes()==0 || fiesta.getNumeroAsistentes()==null) {		
+		if(fiesta.getNumeroAsistentes()==null || fiesta.getNumeroAsistentes()==0) {		
 			errors.rejectValue("numeroAsistentes", "ValidateNumeroAsistentes");
 		}
 		
