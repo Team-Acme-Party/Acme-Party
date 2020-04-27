@@ -49,6 +49,7 @@ public class AceptarORechazarLocalesNegativoUITest {
     driver.findElement(By.id("password")).sendKeys("cliente1");
     driver.findElement(By.xpath("//button[@type='submit']")).click();
     driver.get("http://localhost:8080/administrador/locales");
+    
     try {
       assertEquals("Forbidden", driver.findElement(By.xpath("//div[3]")).getText());
     } catch (Error e) {
