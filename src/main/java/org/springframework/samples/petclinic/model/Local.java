@@ -91,22 +91,4 @@ public class Local extends BaseEntity {
 		return this.direccion;
 	}
 
-	@Override
-	public int hashCode() {
-		return this.id.hashCode() * 31;
-	}
-	
-	@Override
-	public boolean equals(Object o) {
-		
-		if(o instanceof Local) {
-			
-			Local l = (Local) o;
-			return this.id == l.getId();
-			
-		}else {
-			return false;
-		}
-	}
-	
 }

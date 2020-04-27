@@ -55,10 +55,18 @@ public class SolicitudAsistenciaService {
 		Fiesta fiesta = this.fiestaService.findFiestaById(fiestaId);
 		Assert.notNull(fiesta, "No se ha encontrado la fiesta con ese id.");
 
-		Assert.isTrue(!fiesta.getCliente().equals(cliente), "Eres es el organizador de la fiesta.");
+		Assert.isTrue(!fiesta.getCliente().getId().equals(cliente.getId()), "Eres es el organizador de la fiesta.");
 
 		Collection<Fiesta> fiestas = this.fiestaService.findAsistenciasByClienteId(cliente.getId());
-		Assert.isTrue(!fiestas.contains(fiesta), "Ya has solicitado la asistencia a esta fiesta.");
+		
+		Boolean contains = false;
+		for(Fiesta f : fiestas) {
+			if(f.getId().equals(fiesta.getId())) {
+				contains = true;
+			}
+		}
+		
+		Assert.isTrue(!contains, "Ya has solicitado la asistencia a esta fiesta.");
 
 		String decision = "PENDIENTE";
 
@@ -93,14 +101,14 @@ public class SolicitudAsistenciaService {
 
 	public void aceptarSolicitud(final int id, final Cliente cliente) {
 		SolicitudAsistencia solicitud = this.findById(id);
-		Assert.isTrue(solicitud.getFiesta().getCliente().equals(cliente), "La fiesta no es del cliente que va tomar la decision");
+		Assert.isTrue(solicitud.getFiesta().getCliente().getId().equals(cliente.getId()), "La fiesta no es del cliente que va tomar la decision");
 		solicitud.setDecision("ACEPTADO");
 		this.save(solicitud);
 	}
 
 	public void rechazarSolicitud(final int id, final Cliente cliente) {
 		SolicitudAsistencia solicitud = this.findById(id);
-		Assert.isTrue(solicitud.getFiesta().getCliente().equals(cliente), "La fiesta no es del cliente que va tomar la decision");
+		Assert.isTrue(solicitud.getFiesta().getCliente().getId().equals(cliente.getId()), "La fiesta no es del cliente que va tomar la decision");
 		solicitud.setDecision("RECHAZADO");
 		this.save(solicitud);
 	}

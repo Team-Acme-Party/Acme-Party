@@ -25,19 +25,4 @@ public class Cliente extends UsuarioEntity {
 		this.descripcionGustos = descripcionGustos;
 	}
 
-	@Override
-	public int hashCode() {
-		return this.id.hashCode() * 31;
-	}
-	
-	@Override
-	public boolean equals(Object o) {
-		
-		if(o instanceof Cliente) {
-			Cliente c = (Cliente) o;
-			return this.id == c.getId();
-		}else {
-			return false;
-		}
-	}
 }

@@ -67,8 +67,13 @@ public class LocalServiceTests {
 	void testFindByDireccion() {
 		Local local = this.localService.findLocalById(1);
 		Collection<Local> todos = this.localService.findByDireccion("Luis Montoto 12");
-		Boolean contenida = todos.contains(local);
-		Assertions.assertEquals(contenida, true);
+		Boolean existe = false;
+		for(Local l : todos) {
+			if(l.getId().equals(local.getId())) {
+				existe = true;
+			}
+		}
+		Assertions.assertEquals(existe, true);
 	}
 
 	@Test
@@ -76,8 +81,13 @@ public class LocalServiceTests {
 		Propietario propietario = this.propietarioService.findById(1);
 		Collection<Local> locales = this.localService.findByPropietarioId(propietario.getId());
 		Local local = this.localService.findLocalById(1);
-		Boolean contenido = locales.contains(local);
-		Assertions.assertEquals(contenido, true);
+		Boolean existe = false;
+		for(Local l : locales) {
+			if(l.getId().equals(local.getId())) {
+				existe = true;
+			}
+		}
+		Assertions.assertEquals(existe, true);
 	}
 
 	@Test

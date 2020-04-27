@@ -39,7 +39,20 @@ public class SolicitudAsistenciaServiceTests {
 		solicitudesAsistencia = solicitudAsistenciaService.findAsistenciasByClienteId(cliente.getId());
 		SolicitudAsistencia sa1 = solicitudAsistenciaService.findById(2);
 		SolicitudAsistencia sa2 = solicitudAsistenciaService.findById(4);
-		assertTrue(!solicitudesAsistencia.isEmpty() && solicitudesAsistencia.contains(sa1) && solicitudesAsistencia.contains(sa2), "El cliente 2 contiene al menos las solicitudes creadas en el data.sql");	
+		
+		Boolean contaisSa1 = false;
+		Boolean contaisSa2 = false;
+		for(SolicitudAsistencia sol : solicitudesAsistencia) {
+			if(sol.getId().equals(sa1.getId())) {
+				contaisSa1 = true;
+			}
+			if(sol.getId().equals(sa2.getId())) {
+				contaisSa2 = true;
+			}
+		}
+		
+		
+		assertTrue(!solicitudesAsistencia.isEmpty() && contaisSa1 && contaisSa2, "El cliente 2 contiene al menos las solicitudes creadas en el data.sql");	
 	}
 	
 	@Test
@@ -86,7 +99,15 @@ public class SolicitudAsistenciaServiceTests {
 		solicitudAsistenciaService.save(sa);
 		Assertions.assertNotNull(sa);
 		Collection<SolicitudAsistencia> saList = solicitudAsistenciaService.findAll();
-		Assertions.assertTrue(saList.contains(sa));
+		
+		Boolean contais = false;
+		for(SolicitudAsistencia sol : saList) {
+			if(sol.getId().equals(sa.getId())) {
+				contais = true;
+				break;
+			}
+		}
+		Assertions.assertTrue(contais);
 	}
 	
 	//-------------------------------------------
