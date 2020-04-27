@@ -80,7 +80,7 @@
 			<button type="button" class="btn btn-default"
 				onclick="window.location.replace('/local/${fiesta.local.id}/fiesta/${fiesta.id}/aceptar')">Aceptar</button>
 			<button type="button" class="btn btn-default"
-				onclick="window.location.replace('/local/${fiesta.local.id}fiesta/${fiesta.id}/denegar')">Denegar</button>
+				onclick="window.location.replace('/local/${fiesta.local.id}/fiesta/${fiesta.id}/denegar')">Denegar</button>
 		</c:if>
 	</sec:authorize>
 

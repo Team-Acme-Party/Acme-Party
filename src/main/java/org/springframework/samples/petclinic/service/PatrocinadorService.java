@@ -19,6 +19,7 @@ package org.springframework.samples.petclinic.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.samples.petclinic.model.Patrocinador;
+import org.springframework.samples.petclinic.model.Propietario;
 import org.springframework.samples.petclinic.repository.PatrocinadorRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -33,7 +34,10 @@ import org.springframework.transaction.annotation.Transactional;
 public class PatrocinadorService {
 
 	private PatrocinadorRepository patrocinadorRepository;
-
+	@Autowired
+	private UserService userService;
+	@Autowired
+	private AuthoritiesService authoritiesService;
 
 	@Autowired
 	public PatrocinadorService(final PatrocinadorRepository patrocinadorRepository) {
@@ -49,4 +53,14 @@ public class PatrocinadorService {
 	public Patrocinador findById(final int id) throws DataAccessException {
 		return this.patrocinadorRepository.findById(id);
 	}
+	
+	@Transactional
+	public void save(Patrocinador patrocinador) throws DataAccessException {
+		//creating owner
+		patrocinadorRepository.save(patrocinador);		
+		//creating user
+		userService.saveUser(patrocinador.getUser());
+		//creating authorities
+		authoritiesService.saveAuthorities(patrocinador.getUser().getUsername(), "patrocinador");
+	}	
 }

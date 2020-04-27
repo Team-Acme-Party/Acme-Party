@@ -33,7 +33,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
 	@Override
 	protected void configure(final HttpSecurity http) throws Exception {
-		http.authorizeRequests().antMatchers("/resources/**", "/webjars/**", "/h2-console/**").permitAll().antMatchers(HttpMethod.GET, "/", "/oups").permitAll().antMatchers("/users/new").permitAll().antMatchers("/admin/**").hasAnyAuthority("admin")
+		http.authorizeRequests().antMatchers("/resources/**", "/webjars/**", "/h2-console/**").permitAll().antMatchers(HttpMethod.GET, "/", "/oups").permitAll().antMatchers("/propietario/new", "/cliente/new", "/patrocinador/new").permitAll().antMatchers("/users/new").permitAll().antMatchers("/admin/**").hasAnyAuthority("admin")
 			.antMatchers("/fiestas/**").permitAll().antMatchers("/locales/**").permitAll().antMatchers("/local/**").hasAnyAuthority("propietario").antMatchers("/propietario/**").hasAnyAuthority("propietario").antMatchers("/patrocinador/**")
 			.hasAnyAuthority("patrocinador").antMatchers("/anuncio/**").hasAnyAuthority("patrocinador").antMatchers("/anuncios/**").hasAnyAuthority("patrocinador", "cliente", "admin", "propietario").antMatchers("/cliente/**").hasAnyAuthority("cliente")
 			.antMatchers("/administrador/**").hasAnyAuthority("admin").antMatchers("/comentario/**").hasAnyAuthority("cliente")
