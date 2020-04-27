@@ -179,4 +179,21 @@ public class Fiesta extends BaseEntity {
 	public String toString() {
 		return this.nombre + "[ "+ this.numeroAsistentes + " personas ]";
 	}
+	
+	@Override
+	public int hashCode() {
+		return this.id.hashCode() * 31;
+	}
+	
+	@Override
+	public boolean equals(Object o) {
+		
+		if(o instanceof Fiesta) {
+			Fiesta c = (Fiesta) o;
+			return this.id == c.getId();
+		}else {
+			return false;
+		}
+	}
+	
 }

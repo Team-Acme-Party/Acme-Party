@@ -18,7 +18,6 @@ import org.springframework.samples.petclinic.service.FiestaService;
 import org.springframework.samples.petclinic.service.SolicitudAsistenciaService;
 import org.springframework.test.context.TestPropertySource;
 
-//@DataJpaTest(includeFilters = @ComponentScan.Filter(Service.class))
 @SpringBootTest
 @TestPropertySource(locations = "classpath:application-mysql.properties")
 public class SolicitudAsistenciaServiceTests {
@@ -38,7 +37,9 @@ public class SolicitudAsistenciaServiceTests {
 		Collection<SolicitudAsistencia> solicitudesAsistencia = new LinkedList<>();
 		Cliente cliente = this.clienteService.findById(2);
 		solicitudesAsistencia = solicitudAsistenciaService.findAsistenciasByClienteId(cliente.getId());
-		assertTrue(!solicitudesAsistencia.isEmpty() && solicitudesAsistencia.size() == 2, "El cliente 2 debe tener 2 solicitudes segun la BD");	
+		SolicitudAsistencia sa1 = solicitudAsistenciaService.findById(2);
+		SolicitudAsistencia sa2 = solicitudAsistenciaService.findById(4);
+		assertTrue(!solicitudesAsistencia.isEmpty() && solicitudesAsistencia.contains(sa1) && solicitudesAsistencia.contains(sa2), "El cliente 2 contiene al menos las solicitudes creadas en el data.sql");	
 	}
 	
 	@Test
@@ -95,9 +96,11 @@ public class SolicitudAsistenciaServiceTests {
 
 		Cliente cliente = clienteService.findById(2);
 		SolicitudAsistencia solicitud = this.solicitudAsistenciaService.findById(3);
+		solicitud.setDecision("PENDIENTE");
 		assertTrue(solicitud.getDecision().equals("PENDIENTE"), "La solicitud no esta pendiente");
 		this.solicitudAsistenciaService.aceptarSolicitud(solicitud.getId(), cliente);
-		assertTrue(solicitud.getDecision().equals("ACEPTADO"), "La solicitud no esta aceptada");
+		SolicitudAsistencia solicitudSaved = this.solicitudAsistenciaService.findById(3);
+		assertTrue(solicitudSaved.getDecision().equals("ACEPTADO"), "La solicitud no esta aceptada");
 
 	}
 	
@@ -119,9 +122,11 @@ public class SolicitudAsistenciaServiceTests {
 
 		Cliente cliente = clienteService.findById(2);
 		SolicitudAsistencia solicitud = this.solicitudAsistenciaService.findById(3);
+		solicitud.setDecision("PENDIENTE");
 		assertTrue(solicitud.getDecision().equals("PENDIENTE"), "La solicitud no esta pendiente");
 		this.solicitudAsistenciaService.rechazarSolicitud(solicitud.getId(), cliente);
-		assertTrue(solicitud.getDecision().equals("RECHAZADO"), "La solicitud no esta aceptada");
+		SolicitudAsistencia solicitudSaved = this.solicitudAsistenciaService.findById(3);
+		assertTrue(solicitudSaved.getDecision().equals("RECHAZADO"), "La solicitud no esta aceptada");
 
 	}
 	
@@ -131,6 +136,7 @@ public class SolicitudAsistenciaServiceTests {
 
 		Cliente cliente = clienteService.findById(1);
 		SolicitudAsistencia solicitud = this.solicitudAsistenciaService.findById(3);
+		solicitud.setDecision("PENDIENTE");
 		assertTrue(solicitud.getDecision().equals("PENDIENTE"), "La solicitud no esta pendiente");
 		Assertions.assertThrows(IllegalArgumentException.class, () ->this.solicitudAsistenciaService.rechazarSolicitud(solicitud.getId(), cliente));
 

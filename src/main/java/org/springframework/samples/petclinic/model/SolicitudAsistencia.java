@@ -53,4 +53,24 @@ public class SolicitudAsistencia extends BaseEntity {
 		this.decision = decision;
 	}
 
+	@Override
+	public int hashCode() {
+		return this.id.hashCode() * 31;
+	}
+
+	@Override
+	public boolean equals(Object o) {
+		
+		if(o instanceof SolicitudAsistencia) {
+			
+			SolicitudAsistencia sa = (SolicitudAsistencia) o;
+			return this.id == sa.getId();
+			
+		}else {
+			return false;
+		}
+	}
+	
+	
+	
 }

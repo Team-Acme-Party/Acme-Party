@@ -7,14 +7,17 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.samples.petclinic.model.Local;
 import org.springframework.samples.petclinic.model.Propietario;
 import org.springframework.samples.petclinic.service.LocalService;
 import org.springframework.samples.petclinic.service.PropietarioService;
 import org.springframework.stereotype.Service;
+import org.springframework.test.context.TestPropertySource;
 
-@DataJpaTest(includeFilters = @ComponentScan.Filter(Service.class))
+@SpringBootTest
+@TestPropertySource(locations = "classpath:application-mysql.properties")
 public class LocalServiceTests {
 
 	@Autowired
@@ -81,7 +84,7 @@ public class LocalServiceTests {
 	void testAceptarSolicitud() {
 		Local local = this.localService.findLocalById(2);
 		try {
-			this.localService.aceptarSolicitudLocal(2);
+			local = this.localService.aceptarSolicitudLocal(2);
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
@@ -104,7 +107,7 @@ public class LocalServiceTests {
 	void testRechazarSolicitud() {
 		Local local = this.localService.findLocalById(2);
 		try {
-			this.localService.denegarSolicitudLocal(2);
+			local = this.localService.denegarSolicitudLocal(2);
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
