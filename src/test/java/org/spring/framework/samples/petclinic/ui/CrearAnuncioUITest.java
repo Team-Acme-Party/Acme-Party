@@ -14,7 +14,7 @@ import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 
-public class BuscarLocalUITest {
+public class CrearAnuncioUITest {
 
 	private WebDriver		driver;
 	private String			baseUrl;
@@ -32,14 +32,22 @@ public class BuscarLocalUITest {
 	}
 
 	@Test
-	public void testBuscarUnLocal() throws Exception {
+	public void testCrearAnuncioFiesta() throws Exception {
 		this.driver.get("http://localhost:8080/");
-		this.driver.findElement(By.xpath("//a[contains(@href, '/locales/buscar')]")).click();
-		this.driver.findElement(By.name("direccion")).click();
-		this.driver.findElement(By.name("direccion")).clear();
-		this.driver.findElement(By.name("direccion")).sendKeys("Luis Montoto");
+		this.driver.findElement(By.xpath("//a[contains(@href, '/login')]")).click();
+		this.driver.findElement(By.id("password")).clear();
+		this.driver.findElement(By.id("password")).sendKeys("patrocinador1");
+		this.driver.findElement(By.id("username")).clear();
+		this.driver.findElement(By.id("username")).sendKeys("patrocinador1");
 		this.driver.findElement(By.xpath("//button[@type='submit']")).click();
-		Assert.assertEquals("Luis Montoto 12", this.driver.findElement(By.xpath("//table[@id='localesTable']/tbody/tr/td")).getText());
+		Assert.assertEquals("PATROCINADOR1", this.driver.findElement(By.xpath("//div[@id='main-navbar']/ul[2]/li/a/strong")).getText());
+		this.driver.findElement(By.xpath("(//button[@type='button'])[3]")).click();
+		this.driver.findElement(By.linkText("Ofrecer anuncio")).click();
+		this.driver.findElement(By.id("imagen")).click();
+		this.driver.findElement(By.id("imagen")).clear();
+		this.driver.findElement(By.id("imagen")).sendKeys("https://media.gettyimages.com/photos/man-wearing-sandwich-board-picture-id78486140?s=612x612");
+		this.driver.findElement(By.xpath("//button[@type='submit']")).click();
+		Assert.assertEquals("Fiesta de rock[ 200 personas ]", this.driver.findElement(By.xpath("//table[@id='anunciosTable']/tbody/tr[4]/td")).getText());
 	}
 
 	@AfterEach
