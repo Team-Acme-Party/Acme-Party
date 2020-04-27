@@ -17,6 +17,7 @@ import org.springframework.samples.petclinic.model.Local;
 import org.springframework.samples.petclinic.service.ClienteService;
 import org.springframework.samples.petclinic.service.FiestaService;
 import org.springframework.samples.petclinic.service.LocalService;
+import org.springframework.test.context.TestPropertySource;
 
 @SpringBootTest
 @TestPropertySource(locations = "classpath:application-mysql.properties")
