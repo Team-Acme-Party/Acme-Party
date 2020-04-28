@@ -21,7 +21,7 @@ import org.springframework.test.context.TestPropertySource;
 //@DataJpaTest(includeFilters = @ComponentScan.Filter(Service.class))
 @SpringBootTest
 @TestPropertySource(locations = "classpath:application-mysql.properties")
-public class SolicitudAsistenciaServiceTests {
+public class SolicitudAsistenciaServiceBDTests {
 	
 	@Autowired
 	private SolicitudAsistenciaService solicitudAsistenciaService;

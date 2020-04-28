@@ -21,7 +21,7 @@ import org.springframework.test.context.TestPropertySource;
 
 @SpringBootTest
 @TestPropertySource(locations = "classpath:application-mysql.properties")
-public class FiestaServiceTests {
+public class FiestaServiceBDTests {
 
 	@Autowired
 	private FiestaService	fiestaService;

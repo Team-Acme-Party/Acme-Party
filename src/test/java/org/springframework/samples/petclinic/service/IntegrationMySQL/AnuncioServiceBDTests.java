@@ -20,7 +20,7 @@ import org.springframework.test.context.TestPropertySource;
 
 @SpringBootTest
 @TestPropertySource(locations = "classpath:application-mysql.properties")
-public class AnuncioServiceTest {
+public class AnuncioServiceBDTests {
 
 	@Autowired
 	private AnuncioService		anuncioService;

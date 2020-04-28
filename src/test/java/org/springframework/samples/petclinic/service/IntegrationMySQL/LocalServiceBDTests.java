@@ -15,7 +15,7 @@ import org.springframework.samples.petclinic.service.PropietarioService;
 import org.springframework.stereotype.Service;
 
 @DataJpaTest(includeFilters = @ComponentScan.Filter(Service.class))
-public class LocalServiceTests {
+public class LocalServiceBDTests {
 
 	@Autowired
 	private LocalService		localService;
