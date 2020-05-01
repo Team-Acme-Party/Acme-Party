@@ -20,10 +20,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 @Controller
 public class SolicitudAsistenciaController {
 
-//	@Autowired
+	@Autowired
 	private final SolicitudAsistenciaService solicitudAsistenciaService;
 
-//	@Autowired
+	@Autowired
 	private ClienteService clienteService;
 
 	@Autowired
@@ -47,9 +47,8 @@ public class SolicitudAsistenciaController {
 		return "solicitudesAsistencia/listaSolicitudesAsistencia";
 	}
 
-	@GetMapping("/cliente/solicitudAsistencia/fiesta/{fiestaId}")
+	@GetMapping(value= {"/cliente/solicitudAsistencia/fiesta/{fiestaId}"})
 	public String crearSolicitudAsistencia(@RequestParam("fiestaId") int fiestaId, final Map<String, Object> model) {
-
 		try {
 			String username = SecurityContextHolder.getContext().getAuthentication().getName();
 			Assert.notNull(username, "Username no logueado");

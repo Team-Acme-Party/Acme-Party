@@ -29,7 +29,7 @@ public class FiestaValidator implements Validator {
 		}
 
 		if (fiesta.getImagen() == "") {
-			errors.rejectValue("imagen", "ValidateNotBlank");
+			errors.rejectValue("imagen", "ValidateNotBlankImagen");
 		}
 
 		if (fiesta.getDescripcion() == "") {

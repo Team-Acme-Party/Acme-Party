@@ -17,20 +17,19 @@ import org.springframework.web.bind.annotation.PostMapping;
 @Controller
 public class PropietarioController {
 	private static final String VIEWS_PROPIETARIO_CREATE_OR_UPDATE_FORM = "propietarios/createOrUpdatePropietarioForm";
-	
-	private final PropietarioService			propietarioService;
-	
+
+	private final PropietarioService propietarioService;
+
 	@Autowired
-	public PropietarioController(final PropietarioService propietarioService
-	) {	
-		this.propietarioService = propietarioService;		
+	public PropietarioController(final PropietarioService propietarioService) {
+		this.propietarioService = propietarioService;
 	}
-	
+
 	@InitBinder("propietario")
 	public void initPetBinder(final WebDataBinder dataBinder) {
 		dataBinder.setValidator(new PropietarioValidator());
 	}
-	
+
 	@GetMapping(value = "/propietario/new")
 	public String initCreationForm(Map<String, Object> model) {
 		Propietario propietario = new Propietario();
@@ -39,17 +38,16 @@ public class PropietarioController {
 	}
 
 	@PostMapping(value = "/propietario/new")
-	public String processCreationForm(@Valid Propietario propietario, BindingResult result,Map<String, Object> model) {
+	public String processCreationForm(@Valid Propietario propietario, BindingResult result, Map<String, Object> model) {
 		if (result.hasErrors()) {
 			model.put("propietario", propietario);
 			return VIEWS_PROPIETARIO_CREATE_OR_UPDATE_FORM;
-		}
-		else {
+		} else {
 			try {
-			//creating owner, user and authorities
-			this.propietarioService.save(propietario);			
-			return "redirect:/propietario/locales";
-			}catch(Exception e) {
+				// creating owner, user and authorities
+				this.propietarioService.save(propietario);
+				return "redirect:/propietario/locales";
+			} catch (Exception e) {
 				model.put("message", "Ya existe un usario con este nombre de usuario");
 				return "exception";
 			}

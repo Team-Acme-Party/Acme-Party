@@ -38,51 +38,50 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 public class LocalControllerTests {
 
 	@MockBean
-	private LocalService				localService;
+	private LocalService localService;
 
 	@MockBean
-	private ComentarioService			comentarioService;
+	private ComentarioService comentarioService;
 
 	@MockBean
-	private ValoracionService			valoracionService;
+	private ValoracionService valoracionService;
 
 	@MockBean
-	private FiestaService				fiestaService;
+	private FiestaService fiestaService;
 
 	@MockBean
-	private ClienteService				clienteService;
+	private ClienteService clienteService;
 
 	@MockBean
-	private AdministradorService		administradorService;
+	private AdministradorService administradorService;
 
 	@MockBean
-	private SolicitudAsistenciaService	solicitudAsistenciaService;
+	private SolicitudAsistenciaService solicitudAsistenciaService;
 
 	@MockBean
-	private AnuncioService				anuncioService;
+	private AnuncioService anuncioService;
 
 	@MockBean
-	private PropietarioService			propietarioService;
+	private PropietarioService propietarioService;
 
 	@MockBean
-	private UserService					userService;
+	private UserService userService;
 
 	@MockBean
-	private AuthoritiesService			authoritiesService;
+	private AuthoritiesService authoritiesService;
 
 	@Autowired
-	private MockMvc						mockMvc;
+	private MockMvc mockMvc;
 
-	private Propietario					george;
+	private Propietario george;
 
-	private Local						l3;
+	private Local l3;
 
-	private Local						l4;
+	private Local l4;
 
-	private Local						local1	= new Local();
+	private Local local1 = new Local();
 
-	private Local						local2	= new Local();
-
+	private Local local2 = new Local();
 
 	@BeforeEach
 	void datosIniciales() {
@@ -119,6 +118,7 @@ public class LocalControllerTests {
 
 		this.local1.setDireccion("Luis Montoto 30");
 		this.local1.setId(10);
+		this.local1.setDecision("ACEPTADO");
 		BDDMockito.given(this.localService.findLocalById(10)).willReturn(this.local1);
 
 		Collection<Local> localesLuisMontoto = new LinkedList<Local>();
@@ -130,106 +130,132 @@ public class LocalControllerTests {
 		BDDMockito.given(this.localService.findByPropietarioId(this.george.getId())).willReturn(locales);
 	}
 
-	//---------------Crear local (propietario)----------------------------------------------------------------------------------------
+	// ---------------Crear local
+	// (propietario)----------------------------------------------------------------------------------------
 
 	@WithMockUser(value = "bob")
 	@Test
 	@DisplayName("Test para peticion POST para crear un formulario")
 	public void testInitCreationForm() throws Exception {
-		this.mockMvc.perform(MockMvcRequestBuilders.get("/locales/new")).andExpect(MockMvcResultMatchers.status().isOk()).andExpect(MockMvcResultMatchers.model().attributeExists("local"))
-			.andExpect(MockMvcResultMatchers.view().name("locales/createLocalForm"));
+		this.mockMvc.perform(MockMvcRequestBuilders.get("/locales/new"))
+				.andExpect(MockMvcResultMatchers.status().isOk())
+				.andExpect(MockMvcResultMatchers.model().attributeExists("local"))
+				.andExpect(MockMvcResultMatchers.view().name("locales/createLocalForm"));
 	}
 
 	@WithMockUser(value = "george")
 	@Test
 	@DisplayName("Test para peticion POST para registrar un local")
 	public void testProcessCreationFormSuccess() throws Exception {
-		this.mockMvc.perform(MockMvcRequestBuilders.post("/locales/new").with(SecurityMockMvcRequestPostProcessors.csrf()).param("direccion", "Direccion prueba").param("capacidad", "1765").param("condiciones", "Condiciones prueba").param("imagen",
-			"https://bangbranding.com/blog/wp-content/uploads/2016/11/700x511_SliderInterior.jpg")).andExpect(MockMvcResultMatchers.status().is3xxRedirection()).andExpect(MockMvcResultMatchers.view().name("redirect:/propietario/locales"));
+		this.mockMvc
+				.perform(MockMvcRequestBuilders.post("/locales/new").with(SecurityMockMvcRequestPostProcessors.csrf())
+						.param("direccion", "Direccion prueba").param("capacidad", "1765")
+						.param("condiciones", "Condiciones prueba").param("imagen",
+								"https://bangbranding.com/blog/wp-content/uploads/2016/11/700x511_SliderInterior.jpg"))
+				.andExpect(MockMvcResultMatchers.status().is3xxRedirection())
+				.andExpect(MockMvcResultMatchers.view().name("redirect:/propietario/locales"));
 	}
 
 	@WithMockUser(value = "bob")
 	@Test
 	@DisplayName("Test negativo para peticion POST para registrar un local")
 	public void testProcessCreationFormHasErrors() throws Exception {
-		this.mockMvc.perform(MockMvcRequestBuilders.post("/locales/new").param("direccion", "Direccion Prueba").param("capacidad", "1765").param("condiciones", "Condiciones prueba")).andExpect(MockMvcResultMatchers.status().is4xxClientError());
+		this.mockMvc
+				.perform(MockMvcRequestBuilders.post("/locales/new").param("direccion", "Direccion Prueba")
+						.param("capacidad", "1765").param("condiciones", "Condiciones prueba"))
+				.andExpect(MockMvcResultMatchers.status().is4xxClientError());
 	}
 
-	//-----------------Detalles local (todos)----------------------------------------------------------------------------
+	// -----------------Detalles local
+	// (todos)----------------------------------------------------------------------------
 
-	//	@WithMockUser(value = "spring")
-	//	@Test
-	//	@DisplayName("Test para peticion GET de los detalles del local ")
-	//	void testDetallesLocal() throws Exception {
-	//		this.mockMvc.perform(MockMvcRequestBuilders.get("/locales/{localId}", this.local1.getId())).andExpect(MockMvcResultMatchers.status().is2xxSuccessful()).andExpect(MockMvcResultMatchers.view().name("locales/localDetails"));
-	//	}
+	@WithMockUser(value = "spring")
+	@Test
+	@DisplayName("Test para peticion GET de los detalles del local ")
+	void testDetallesLocal() throws Exception {
+		this.mockMvc.perform(MockMvcRequestBuilders.get("/locales/{localId}", this.local1.getId()))
+				.andExpect(MockMvcResultMatchers.status().is2xxSuccessful())
+				.andExpect(MockMvcResultMatchers.view().name("locales/localDetails"));
+	}
 
 	@WithMockUser(value = "spring")
 	@Test
 	@DisplayName("Test negativo para peticion GET de los detalles de un local cuyo id no existe")
 	void testNegativoDetallesLocal() throws Exception {
-		this.mockMvc.perform(MockMvcRequestBuilders.get("/locales/{localId}", 50)).andExpect(MockMvcResultMatchers.status().is2xxSuccessful()).andExpect(MockMvcResultMatchers.view().name("exception"));
+		this.mockMvc.perform(MockMvcRequestBuilders.get("/locales/{localId}", 50))
+				.andExpect(MockMvcResultMatchers.status().is2xxSuccessful())
+				.andExpect(MockMvcResultMatchers.view().name("exception"));
 	}
 
-	//-------------------Buscar locales (todos)------------------------------------------------------------------
+	// -------------------Buscar locales
+	// (todos)------------------------------------------------------------------
 
 	@WithMockUser(value = "spring")
 	@Test
 	@DisplayName("Test para peticion GET del formulario de busqueda de locales")
 	void testFormularioBusquedaLocales() throws Exception {
-		this.mockMvc.perform(MockMvcRequestBuilders.get("/locales/buscar")).andExpect(MockMvcResultMatchers.model().attributeExists("local")).andExpect(MockMvcResultMatchers.status().is2xxSuccessful())
-			.andExpect(MockMvcResultMatchers.view().name("locales/buscarLocales"));
+		this.mockMvc.perform(MockMvcRequestBuilders.get("/locales/buscar"))
+				.andExpect(MockMvcResultMatchers.model().attributeExists("local"))
+				.andExpect(MockMvcResultMatchers.status().is2xxSuccessful())
+				.andExpect(MockMvcResultMatchers.view().name("locales/buscarLocales"));
 	}
 
 	@DisplayName("Test para peticion GET del resultado del formulario de busqueda de locales")
 	void testResultadoFormularioBusquedaLocales() throws Exception {
-		this.mockMvc.perform(MockMvcRequestBuilders.get("/locales").param("direccion", "Luis Montoto")).andExpect(MockMvcResultMatchers.status().is2xxSuccessful()).andExpect(MockMvcResultMatchers.view().name("locales/listaLocales"));
+		this.mockMvc.perform(MockMvcRequestBuilders.get("/locales").param("direccion", "Luis Montoto"))
+				.andExpect(MockMvcResultMatchers.status().is2xxSuccessful())
+				.andExpect(MockMvcResultMatchers.view().name("locales/listaLocales"));
 	}
 
 	@WithMockUser(value = "spring")
 	@Test
 	@DisplayName("Test negativo para peticion GET del resultado del formulario de busqueda de locales")
 	void testResultadoFormularioBusquedaLocalesNegativo() throws Exception {
-		this.mockMvc.perform(MockMvcRequestBuilders.get("/locales").param("direccion", "Probando")).andExpect(MockMvcResultMatchers.model().attributeDoesNotExist("locales")).andExpect(MockMvcResultMatchers.status().is2xxSuccessful())
-			.andExpect(MockMvcResultMatchers.view().name("locales/buscarLocales"));
+		this.mockMvc.perform(MockMvcRequestBuilders.get("/locales").param("direccion", "Probando"))
+				.andExpect(MockMvcResultMatchers.model().attributeDoesNotExist("locales"))
+				.andExpect(MockMvcResultMatchers.status().is2xxSuccessful())
+				.andExpect(MockMvcResultMatchers.view().name("locales/buscarLocales"));
 	}
 
-	//--------------------------Mis locales (propietario)------------------------------------------------------------------------------------------
+	// --------------------------Mis locales
+	// (propietario)------------------------------------------------------------------------------------------
 
 	@WithMockUser(value = "george")
 	@Test
 	@DisplayName("Test para peticion GET de los locales de un propietario logeado")
 	void testVerMisLocales() throws Exception {
-		this.mockMvc.perform(MockMvcRequestBuilders.get("/propietario/locales")).andExpect(MockMvcResultMatchers.model().attributeExists("locales")).andExpect(MockMvcResultMatchers.status().is2xxSuccessful())
-			.andExpect(MockMvcResultMatchers.view().name("locales/listaLocales"));
+		this.mockMvc.perform(MockMvcRequestBuilders.get("/propietario/locales"))
+				.andExpect(MockMvcResultMatchers.model().attributeExists("locales"))
+				.andExpect(MockMvcResultMatchers.status().is2xxSuccessful())
+				.andExpect(MockMvcResultMatchers.view().name("locales/listaLocales"));
 	}
 
 	@WithMockUser(value = "paco")
 	@Test
 	@DisplayName("Test Negativo para peticion GET de los locales de un propietario que no existe")
 	void testNegativoVerMisLocales() throws Exception {
-		this.mockMvc.perform(MockMvcRequestBuilders.get("/propietario/locales")).andExpect(MockMvcResultMatchers.model().attributeDoesNotExist("locales")).andExpect(MockMvcResultMatchers.status().is2xxSuccessful())
-			.andExpect(MockMvcResultMatchers.view().name("exception"));
+		this.mockMvc.perform(MockMvcRequestBuilders.get("/propietario/locales"))
+				.andExpect(MockMvcResultMatchers.model().attributeDoesNotExist("locales"))
+				.andExpect(MockMvcResultMatchers.status().is2xxSuccessful())
+				.andExpect(MockMvcResultMatchers.view().name("exception"));
 	}
 
-	@WithMockUser(username = "admin", roles = {
-		"cliente", "admin"
-	})
+	@WithMockUser(username = "admin", roles = { "cliente", "admin" })
 	@Test
 	@DisplayName("Test para peticion GET de aceptar locales")
 	void testAceptarLocales() throws Exception {
-		this.mockMvc.perform(MockMvcRequestBuilders.get("/administrador/local/{localId}/aceptar", this.l3.getId())).andExpect(MockMvcResultMatchers.status().is3xxRedirection())
-			.andExpect(MockMvcResultMatchers.view().name("redirect:/administrador/locales"));
+		this.mockMvc.perform(MockMvcRequestBuilders.get("/administrador/local/{localId}/aceptar", this.l3.getId()))
+				.andExpect(MockMvcResultMatchers.status().is3xxRedirection())
+				.andExpect(MockMvcResultMatchers.view().name("redirect:/administrador/locales"));
 	}
 
-	@WithMockUser(username = "admin", roles = {
-		"cliente", "admin"
-	})
+	@WithMockUser(username = "admin", roles = { "cliente", "admin" })
 	@Test
 	@DisplayName("Test para peticion GET de rechazar locales")
 	void testRechazarLocales() throws Exception {
-		this.mockMvc.perform(MockMvcRequestBuilders.get("/administrador/local/{localId}/rechazar", this.l3.getId())).andExpect(MockMvcResultMatchers.status().is3xxRedirection())
-			.andExpect(MockMvcResultMatchers.view().name("redirect:/administrador/locales"));
+		this.mockMvc.perform(MockMvcRequestBuilders.get("/administrador/local/{localId}/rechazar", this.l3.getId()))
+				.andExpect(MockMvcResultMatchers.status().is3xxRedirection())
+				.andExpect(MockMvcResultMatchers.view().name("redirect:/administrador/locales"));
 	}
 
 }

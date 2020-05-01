@@ -1,6 +1,7 @@
 
 package org.springframework.samples.petclinic.web;
 
+import java.time.LocalTime;
 import java.util.Collection;
 import java.util.LinkedList;
 
@@ -40,49 +41,50 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 public class FiestaControllerTests {
 
 	@MockBean
-	private FiestaService				fiestaService;
+	private FiestaService fiestaService;
 
 	@MockBean
-	private ClienteService				clienteService;
+	private ClienteService clienteService;
 
 	@MockBean
-	private LocalService				localService;
+	private LocalService localService;
 
 	@MockBean
-	private AnuncioService				anuncioService;
+	private AnuncioService anuncioService;
 
 	@MockBean
-	private ComentarioService			comentarioService;
+	private ComentarioService comentarioService;
 
 	@MockBean
-	private ValoracionService			valoracionService;
+	private ValoracionService valoracionService;
 
 	@MockBean
-	private PropietarioService			propietarioService;
+	private PropietarioService propietarioService;
 
 	@MockBean
-	private AdministradorService		administradorService;
+	private AdministradorService administradorService;
 
 	@MockBean
-	private UserService					userService;
+	private UserService userService;
 
 	@MockBean
-	private AuthoritiesService			authoritiesService;
+	private AuthoritiesService authoritiesService;
 
 	@MockBean
-	private SolicitudAsistenciaService	solicitudAsistenciaService;
+	private SolicitudAsistenciaService solicitudAsistenciaService;
 
 	@Autowired
-	private MockMvc						mockMvc;
+	private MockMvc mockMvc;
 
-	private Cliente						cliente;
+	private Cliente cliente;
 
-	private Propietario					propietario;
+	private Propietario propietario;
 
-	private Fiesta						test	= new Fiesta();
+	private Fiesta test = new Fiesta();
 
-	private Local						local	= new Local();
-
+	private Local local = new Local();
+	
+	private LocalTime date=LocalTime.now();
 
 	@BeforeEach
 	void datosCliente() {
@@ -109,6 +111,8 @@ public class FiestaControllerTests {
 		this.local.setPropietario(this.propietario);
 		Fiesta fiesta1 = new Fiesta();
 		fiesta1.setId(3);
+		fiesta1.setDecision("ACEPTADO");
+		
 		Fiesta fiesta2 = new Fiesta();
 		fiesta1.setNombre("Fiesta de disfraces 1");
 		fiesta2.setNombre("Fiesta de disfraces 2");
@@ -118,6 +122,7 @@ public class FiestaControllerTests {
 		fiestas1.add(fiesta2);
 		fiestas2.add(this.test);
 		this.test.setNombre("disfraces");
+		this.test.setDecision("ACEPTADO");
 		BDDMockito.given(this.fiestaService.findByClienteId(this.cliente.getId())).willReturn(fiestas1);
 		BDDMockito.given(this.fiestaService.findByNombre(this.test.getNombre())).willReturn(fiestas2);
 		BDDMockito.given(this.fiestaService.findFiestaById(3)).willReturn(fiesta1);
@@ -130,58 +135,74 @@ public class FiestaControllerTests {
 	@Test
 	@DisplayName("Test para peticion GET del formulario de busqueda de fiestas")
 	void testFormularioBusquedaFiestas() throws Exception {
-		this.mockMvc.perform(MockMvcRequestBuilders.get("/fiestas/buscar")).andExpect(MockMvcResultMatchers.model().attributeExists("fiesta")).andExpect(MockMvcResultMatchers.status().is2xxSuccessful())
-			.andExpect(MockMvcResultMatchers.view().name("fiestas/buscarFiestas"));
+		this.mockMvc.perform(MockMvcRequestBuilders.get("/fiestas/buscar"))
+				.andExpect(MockMvcResultMatchers.model().attributeExists("fiesta"))
+				.andExpect(MockMvcResultMatchers.status().is2xxSuccessful())
+				.andExpect(MockMvcResultMatchers.view().name("fiestas/buscarFiestas"));
 	}
 
 	@WithMockUser(value = "spring")
 	@Test
 	@DisplayName("Test para peticion GET del resultado del formulario de busqueda de fiestas")
 	void testResultadoFormularioBusquedaFiestas() throws Exception {
-		this.mockMvc.perform(MockMvcRequestBuilders.get("/fiestas").param("nombre", "disfraces")).andExpect(MockMvcResultMatchers.status().is2xxSuccessful()).andExpect(MockMvcResultMatchers.view().name("fiestas/listaFiestas"));
+		this.mockMvc.perform(MockMvcRequestBuilders.get("/fiestas").param("nombre", "disfraces"))
+				.andExpect(MockMvcResultMatchers.status().is2xxSuccessful())
+				.andExpect(MockMvcResultMatchers.view().name("fiestas/listaFiestas"));
 	}
 
 	@WithMockUser(value = "spring")
 	@Test
 	@DisplayName("Test para peticion GET del resultado del formulario de busqueda de fiestas")
 	void testResultadoFormularioBusquedaFiestasNegativo() throws Exception {
-		this.mockMvc.perform(MockMvcRequestBuilders.get("/fiestas", this.test)).andExpect(MockMvcResultMatchers.model().attributeDoesNotExist("fiestas")).andExpect(MockMvcResultMatchers.status().is2xxSuccessful())
-			.andExpect(MockMvcResultMatchers.view().name("fiestas/buscarFiestas"));
+		this.mockMvc.perform(MockMvcRequestBuilders.get("/fiestas", this.test))
+				.andExpect(MockMvcResultMatchers.model().attributeDoesNotExist("fiestas"))
+				.andExpect(MockMvcResultMatchers.status().is2xxSuccessful())
+				.andExpect(MockMvcResultMatchers.view().name("fiestas/buscarFiestas"));
 	}
 
-	//-----------------Detalles fiesta (todos)----------------------------------------------------------------------------
+	// -----------------Detalles fiesta
+	// (todos)----------------------------------------------------------------------------
 
-	//	@WithMockUser(value = "spring")
-	//	@Test
-	//	@DisplayName("Test para peticion GET de los detalles de la fiesta ")
-	//	void testDetallesFiesta() throws Exception {
-	//		this.mockMvc.perform(MockMvcRequestBuilders.get("/fiestas/{fiestaId}", this.test.getId())).andExpect(MockMvcResultMatchers.model().attributeExists("valoraciones")).andExpect(MockMvcResultMatchers.model().attributeExists("comentarios"))
-	//			.andExpect(MockMvcResultMatchers.status().is2xxSuccessful()).andExpect(MockMvcResultMatchers.view().name("fiestas/fiestaDetails"));
-	//	}
+	@WithMockUser(value = "admin")
+	@Test
+	@DisplayName("Test para peticion GET de los detalles de la fiesta ")
+	void testDetallesFiesta() throws Exception {
+		this.mockMvc.perform(MockMvcRequestBuilders.get("/fiestas/3"))
+				.andExpect(MockMvcResultMatchers.status().is2xxSuccessful())
+				.andExpect(MockMvcResultMatchers.view().name("fiestas/fiestaDetails"));
+	}
 
-	//	@WithMockUser(value = "spring")
-	//	@Test
-	//	@DisplayName("Test negativo para peticion GET de los detalles de una fiesta cuyo id no existe")
-	//	void testNegativoDetallesFiesta() throws Exception {
-	//		this.mockMvc.perform(MockMvcRequestBuilders.get("/fiestas/21")).andExpect(MockMvcResultMatchers.status().is2xxSuccessful()).andExpect(MockMvcResultMatchers.view().name("exception"));
-	//	}
+	@WithMockUser(value = "spring")
+	@Test
+	@DisplayName("Test negativo para peticion GET de los detalles de una fiesta cuyo id no existe")
+	void testNegativoDetallesFiesta() throws Exception {
+		this.mockMvc.perform(MockMvcRequestBuilders.get("/fiestas/21"))
+				.andExpect(MockMvcResultMatchers.status().is2xxSuccessful())
+				.andExpect(MockMvcResultMatchers.view().name("exception"));
+	}
 
-	//------------------------------------------------------------------------------------------------------------------
+	// ------------------------------------------------------------------------------------------------------------------
 
 	@WithMockUser(value = "cliente")
 	@Test
 	@DisplayName("Test para peticion GET de las fiestas organizadas por un cliente logeado")
 	void testVerMisFiestas() throws Exception {
-		this.mockMvc.perform(MockMvcRequestBuilders.get("/cliente/fiestas")).andExpect(MockMvcResultMatchers.model().attributeExists("fiestas")).andExpect(MockMvcResultMatchers.model().attributeExists("misfiestas"))
-			.andExpect(MockMvcResultMatchers.status().is2xxSuccessful()).andExpect(MockMvcResultMatchers.view().name("fiestas/listaFiestas"));
+		this.mockMvc.perform(MockMvcRequestBuilders.get("/cliente/fiestas"))
+				.andExpect(MockMvcResultMatchers.model().attributeExists("fiestas"))
+				.andExpect(MockMvcResultMatchers.model().attributeExists("misfiestas"))
+				.andExpect(MockMvcResultMatchers.status().is2xxSuccessful())
+				.andExpect(MockMvcResultMatchers.view().name("fiestas/listaFiestas"));
 	}
 
 	@WithMockUser(value = "paco")
 	@Test
 	@DisplayName("Test Negativo para peticion GET de las fiestas organizadas por un cliente que no existe")
 	void testNegativoVerMisFiestas() throws Exception {
-		this.mockMvc.perform(MockMvcRequestBuilders.get("/cliente/fiestas")).andExpect(MockMvcResultMatchers.model().attributeDoesNotExist("fiestas")).andExpect(MockMvcResultMatchers.model().attributeDoesNotExist("misfiestas"))
-			.andExpect(MockMvcResultMatchers.status().is2xxSuccessful()).andExpect(MockMvcResultMatchers.view().name("exception"));
+		this.mockMvc.perform(MockMvcRequestBuilders.get("/cliente/fiestas"))
+				.andExpect(MockMvcResultMatchers.model().attributeDoesNotExist("fiestas"))
+				.andExpect(MockMvcResultMatchers.model().attributeDoesNotExist("misfiestas"))
+				.andExpect(MockMvcResultMatchers.status().is2xxSuccessful())
+				.andExpect(MockMvcResultMatchers.view().name("exception"));
 	}
 
 	// EDITAR
@@ -189,48 +210,59 @@ public class FiestaControllerTests {
 	@Test
 	@DisplayName("Test positivo editar fiesta con un el cliente dueño")
 	void testPositivoEditarMisFiestas() throws Exception {
-		this.mockMvc.perform(MockMvcRequestBuilders.get("/fiestas/{fiestaId}/editar", 1)).andExpect(MockMvcResultMatchers.status().is2xxSuccessful()).andExpect(MockMvcResultMatchers.view().name("fiestas/new"));
+		this.mockMvc.perform(MockMvcRequestBuilders.get("/fiestas/{fiestaId}/editar", 1))
+				.andExpect(MockMvcResultMatchers.status().is2xxSuccessful())
+				.andExpect(MockMvcResultMatchers.view().name("fiestas/new"));
 	}
 
 	@WithMockUser(value = "propietario")
 	@Test
 	@DisplayName("Test Negativo editar fiesta con otro usuario que no es su dueño")
 	void testNegativoEditarFiesta() throws Exception {
-		this.mockMvc.perform(MockMvcRequestBuilders.post("/fiesta/{fiestaId}/editar", 1));
+		this.mockMvc.perform(MockMvcRequestBuilders.post("/fiestas/1/editar"))
+		.andExpect(MockMvcResultMatchers.status().is4xxClientError());
 	}
 
-	//	@WithMockUser(value = "spring")
-	//	@Test
-	//	void testProcessUpdateFiestaFormSuccess() throws Exception {
-	//		this.mockMvc.perform(MockMvcRequestBuilders.post("/fiestas/{fiestaId}/editar", 1)
-	//				.with(SecurityMockMvcRequestPostProcessors.csrf()).param("nombre", "Joe").param("descripcion", "Bloggs")
-	//				.param("id", "1").param("precio", "3.3").param("requisitos", "Testing").param("fecha", "2015/05/25")
-	////				.param("horaInicio", "23:00:00")
-	////				.param("horaFin",  "12:00:00")
-	//				.param("numeroAsistentes", "12").param("imagen", "https://welcometoibiza.jpg"))
-	//				.andExpect(MockMvcResultMatchers.status().is3xxRedirection())
-	//				.andExpect(MockMvcResultMatchers.view().name("redirect:/fiestas/1"));
-	//	}
+//	@WithMockUser(value = "spring")
+//	@Test
+//	@DisplayName("TestPositivoUpdateFiesta")
+//	void testProcessUpdateFiestaFormSuccess() throws Exception {
+//		this.mockMvc.perform(MockMvcRequestBuilders.post("/fiestas/{fiestaId}/editar", 1)
+//				.with(SecurityMockMvcRequestPostProcessors.csrf()).param("nombre", "Joe").param("descripcion", "Bloggs")
+//				.param("id", "1").param("precio", "3.3").param("requisitos", "Testing").param("fecha", "2015/05/25")
+//				.param("horaInicio", "18:20:58.417").param("horaFin", "12:00").param("numeroAsistentes", "12")
+//				.param("imagen", "https://welcometoibiza.jpg"))
+//		.andExpect(MockMvcResultMatchers.status().is2xxSuccessful())
+//		.andExpect(MockMvcResultMatchers.view().name("fiestas/new"));
+//	}
 
 	@WithMockUser(value = "spring")
 	@Test
-	void testProcessUpdateFiestaFormHasErrors() throws Exception {
-		this.mockMvc.perform(MockMvcRequestBuilders.post("/fiestas/{fiestasId}/editar", 1).with(SecurityMockMvcRequestPostProcessors.csrf()).param("nombre", "Joe").param("descripcion", "Bloggs").param("precio", "3.3").param("fecha", "2015/05/25")
-			.param("horaInicio", "23:00").param("horaFin", "14:00")).andExpect(MockMvcResultMatchers.status().is2xxSuccessful()).andExpect(MockMvcResultMatchers.view().name("fiestas/new"));
+	@DisplayName("TestNegativoUpdateFiesta")
+	void testPositivoUpdateFiesta() throws Exception {
+		this.mockMvc
+				.perform(MockMvcRequestBuilders.post("/fiestas/{fiestasId}/editar", 1)
+						.with(SecurityMockMvcRequestPostProcessors.csrf()).param("nombre", "Joe")
+						.param("descripcion", "Bloggs").param("precio", "3.3").param("fecha", "2015/05/25")
+						.param("horaInicio", "23:00").param("horaFin", "14:00"))
+				.andExpect(MockMvcResultMatchers.status().is2xxSuccessful())
+				.andExpect(MockMvcResultMatchers.view().name("fiestas/new"));
 	}
 
-	//	@WithMockUser(value = "propietario")
-	//	@Test
-	//	@DisplayName("Test positivo aceptar fiesta")
-	//	void testPositivoAceptarFiestas() throws Exception {
-	//		this.mockMvc.perform(MockMvcRequestBuilders.get("/local/{localId}/fiesta/{fiestaId}/aceptar", 3, 3)).andExpect(MockMvcResultMatchers.status().is4xxClientError());
-	//	}
+	@WithMockUser(value = "propietario")
+	@Test
+	@DisplayName("Test positivo aceptar fiesta")
+	void testPositivoAceptarFiestas() throws Exception {
+		this.mockMvc.perform(MockMvcRequestBuilders.get("/local/{localId}/fiesta/{fiestaId}/aceptar", 3, 3))
+				.andExpect(MockMvcResultMatchers.status().is4xxClientError());
+	}
 
 	@WithMockUser(value = "spring")
 	@Test
 	@DisplayName("Test Negativo aceptar fiesta con otro usuario que no es su dueño")
 	void testNegativoAceptarFiesta() throws Exception {
-		this.mockMvc.perform(MockMvcRequestBuilders.get("/local/{localId}/fiesta/{fiestaId}/aceptar", 2, 2)).andExpect(MockMvcResultMatchers.status().is4xxClientError());
+		this.mockMvc.perform(MockMvcRequestBuilders.get("/local/{localId}/fiesta/{fiestaId}/aceptar", 2, 2))
+				.andExpect(MockMvcResultMatchers.status().is4xxClientError());
 	}
 
 }

@@ -32,26 +32,25 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 public class SolicitudAsistenciaControllerTests {
 
 	@MockBean
-	private SolicitudAsistenciaService	solicitudAsistenciaService;
+	private SolicitudAsistenciaService solicitudAsistenciaService;
 
 	@MockBean
-	private ClienteService				clienteService;
+	private ClienteService clienteService;
 
 	@MockBean
-	private FiestaService				fiestaService;
+	private FiestaService fiestaService;
 
 	@MockBean
-	private UserService					userService;
+	private UserService userService;
 
 	@MockBean
-	private AuthoritiesService			authoritiesService;
+	private AuthoritiesService authoritiesService;
 
 	@Autowired
-	private MockMvc						mockMvc;
+	private MockMvc mockMvc;
 
-	private Cliente						george;
-
-
+	private Cliente george;
+private SolicitudAsistencia solicitud1;
 	@BeforeEach
 	void datosCliente() {
 		this.george = new Cliente();
@@ -62,7 +61,7 @@ public class SolicitudAsistenciaControllerTests {
 		this.george.setId(10);
 		this.george.setNombre("geoge");
 		this.george.setTelefono("654321987");
-		SolicitudAsistencia solicitud1 = new SolicitudAsistencia();
+		this.solicitud1 = new SolicitudAsistencia();
 		SolicitudAsistencia solicitud2 = new SolicitudAsistencia();
 		Fiesta fiesta1 = new Fiesta();
 		fiesta1.setId(3);
@@ -76,65 +75,79 @@ public class SolicitudAsistenciaControllerTests {
 		solicitudes.add(solicitud1);
 		solicitudes.add(solicitud2);
 		BDDMockito.given(this.clienteService.findByUsername("george")).willReturn(this.george);
-		BDDMockito.given(this.solicitudAsistenciaService.findAsistenciasByClienteId(this.george.getId())).willReturn(solicitudes);
+		BDDMockito.given(this.solicitudAsistenciaService.findAsistenciasByClienteId(this.george.getId()))
+				.willReturn(solicitudes);
 		BDDMockito.given(this.solicitudAsistenciaService.findById(1)).willReturn(solicitud1);
 		BDDMockito.given(this.fiestaService.findFiestaById(3)).willReturn(fiesta1);
 
 	}
 
-	//Ver mis asistencias
+	// Ver mis asistencias
 	@WithMockUser(value = "george")
 	@Test
 	@DisplayName("Test para peticion GET de las solicitudes de asistencia de un cliente logeado")
 	void testVerMisAsistencias() throws Exception {
-		this.mockMvc.perform(MockMvcRequestBuilders.get("/cliente/solicitudesAsistencias")).andExpect(MockMvcResultMatchers.model().attributeExists("asistencias")).andExpect(MockMvcResultMatchers.model().attributeExists("misasistencias"))
-			.andExpect(MockMvcResultMatchers.status().is2xxSuccessful()).andExpect(MockMvcResultMatchers.view().name("solicitudesAsistencia/listaSolicitudesAsistencia"));
+		this.mockMvc.perform(MockMvcRequestBuilders.get("/cliente/solicitudesAsistencias"))
+				.andExpect(MockMvcResultMatchers.model().attributeExists("asistencias"))
+				.andExpect(MockMvcResultMatchers.model().attributeExists("misasistencias"))
+				.andExpect(MockMvcResultMatchers.status().is2xxSuccessful())
+				.andExpect(MockMvcResultMatchers.view().name("solicitudesAsistencia/listaSolicitudesAsistencia"));
 	}
 
 	@WithMockUser(value = "paco")
 	@Test
 	@DisplayName("Test Negativo para peticion GET de las solicitudes de asistencia de un cliente que no existe")
 	void testNegativoVerMisAsistencias() throws Exception {
-		this.mockMvc.perform(MockMvcRequestBuilders.get("/cliente/solicitudesAsistencias")).andExpect(MockMvcResultMatchers.model().attributeDoesNotExist("asistencias")).andExpect(MockMvcResultMatchers.model().attributeDoesNotExist("misasistencias"))
-			.andExpect(MockMvcResultMatchers.status().is2xxSuccessful()).andExpect(MockMvcResultMatchers.view().name("exception"));
+		this.mockMvc.perform(MockMvcRequestBuilders.get("/cliente/solicitudesAsistencias"))
+				.andExpect(MockMvcResultMatchers.model().attributeDoesNotExist("asistencias"))
+				.andExpect(MockMvcResultMatchers.model().attributeDoesNotExist("misasistencias"))
+				.andExpect(MockMvcResultMatchers.status().is2xxSuccessful())
+				.andExpect(MockMvcResultMatchers.view().name("exception"));
 	}
 
-	//Registrar una solicitud
-	//	@WithMockUser(value = "george")
-	//	@Test
-	//	@DisplayName("Test Positivo para registrar una solicitud")
-	//	void testPositivoRegistrarSolicitud() throws Exception {
-	//		this.mockMvc.perform(MockMvcRequestBuilders.get("/cliente/solicitudAsistencia/fiesta/{fiestaId}", 3)).andExpect(MockMvcResultMatchers.status().is2xxSuccessful())
-	//			.andExpect(MockMvcResultMatchers.view().name("solicitudesAsistencia/listaSolicitudesAsistencia"));
-	//	}
+	// Registrar una solicitud
+	@WithMockUser(value = "paco")
+	@Test
+	@DisplayName("Test Positivo para registrar una solicitud")
+	void testPositivoRegistrarSolicitud() throws Exception {
+		this.mockMvc.perform(MockMvcRequestBuilders.get("/cliente/solicitudAsistencia/fiesta/1"))
+				.andExpect(MockMvcResultMatchers.status().is2xxSuccessful())
+				.andExpect(MockMvcResultMatchers.view().name("exception"));
+	}
 
-	//Aceptar una solicitud
+	// Aceptar una solicitud
 	@WithMockUser(value = "george")
 	@Test
 	@DisplayName("Test Positivo para aceptar una solicitud")
 	void testPositivoAceptarSolicitud() throws Exception {
-		this.mockMvc.perform(MockMvcRequestBuilders.get("/cliente/solicitudAsistencia/aceptar/{solicitudId}", 1)).andExpect(MockMvcResultMatchers.status().is3xxRedirection());
+		this.mockMvc.perform(MockMvcRequestBuilders.get("/cliente/solicitudAsistencia/aceptar/{solicitudId}", 1))
+				.andExpect(MockMvcResultMatchers.status().is3xxRedirection());
 	}
 
 	@WithMockUser(value = "paco")
 	@Test
 	@DisplayName("Test Negativo para aceptar una solicitud, el cliente no puede tomar la decision de esta solicitud")
 	void testNegativoAceptarSolicitud() throws Exception {
-		this.mockMvc.perform(MockMvcRequestBuilders.get("/cliente/solicitudAsistencia/aceptar/{solicitudId}", 1)).andExpect(MockMvcResultMatchers.status().is2xxSuccessful()).andExpect(MockMvcResultMatchers.view().name("exception"));
+		this.mockMvc.perform(MockMvcRequestBuilders.get("/cliente/solicitudAsistencia/aceptar/{solicitudId}", 1))
+				.andExpect(MockMvcResultMatchers.status().is2xxSuccessful())
+				.andExpect(MockMvcResultMatchers.view().name("exception"));
 	}
 
-	//Rechazar una solicitud
+	// Rechazar una solicitud
 	@WithMockUser(value = "george")
 	@Test
 	@DisplayName("Test Positivo para rechazar una solicitud")
 	void testPositivoRechazarSolicitud() throws Exception {
-		this.mockMvc.perform(MockMvcRequestBuilders.get("/cliente/solicitudAsistencia/rechazar/{solicitudId}", 1)).andExpect(MockMvcResultMatchers.status().is3xxRedirection());
+		this.mockMvc.perform(MockMvcRequestBuilders.get("/cliente/solicitudAsistencia/rechazar/{solicitudId}", 1))
+				.andExpect(MockMvcResultMatchers.status().is3xxRedirection());
 	}
 
 	@WithMockUser(value = "paco")
 	@Test
 	@DisplayName("Test Negativo para rechazar una solicitud, el cliente no puede tomar la decision de esta solicitud")
 	void testNegativoRechazarSolicitud() throws Exception {
-		this.mockMvc.perform(MockMvcRequestBuilders.get("/cliente/solicitudAsistencia/rechazar/{solicitudId}", 1)).andExpect(MockMvcResultMatchers.status().is2xxSuccessful()).andExpect(MockMvcResultMatchers.view().name("exception"));
+		this.mockMvc.perform(MockMvcRequestBuilders.get("/cliente/solicitudAsistencia/rechazar/{solicitudId}", 1))
+				.andExpect(MockMvcResultMatchers.status().is2xxSuccessful())
+				.andExpect(MockMvcResultMatchers.view().name("exception"));
 	}
 }

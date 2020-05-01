@@ -17,17 +17,27 @@ public class ClienteValidator implements Validator {
 		if (cliente.getNombre() == "") {
 			errors.rejectValue("nombre", "ValidateNotBlank");
 		}
+		if (!(cliente.getNombre().matches("[a-zA-Z ]*"))) {
+			errors.rejectValue("nombre", "typeMismatch");
+		}
 
 		if (cliente.getApellidos() == "") {
 			errors.rejectValue("apellidos", "ValidateNotBlank");
 		}
+		if (!(cliente.getApellidos().matches("[a-zA-Z ]*"))) {
+			errors.rejectValue("apellidos", "typeMismatch");
+		}
 
-		if (cliente.getEmail() == "" || !cliente.getEmail().contains("@")) {
+		if (!(cliente.getEmail().matches("[-\\w\\.]+@\\w+\\.\\w+"))) {
 			errors.rejectValue("email", "ValidateEmail");
 		}
 		if (cliente.getTelefono() == "") {
 			errors.rejectValue("telefono", "ValidateNotBlank");
 		}
+		if (!(cliente.getTelefono().matches("[0-9]{9}"))) {
+			errors.rejectValue("telefono", "ValidatePhone");
+		}
+		
 		if (cliente.getUser().getUsername() == "") {
 			errors.rejectValue("user.username", "ValidateNotBlank");
 		}
