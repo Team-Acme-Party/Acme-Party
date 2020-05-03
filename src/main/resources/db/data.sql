@@ -66,7 +66,7 @@ INSERT INTO locales(id, direccion, capacidad, condiciones, imagen, decision, pro
 --Fiestas
 INSERT INTO fiestas(id, nombre, descripcion, precio, requisitos, fecha, hora_inicio, hora_fin, numero_asistentes, imagen, decision, cliente_id, local_id) 
 	VALUES(1, 'Fiesta de disfraces', 'Fiesta de disfraces de todo tipo. Sin alcohol', 15, 'Venir disfrazado y en buen estado',
-	'2020-04-15', '18:00', '23:00', 50, 'https://welcometoibiza.com/wp-content/uploads/2018/02/Fiestas-de-disfraces-en-Ibiza.jpg', 'ACEPTADO', 1, 2);
+	'2020-08-15', '18:00', '23:00', 50, 'https://welcometoibiza.com/wp-content/uploads/2018/02/Fiestas-de-disfraces-en-Ibiza.jpg', 'ACEPTADO', 1, 2);
 	
 INSERT INTO fiestas(id, nombre, descripcion, precio, requisitos, fecha, hora_inicio, hora_fin, numero_asistentes, imagen, decision, cliente_id, local_id) 
 	VALUES(2, 'Fiesta electronica', 'Fiesta de música electronica para mayores de edad.', 20, 'Ser mayor de edad y no traer drogas.',
@@ -87,9 +87,9 @@ INSERT INTO fiestas(id, nombre, descripcion, precio, requisitos, fecha, hora_ini
 
 
 --Solicitudes de asistencia a fiestas
-INSERT INTO solicitudes_asistencia(id, fiesta_id, cliente_id, decision) VALUES(1, 1, 1, 'ACEPTADO');
-INSERT INTO solicitudes_asistencia(id, fiesta_id, cliente_id, decision) VALUES(2, 1, 2, 'ACEPTADO');
-INSERT INTO solicitudes_asistencia(id, fiesta_id, cliente_id, decision) VALUES(3, 3, 1, 'PENDIENTE');
+--INSERT INTO solicitudes_asistencia(id, fiesta_id, cliente_id, decision) VALUES(1, 1, 1, 'ACEPTADO');
+INSERT INTO solicitudes_asistencia(id, fiesta_id, cliente_id, decision) VALUES(2, 1, 2, 'PENDIENTE');
+--INSERT INTO solicitudes_asistencia(id, fiesta_id, cliente_id, decision) VALUES(3, 3, 1, 'PENDIENTE');
 INSERT INTO solicitudes_asistencia(id, fiesta_id, cliente_id, decision) VALUES(4, 3, 2, 'ACEPTADO');
 
 
