@@ -239,9 +239,17 @@ public class LocalController {
 		"/locales/new"
 	})
 	public String initCreationForm(final Map<String, Object> model) {
-		Local local = new Local();
-		model.put("local", local);
-		return LocalController.VIEWS_CAUSE_CREATE_FORM;
+		String username = SecurityContextHolder.getContext().getAuthentication().getName();
+		Propietario propietario =  this.propietarioService.findByUsername(username);
+		if (propietario!=null) {
+			Local local = new Local();
+			model.put("local", local);
+			return LocalController.VIEWS_CAUSE_CREATE_FORM;
+		}else {
+			model.put("message","No estas autorizado para crear un local");
+			return "exception";
+		}
+
 	}
 
 	@PostMapping(value = {

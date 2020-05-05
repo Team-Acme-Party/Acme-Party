@@ -199,7 +199,8 @@ public class LocalControllerTests {
 				.andExpect(MockMvcResultMatchers.status().is2xxSuccessful())
 				.andExpect(MockMvcResultMatchers.view().name("locales/buscarLocales"));
 	}
-
+	@WithMockUser(value = "spring")
+	@Test
 	@DisplayName("Test para peticion GET del resultado del formulario de busqueda de locales")
 	void testResultadoFormularioBusquedaLocales() throws Exception {
 		this.mockMvc.perform(MockMvcRequestBuilders.get("/locales").param("direccion", "Luis Montoto"))
