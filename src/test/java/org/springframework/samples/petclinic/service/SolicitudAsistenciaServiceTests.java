@@ -4,7 +4,6 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.Collection;
 import java.util.LinkedList;
-import java.util.List;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
@@ -38,7 +37,22 @@ public class SolicitudAsistenciaServiceTests {
 		Collection<SolicitudAsistencia> solicitudesAsistencia = new LinkedList<>();
 		Cliente cliente = this.clienteService.findById(2);
 		solicitudesAsistencia = solicitudAsistenciaService.findAsistenciasByClienteId(cliente.getId());
-		assertTrue(!solicitudesAsistencia.isEmpty() && solicitudesAsistencia.size() == 2, "El cliente 2 debe tener 2 solicitudes segun la BD");	
+		SolicitudAsistencia sa1 = solicitudAsistenciaService.findById(2);
+		SolicitudAsistencia sa2 = solicitudAsistenciaService.findById(4);
+		
+		Boolean contaisSa1 = false;
+		Boolean contaisSa2 = false;
+		for(SolicitudAsistencia sol : solicitudesAsistencia) {
+			if(sol.getId().equals(sa1.getId())) {
+				contaisSa1 = true;
+			}
+			if(sol.getId().equals(sa2.getId())) {
+				contaisSa2 = true;
+			}
+		}
+		
+		
+		assertTrue(!solicitudesAsistencia.isEmpty() && contaisSa1 && contaisSa2, "El cliente 2 contiene al menos las solicitudes creadas en el data.sql");	
 	}
 	
 	@Test
@@ -85,7 +99,15 @@ public class SolicitudAsistenciaServiceTests {
 		solicitudAsistenciaService.save(sa);
 		Assertions.assertNotNull(sa);
 		Collection<SolicitudAsistencia> saList = solicitudAsistenciaService.findAll();
-		Assertions.assertTrue(saList.contains(sa));
+		
+		Boolean contais = false;
+		for(SolicitudAsistencia sol : saList) {
+			if(sol.getId().equals(sa.getId())) {
+				contais = true;
+				break;
+			}
+		}
+		Assertions.assertTrue(contais);
 	}
 	
 	//-------------------------------------------
@@ -93,11 +115,13 @@ public class SolicitudAsistenciaServiceTests {
 	@DisplayName("Test positivo para aceptar una solicitud")
 	void testPositivoAceptarSolicitud() {
 
-		Cliente cliente = clienteService.findById(2);
-		SolicitudAsistencia solicitud = this.solicitudAsistenciaService.findById(3);
+		Cliente cliente = clienteService.findById(1);
+		SolicitudAsistencia solicitud = this.solicitudAsistenciaService.findById(2);
+		solicitud.setDecision("PENDIENTE");
 		assertTrue(solicitud.getDecision().equals("PENDIENTE"), "La solicitud no esta pendiente");
 		this.solicitudAsistenciaService.aceptarSolicitud(solicitud.getId(), cliente);
-		assertTrue(solicitud.getDecision().equals("ACEPTADO"), "La solicitud no esta aceptada");
+		SolicitudAsistencia solicitudSaved = this.solicitudAsistenciaService.findById(2);
+		assertTrue(solicitudSaved.getDecision().equals("ACEPTADO"), "La solicitud no esta aceptada");
 
 	}
 	
@@ -105,8 +129,8 @@ public class SolicitudAsistenciaServiceTests {
 	@DisplayName("Test negativo para aceptar una solicitud, la fiesta no pertenece al cliente que va tomar la decision")
 	void testNegativoAceptarSolicitud() {
 
-		Cliente cliente = clienteService.findById(1);
-		SolicitudAsistencia solicitud = this.solicitudAsistenciaService.findById(3);
+		Cliente cliente = clienteService.findById(2);
+		SolicitudAsistencia solicitud = this.solicitudAsistenciaService.findById(2);
 		assertTrue(solicitud.getDecision().equals("PENDIENTE"), "La solicitud no esta pendiente");
 		Assertions.assertThrows(IllegalArgumentException.class, () ->this.solicitudAsistenciaService.aceptarSolicitud(solicitud.getId(), cliente));
 
@@ -117,11 +141,13 @@ public class SolicitudAsistenciaServiceTests {
 	@DisplayName("Test positivo para rechazar una solicitud")
 	void testPositivoRechazarSolicitud() {
 
-		Cliente cliente = clienteService.findById(2);
-		SolicitudAsistencia solicitud = this.solicitudAsistenciaService.findById(3);
+		Cliente cliente = clienteService.findById(1);
+		SolicitudAsistencia solicitud = this.solicitudAsistenciaService.findById(2);
+		solicitud.setDecision("PENDIENTE");
 		assertTrue(solicitud.getDecision().equals("PENDIENTE"), "La solicitud no esta pendiente");
 		this.solicitudAsistenciaService.rechazarSolicitud(solicitud.getId(), cliente);
-		assertTrue(solicitud.getDecision().equals("RECHAZADO"), "La solicitud no esta aceptada");
+		SolicitudAsistencia solicitudSaved = this.solicitudAsistenciaService.findById(2);
+		assertTrue(solicitudSaved.getDecision().equals("RECHAZADO"), "La solicitud no esta aceptada");
 
 	}
 	
@@ -129,8 +155,9 @@ public class SolicitudAsistenciaServiceTests {
 	@DisplayName("Test negativo para Rechazar una solicitud, la fiesta no pertenece al cliente que va tomar la decision")
 	void testNegativoRechazarSolicitud() {
 
-		Cliente cliente = clienteService.findById(1);
-		SolicitudAsistencia solicitud = this.solicitudAsistenciaService.findById(3);
+		Cliente cliente = clienteService.findById(2);
+		SolicitudAsistencia solicitud = this.solicitudAsistenciaService.findById(2);
+		solicitud.setDecision("PENDIENTE");
 		assertTrue(solicitud.getDecision().equals("PENDIENTE"), "La solicitud no esta pendiente");
 		Assertions.assertThrows(IllegalArgumentException.class, () ->this.solicitudAsistenciaService.rechazarSolicitud(solicitud.getId(), cliente));
 
