@@ -48,7 +48,9 @@ public class FiestaControllerE2ETests {
 	@Test
 	@DisplayName("Test para peticion GET del resultado del formulario de busqueda de fiestas")
 	void testResultadoFormularioBusquedaFiestas() throws Exception {
-		this.mockMvc.perform(MockMvcRequestBuilders.get("/fiestas").param("nombre", "disfraces")).andExpect(MockMvcResultMatchers.status().is2xxSuccessful()).andExpect(MockMvcResultMatchers.view().name("fiestas/listaFiestas"));
+		this.mockMvc.perform(MockMvcRequestBuilders.get("/fiestas").param("nombre", "Fiesta"))
+		.andExpect(MockMvcResultMatchers.status().is2xxSuccessful())
+		.andExpect(MockMvcResultMatchers.view().name("fiestas/listaFiestas"));
 	}
 
 	@WithMockUser(username = "cliente2", authorities = {

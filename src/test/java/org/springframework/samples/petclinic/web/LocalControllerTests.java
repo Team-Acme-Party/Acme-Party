@@ -133,7 +133,7 @@ public class LocalControllerTests {
 	// ---------------Crear local
 	// (propietario)----------------------------------------------------------------------------------------
 
-	@WithMockUser(value = "bob")
+	@WithMockUser(value = "george")
 	@Test
 	@DisplayName("Test para peticion POST para crear un formulario")
 	public void testInitCreationForm() throws Exception {
