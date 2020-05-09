@@ -3,6 +3,8 @@ package org.springframework.samples.petclinic.service.IntegrationMySQL;
 
 import java.util.Collection;
 
+import javax.transaction.Transactional;
+
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -19,8 +21,9 @@ import org.springframework.samples.petclinic.service.PatrocinadorService;
 import org.springframework.test.context.TestPropertySource;
 
 @SpringBootTest
-@TestPropertySource(locations = "classpath:application-mysql.properties")
-public class AnuncioServiceBDTests {
+@TestPropertySource(locations = "classpath:application-mysql-travis.properties")
+@Transactional
+public class AnuncioServiceBDTest {
 
 	@Autowired
 	private AnuncioService		anuncioService;

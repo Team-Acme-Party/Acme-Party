@@ -6,6 +6,8 @@ import java.time.LocalTime;
 import java.util.Collection;
 import java.util.LinkedList;
 
+import javax.transaction.Transactional;
+
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -20,7 +22,8 @@ import org.springframework.samples.petclinic.service.LocalService;
 import org.springframework.test.context.TestPropertySource;
 
 @SpringBootTest
-@TestPropertySource(locations = "classpath:application-mysql.properties")
+@TestPropertySource(locations = "classpath:application-mysql-travis.properties")
+@Transactional
 public class FiestaServiceBDTests {
 
 	@Autowired
