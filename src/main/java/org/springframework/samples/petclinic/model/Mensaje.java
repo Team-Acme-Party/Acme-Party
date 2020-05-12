@@ -5,6 +5,7 @@ import java.time.LocalDate;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import org.springframework.format.annotation.DateTimeFormat;
@@ -25,13 +26,13 @@ public class Mensaje extends BaseEntity {
 	@DateTimeFormat(pattern = "yyyy/MM/dd HH:mm")
 	private LocalDate	fecha;
 
-	//	@ManyToOne
-	//	@JoinColumn(name = "remitente_username")
-	//	private UsuarioEntity	remitenteUsername;
-	//
-	//	@ManyToOne
-	//	@JoinColumn(name = "receptor_username")
-	//	private UsuarioEntity	receptorUsername;
+	@ManyToOne
+	@Column(name = "buzon_remitente_id")
+	private Buzon		buzonRemitente;
+
+	@ManyToOne
+	@Column(name = "buzon_destinatario_id")
+	private Buzon		buzonDestinatario;
 
 
 	//Getters y setters
@@ -60,20 +61,20 @@ public class Mensaje extends BaseEntity {
 		this.fecha = fecha;
 	}
 
-	//	public UsuarioEntity getRemitente() {
-	//		return this.remitenteUsername;
-	//	}
-	//
-	//	public void setRemitente(final UsuarioEntity remitenteUsername) {
-	//		this.remitenteUsername = remitenteUsername;
-	//	}
-	//
-	//	public UsuarioEntity getReceptor() {
-	//		return this.receptorUsername;
-	//	}
-	//
-	//	public void setReceptor(final UsuarioEntity receptorUsername) {
-	//		this.receptorUsername = receptorUsername;
-	//	}
+	public Buzon getBuzonRemitente() {
+		return this.buzonRemitente;
+	}
+
+	public void setBuzonRemitente(final Buzon buzonRemitente) {
+		this.buzonRemitente = buzonRemitente;
+	}
+
+	public Buzon getBuzonDestinatario() {
+		return this.buzonDestinatario;
+	}
+
+	public void setBuzonDestinatario(final Buzon buzonDestinatario) {
+		this.buzonDestinatario = buzonDestinatario;
+	}
 
 }

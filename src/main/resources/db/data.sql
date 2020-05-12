@@ -17,33 +17,33 @@ INSERT INTO authorities VALUES ('patrocinador1','patrocinador');
 INSERT INTO authorities VALUES ('patrocinador2','patrocinador');
 
 --Usuarios
-INSERT INTO administradores(id, nombre, apellidos, email, telefono, foto, mensajes_enviados, mensajes_recibidos, username) 
-	VALUES(1, 'Admin', 'DB', 'admin@admin.com', '666999666', 'https://oposicionesueblog.files.wordpress.com/2019/02/funcionario.jpg?w=825','','', 'admin');
+INSERT INTO administradores(id, nombre, apellidos, email, telefono, foto, buzon_id, username) 
+	VALUES(1, 'Admin', 'DB', 'admin@admin.com', '666999666', 'https://oposicionesueblog.files.wordpress.com/2019/02/funcionario.jpg?w=825', 1, 'admin');
 	
-INSERT INTO propietarios(id, nombre, apellidos, email, telefono, foto, mensajes_enviados, mensajes_recibidos, username) 
+INSERT INTO propietarios(id, nombre, apellidos, email, telefono, foto, buzon_id, username) 
 	VALUES(1, 'Propietario1', 'DB', 'propietario1@prop.com', '696696696', 
-	'https://definicion.de/wp-content/uploads/2015/07/adulto.jpg','2','', 'propietario1');
+	'https://definicion.de/wp-content/uploads/2015/07/adulto.jpg', 2, 'propietario1');
 	
-INSERT INTO propietarios(id, nombre, apellidos, email, telefono, foto, mensajes_enviados, mensajes_recibidos, username) 
+INSERT INTO propietarios(id, nombre, apellidos, email, telefono, foto, buzon_id, username) 
 	VALUES(2, 'Propietario2', 'DB', 'propietario2@prop.com', '696969969', 
-	'https://cdn.aarp.net/content/dam/aarp/home-and-family/caregiving/2018/03/1140-sensory-changes-older-adults-esp.jpg','','', 'propietario2');
+	'https://cdn.aarp.net/content/dam/aarp/home-and-family/caregiving/2018/03/1140-sensory-changes-older-adults-esp.jpg', 3, 'propietario2');
 	
-INSERT INTO clientes(id, nombre, apellidos, email, telefono, foto, descripcion_gustos, mensajes_enviados, mensajes recibidos, username) 
+INSERT INTO clientes(id, nombre, apellidos, email, telefono, foto, descripcion_gustos, buzon_id, username) 
 	VALUES(1, 'Cliente1', 'DB', 'cliente1@cli.com', '666999000', 
 	'https://static1.diariosur.es/www/multimedia/201902/22/media/cortadas/ALVARO-ESTUDIANTE-k0XD-U70740253086TOB-984x608@Diario%20Sur.jpg', 
-	'Me gusta la música rock','1','3', 'cliente1');
+	'Me gusta la música rock', 4, 'cliente1');
 	
-INSERT INTO clientes(id, nombre, apellidos, email, telefono, foto, descripcion_gustos, mensajes_enviados, mensajes_recibidos, username) 
+INSERT INTO clientes(id, nombre, apellidos, email, telefono, foto, descripcion_gustos, buzon_id, username) 
 	VALUES(2, 'Cliente2', 'DB', 'cliente2@cli.com', '696123456', 
-	'https://d1zv66c6p7f9ox.cloudfront.net/fotoweb/fotonoticia_20180118120033_640.jpg', 'Me gusta conocer gente nueva y la música electrónica','','1', 'cliente2');
+	'https://d1zv66c6p7f9ox.cloudfront.net/fotoweb/fotonoticia_20180118120033_640.jpg', 'Me gusta conocer gente nueva y la música electrónica', 5, 'cliente2');
 	
-INSERT INTO patrocinadores(id, nombre, apellidos, email, telefono, foto, descripcion_experiencia, mensajes_enviados, mensajes_recibidos, username) 
+INSERT INTO patrocinadores(id, nombre, apellidos, email, telefono, foto, descripcion_experiencia, buzon_id, username) 
 	VALUES(1, 'Patrocinador1', 'DB', 'patrocinador1@patr.com', '654718292', 
-	'https://tendenciasdigitales.com/web/wp-content/uploads/2018/08/patrocinios2.png', '10 años patrocinando eventos juveniles','3','', 'patrocinador1');
+	'https://tendenciasdigitales.com/web/wp-content/uploads/2018/08/patrocinios2.png', '10 años patrocinando eventos juveniles', 6, 'patrocinador1');
 	
-INSERT INTO patrocinadores(id, nombre, apellidos, email, telefono, foto, descripcion_experiencia, mensajes_enviados, mensajes_recibidos, username) 
+INSERT INTO patrocinadores(id, nombre, apellidos, email, telefono, foto, descripcion_experiencia, buzon_id, username) 
 	VALUES(2, 'Patrocinador2', 'DB', 'patrocinador2@patr.com', '650987654', 
-	'https://carreramedicusmundi.com/wp-content/uploads/2018/01/patrocinador-oro.jpg', '5 años patrocinando eventos deportivos','','2', 'patrocinador2');
+	'https://carreramedicusmundi.com/wp-content/uploads/2018/01/patrocinador-oro.jpg', '5 años patrocinando eventos deportivos', 7, 'patrocinador2');
 	
 
 --Locales
@@ -130,12 +130,36 @@ INSERT INTO valoraciones(id, valor, cliente_id, fiesta_id)
 	VALUES(3, 2.5, 2, 3);
 	
 --Mensajes
-INSERT INTO mensajes(id, asunto, cuerpo, fecha)
-	VALUES(1, 'Saludo', '¿Como te encuentras?', '2020-07-01 11:10');
-INSERT INTO mensajes(id, asunto, cuerpo, fecha)
-	VALUES(2, 'Saludo', '¿Como te encuentras?', '2020-08-02 12:30');
-INSERT INTO mensajes(id, asunto, cuerpo, fecha)
-	VALUES(3, 'Saludo', '¿Como te encuentras?', '2020-10-03 09:47');
+INSERT INTO mensajes(id, asunto, cuerpo, fecha, buzon_remitente_id, buzon_destinatario_id)
+	VALUES(1, 'Saludo', '¿Como te encuentras?', '2020-07-01 11:10', 1, 7);
+INSERT INTO mensajes(id, asunto, cuerpo, fecha buzon_remitente_id, buzon_destinatario_id)
+	VALUES(2, 'Saludo', '¿Como te encuentras?', '2020-08-02 12:30', 7, 1);
+INSERT INTO mensajes(id, asunto, cuerpo, fecha buzon_remitente_id, buzon_destinatario)_id
+	VALUES(3, 'Saludo', '¿Como te encuentras?', '2020-10-03 09:47', 5, 6);
+INSERT INTO mensajes(id, asunto, cuerpo, fecha buzon_remitente_id, buzon_destinatario)_id
+	VALUES(3, 'Saludo', '¿Como te encuentras?', '2020-10-03 09:47', 6, 5);
+INSERT INTO mensajes(id, asunto, cuerpo, fecha buzon_remitente_id, buzon_destinatario)_id
+	VALUES(3, 'Saludo', '¿Como te encuentras?', '2020-10-03 09:47', 4, 5);
+INSERT INTO mensajes(id, asunto, cuerpo, fecha buzon_remitente_id, buzon_destinatario)_id
+	VALUES(3, 'Saludo', '¿Como te encuentras?', '2020-10-03 09:47', 5, 4);
+INSERT INTO mensajes(id, asunto, cuerpo, fecha buzon_remitente_id, buzon_destinatario)_id
+	VALUES(3, 'Saludo', '¿Como te encuentras?', '2020-10-03 09:47', 2, 2);	
+	
+--Buzones
+INSERT INTO buzones(id)
+	VALUES(1);
+INSERT INTO buzones(id)
+	VALUES(2);	
+INSERT INTO buzones(id)
+	VALUES(3);	
+INSERT INTO buzones(id)
+	VALUES(4);	
+INSERT INTO buzones(id)
+	VALUES(5);	
+INSERT INTO buzones(id)
+	VALUES(6);	
+INSERT INTO buzones(id)
+	VALUES(7);		
 
 	
 	

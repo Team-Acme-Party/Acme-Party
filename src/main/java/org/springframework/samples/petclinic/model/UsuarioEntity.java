@@ -1,14 +1,10 @@
 
 package org.springframework.samples.petclinic.model;
 
-import java.util.Collection;
-
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.JoinColumn;
-import javax.persistence.ManyToMany;
 import javax.persistence.MappedSuperclass;
-import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.validation.constraints.Email;
 
@@ -20,34 +16,30 @@ public class UsuarioEntity extends BaseEntity {
 	//Propiedades
 
 	@Column(name = "nombre")
-	private String				nombre;
+	private String	nombre;
 
 	@Column(name = "apellidos")
-	private String				apellidos;
+	private String	apellidos;
 
 	@Column(name = "email")
 	@Email
-	private String				email;
+	private String	email;
 
 	@Column(name = "telefono")
-	private String				telefono;
+	private String	telefono;
 
 	@Column(name = "foto")
 	@URL
-	private String				foto;
+	private String	foto;
 
 	//@NotNull
 	@OneToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "username", referencedColumnName = "username")
-	private User				user;
+	private User	user;
 
-	@OneToMany
-	@Column(name = "mensajes_enviados")
-	private Collection<Mensaje>	mensajesEnviados;
-
-	@ManyToMany
-	@Column(name = "mensajes_recibidos")
-	private Collection<Mensaje>	mensajesRecibidos;
+	@OneToOne
+	@Column(name = "buzon_id")
+	private Buzon	buzon;
 
 
 	//Getters y setters
@@ -91,20 +83,11 @@ public class UsuarioEntity extends BaseEntity {
 		this.user = user;
 	}
 
-	public Collection<Mensaje> getMensajesEnviados() {
-		return this.mensajesEnviados;
+	public Buzon getBuzon() {
+		return this.buzon;
 	}
-
-	public void setMensajesEnviados(final Collection<Mensaje> mensajesEnviados) {
-		this.mensajesEnviados = mensajesEnviados;
-	}
-
-	public Collection<Mensaje> getMensajesRecibidos() {
-		return this.mensajesRecibidos;
-	}
-
-	public void setMensajesRecibidos(final Collection<Mensaje> mensajesRecibidos) {
-		this.mensajesRecibidos = mensajesRecibidos;
+	public void setBuzon(final Buzon buzon) {
+		this.buzon = buzon;
 	}
 
 	@Override
