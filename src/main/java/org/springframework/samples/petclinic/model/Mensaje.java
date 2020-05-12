@@ -5,8 +5,6 @@ import java.time.LocalDate;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import org.springframework.format.annotation.DateTimeFormat;
@@ -27,13 +25,13 @@ public class Mensaje extends BaseEntity {
 	@DateTimeFormat(pattern = "yyyy/MM/dd HH:mm")
 	private LocalDate	fecha;
 
-	@ManyToOne
-	@JoinColumn(name = "remitente_id")
-	private Cliente		remitente;
-
-	@ManyToOne
-	@JoinColumn(name = "receptor_id")
-	private Cliente		receptor;
+	//	@ManyToOne
+	//	@JoinColumn(name = "remitente_username")
+	//	private UsuarioEntity	remitenteUsername;
+	//
+	//	@ManyToOne
+	//	@JoinColumn(name = "receptor_username")
+	//	private UsuarioEntity	receptorUsername;
 
 
 	//Getters y setters
@@ -62,20 +60,20 @@ public class Mensaje extends BaseEntity {
 		this.fecha = fecha;
 	}
 
-	public Cliente getRemitente() {
-		return this.remitente;
-	}
-
-	public void setRemitente(final Cliente remitente) {
-		this.remitente = remitente;
-	}
-
-	public Cliente getReceptor() {
-		return this.receptor;
-	}
-
-	public void setReceptor(final Cliente receptor) {
-		this.receptor = receptor;
-	}
+	//	public UsuarioEntity getRemitente() {
+	//		return this.remitenteUsername;
+	//	}
+	//
+	//	public void setRemitente(final UsuarioEntity remitenteUsername) {
+	//		this.remitenteUsername = remitenteUsername;
+	//	}
+	//
+	//	public UsuarioEntity getReceptor() {
+	//		return this.receptorUsername;
+	//	}
+	//
+	//	public void setReceptor(final UsuarioEntity receptorUsername) {
+	//		this.receptorUsername = receptorUsername;
+	//	}
 
 }
