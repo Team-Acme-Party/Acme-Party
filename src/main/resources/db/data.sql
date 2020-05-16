@@ -16,6 +16,22 @@ INSERT INTO authorities VALUES ('cliente2','cliente');
 INSERT INTO authorities VALUES ('patrocinador1','patrocinador');
 INSERT INTO authorities VALUES ('patrocinador2','patrocinador');
 
+--Buzones
+INSERT INTO buzones(id)
+	VALUES(1);
+INSERT INTO buzones(id)
+	VALUES(2);	
+INSERT INTO buzones(id)
+	VALUES(3);	
+INSERT INTO buzones(id)
+	VALUES(4);	
+INSERT INTO buzones(id)
+	VALUES(5);	
+INSERT INTO buzones(id)
+	VALUES(6);	
+INSERT INTO buzones(id)
+	VALUES(7);
+
 --Usuarios
 INSERT INTO administradores(id, nombre, apellidos, email, telefono, foto, buzon_id, username) 
 	VALUES(1, 'Admin', 'DB', 'admin@admin.com', '666999666', 'https://oposicionesueblog.files.wordpress.com/2019/02/funcionario.jpg?w=825', 1, 'admin');
@@ -129,37 +145,24 @@ INSERT INTO valoraciones(id, valor, cliente_id, fiesta_id)
 INSERT INTO valoraciones(id, valor, cliente_id, fiesta_id) 
 	VALUES(3, 2.5, 2, 3);
 	
---Mensajes
-INSERT INTO mensajes(id, asunto, cuerpo, fecha, buzon_remitente_id, buzon_destinatario_id)
-	VALUES(1, 'Saludo', '¿Como te encuentras?', '2020-07-01 11:10', 1, 7);
-INSERT INTO mensajes(id, asunto, cuerpo, fecha buzon_remitente_id, buzon_destinatario_id)
-	VALUES(2, 'Saludo', '¿Como te encuentras?', '2020-08-02 12:30', 7, 1);
-INSERT INTO mensajes(id, asunto, cuerpo, fecha buzon_remitente_id, buzon_destinatario)_id
-	VALUES(3, 'Saludo', '¿Como te encuentras?', '2020-10-03 09:47', 5, 6);
-INSERT INTO mensajes(id, asunto, cuerpo, fecha buzon_remitente_id, buzon_destinatario)_id
-	VALUES(3, 'Saludo', '¿Como te encuentras?', '2020-10-03 09:47', 6, 5);
-INSERT INTO mensajes(id, asunto, cuerpo, fecha buzon_remitente_id, buzon_destinatario)_id
-	VALUES(3, 'Saludo', '¿Como te encuentras?', '2020-10-03 09:47', 4, 5);
-INSERT INTO mensajes(id, asunto, cuerpo, fecha buzon_remitente_id, buzon_destinatario)_id
-	VALUES(3, 'Saludo', '¿Como te encuentras?', '2020-10-03 09:47', 5, 4);
-INSERT INTO mensajes(id, asunto, cuerpo, fecha buzon_remitente_id, buzon_destinatario)_id
-	VALUES(3, 'Saludo', '¿Como te encuentras?', '2020-10-03 09:47', 2, 2);	
 	
---Buzones
-INSERT INTO buzones(id)
-	VALUES(1);
-INSERT INTO buzones(id)
-	VALUES(2);	
-INSERT INTO buzones(id)
-	VALUES(3);	
-INSERT INTO buzones(id)
-	VALUES(4);	
-INSERT INTO buzones(id)
-	VALUES(5);	
-INSERT INTO buzones(id)
-	VALUES(6);	
-INSERT INTO buzones(id)
-	VALUES(7);		
+--Mensajes
+INSERT INTO mensajes(id, asunto, cuerpo, fecha, hora, buzon_remitente_id, buzon_destinatario_id)
+    VALUES(1, 'Saludo', '¿Como te encuentras?', '2020-07-01', '10:00', 1, 7);
+INSERT INTO mensajes(id, asunto, cuerpo, fecha, hora, buzon_remitente_id, buzon_destinatario_id)
+    VALUES(2, 'Saludo', '¿Como te encuentras?', '2020-08-02', '15:30', 7, 1);
+INSERT INTO mensajes(id, asunto, cuerpo, fecha, hora, buzon_remitente_id, buzon_destinatario_id)
+    VALUES(3, 'Saludo', '¿Como te encuentras?', '2020-10-03', '16:44', 5, 6);
+INSERT INTO mensajes(id, asunto, cuerpo, fecha, hora, buzon_remitente_id, buzon_destinatario_id)
+    VALUES(4, 'Saludo', '¿Como te encuentras?', '2020-10-03', '18:03', 6, 5);
+INSERT INTO mensajes(id, asunto, cuerpo, fecha, hora, buzon_remitente_id, buzon_destinatario_id)
+    VALUES(5, 'Saludo', '¿Como te encuentras?', '2020-10-03', '9:15', 4, 5);
+INSERT INTO mensajes(id, asunto, cuerpo, fecha, hora, buzon_remitente_id, buzon_destinatario_id)
+    VALUES(6, 'Saludo', '¿Como te encuentras?', '2020-10-03', '14:05', 5, 4);
+INSERT INTO mensajes(id, asunto, cuerpo, fecha, hora, buzon_remitente_id, buzon_destinatario_id)
+    VALUES(7, 'Saludo', '¿Como te encuentras?', '2020-10-03', '13:09', 2, 2);	
+	
+		
 
 	
 	

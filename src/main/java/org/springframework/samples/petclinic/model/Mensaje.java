@@ -2,12 +2,15 @@
 package org.springframework.samples.petclinic.model;
 
 import java.time.LocalDate;
+import java.time.LocalTime;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -18,14 +21,21 @@ public class Mensaje extends BaseEntity {
 	//Propiedades
 
 	@Column(name = "asunto")
+	@NotBlank
 	private String		asunto;
 
 	@Column(name = "cuerpo")
+	@NotBlank
 	private String		cuerpo;
 
 	@Column(name = "fecha")
-	@DateTimeFormat(pattern = "yyyy/MM/dd HH:mm")
+	@DateTimeFormat(pattern = "yyyy/MM/dd")
+	@NotNull
 	private LocalDate	fecha;
+
+	@Column(name = "hora")
+	@NotNull
+	private LocalTime	hora;
 
 	@ManyToOne
 	@JoinColumn(name = "buzon_remitente_id")
@@ -60,6 +70,14 @@ public class Mensaje extends BaseEntity {
 
 	public void setFecha(final LocalDate fecha) {
 		this.fecha = fecha;
+	}
+
+	public LocalTime getHora() {
+		return this.hora;
+	}
+
+	public void setHora(final LocalTime hora) {
+		this.hora = hora;
 	}
 
 	public Buzon getBuzonRemitente() {
