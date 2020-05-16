@@ -5,6 +5,7 @@ import java.time.LocalDate;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
@@ -27,11 +28,11 @@ public class Mensaje extends BaseEntity {
 	private LocalDate	fecha;
 
 	@ManyToOne
-	@Column(name = "buzon_remitente_id")
+	@JoinColumn(name = "buzon_remitente_id")
 	private Buzon		buzonRemitente;
 
 	@ManyToOne
-	@Column(name = "buzon_destinatario_id")
+	@JoinColumn(name = "buzon_destinatario_id")
 	private Buzon		buzonDestinatario;
 
 

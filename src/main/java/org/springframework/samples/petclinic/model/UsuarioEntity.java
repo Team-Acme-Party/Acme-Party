@@ -38,7 +38,7 @@ public class UsuarioEntity extends BaseEntity {
 	private User	user;
 
 	@OneToOne
-	@Column(name = "buzon_id")
+	@JoinColumn(name = "buzon_id")
 	private Buzon	buzon;
 
 
