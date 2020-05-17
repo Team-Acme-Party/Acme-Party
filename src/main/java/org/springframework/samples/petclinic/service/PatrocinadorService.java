@@ -16,10 +16,11 @@
 
 package org.springframework.samples.petclinic.service;
 
+import java.util.Collection;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.samples.petclinic.model.Patrocinador;
-import org.springframework.samples.petclinic.model.Propietario;
 import org.springframework.samples.petclinic.repository.PatrocinadorRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -33,11 +34,12 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 public class PatrocinadorService {
 
-	private PatrocinadorRepository patrocinadorRepository;
+	private PatrocinadorRepository	patrocinadorRepository;
 	@Autowired
-	private UserService userService;
+	private UserService				userService;
 	@Autowired
-	private AuthoritiesService authoritiesService;
+	private AuthoritiesService		authoritiesService;
+
 
 	@Autowired
 	public PatrocinadorService(final PatrocinadorRepository patrocinadorRepository) {
@@ -53,14 +55,19 @@ public class PatrocinadorService {
 	public Patrocinador findById(final int id) throws DataAccessException {
 		return this.patrocinadorRepository.findById(id);
 	}
-	
+
 	@Transactional
-	public void save(Patrocinador patrocinador) throws DataAccessException {
+	public void save(final Patrocinador patrocinador) throws DataAccessException {
 		//creating owner
-		patrocinadorRepository.save(patrocinador);		
+		this.patrocinadorRepository.save(patrocinador);
 		//creating user
-		userService.saveUser(patrocinador.getUser());
+		this.userService.saveUser(patrocinador.getUser());
 		//creating authorities
-		authoritiesService.saveAuthorities(patrocinador.getUser().getUsername(), "patrocinador");
-	}	
+		this.authoritiesService.saveAuthorities(patrocinador.getUser().getUsername(), "patrocinador");
+	}
+
+	@Transactional
+	public Collection<Patrocinador> findAll() throws DataAccessException {
+		return this.patrocinadorRepository.findAll();
+	}
 }

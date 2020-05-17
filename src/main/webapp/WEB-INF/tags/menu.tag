@@ -64,7 +64,8 @@
 						<span>Mis anuncios</span>
 					</petclinic:menuItem>
 				</sec:authorize>
-
+				
+			
 
 				<sec:authorize access="hasAuthority('patrocinador')">
 					<petclinic:menuItem active="${name eq 'misanuncios'}"
@@ -79,6 +80,14 @@
 						url="/administrador/locales" title="Locales">
 						<span class="glyphicon glyphicon-home" aria-hidden="true"></span>
 						<span>Locales</span>
+					</petclinic:menuItem>
+				</sec:authorize>
+				
+				<sec:authorize access="isAuthenticated()">
+					<petclinic:menuItem active="${name eq 'mismensajes'}"
+						url="/usuario/mensajes" title="Mis Mensajes">
+						<span class="glyphicon glyphicon-home" aria-hidden="true"></span>
+						<span>Mis Mensajes</span>
 					</petclinic:menuItem>
 				</sec:authorize>
 

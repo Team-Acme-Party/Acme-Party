@@ -154,13 +154,13 @@ INSERT INTO mensajes(id, asunto, cuerpo, fecha, hora, buzon_remitente_id, buzon_
 INSERT INTO mensajes(id, asunto, cuerpo, fecha, hora, buzon_remitente_id, buzon_destinatario_id)
     VALUES(3, 'Saludo', '¿Como te encuentras?', '2020-10-03', '16:44', 5, 6);
 INSERT INTO mensajes(id, asunto, cuerpo, fecha, hora, buzon_remitente_id, buzon_destinatario_id)
-    VALUES(4, 'Saludo', '¿Como te encuentras?', '2020-10-03', '18:03', 6, 5);
+    VALUES(4, 'Saludo', '¿Como te encuentras?', '2020-12-09', '18:03', 6, 5);
 INSERT INTO mensajes(id, asunto, cuerpo, fecha, hora, buzon_remitente_id, buzon_destinatario_id)
-    VALUES(5, 'Saludo', '¿Como te encuentras?', '2020-10-03', '9:15', 4, 5);
+    VALUES(5, 'Saludo', '¿Como te encuentras?', '2020-08-29', '9:15', 4, 5);
 INSERT INTO mensajes(id, asunto, cuerpo, fecha, hora, buzon_remitente_id, buzon_destinatario_id)
-    VALUES(6, 'Saludo', '¿Como te encuentras?', '2020-10-03', '14:05', 5, 4);
+    VALUES(6, 'Saludo', '¿Como te encuentras?', '2020-07-01', '14:05', 5, 4);
 INSERT INTO mensajes(id, asunto, cuerpo, fecha, hora, buzon_remitente_id, buzon_destinatario_id)
-    VALUES(7, 'Saludo', '¿Como te encuentras?', '2020-10-03', '13:09', 2, 2);	
+    VALUES(7, 'Saludo', '¿Como te encuentras?', '2020-11-11', '13:09', 2, 2);	
 	
 		
 

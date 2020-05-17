@@ -33,15 +33,16 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
 	@Override
 	protected void configure(final HttpSecurity http) throws Exception {
-		http.authorizeRequests().antMatchers("/resources/**", "/webjars/**", "/h2-console/**").permitAll().antMatchers(HttpMethod.GET, "/","/welcome", "/oups").permitAll().antMatchers("/propietario/new", "/cliente/new", "/patrocinador/new").permitAll().antMatchers("/users/new").permitAll().antMatchers("/admin/**").hasAnyAuthority("admin")
-			.antMatchers("/fiestas/**").permitAll().antMatchers("/locales/**").permitAll().antMatchers("/local/**").hasAnyAuthority("propietario").antMatchers("/propietario/**").hasAnyAuthority("propietario").antMatchers("/patrocinador/**")
-			.hasAnyAuthority("patrocinador").antMatchers("/anuncio/**").hasAnyAuthority("patrocinador").antMatchers("/anuncios/**").hasAnyAuthority("patrocinador", "cliente", "admin", "propietario").antMatchers("/cliente/**").hasAnyAuthority("cliente")
-			.antMatchers("/administrador/**").hasAnyAuthority("admin").antMatchers("/comentario/**").hasAnyAuthority("cliente")
+		http.authorizeRequests().antMatchers("/resources/**", "/webjars/**", "/h2-console/**").permitAll().antMatchers(HttpMethod.GET, "/", "/welcome", "/oups").permitAll().antMatchers("/propietario/new", "/cliente/new", "/patrocinador/new").permitAll()
+			.antMatchers("/users/new").permitAll().antMatchers("/admin/**").hasAnyAuthority("admin").antMatchers("/fiestas/**").permitAll().antMatchers("/locales/**").permitAll().antMatchers("/local/**").hasAnyAuthority("propietario")
+			.antMatchers("/propietario/**").hasAnyAuthority("propietario").antMatchers("/patrocinador/**").hasAnyAuthority("patrocinador").antMatchers("/anuncio/**").hasAnyAuthority("patrocinador").antMatchers("/anuncios/**")
+			.hasAnyAuthority("patrocinador", "cliente", "admin", "propietario").antMatchers("/cliente/**").hasAnyAuthority("cliente").antMatchers("/administrador/**").hasAnyAuthority("admin").antMatchers("/comentario/**").hasAnyAuthority("cliente")
+			.antMatchers("/usuario/**").hasAnyAuthority("cliente", "admin", "propietario", "patrocinador").antMatchers("/mensajes/**").hasAnyAuthority("cliente", "admin", "propietario", "patrocinador")
 
 			.anyRequest().denyAll().and().formLogin()
 			/* .loginPage("/login") */
 			.failureUrl("/login-error").and().logout().logoutSuccessUrl("/");
-		// Configuración para que funcione la consola de administración 
+		// Configuración para que funcione la consola de administración
 		// de la BD H2 (deshabilitar las cabeceras de protección contra
 		// ataques de tipo csrf y habilitar los framesets si su contenido
 		// se sirve desde esta misma página.

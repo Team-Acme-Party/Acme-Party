@@ -16,6 +16,8 @@
 
 package org.springframework.samples.petclinic.repository.springdatajpa;
 
+import java.util.Collection;
+
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.Repository;
 import org.springframework.data.repository.query.Param;
@@ -33,5 +35,9 @@ public interface SpringDataAdministradorRepository extends AdministradorReposito
 	@Override
 	@Query("SELECT administrador FROM Administrador administrador WHERE administrador.user.username =:username")
 	Administrador findByUsername(@Param("username") String username);
+
+	@Override
+	@Query("SELECT administrador FROM Administrador administrador")
+	Collection<Administrador> findAll();
 
 }
