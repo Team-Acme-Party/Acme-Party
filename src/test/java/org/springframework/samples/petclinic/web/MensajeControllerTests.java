@@ -21,6 +21,7 @@ import org.springframework.samples.petclinic.model.Mensaje;
 import org.springframework.samples.petclinic.model.Patrocinador;
 import org.springframework.samples.petclinic.model.Propietario;
 import org.springframework.samples.petclinic.service.AdministradorService;
+import org.springframework.samples.petclinic.service.BuzonService;
 import org.springframework.samples.petclinic.service.ClienteService;
 import org.springframework.samples.petclinic.service.MensajeService;
 import org.springframework.samples.petclinic.service.PatrocinadorService;
@@ -48,6 +49,9 @@ public class MensajeControllerTests {
 
 	@MockBean
 	private AdministradorService	administradorService;
+
+	@MockBean
+	private BuzonService			buzonService;
 
 	@Autowired
 	private MockMvc					mockMvc;
@@ -96,7 +100,7 @@ public class MensajeControllerTests {
 		this.propietario.setId(11);
 		this.propietario.setNombre("propietario");
 		this.propietario.setTelefono("654321987");
-		this.patrocinador.setBuzon(this.buzon2);
+		this.propietario.setBuzon(this.buzon2);
 		BDDMockito.given(this.propietarioService.findByUsername("propietario")).willReturn(this.propietario);
 
 		this.cliente = new Cliente();
@@ -106,7 +110,7 @@ public class MensajeControllerTests {
 		this.cliente.setId(12);
 		this.cliente.setNombre("cliente");
 		this.cliente.setTelefono("654321987");
-		this.patrocinador.setBuzon(this.buzon3);
+		this.cliente.setBuzon(this.buzon3);
 		BDDMockito.given(this.clienteService.findByUsername("cliente")).willReturn(this.cliente);
 
 		this.administrador = new Administrador();
@@ -116,7 +120,7 @@ public class MensajeControllerTests {
 		this.administrador.setId(13);
 		this.administrador.setNombre("administrador");
 		this.administrador.setTelefono("654321987");
-		this.patrocinador.setBuzon(this.buzon4);
+		this.administrador.setBuzon(this.buzon4);
 		BDDMockito.given(this.administradorService.findByUsername("administrador")).willReturn(this.administrador);
 
 		this.mensaje = new Mensaje();
@@ -143,7 +147,13 @@ public class MensajeControllerTests {
 		mensajes2.add(this.mensaje2);
 
 		BDDMockito.given(this.mensajeService.findByBuzonDestinatarioId(10)).willReturn(mensajes);
+		BDDMockito.given(this.mensajeService.findByBuzonRemitenteId(10)).willReturn(mensajes2);
+		BDDMockito.given(this.mensajeService.findByBuzonDestinatarioId(11)).willReturn(mensajes);
 		BDDMockito.given(this.mensajeService.findByBuzonRemitenteId(11)).willReturn(mensajes2);
+		BDDMockito.given(this.mensajeService.findByBuzonDestinatarioId(12)).willReturn(mensajes);
+		BDDMockito.given(this.mensajeService.findByBuzonRemitenteId(12)).willReturn(mensajes2);
+		BDDMockito.given(this.mensajeService.findByBuzonDestinatarioId(13)).willReturn(mensajes);
+		BDDMockito.given(this.mensajeService.findByBuzonRemitenteId(13)).willReturn(mensajes2);
 		BDDMockito.given(this.mensajeService.findById(10)).willReturn(this.mensaje);
 
 	}
@@ -219,13 +229,13 @@ public class MensajeControllerTests {
 	@Test
 	@DisplayName("Test para peticion GET de los detalles de un mensaje ")
 	void testDetallesMensaje() throws Exception {
-		this.mockMvc.perform(MockMvcRequestBuilders.get("/mensajes/10")).andExpect(MockMvcResultMatchers.status().is2xxSuccessful()).andExpect(MockMvcResultMatchers.view().name("anuncios/anuncioDetails"));
+		this.mockMvc.perform(MockMvcRequestBuilders.get("/mensajes/10")).andExpect(MockMvcResultMatchers.status().is2xxSuccessful()).andExpect(MockMvcResultMatchers.view().name("mensajes/mensajeDetails"));
 	}
 
 	@WithMockUser(value = "patrocinador")
 	@Test
 	@DisplayName("Test Negativo para peticion GET de los detalles de un mensaje cuyo id no existe")
 	void testNegativoDetallesMensaje() throws Exception {
-		this.mockMvc.perform(MockMvcRequestBuilders.get("/mensajes/15")).andExpect(MockMvcResultMatchers.status().is4xxClientError());
+		this.mockMvc.perform(MockMvcRequestBuilders.get("/mensajes/15")).andExpect(MockMvcResultMatchers.status().is2xxSuccessful()).andExpect(MockMvcResultMatchers.view().name("exception"));
 	}
 }

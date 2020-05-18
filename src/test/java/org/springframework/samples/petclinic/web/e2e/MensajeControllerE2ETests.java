@@ -114,7 +114,7 @@ public class MensajeControllerE2ETests {
 	@Test
 	@DisplayName("Test para peticion GET de los detalles de un mensaje ")
 	void testDetallesMensaje() throws Exception {
-		this.mockMvc.perform(MockMvcRequestBuilders.get("/mensajes/{mensajeId}", 10)).andExpect(MockMvcResultMatchers.status().is2xxSuccessful()).andExpect(MockMvcResultMatchers.view().name("mensajes/mensajeDetails"));
+		this.mockMvc.perform(MockMvcRequestBuilders.get("/mensajes/{mensajeId}", 3)).andExpect(MockMvcResultMatchers.status().is2xxSuccessful()).andExpect(MockMvcResultMatchers.view().name("mensajes/mensajeDetails"));
 	}
 
 	@WithMockUser(username = "patrocinador1", authorities = {

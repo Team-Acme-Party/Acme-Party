@@ -13,7 +13,7 @@ import org.springframework.samples.petclinic.service.MensajeService;
 import org.springframework.test.context.TestPropertySource;
 
 @SpringBootTest
-@TestPropertySource(locations = "classpath:application-mysql.properties")
+@TestPropertySource(locations = "classpath:application.properties")
 public class MensajeServiceBDTests {
 
 	@Autowired

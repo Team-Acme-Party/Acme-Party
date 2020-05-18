@@ -100,111 +100,111 @@ public class MensajeController {
 		Cliente cliente = this.clienteService.findByUsername(username);
 		Propietario propietario = this.propietarioService.findByUsername(username);
 		Administrador admin = this.administradorService.findByUsername(username);
-		Collection<Propietario> propietarios = this.propietarioService.findAll();
-		Collection<Patrocinador> patrocinadores = this.patrocinadorService.findAll();
-		Collection<Cliente> clientes = this.clienteService.findAll();
-		Collection<Administrador> administradores = this.administradorService.findAll();
-		String usuarioDestinatario = null;
-		String usuarioRemitente = null;
-		boolean destinatarioEncontrado = false;
-		boolean remitenteEncontrado = false;
-
-		for (Propietario p : propietarios) {
-			if (!destinatarioEncontrado) {
-				if (p.getBuzon().equals(destinatario)) {
-					usuarioDestinatario = p.toString();
-					destinatarioEncontrado = true;
-				}
-			}
-			if (!remitenteEncontrado) {
-				if (p.getBuzon().equals(remitente)) {
-					usuarioRemitente = p.toString();
-					remitenteEncontrado = true;
-				}
-			}
-
-		}
-		if (!destinatarioEncontrado || !remitenteEncontrado) {
-			for (Cliente c : clientes) {
-				if (!destinatarioEncontrado) {
-					if (c.getBuzon().equals(destinatario)) {
-						usuarioDestinatario = c.toString();
-						destinatarioEncontrado = true;
-					}
-				}
-				if (!remitenteEncontrado) {
-					if (c.getBuzon().equals(remitente)) {
-						usuarioRemitente = c.toString();
-						remitenteEncontrado = true;
-					}
-				}
-
-			}
-		}
-
-		if (!destinatarioEncontrado || !remitenteEncontrado) {
-			for (Patrocinador p : patrocinadores) {
-				if (!destinatarioEncontrado) {
-					if (p.getBuzon().equals(destinatario)) {
-						usuarioDestinatario = p.toString();
-						destinatarioEncontrado = true;
-					}
-				}
-				if (!remitenteEncontrado) {
-					if (p.getBuzon().equals(remitente)) {
-						usuarioRemitente = p.toString();
-						remitenteEncontrado = true;
-					}
-				}
-
-			}
-		}
-
-		if (!destinatarioEncontrado || !remitenteEncontrado) {
-			for (Administrador a : administradores) {
-				if (!destinatarioEncontrado) {
-					if (a.getBuzon().equals(destinatario)) {
-						usuarioDestinatario = a.toString();
-						destinatarioEncontrado = true;
-					}
-				}
-				if (!remitenteEncontrado) {
-					if (a.getBuzon().equals(remitente)) {
-						usuarioRemitente = a.toString();
-						remitenteEncontrado = true;
-					}
-				}
-
-			}
-		}
+		//		Collection<Propietario> propietarios = this.propietarioService.findAll();
+		//		Collection<Patrocinador> patrocinadores = this.patrocinadorService.findAll();
+		//		Collection<Cliente> clientes = this.clienteService.findAll();
+		//		Collection<Administrador> administradores = this.administradorService.findAll();
+		//		String usuarioDestinatario = null;
+		//		String usuarioRemitente = null;
+		//		boolean destinatarioEncontrado = false;
+		//		boolean remitenteEncontrado = false;
+		//
+		//		for (Propietario p : propietarios) {
+		//			if (!destinatarioEncontrado) {
+		//				if (p.getBuzon().equals(destinatario)) {
+		//					usuarioDestinatario = p.toString();
+		//					destinatarioEncontrado = true;
+		//				}
+		//			}
+		//			if (!remitenteEncontrado) {
+		//				if (p.getBuzon().equals(remitente)) {
+		//					usuarioRemitente = p.toString();
+		//					remitenteEncontrado = true;
+		//				}
+		//			}
+		//
+		//		}
+		//		if (!destinatarioEncontrado || !remitenteEncontrado) {
+		//			for (Cliente c : clientes) {
+		//				if (!destinatarioEncontrado) {
+		//					if (c.getBuzon().equals(destinatario)) {
+		//						usuarioDestinatario = c.toString();
+		//						destinatarioEncontrado = true;
+		//					}
+		//				}
+		//				if (!remitenteEncontrado) {
+		//					if (c.getBuzon().equals(remitente)) {
+		//						usuarioRemitente = c.toString();
+		//						remitenteEncontrado = true;
+		//					}
+		//				}
+		//
+		//			}
+		//		}
+		//
+		//		if (!destinatarioEncontrado || !remitenteEncontrado) {
+		//			for (Patrocinador p : patrocinadores) {
+		//				if (!destinatarioEncontrado) {
+		//					if (p.getBuzon().equals(destinatario)) {
+		//						usuarioDestinatario = p.toString();
+		//						destinatarioEncontrado = true;
+		//					}
+		//				}
+		//				if (!remitenteEncontrado) {
+		//					if (p.getBuzon().equals(remitente)) {
+		//						usuarioRemitente = p.toString();
+		//						remitenteEncontrado = true;
+		//					}
+		//				}
+		//
+		//			}
+		//		}
+		//
+		//		if (!destinatarioEncontrado || !remitenteEncontrado) {
+		//			for (Administrador a : administradores) {
+		//				if (!destinatarioEncontrado) {
+		//					if (a.getBuzon().equals(destinatario)) {
+		//						usuarioDestinatario = a.toString();
+		//						destinatarioEncontrado = true;
+		//					}
+		//				}
+		//				if (!remitenteEncontrado) {
+		//					if (a.getBuzon().equals(remitente)) {
+		//						usuarioRemitente = a.toString();
+		//						remitenteEncontrado = true;
+		//					}
+		//				}
+		//
+		//			}
+		//		}
 
 		if (patrocinador != null) {
 			if (patrocinador.getBuzon().equals(remitente) || patrocinador.getBuzon().equals(destinatario)) {
-				mav.addObject(usuarioDestinatario);
-				mav.addObject(usuarioRemitente);
+				//				mav.addObject(usuarioDestinatario);
+				//				mav.addObject(usuarioRemitente);
 			} else {
 				mav = new ModelAndView("exception");
 				mav.addObject("message", "No puede ver ese mensaje");
 			}
 		} else if (cliente != null) {
 			if (cliente.getBuzon().equals(remitente) || cliente.getBuzon().equals(destinatario)) {
-				mav.addObject(usuarioDestinatario);
-				mav.addObject(usuarioRemitente);
+				//				mav.addObject(usuarioDestinatario);
+				//				mav.addObject(usuarioRemitente);
 			} else {
 				mav = new ModelAndView("exception");
 				mav.addObject("message", "No puede ver ese mensaje");
 			}
 		} else if (propietario != null) {
 			if (propietario.getBuzon().equals(remitente) || propietario.getBuzon().equals(destinatario)) {
-				mav.addObject(usuarioDestinatario);
-				mav.addObject(usuarioRemitente);
+				//				mav.addObject(usuarioDestinatario);
+				//				mav.addObject(usuarioRemitente);
 			} else {
 				mav = new ModelAndView("exception");
 				mav.addObject("message", "No puede ver ese mensaje");
 			}
 		} else if (admin != null) {
-			mav.addObject(usuarioDestinatario);
-			mav.addObject(usuarioRemitente);
+			//			mav.addObject(usuarioDestinatario);
+			//			mav.addObject(usuarioRemitente);
 
 		} else {
 			mav = new ModelAndView("exception");
