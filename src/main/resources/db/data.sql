@@ -16,22 +16,6 @@ INSERT INTO authorities VALUES ('cliente2','cliente');
 INSERT INTO authorities VALUES ('patrocinador1','patrocinador');
 INSERT INTO authorities VALUES ('patrocinador2','patrocinador');
 
---Buzones
-INSERT INTO buzones(id)
-	VALUES(1);
-INSERT INTO buzones(id)
-	VALUES(2);	
-INSERT INTO buzones(id)
-	VALUES(3);	
-INSERT INTO buzones(id)
-	VALUES(4);	
-INSERT INTO buzones(id)
-	VALUES(5);	
-INSERT INTO buzones(id)
-	VALUES(6);	
-INSERT INTO buzones(id)
-	VALUES(7);
-
 --Usuarios
 INSERT INTO administradores(id, nombre, apellidos, email, telefono, foto, username) 
 	VALUES(1, 'Admin', 'DB', 'admin@admin.com', '666999666', 'https://oposicionesueblog.files.wordpress.com/2019/02/funcionario.jpg?w=825','admin');

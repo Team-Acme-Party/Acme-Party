@@ -22,31 +22,27 @@ public class MensajeServiceTest {
 	@Test
 	@DisplayName("Test positivo listar mis mensajes")
 	void testListMensajesPositivo() {
-		Collection<Mensaje> mensajes = this.mensajeService.findByBuzonDestinatarioId(5);
-		Collection<Mensaje> mensajes2 = this.mensajeService.findByBuzonRemitenteId(5);
-		Mensaje mensaje = this.mensajeService.findById(4);
+		Collection<Mensaje> mensajes = this.mensajeService.findByDestinatario("cliente1");
+		Collection<Mensaje> mensajes2 = this.mensajeService.findByRemitente("cliente1");
+		Mensaje mensaje = this.mensajeService.findById(3);
 		Mensaje mensaje2 = this.mensajeService.findById(5);
-		Mensaje mensaje3 = this.mensajeService.findById(6);
-		Mensaje mensaje4 = this.mensajeService.findById(3);
+		Mensaje mensaje3 = this.mensajeService.findById(2);
 		Assertions.assertEquals(mensajes.contains(mensaje), true);
 		Assertions.assertEquals(mensajes.contains(mensaje2), true);
 		Assertions.assertEquals(mensajes2.contains(mensaje3), true);
-		Assertions.assertEquals(mensajes2.contains(mensaje4), true);
 	}
 
 	@Test
 	@DisplayName("Test negativo listar mis mensajes")
 	void testListMensajesNegativo() {
-		Collection<Mensaje> mensajes = this.mensajeService.findByBuzonDestinatarioId(5);
-		Collection<Mensaje> mensajes2 = this.mensajeService.findByBuzonRemitenteId(5);
+		Collection<Mensaje> mensajes = this.mensajeService.findByDestinatario("cliente1");
+		Collection<Mensaje> mensajes2 = this.mensajeService.findByRemitente("cliente1");
 		Mensaje mensaje = this.mensajeService.findById(6);
 		Mensaje mensaje2 = this.mensajeService.findById(7);
 		Mensaje mensaje3 = this.mensajeService.findById(1);
-		Mensaje mensaje4 = this.mensajeService.findById(2);
 		Assertions.assertEquals(mensajes.contains(mensaje), false);
 		Assertions.assertEquals(mensajes.contains(mensaje2), false);
 		Assertions.assertEquals(mensajes2.contains(mensaje3), false);
-		Assertions.assertEquals(mensajes2.contains(mensaje4), false);
 	}
 
 }

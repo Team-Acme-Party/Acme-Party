@@ -5,8 +5,6 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
-import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -14,14 +12,12 @@ import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.samples.petclinic.model.Administrador;
-import org.springframework.samples.petclinic.model.Buzon;
 import org.springframework.samples.petclinic.model.Cliente;
 import org.springframework.samples.petclinic.model.Mensaje;
 import org.springframework.samples.petclinic.model.Patrocinador;
 import org.springframework.samples.petclinic.model.Propietario;
 import org.springframework.samples.petclinic.model.User;
 import org.springframework.samples.petclinic.service.AdministradorService;
-import org.springframework.samples.petclinic.service.BuzonService;
 import org.springframework.samples.petclinic.service.ClienteService;
 import org.springframework.samples.petclinic.service.MensajeService;
 import org.springframework.samples.petclinic.service.PatrocinadorService;
@@ -36,8 +32,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateDeserializer;
-
 @Controller
 public class MensajeController {
 
@@ -46,20 +40,18 @@ public class MensajeController {
 	private final PropietarioService	propietarioService;
 	private final MensajeService		mensajeService;
 	private final AdministradorService	administradorService;
-	private final BuzonService			buzonService;
 	private final UserService			userService;
 
 
 	@Autowired
 	public MensajeController(final PatrocinadorService patrocinadorService, final ClienteService clienteService, final PropietarioService propietarioService, final MensajeService mensajeService, final AdministradorService administradorService,
-		final BuzonService buzonService, final UserService userService) {
+		final UserService userService) {
 
 		this.patrocinadorService = patrocinadorService;
 		this.clienteService = clienteService;
 		this.propietarioService = propietarioService;
 		this.mensajeService = mensajeService;
 		this.administradorService = administradorService;
-		this.buzonService = buzonService;
 		this.userService = userService;
 	}
 
@@ -71,9 +63,14 @@ public class MensajeController {
 		String username = SecurityContextHolder.getContext().getAuthentication().getName();
 		Collection<Mensaje> enviados;
 		Collection<Mensaje> recibidos;
-		if(username!=null) {
-			enviados=this.mensajeService.findByRemitente(username);
-			recibidos=this.mensajeService.findByDestinatario(username);
+		Propietario p = this.propietarioService.findByUsername(username);
+		Patrocinador pa = this.patrocinadorService.findByUsername(username);
+		Cliente c = this.clienteService.findByUsername(username);
+		Administrador a = this.administradorService.findByUsername(username);
+		Boolean existeUsuario = username != null && (p != null || pa != null || c != null || a != null);
+		if (existeUsuario) {
+			enviados = this.mensajeService.findByRemitente(username);
+			recibidos = this.mensajeService.findByDestinatario(username);
 
 		} else {
 			model.put("message", "No tiene acceso a esta ruta");
@@ -95,54 +92,54 @@ public class MensajeController {
 		String username = SecurityContextHolder.getContext().getAuthentication().getName();
 		Mensaje mensaje = this.mensajeService.findById(mensajeId);
 
-		if(mensaje.getRemitente().equals(username)|| mensaje.getDestinatario().equals(username)) {
+		if (mensaje.getRemitente().equals(username) || mensaje.getDestinatario().equals(username)) {
 			mav.addObject(mensaje);
-			
+
 		} else {
 			mav = new ModelAndView("exception");
 			mav.addObject("message", "No puede ver ese mensaje");
 		}
-		
+
 		return mav;
 	}
 	//Crear un mensaje
-	
-		@GetMapping(value = "/mensajes/new")
-		public String initCreationFormMensaje(final ModelMap model) {
-			try {
-				String username = SecurityContextHolder.getContext().getAuthentication().getName();
-				if (username == null) {
-					throw new Exception();
-				} else {
-					Mensaje mensaje = new Mensaje();
 
-					Collection<User> users = userService.findAll();
-					List<String> usuarios = new ArrayList<String>();
-					for(User s: users) {
-						usuarios.add(s.getUsername());
-					}
-					model.put("usuarios",usuarios);
-					model.put("mensaje", mensaje);
-					return "mensajes/new";
+	@GetMapping(value = "/mensajes/new")
+	public String initCreationFormMensaje(final ModelMap model) {
+		try {
+			String username = SecurityContextHolder.getContext().getAuthentication().getName();
+			if (username == null) {
+				throw new Exception();
+			} else {
+				Mensaje mensaje = new Mensaje();
+
+				Collection<User> users = this.userService.findAll();
+				List<String> usuarios = new ArrayList<String>();
+				for (User s : users) {
+					usuarios.add(s.getUsername());
 				}
-			} catch (Exception e) {
-				model.put("exception", "No tienes acceso para crear un mensaje");
-				
-				return "exception";
+				model.put("usuarios", usuarios);
+				model.put("mensaje", mensaje);
+				return "mensajes/new";
 			}
+		} catch (Exception e) {
+			model.put("exception", "No tienes acceso para crear un mensaje");
+
+			return "exception";
 		}
-		
+	}
+
 	@PostMapping(value = "/mensajes/new")
-	public String processCreationFormMensaje(@Valid Mensaje mensaje, final BindingResult result, final ModelMap model) {
+	public String processCreationFormMensaje(@Valid final Mensaje mensaje, final BindingResult result, final ModelMap model) {
 		if (result.hasErrors()) {
 			System.out.println(result.getAllErrors());
 			model.put("mensaje", mensaje);
-			Collection<User> users = userService.findAll();
+			Collection<User> users = this.userService.findAll();
 			List<String> usuarios = new ArrayList<String>();
-			for(User s: users) {
+			for (User s : users) {
 				usuarios.add(s.getUsername());
 			}
-			model.put("usuarios",usuarios);
+			model.put("usuarios", usuarios);
 			return "mensajes/new";
 		} else {
 
@@ -151,8 +148,7 @@ public class MensajeController {
 			mensaje.setFecha(LocalDate.now());
 			mensaje.setHora(LocalTime.now());
 			this.mensajeService.save(mensaje);
-			
-			
+
 			return "redirect:/usuario/mensajes";
 		}
 	}

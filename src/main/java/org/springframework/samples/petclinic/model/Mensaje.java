@@ -6,11 +6,8 @@ import java.time.LocalTime;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -35,10 +32,8 @@ public class Mensaje extends BaseEntity {
 	@Column(name = "hora")
 	private LocalTime	hora;
 
-
 	@Column(name = "remitente_id")
 	private String		remitente;
-
 
 	@Column(name = "destinatario_id")
 	private String		destinatario;

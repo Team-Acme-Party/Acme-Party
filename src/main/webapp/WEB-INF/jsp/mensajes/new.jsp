@@ -1,4 +1,3 @@
-
 <%@ page session="false" trimDirectiveWhitespaces="true"%>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
@@ -8,7 +7,12 @@
 <%@ taglib prefix="petclinic" tagdir="/WEB-INF/tags"%>
 
 
-<form:form modelAttribute="mensaje" class="form-horizontal"
+<petclinic:layout pageName="mensajes/listaMensajes">
+    <h2>
+        Nuevo mensaje
+    </h2>
+    
+    <form:form modelAttribute="mensaje" class="form-horizontal"
 	id="create-mensaje-form">
 	<div class="form-group has-feedback">
 		<petclinic:inputField label="Asunto" name="asunto" />
@@ -22,3 +26,6 @@
 		</div>
 	</div>
 </form:form>
+    
+</petclinic:layout>
+

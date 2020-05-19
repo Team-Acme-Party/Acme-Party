@@ -15,17 +15,16 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.FilterType;
 import org.springframework.samples.petclinic.configuration.SecurityConfiguration;
 import org.springframework.samples.petclinic.model.Administrador;
-import org.springframework.samples.petclinic.model.Buzon;
 import org.springframework.samples.petclinic.model.Cliente;
 import org.springframework.samples.petclinic.model.Mensaje;
 import org.springframework.samples.petclinic.model.Patrocinador;
 import org.springframework.samples.petclinic.model.Propietario;
 import org.springframework.samples.petclinic.service.AdministradorService;
-import org.springframework.samples.petclinic.service.BuzonService;
 import org.springframework.samples.petclinic.service.ClienteService;
 import org.springframework.samples.petclinic.service.MensajeService;
 import org.springframework.samples.petclinic.service.PatrocinadorService;
 import org.springframework.samples.petclinic.service.PropietarioService;
+import org.springframework.samples.petclinic.service.UserService;
 import org.springframework.security.config.annotation.web.WebSecurityConfigurer;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
@@ -51,7 +50,7 @@ public class MensajeControllerTests {
 	private AdministradorService	administradorService;
 
 	@MockBean
-	private BuzonService			buzonService;
+	private UserService				userService;
 
 	@Autowired
 	private MockMvc					mockMvc;
@@ -61,26 +60,10 @@ public class MensajeControllerTests {
 	private Cliente					cliente;
 	private Administrador			administrador;
 	private Mensaje					mensaje;
-	private Mensaje					mensaje2;
-	private Mensaje					mensaje3;
-	private Mensaje					mensaje4;
-	private Buzon					buzon;
-	private Buzon					buzon2;
-	private Buzon					buzon3;
-	private Buzon					buzon4;
 
 
 	@BeforeEach
 	void datosIniciales() {
-
-		this.buzon = new Buzon();
-		this.buzon.setId(10);
-		this.buzon2 = new Buzon();
-		this.buzon2.setId(11);
-		this.buzon3 = new Buzon();
-		this.buzon3.setId(12);
-		this.buzon4 = new Buzon();
-		this.buzon4.setId(13);
 
 		this.patrocinador = new Patrocinador();
 		this.patrocinador.setApellidos("Apellidos prueba");
@@ -90,7 +73,6 @@ public class MensajeControllerTests {
 		this.patrocinador.setNombre("patrocinador");
 		this.patrocinador.setTelefono("654321987");
 		this.patrocinador.setDescripcionExperiencia("Descipción experiencia");
-		this.patrocinador.setBuzon(this.buzon);
 		BDDMockito.given(this.patrocinadorService.findByUsername("patrocinador")).willReturn(this.patrocinador);
 
 		this.propietario = new Propietario();
@@ -100,7 +82,6 @@ public class MensajeControllerTests {
 		this.propietario.setId(11);
 		this.propietario.setNombre("propietario");
 		this.propietario.setTelefono("654321987");
-		this.propietario.setBuzon(this.buzon2);
 		BDDMockito.given(this.propietarioService.findByUsername("propietario")).willReturn(this.propietario);
 
 		this.cliente = new Cliente();
@@ -110,7 +91,6 @@ public class MensajeControllerTests {
 		this.cliente.setId(12);
 		this.cliente.setNombre("cliente");
 		this.cliente.setTelefono("654321987");
-		this.cliente.setBuzon(this.buzon3);
 		BDDMockito.given(this.clienteService.findByUsername("cliente")).willReturn(this.cliente);
 
 		this.administrador = new Administrador();
@@ -120,40 +100,26 @@ public class MensajeControllerTests {
 		this.administrador.setId(13);
 		this.administrador.setNombre("administrador");
 		this.administrador.setTelefono("654321987");
-		this.administrador.setBuzon(this.buzon4);
 		BDDMockito.given(this.administradorService.findByUsername("administrador")).willReturn(this.administrador);
 
 		this.mensaje = new Mensaje();
 		this.mensaje.setId(10);
-		this.mensaje.setBuzonRemitente(this.buzon);
-		this.mensaje.setBuzonDestinatario(this.buzon2);
-		this.mensaje2 = new Mensaje();
-		this.mensaje2.setId(11);
-		this.mensaje2.setBuzonRemitente(this.buzon2);
-		this.mensaje2.setBuzonDestinatario(this.buzon3);
-
-		this.mensaje3 = new Mensaje();
-		this.mensaje3.setId(12);
-		this.mensaje3.setBuzonRemitente(this.buzon3);
-		this.mensaje3.setBuzonDestinatario(this.buzon4);
-		this.mensaje4 = new Mensaje();
-		this.mensaje4.setId(13);
-		this.mensaje4.setBuzonRemitente(this.buzon4);
-		this.mensaje4.setBuzonDestinatario(this.buzon);
+		this.mensaje.setRemitente("patrocinador");
+		this.mensaje.setDestinatario("cliente");
 
 		Collection<Mensaje> mensajes = new ArrayList<Mensaje>();
 		Collection<Mensaje> mensajes2 = new ArrayList<Mensaje>();
-		mensajes.add(this.mensaje4);
-		mensajes2.add(this.mensaje2);
+		mensajes.add(this.mensaje);
+		mensajes2.add(this.mensaje);
 
-		BDDMockito.given(this.mensajeService.findByBuzonDestinatarioId(10)).willReturn(mensajes);
-		BDDMockito.given(this.mensajeService.findByBuzonRemitenteId(10)).willReturn(mensajes2);
-		BDDMockito.given(this.mensajeService.findByBuzonDestinatarioId(11)).willReturn(mensajes);
-		BDDMockito.given(this.mensajeService.findByBuzonRemitenteId(11)).willReturn(mensajes2);
-		BDDMockito.given(this.mensajeService.findByBuzonDestinatarioId(12)).willReturn(mensajes);
-		BDDMockito.given(this.mensajeService.findByBuzonRemitenteId(12)).willReturn(mensajes2);
-		BDDMockito.given(this.mensajeService.findByBuzonDestinatarioId(13)).willReturn(mensajes);
-		BDDMockito.given(this.mensajeService.findByBuzonRemitenteId(13)).willReturn(mensajes2);
+		BDDMockito.given(this.mensajeService.findByDestinatario("patrocinador")).willReturn(mensajes);
+		BDDMockito.given(this.mensajeService.findByRemitente("patrocinador")).willReturn(mensajes2);
+		BDDMockito.given(this.mensajeService.findByDestinatario("propietario")).willReturn(mensajes);
+		BDDMockito.given(this.mensajeService.findByRemitente("propietario")).willReturn(mensajes2);
+		BDDMockito.given(this.mensajeService.findByDestinatario("cliente")).willReturn(mensajes);
+		BDDMockito.given(this.mensajeService.findByRemitente("cliente")).willReturn(mensajes2);
+		BDDMockito.given(this.mensajeService.findByDestinatario("administrador")).willReturn(mensajes);
+		BDDMockito.given(this.mensajeService.findByRemitente("administrador")).willReturn(mensajes2);
 		BDDMockito.given(this.mensajeService.findById(10)).willReturn(this.mensaje);
 
 	}
