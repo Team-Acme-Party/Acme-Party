@@ -33,33 +33,33 @@ INSERT INTO buzones(id)
 	VALUES(7);
 
 --Usuarios
-INSERT INTO administradores(id, nombre, apellidos, email, telefono, foto, buzon_id, username) 
-	VALUES(1, 'Admin', 'DB', 'admin@admin.com', '666999666', 'https://oposicionesueblog.files.wordpress.com/2019/02/funcionario.jpg?w=825', 1, 'admin');
+INSERT INTO administradores(id, nombre, apellidos, email, telefono, foto, username) 
+	VALUES(1, 'Admin', 'DB', 'admin@admin.com', '666999666', 'https://oposicionesueblog.files.wordpress.com/2019/02/funcionario.jpg?w=825','admin');
 	
-INSERT INTO propietarios(id, nombre, apellidos, email, telefono, foto, buzon_id, username) 
+INSERT INTO propietarios(id, nombre, apellidos, email, telefono, foto, username) 
 	VALUES(1, 'Propietario1', 'DB', 'propietario1@prop.com', '696696696', 
-	'https://definicion.de/wp-content/uploads/2015/07/adulto.jpg', 2, 'propietario1');
+	'https://definicion.de/wp-content/uploads/2015/07/adulto.jpg', 'propietario1');
 	
-INSERT INTO propietarios(id, nombre, apellidos, email, telefono, foto, buzon_id, username) 
+INSERT INTO propietarios(id, nombre, apellidos, email, telefono, foto, username) 
 	VALUES(2, 'Propietario2', 'DB', 'propietario2@prop.com', '696969969', 
-	'https://cdn.aarp.net/content/dam/aarp/home-and-family/caregiving/2018/03/1140-sensory-changes-older-adults-esp.jpg', 3, 'propietario2');
+	'https://cdn.aarp.net/content/dam/aarp/home-and-family/caregiving/2018/03/1140-sensory-changes-older-adults-esp.jpg', 'propietario2');
 	
-INSERT INTO clientes(id, nombre, apellidos, email, telefono, foto, descripcion_gustos, buzon_id, username) 
+INSERT INTO clientes(id, nombre, apellidos, email, telefono, foto, descripcion_gustos, username) 
 	VALUES(1, 'Cliente1', 'DB', 'cliente1@cli.com', '666999000', 
 	'https://static1.diariosur.es/www/multimedia/201902/22/media/cortadas/ALVARO-ESTUDIANTE-k0XD-U70740253086TOB-984x608@Diario%20Sur.jpg', 
-	'Me gusta la música rock', 4, 'cliente1');
+	'Me gusta la música rock', 'cliente1');
 	
-INSERT INTO clientes(id, nombre, apellidos, email, telefono, foto, descripcion_gustos, buzon_id, username) 
+INSERT INTO clientes(id, nombre, apellidos, email, telefono, foto, descripcion_gustos, username) 
 	VALUES(2, 'Cliente2', 'DB', 'cliente2@cli.com', '696123456', 
-	'https://d1zv66c6p7f9ox.cloudfront.net/fotoweb/fotonoticia_20180118120033_640.jpg', 'Me gusta conocer gente nueva y la música electrónica', 5, 'cliente2');
+	'https://d1zv66c6p7f9ox.cloudfront.net/fotoweb/fotonoticia_20180118120033_640.jpg', 'Me gusta conocer gente nueva y la música electrónica','cliente2');
 	
-INSERT INTO patrocinadores(id, nombre, apellidos, email, telefono, foto, descripcion_experiencia, buzon_id, username) 
+INSERT INTO patrocinadores(id, nombre, apellidos, email, telefono, foto, descripcion_experiencia, username) 
 	VALUES(1, 'Patrocinador1', 'DB', 'patrocinador1@patr.com', '654718292', 
-	'https://tendenciasdigitales.com/web/wp-content/uploads/2018/08/patrocinios2.png', '10 años patrocinando eventos juveniles', 6, 'patrocinador1');
+	'https://tendenciasdigitales.com/web/wp-content/uploads/2018/08/patrocinios2.png', '10 años patrocinando eventos juveniles', 'patrocinador1');
 	
-INSERT INTO patrocinadores(id, nombre, apellidos, email, telefono, foto, descripcion_experiencia, buzon_id, username) 
+INSERT INTO patrocinadores(id, nombre, apellidos, email, telefono, foto, descripcion_experiencia, username) 
 	VALUES(2, 'Patrocinador2', 'DB', 'patrocinador2@patr.com', '650987654', 
-	'https://carreramedicusmundi.com/wp-content/uploads/2018/01/patrocinador-oro.jpg', '5 años patrocinando eventos deportivos', 7, 'patrocinador2');
+	'https://carreramedicusmundi.com/wp-content/uploads/2018/01/patrocinador-oro.jpg', '5 años patrocinando eventos deportivos', 'patrocinador2');
 	
 
 --Locales
@@ -147,20 +147,20 @@ INSERT INTO valoraciones(id, valor, cliente_id, fiesta_id)
 	
 	
 --Mensajes
-INSERT INTO mensajes(id, asunto, cuerpo, fecha, hora, buzon_remitente_id, buzon_destinatario_id)
-    VALUES(1, 'Saludo', '¿Como te encuentras?', '2020-07-01', '10:00', 1, 7);
-INSERT INTO mensajes(id, asunto, cuerpo, fecha, hora, buzon_remitente_id, buzon_destinatario_id)
-    VALUES(2, 'Saludo', '¿Como te encuentras?', '2020-08-02', '15:30', 7, 1);
-INSERT INTO mensajes(id, asunto, cuerpo, fecha, hora, buzon_remitente_id, buzon_destinatario_id)
-    VALUES(3, 'Saludo', '¿Como te encuentras?', '2020-10-03', '16:44', 5, 6);
-INSERT INTO mensajes(id, asunto, cuerpo, fecha, hora, buzon_remitente_id, buzon_destinatario_id)
-    VALUES(4, 'Saludo', '¿Como te encuentras?', '2020-12-09', '18:03', 6, 5);
-INSERT INTO mensajes(id, asunto, cuerpo, fecha, hora, buzon_remitente_id, buzon_destinatario_id)
-    VALUES(5, 'Saludo', '¿Como te encuentras?', '2020-08-29', '9:15', 4, 5);
-INSERT INTO mensajes(id, asunto, cuerpo, fecha, hora, buzon_remitente_id, buzon_destinatario_id)
-    VALUES(6, 'Saludo', '¿Como te encuentras?', '2020-07-01', '14:05', 5, 4);
-INSERT INTO mensajes(id, asunto, cuerpo, fecha, hora, buzon_remitente_id, buzon_destinatario_id)
-    VALUES(7, 'Saludo', '¿Como te encuentras?', '2020-11-11', '13:09', 2, 2);	
+INSERT INTO mensajes(id, asunto, cuerpo, fecha, hora, remitente_id, destinatario_id)
+    VALUES(1, 'Saludo', '¿Como te encuentras?', '2020-07-01', '10:00', 'admin', 'propietario1');
+INSERT INTO mensajes(id, asunto, cuerpo, fecha, hora, remitente_id, destinatario_id)
+    VALUES(2, 'Saludo', '¿Como te encuentras?', '2020-08-02', '15:30', 'cliente1', 'propietario2');
+INSERT INTO mensajes(id, asunto, cuerpo, fecha, hora, remitente_id, destinatario_id)
+    VALUES(3, 'Saludo', '¿Como te encuentras?', '2020-10-03', '16:44', 'patrocinador2','cliente1');
+INSERT INTO mensajes(id, asunto, cuerpo, fecha, hora, remitente_id, destinatario_id)
+    VALUES(4, 'Saludo', '¿Como te encuentras?', '2020-12-09', '18:03', 'patrocinador1', 'propietario2');
+INSERT INTO mensajes(id, asunto, cuerpo, fecha, hora, remitente_id, destinatario_id)
+    VALUES(5, 'Saludo', '¿Como te encuentras?', '2020-08-29', '9:15', 'cliente2', 'cliente1');
+INSERT INTO mensajes(id, asunto, cuerpo, fecha, hora, remitente_id, destinatario_id)
+    VALUES(6, 'Saludo', '¿Como te encuentras?', '2020-07-01', '14:05', 'patrocinador1', 'admin');
+INSERT INTO mensajes(id, asunto, cuerpo, fecha, hora, remitente_id, destinatario_id)
+    VALUES(7, 'Saludo', '¿Como te encuentras?', '2020-11-11', '13:09', 'propietario2', 'cliente2');	
 	
 		
 

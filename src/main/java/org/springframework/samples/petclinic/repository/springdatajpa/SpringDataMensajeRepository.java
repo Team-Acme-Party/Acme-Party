@@ -20,11 +20,11 @@ public interface SpringDataMensajeRepository extends MensajeRepository, Reposito
 	Mensaje findById(@Param("id") int id);
 
 	@Override
-	@Query("SELECT mensaje FROM Mensaje mensaje WHERE mensaje.buzonRemitente.id = :id")
-	Collection<Mensaje> findByBuzonRemitenteId(@Param("id") int id);
+	@Query("SELECT mensaje FROM Mensaje mensaje WHERE mensaje.remitente = :username")
+	Collection<Mensaje> findByRemitente(@Param("username") String username);
 
 	@Override
-	@Query("SELECT mensaje FROM Mensaje mensaje WHERE mensaje.buzonDestinatario.id = :id")
-	Collection<Mensaje> findByBuzonDestinatarioId(@Param("id") int id);
+	@Query("SELECT mensaje FROM Mensaje mensaje WHERE mensaje.destinatario = :username")
+	Collection<Mensaje> findByDestinatario(@Param("username") String username);
 
 }

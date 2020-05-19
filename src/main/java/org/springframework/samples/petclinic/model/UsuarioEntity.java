@@ -37,9 +37,9 @@ public class UsuarioEntity extends BaseEntity {
 	@JoinColumn(name = "username", referencedColumnName = "username")
 	private User	user;
 
-	@OneToOne
-	@JoinColumn(name = "buzon_id")
-	private Buzon	buzon;
+//	@OneToOne
+//	@JoinColumn(name = "buzon_id")
+//	private Buzon	buzon;
 
 
 	//Getters y setters
@@ -83,12 +83,12 @@ public class UsuarioEntity extends BaseEntity {
 		this.user = user;
 	}
 
-	public Buzon getBuzon() {
-		return this.buzon;
-	}
-	public void setBuzon(final Buzon buzon) {
-		this.buzon = buzon;
-	}
+//	public Buzon getBuzon() {
+//		return this.buzon;
+//	}
+//	public void setBuzon(final Buzon buzon) {
+//		this.buzon = buzon;
+//	}
 
 	@Override
 	public String toString() {

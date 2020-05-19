@@ -29,11 +29,11 @@
         </tr>
         <tr>
             <th>Remitente</th>
-            <td><b><c:out value="${usuarioRemitente}"/></b></td>
+            <td><b><c:out value="${mensaje.remitente}"/></b></td>
         </tr>
         <tr>
             <th>Destinatario</th>
-            <td><b><c:out value="${usuarioDestinatario}"/></b></td>
+            <td><b><c:out value="${mensaje.destinatario}"/></b></td>
         </tr>
        
      </table>   

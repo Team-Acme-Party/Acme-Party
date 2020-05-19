@@ -12,10 +12,10 @@ public interface MensajeRepository {
 
 	Mensaje findById(int id) throws DataAccessException;
 
-	Collection<Mensaje> findByBuzonRemitenteId(int id) throws DataAccessException;
-
-	Collection<Mensaje> findByBuzonDestinatarioId(int id) throws DataAccessException;
-
 	void save(Mensaje mensaje) throws DataAccessException;
+
+	Collection<Mensaje> findByRemitente(String username);
+
+	Collection<Mensaje> findByDestinatario(String username);
 
 }

@@ -17,8 +17,6 @@ public class MensajeService {
 
 	private MensajeRepository	mensajeRepository;
 
-	private BuzonRepository		buzonRepository;
-
 	@Autowired
 	private BuzonService		buzonService;
 
@@ -42,22 +40,22 @@ public class MensajeService {
 	}
 
 	@Transactional
-	public Collection<Mensaje> findByBuzonRemitenteId(final int id) throws DataAccessException {
-		return this.mensajeRepository.findByBuzonRemitenteId(id);
+	public Collection<Mensaje> findByRemitente(final String username) throws DataAccessException {
+		return this.mensajeRepository.findByRemitente(username);
 	}
 
 	@Transactional
-	public Collection<Mensaje> findByBuzonDestinatarioId(final int id) throws DataAccessException {
-		return this.mensajeRepository.findByBuzonDestinatarioId(id);
+	public Collection<Mensaje> findByDestinatario(final String username) throws DataAccessException {
+		return this.mensajeRepository.findByDestinatario(username);
 	}
 
 	public void save(final Mensaje m) {
 		assert m != null;
 		Collection<Mensaje> mensajes = this.mensajeService.findAll();
 		Collection<Buzon> buzones = this.buzonService.findAll();
-		if (!mensajes.contains(m)) {
-			assert buzones.contains(m.getBuzonDestinatario()) && buzones.contains(m.getBuzonRemitente());
-		}
+//		if (!mensajes.contains(m)) {
+//			assert buzones.contains(m.getBuzonDestinatario()) && buzones.contains(m.getBuzonRemitente());
+//		}
 		this.mensajeRepository.save(m);
 	}
 

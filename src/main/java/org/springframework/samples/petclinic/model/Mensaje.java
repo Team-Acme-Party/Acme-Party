@@ -30,20 +30,18 @@ public class Mensaje extends BaseEntity {
 
 	@Column(name = "fecha")
 	@DateTimeFormat(pattern = "yyyy/MM/dd")
-	@NotNull
 	private LocalDate	fecha;
 
 	@Column(name = "hora")
-	@NotNull
 	private LocalTime	hora;
 
-	@ManyToOne
-	@JoinColumn(name = "buzon_remitente_id")
-	private Buzon		buzonRemitente;
 
-	@ManyToOne
-	@JoinColumn(name = "buzon_destinatario_id")
-	private Buzon		buzonDestinatario;
+	@Column(name = "remitente_id")
+	private String		remitente;
+
+
+	@Column(name = "destinatario_id")
+	private String		destinatario;
 
 
 	//Getters y setters
@@ -80,20 +78,20 @@ public class Mensaje extends BaseEntity {
 		this.hora = hora;
 	}
 
-	public Buzon getBuzonRemitente() {
-		return this.buzonRemitente;
+	public String getRemitente() {
+		return this.remitente;
 	}
 
-	public void setBuzonRemitente(final Buzon buzonRemitente) {
-		this.buzonRemitente = buzonRemitente;
+	public void setRemitente(final String remitente) {
+		this.remitente = remitente;
 	}
 
-	public Buzon getBuzonDestinatario() {
-		return this.buzonDestinatario;
+	public String getDestinatario() {
+		return this.destinatario;
 	}
 
-	public void setBuzonDestinatario(final Buzon buzonDestinatario) {
-		this.buzonDestinatario = buzonDestinatario;
+	public void setDestinatario(final String destinatario) {
+		this.destinatario = destinatario;
 	}
 
 }

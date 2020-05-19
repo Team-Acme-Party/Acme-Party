@@ -13,7 +13,7 @@
 	<div class="form-group has-feedback">
 		<petclinic:inputField label="Asunto" name="asunto" />
 		<petclinic:inputField label="Cuerpo" name="cuerpo" />
-		<petclinic:selectField label="Destinatario" name="buzonDestinatario" size="buzones.size" names="${buzones}"></petclinic:selectField> 
+		<petclinic:selectField label="Destinatario" name="destinatario" size="usuarios.size" names="${usuarios}"></petclinic:selectField> 
 	</div>
 	<div class="form-group">
 		<div class="col-sm-offset-2 col-sm-10">

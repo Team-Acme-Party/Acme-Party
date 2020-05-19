@@ -16,6 +16,7 @@
 	            <th>Asunto</th>
 	            <th>Fecha</th>
 	            <th>Hora</th>
+	            <th>Destinatario</th>
 	            <th></th>
 	        </tr>
 	        </thead>
@@ -32,6 +33,9 @@
 	                    <c:out value="${mensaje.hora}"/>
 	                </td>
 	                <td>
+	                    <c:out value="${mensaje.destinatario}"/>
+	                </td>
+	                <td>
 		            	<button type="button" class="btn btn-default" onclick="window.location.replace('/mensajes/${mensaje.id}')">Ver detalles</button>
 		            </td>
 	            </tr>
@@ -46,6 +50,7 @@
 	            <th>Asunto</th>
 	            <th>Fecha</th>
 	            <th>Hora</th>
+	            <th>Remitente</th>
 	            <th></th>
 	        </tr>
 	        </thead>
@@ -60,6 +65,9 @@
 	                </td>
 	                <td>
 	                    <c:out value="${mensaje.hora}"/>
+	                </td>
+	                <td>
+	                    <c:out value="${mensaje.remitente}"/>
 	                </td>
 	                <td>
 		            	<button type="button" class="btn btn-default" onclick="window.location.replace('/mensajes/${mensaje.id}')">Ver detalles</button>
