@@ -68,5 +68,5 @@
 	        </c:forEach>
 	        </tbody>
 	    </table>
-	    
+	    <a class="btn btn-default" href='<spring:url value="/mensajes/new" htmlEscape="true"/>'>Nuevo mensaje</a>
 </petclinic:layout>
