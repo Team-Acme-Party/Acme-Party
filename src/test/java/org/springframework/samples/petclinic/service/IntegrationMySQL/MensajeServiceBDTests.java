@@ -1,6 +1,8 @@
 
 package org.springframework.samples.petclinic.service.IntegrationMySQL;
 
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.Collection;
 
 import org.junit.jupiter.api.Assertions;
@@ -80,6 +82,46 @@ public class MensajeServiceBDTests {
 		Assertions.assertEquals(existe, false);
 		Assertions.assertEquals(existe2, false);
 		Assertions.assertEquals(existe3, false);
+	}
+
+	@Test
+	@DisplayName("Test positivo crear mensajes")
+	void testCrearMensajePositivo() {
+		Collection<Mensaje> mensajesAntes = this.mensajeService.findAll();
+		Mensaje nuevo = new Mensaje();
+		nuevo.setAsunto("asunto");
+		nuevo.setCuerpo("cuerpo");
+		nuevo.setDestinatario("propietario1");
+		nuevo.setRemitente("admin");
+		nuevo.setFecha(LocalDate.now());
+		nuevo.setId(50);
+		nuevo.setHora(LocalTime.now());
+		try {
+			this.mensajeService.save(nuevo);
+		}catch (Exception e) {
+			e.printStackTrace();
+		}finally {
+			Collection<Mensaje> despues = this.mensajeService.findAll();
+			Assertions.assertEquals(mensajesAntes.size(), despues.size()-1 );
+		}
+	}
+	@Test
+	@DisplayName("Test negativo crear mensajes")
+	void testCrearMensajeNegativo() {
+		Collection<Mensaje> mensajesAntes = this.mensajeService.findAll();
+		Mensaje nuevo = new Mensaje();
+		nuevo.setAsunto(null);
+		nuevo.setCuerpo("cuerpo");
+		nuevo.setDestinatario("propietario1");
+		nuevo.setRemitente("admin");
+		nuevo.setFecha(LocalDate.now());
+		nuevo.setId(50);
+		nuevo.setHora(LocalTime.now());
+		try {
+			this.mensajeService.save(nuevo);
+		}catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 
 }

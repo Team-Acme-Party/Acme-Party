@@ -1,6 +1,7 @@
 
 package org.springframework.samples.petclinic.web;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collection;
 
@@ -27,6 +28,7 @@ import org.springframework.samples.petclinic.service.PropietarioService;
 import org.springframework.samples.petclinic.service.UserService;
 import org.springframework.security.config.annotation.web.WebSecurityConfigurer;
 import org.springframework.security.test.context.support.WithMockUser;
+import org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
@@ -60,6 +62,7 @@ public class MensajeControllerTests {
 	private Cliente					cliente;
 	private Administrador			administrador;
 	private Mensaje					mensaje;
+	private LocalDate				fecha;
 
 
 	@BeforeEach
@@ -121,6 +124,8 @@ public class MensajeControllerTests {
 		BDDMockito.given(this.mensajeService.findByDestinatario("administrador")).willReturn(mensajes);
 		BDDMockito.given(this.mensajeService.findByRemitente("administrador")).willReturn(mensajes2);
 		BDDMockito.given(this.mensajeService.findById(10)).willReturn(this.mensaje);
+		
+		this.fecha = LocalDate.now();
 
 	}
 
@@ -204,4 +209,41 @@ public class MensajeControllerTests {
 	void testNegativoDetallesMensaje() throws Exception {
 		this.mockMvc.perform(MockMvcRequestBuilders.get("/mensajes/15")).andExpect(MockMvcResultMatchers.status().is2xxSuccessful()).andExpect(MockMvcResultMatchers.view().name("exception"));
 	}
+	
+	// Crear un mensaje
+	
+	@WithMockUser(value = "patrocinador")
+	@Test
+	@DisplayName("Test para peticion POST para crear un formulario")
+	public void testInitCreationForm() throws Exception {
+		this.mockMvc.perform(MockMvcRequestBuilders.get("/mensajes/new"))
+				.andExpect(MockMvcResultMatchers.status().isOk())
+				.andExpect(MockMvcResultMatchers.model().attributeExists("mensaje"))
+				.andExpect(MockMvcResultMatchers.view().name("mensajes/new"));
+	}
+	
+	@WithMockUser(value = "propietario")
+	@Test
+	@DisplayName("Test positivo para peticion POST de crear un mensaje")
+	void testCreateMensaje() throws Exception {
+		this.mockMvc
+		.perform(MockMvcRequestBuilders.post("/mensajes/new").with(SecurityMockMvcRequestPostProcessors.csrf())
+				.param("asunto", "asunto prueba").param("cuerpo", "cuerpo prueba")
+				.param("destinatario", "administrador"))
+		.andExpect(MockMvcResultMatchers.status().is3xxRedirection())
+		.andExpect(MockMvcResultMatchers.view().name("redirect:/usuario/mensajes"));
+}
+	
+	@WithMockUser(value = "propietario")
+	@Test
+	@DisplayName("Test negativo para peticion POST de crear un mensaje")
+	public void testProcessCreationFormHasErrors() throws Exception {
+		this.mockMvc
+				.perform(MockMvcRequestBuilders.post("/mensajes/new").with(SecurityMockMvcRequestPostProcessors.csrf())
+						.param("cuerpo", "cuerpo prueba")
+						.param("destinatario", "administrador"))
+				.andExpect(MockMvcResultMatchers.status().is2xxSuccessful())
+				.andExpect(MockMvcResultMatchers.view().name("mensajes/new"));
+	}
+	
 }
