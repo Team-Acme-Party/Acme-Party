@@ -56,10 +56,6 @@
 			<td><c:out value="${fiesta.horaFin}" /></td>
 		</tr>
 		<tr>
-			<th>Aforo</th>
-			<td><c:out value="${fiesta.aforo}" /></td>
-		</tr>
-		<tr>
 			<th>Asistentes</th>
 			<td><c:out value="${fiesta.numeroAsistentes}" /></td>
 		</tr>
@@ -96,17 +92,30 @@
 			<button type="button" class="btn btn-default"
 				onclick="window.location.replace('/fiestas/${fiesta.id}/editar')">Editar</button>
 		</c:if>
-		<c:if
-			test="${fiesta.cliente.id ne userLoggedId and !esFiestaSolicitadaPorCliente}">
-			<form onsubmit="return alerta(this)" method="get"
-				action="/cliente/solicitudAsistencia/fiesta/${fiesta.id}">
 
-				<input id="fiestaId" type="hidden" name="fiestaId"
-					value="${fiesta.id}"> <input type="submit"
-					class="btn btn-default" name="save" value="Solicitar asistencia" />
 
-			</form>
+		<c:if test="${fiesta.cliente.id ne userLoggedId}">
+			<c:if test="${!esFiestaSolicitadaPorCliente}">
+				<c:if test="${(fiesta.aforo > fiesta.numeroAsistentes)}">
+
+					<form onsubmit="return alerta(this)" method="get"
+						action="/cliente/solicitudAsistencia/fiesta/${fiesta.id}">
+						<input id="fiestaId" type="hidden" name="fiestaId"
+							value="${fiesta.id}"> <input type="submit"
+							class="btn btn-default" name="save" value="Solicitar asistencia" />
+					</form>
+
+				</c:if>
+				<c:if test="${!(fiesta.aforo > fiesta.numeroAsistentes)}">
+					<c:out value="Aforo completo" />
+				</c:if>
+			</c:if>
+			<c:if test="${esFiestaSolicitadaPorCliente}">
+				<c:out value="Ya has solicitado asistencia a esta fiesta" />
+			</c:if>
 		</c:if>
+		<hr />
+
 	</sec:authorize>
 
 	<h5>Comentarios</h5>
@@ -131,7 +140,7 @@
 	</table>
 
 	<sec:authorize access="hasAuthority('cliente')">
-		
+		<c:if test="${clienteFiesta}">
 			<h2>Comentar fiesta</h2>
 
 			<form:form id="form" modelAttribute="comentario"
@@ -161,7 +170,7 @@
 					});
 				});
 			</script>
-	
+		</c:if>
 	</sec:authorize>
 
 	<h5>Valoraciones</h5>

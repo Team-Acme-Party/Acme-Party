@@ -12,9 +12,9 @@ import org.springframework.context.annotation.FilterType;
 import org.springframework.samples.petclinic.configuration.SecurityConfiguration;
 import org.springframework.samples.petclinic.model.Cliente;
 import org.springframework.samples.petclinic.service.ClienteService;
-import org.springframework.samples.petclinic.service.ComentarioService;
 import org.springframework.samples.petclinic.service.FiestaService;
 import org.springframework.samples.petclinic.service.LocalService;
+import org.springframework.samples.petclinic.service.ValoracionService;
 import org.springframework.security.config.annotation.web.WebSecurityConfigurer;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors;
@@ -22,14 +22,14 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
-@WebMvcTest(controllers = ComentarioController.class, excludeFilters = @ComponentScan.Filter(type = FilterType.ASSIGNABLE_TYPE, classes = WebSecurityConfigurer.class), excludeAutoConfiguration = SecurityConfiguration.class)
-public class ComentarioControllerTests {
+@WebMvcTest(controllers = ValoracionController.class, excludeFilters = @ComponentScan.Filter(type = FilterType.ASSIGNABLE_TYPE, classes = WebSecurityConfigurer.class), excludeAutoConfiguration = SecurityConfiguration.class)
+public class ValoracionControllerTests {
 
 	@Autowired
 	private MockMvc mockMvc;
 
 	@MockBean
-	private ComentarioService comentarioService;
+	private ValoracionService valoracionService;
 
 	@MockBean
 	private LocalService localService;
@@ -57,10 +57,10 @@ public class ComentarioControllerTests {
 
 	@WithMockUser(value = "cliente")
 	@Test
-	@DisplayName("Test para peticion POST del formulario de registro de un comentario para fiesta")
+	@DisplayName("Test para peticion POST del formulario de registro de una valoracion para fiesta")
 	void testNewComentarioForFiesta() throws Exception {
 		this.mockMvc
-				.perform(MockMvcRequestBuilders.post("/comentario/new/fiesta/1")
+				.perform(MockMvcRequestBuilders.post("/valoracion/new/fiesta/1")
 						.with(SecurityMockMvcRequestPostProcessors.csrf()).param("cuerpo", "comentario"))
 				.andExpect(MockMvcResultMatchers.status().is3xxRedirection())
 				.andExpect(MockMvcResultMatchers.view().name("redirect:/fiestas/1"));
@@ -68,10 +68,10 @@ public class ComentarioControllerTests {
 	
 	@WithMockUser(value = "cliente")
 	@Test
-	@DisplayName("Test para peticion POST del formulario de registro de un comentario para local")
+	@DisplayName("Test para peticion POST del formulario de registro de una valoracion para local")
 	void testNewComentarioForLocal() throws Exception {
 		this.mockMvc
-				.perform(MockMvcRequestBuilders.post("/comentario/new/local/1")
+				.perform(MockMvcRequestBuilders.post("/valoracion/new/local/1")
 						.with(SecurityMockMvcRequestPostProcessors.csrf()).param("cuerpo", "comentario"))
 				.andExpect(MockMvcResultMatchers.status().is3xxRedirection())
 				.andExpect(MockMvcResultMatchers.view().name("redirect:/locales/1"));
