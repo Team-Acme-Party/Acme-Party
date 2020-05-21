@@ -1,7 +1,11 @@
 
 package org.springframework.samples.petclinic.web;
 
+import java.time.LocalDate;
+import java.time.LocalTime;
+import java.time.chrono.ChronoLocalDate;
 import java.util.Collection;
+import java.util.Date;
 import java.util.Map;
 
 import javax.validation.Valid;
@@ -75,7 +79,8 @@ public class FiestaController {
 	@GetMapping(value = "/fiestas/{fiestaId}")
 	public ModelAndView showFiesta(@PathVariable("fiestaId") final int fiestaId) {
 		ModelAndView mav;
-
+		 LocalDate now = LocalDate.now();
+		   
 		Fiesta fiesta = this.fiestaService.findFiestaById(fiestaId);
 		String username = SecurityContextHolder.getContext().getAuthentication().getName();
 		Propietario p = this.propietarioService.findByUsername(username);
@@ -104,6 +109,11 @@ public class FiestaController {
 					mav.addObject("clienteFiesta", true);
 					Comentario comentario = new Comentario();
 					mav.addObject("comentario", comentario);
+					if (fiesta.getFecha().isBefore(now)) {
+						mav.addObject("clienteValoracion", true);
+						Valoracion valoracion = new Valoracion();
+						mav.addObject("valoracion", valoracion);
+					}
 				}
 			}
 

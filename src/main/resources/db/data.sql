@@ -64,33 +64,34 @@ INSERT INTO locales(id, direccion, capacidad, condiciones, imagen, decision, pro
 	'https://roket.es/sites/default/files/foto_local.jpg', 'PENDIENTE', 2);
 
 --Fiestas
-INSERT INTO fiestas(id, nombre, descripcion, precio, requisitos, fecha, hora_inicio, hora_fin, numero_asistentes, imagen, decision, cliente_id, local_id) 
+INSERT INTO fiestas(id, nombre, descripcion, precio, requisitos, fecha, hora_inicio, hora_fin, numero_asistentes, aforo, imagen, decision, cliente_id, local_id) 
 	VALUES(1, 'Fiesta de disfraces', 'Fiesta de disfraces de todo tipo. Sin alcohol', 15, 'Venir disfrazado y en buen estado',
-	'2020-08-15', '18:00', '23:00', 50, 'https://welcometoibiza.com/wp-content/uploads/2018/02/Fiestas-de-disfraces-en-Ibiza.jpg', 'ACEPTADO', 1, 2);
+	'2020-08-15', '18:00', '23:00', 50, 75, 'https://welcometoibiza.com/wp-content/uploads/2018/02/Fiestas-de-disfraces-en-Ibiza.jpg', 'ACEPTADO', 1, 2);
 	
-INSERT INTO fiestas(id, nombre, descripcion, precio, requisitos, fecha, hora_inicio, hora_fin, numero_asistentes, imagen, decision, cliente_id, local_id) 
+INSERT INTO fiestas(id, nombre, descripcion, precio, requisitos, fecha, hora_inicio, hora_fin, numero_asistentes, aforo, imagen, decision, cliente_id, local_id) 
 	VALUES(2, 'Fiesta electronica', 'Fiesta de música electronica para mayores de edad.', 20, 'Ser mayor de edad y no traer drogas.',
-	'2020-06-20', '22:00', '5:00', 200, 'https://i.pinimg.com/originals/23/45/77/23457712be420ec1a113139552b091a3.jpg', 'PENDIENTE', 1, 1);
+	'2020-06-20', '22:00', '5:00', 200, 200, 'https://i.pinimg.com/originals/23/45/77/23457712be420ec1a113139552b091a3.jpg', 'PENDIENTE', 1, 1);
 	
-INSERT INTO fiestas(id, nombre, descripcion, precio, requisitos, fecha, hora_inicio, hora_fin, numero_asistentes, imagen, decision, cliente_id, local_id) 
+INSERT INTO fiestas(id, nombre, descripcion, precio, requisitos, fecha, hora_inicio, hora_fin, numero_asistentes, aforo, imagen, decision, cliente_id, local_id) 
 	VALUES(3, 'Fiesta de rock', 'Fiesta de musica rock para mayores de edad.', 20, 'Ser mayor de edad y no traer drogas.',
-	'2020-07-04', '23:00', '7:00', 200, 'https://welcometoibiza.com/wp-content/uploads/2018/06/fiesta-rock-nights-pikes-ibiza-welcometoibiza.jpg', 'ACEPTADO', 2, 4);
+	'2020-07-04', '23:00', '7:00', 200, 300, 'https://welcometoibiza.com/wp-content/uploads/2018/06/fiesta-rock-nights-pikes-ibiza-welcometoibiza.jpg', 'ACEPTADO', 2, 4);
 	
-INSERT INTO fiestas(id, nombre, descripcion, precio, requisitos, fecha, hora_inicio, hora_fin, numero_asistentes, imagen, decision, cliente_id, local_id) 
+INSERT INTO fiestas(id, nombre, descripcion, precio, requisitos, fecha, hora_inicio, hora_fin, numero_asistentes, aforo, imagen, decision, cliente_id, local_id) 
 	VALUES(4, 'Fiesta dubstep', 'Fiesta de musica dubstep para mayores de edad.', 30, 'Ser mayor de edad y no traer drogas.',
-	'2020-04-30', '23:00', '5:00', 200, 'https://lh3.googleusercontent.jpg', 'PENDIENTE', 1, 1);
+	'2020-04-30', '23:00', '5:00', 200, 200, 'https://lh3.googleusercontent.jpg', 'ACEPTADO', 1, 1);
 
-INSERT INTO fiestas(id, nombre, descripcion, precio, requisitos, fecha, hora_inicio, hora_fin, numero_asistentes, imagen, decision, cliente_id, local_id) 
+INSERT INTO fiestas(id, nombre, descripcion, precio, requisitos, fecha, hora_inicio, hora_fin, numero_asistentes, aforo, imagen, decision, cliente_id, local_id) 
 	VALUES(5, 'Fiesta trap', 'Fiesta de musica trap.', 50, 'Cualquier edad y traer mucha droga.',
-	'2020-09-09', '23:00', '7:00', 50, 
+	'2020-09-09', '23:00', '7:00', 50, 100,
 	'https://4.bp.blogspot.com/-21qlqUcqgT4/VlUSvE8qmVI/AAAAAAAAAEY/N6RA40TcsQ4/s1600/tumblr_inline_mymygb26FE1ruzwds.jpg', 'RECHAZADO', 2, 1);
 
 
 --Solicitudes de asistencia a fiestas
---INSERT INTO solicitudes_asistencia(id, fiesta_id, cliente_id, decision) VALUES(1, 1, 1, 'ACEPTADO');
+INSERT INTO solicitudes_asistencia(id, fiesta_id, cliente_id, decision) VALUES(1, 1, 1, 'ACEPTADO');
 INSERT INTO solicitudes_asistencia(id, fiesta_id, cliente_id, decision) VALUES(2, 1, 2, 'PENDIENTE');
---INSERT INTO solicitudes_asistencia(id, fiesta_id, cliente_id, decision) VALUES(3, 3, 1, 'PENDIENTE');
+INSERT INTO solicitudes_asistencia(id, fiesta_id, cliente_id, decision) VALUES(3, 3, 1, 'PENDIENTE');
 INSERT INTO solicitudes_asistencia(id, fiesta_id, cliente_id, decision) VALUES(4, 3, 2, 'ACEPTADO');
+INSERT INTO solicitudes_asistencia(id, fiesta_id, cliente_id, decision) VALUES(5, 4, 2, 'ACEPTADO');
 
 
 --Anuncios
@@ -116,18 +117,17 @@ INSERT INTO comentarios(id, cuerpo, fecha, cliente_id, local_id)
 INSERT INTO comentarios(id, cuerpo, fecha, cliente_id, fiesta_id) 
 	VALUES(2, '¡Muy divertida!.', '2020-07-07', 2, 1);
 INSERT INTO comentarios(id, cuerpo, fecha, cliente_id, fiesta_id) 
-	VALUES(3, 'Un poco aburrida.', '2020-07-10', 2, 3);
+	VALUES(3, 'Deseando de ir, ¿Como hay que ir vestido?', '2020-07-10', 2, 3);
 INSERT INTO comentarios(id, cuerpo, fecha, cliente_id, local_id) 
 	VALUES(4, '¿Merece la pena contratarlo?', '2020-07-10', 2, 4);
 
 
 --Valoraciones
 INSERT INTO valoraciones(id, comentario, valor, cliente_id, local_id) 
-	VALUES(1, 'Solo le falta algunos servicios más', 4.5, 1, 1);
+	VALUES(1, 'Solo le falta algunos servicios más', 4.5, 2, 1);
 INSERT INTO valoraciones(id, valor, cliente_id, fiesta_id) 
-	VALUES(2, 4.0, 2, 1);
-INSERT INTO valoraciones(id, valor, cliente_id, fiesta_id) 
-	VALUES(3, 2.5, 2, 3);
+	VALUES(2, 4.0, 2, 4);
+
 	
 	
 	

@@ -42,7 +42,8 @@ public class LocalService {
 	}
 
 	@Transactional
-	public Collection<Local> findByDireccion(final String direccion) throws DataAccessException {
+	public Collection<Local> findByDireccion(String direccion) throws DataAccessException {
+		direccion=direccion.toUpperCase();
 		return this.localRepository.findByDireccion(direccion);
 	}
 

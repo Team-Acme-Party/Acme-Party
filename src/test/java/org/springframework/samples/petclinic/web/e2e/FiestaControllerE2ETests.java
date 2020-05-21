@@ -183,7 +183,7 @@ public class FiestaControllerE2ETests {
 	@Test
 	@DisplayName("Test positivo aceptar fiesta")
 	void testPositivoAceptarFiestas() throws Exception {
-		this.mockMvc.perform(MockMvcRequestBuilders.get("/local/{localId}/fiesta/{fiestaId}/aceptar", 1, 1)).andExpect(MockMvcResultMatchers.status().is2xxSuccessful()).andExpect(MockMvcResultMatchers.view().name("welcome"));
+		this.mockMvc.perform(MockMvcRequestBuilders.get("/local/{localId}/fiesta/{fiestaId}/aceptar", 1, 2)).andExpect(MockMvcResultMatchers.status().is2xxSuccessful()).andExpect(MockMvcResultMatchers.view().name("welcome"));
 	}
 
 	@WithMockUser(username = "propietario2", authorities = {
@@ -210,7 +210,7 @@ public class FiestaControllerE2ETests {
 	@Test
 	@DisplayName("Test positivo denegar fiesta")
 	void testPositivoRechazarFiestas() throws Exception {
-		this.mockMvc.perform(MockMvcRequestBuilders.get("/local/{localId}/fiesta/{fiestaId}/denegar", 1, 1)).andExpect(MockMvcResultMatchers.status().is2xxSuccessful()).andExpect(MockMvcResultMatchers.view().name("welcome"));
+		this.mockMvc.perform(MockMvcRequestBuilders.get("/local/{localId}/fiesta/{fiestaId}/denegar", 1, 2)).andExpect(MockMvcResultMatchers.status().is2xxSuccessful()).andExpect(MockMvcResultMatchers.view().name("welcome"));
 	}
 
 	@WithMockUser(username = "propietario2", authorities = {

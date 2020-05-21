@@ -48,6 +48,7 @@ public class FiestaServiceBDTests {
 		newFiesta.setFecha(LocalDate.now());
 		newFiesta.setHoraInicio(LocalTime.parse("22:00"));
 		newFiesta.setHoraFin(LocalTime.parse("05:00"));
+		newFiesta.setAforo(50);
 		newFiesta.setNumeroAsistentes(50);
 		newFiesta.setImagen("https://elcaso.elnacional.cat/uploads/s1/78/21/46/fiesta-fin-de-ano-confeti-pixabay.jpeg");
 		newFiesta.setDecision("PENDIENTE");
@@ -123,6 +124,7 @@ public class FiestaServiceBDTests {
 		newFiesta.setFecha(LocalDate.now());
 		newFiesta.setHoraInicio(LocalTime.parse("22:00"));
 		newFiesta.setHoraFin(LocalTime.parse("05:00"));
+		newFiesta.setAforo(50);
 		newFiesta.setNumeroAsistentes(50);
 		newFiesta.setImagen("https://elcaso.elnacional.cat/uploads/s1/78/21/46/fiesta-fin-de-ano-confeti-pixabay.jpeg");
 		newFiesta.setDecision("PENDIENTE");

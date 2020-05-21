@@ -45,7 +45,7 @@ public interface SpringDataLocalRepository extends LocalRepository, Repository<L
 	Local findById(@Param("id") int id);
 
 	@Override
-	@Query("SELECT local FROM Local local WHERE local.decision = 'ACEPTADO' and local.direccion LIKE %:direccion%")
+	@Query("SELECT local FROM Local local WHERE local.decision = 'ACEPTADO' and UPPER(local.direccion) LIKE %:direccion%")
 	Collection<Local> findByDireccion(@Param("direccion") String direccion);
 
 	@Override

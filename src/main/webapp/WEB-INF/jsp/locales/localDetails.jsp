@@ -129,6 +129,7 @@
     <h5>
     	Valoraciones
     </h5>
+    
     <table id="valoracionesTable" class="table table-striped">
         <thead>
         <tr>
@@ -150,6 +151,40 @@
         </tbody>
     </table>
     
+    <sec:authorize access="hasAuthority('cliente')">
+		<c:if test="${clienteValoracion}">
+			<h2>Valorar local</h2>
+
+			<form:form id="formValoracion" modelAttribute="valoracion"
+				class="form-horizontal" action="/valoracion/new/local/${localId}">
+				<div class="form-group has-feedback">
+
+					<petclinic:inputField label="Comentario" name="comentario" />
+
+
+				</div>
+				<div class="form-group">
+					<div class="col-sm-offset-2 col-sm-10">
+						<button class="btn btn-default" type="submit">Enviar</button>
+					</div>
+				</div>
+			</form:form>	
+			<script>
+				$(document).ready(function() {
+					$("#formValoracion").submit(function() {
+						debugger;
+						var valor = $("#valor").val();
+						debugger;
+						if (valor <0 || valor>5 || valor=="") {
+							alert("El valor debe de ser entre 0 y 5");
+							return false;
+						}
+						return true;
+					});
+				});
+			</script>	
+		</c:if>
+	</sec:authorize>
     
     
 </petclinic:layout>

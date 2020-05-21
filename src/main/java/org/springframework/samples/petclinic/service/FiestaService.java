@@ -63,7 +63,8 @@ public class FiestaService {
 	}
 
 	@Transactional
-	public Collection<Fiesta> findByNombre(final String nombre) throws DataAccessException {
+	public Collection<Fiesta> findByNombre(String nombre) throws DataAccessException {
+		nombre=nombre.toUpperCase();
 		return this.fiestaRepository.findByNombre(nombre);
 	}
 

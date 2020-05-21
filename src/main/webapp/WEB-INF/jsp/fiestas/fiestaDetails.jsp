@@ -9,19 +9,21 @@
 
 <petclinic:layout pageName="fiestaDetails">
 
-  <c:forEach items="${anuncios}" var="anuncio">
-		<img src="${anuncio.imagen }" alt="${anuncio.imagen }" height="150" width="100%"/>
+	<c:forEach items="${anuncios}" var="anuncio">
+		<img src="${anuncio.imagen }" alt="${anuncio.imagen }" height="150"
+			width="100%" />
 	</c:forEach>
 	<br>
 
 	<h2>
-	    Informacion de la fiesta 
-	    <c:if test="${fiesta.decision == 'ACEPTADO' }">
-		    <sec:authorize access="hasAuthority('patrocinador')">
-		    	<a href="/anuncio/new/${fiesta.id}/fiesta" class="btn btn-default">Ofrecer anuncio</a>
-		    </sec:authorize>
-	    </c:if>
-    </h2>
+		Informacion de la fiesta
+		<c:if test="${fiesta.decision == 'ACEPTADO' }">
+			<sec:authorize access="hasAuthority('patrocinador')">
+				<a href="/anuncio/new/${fiesta.id}/fiesta" class="btn btn-default">Ofrecer
+					anuncio</a>
+			</sec:authorize>
+		</c:if>
+	</h2>
 
 
 	<table class="table table-striped">
@@ -50,7 +52,7 @@
 			<td><c:out value="${fiesta.horaInicio}" /></td>
 		</tr>
 		<tr>
-			<th>Hora de fÃ­n</th>
+			<th>Hora de fin</th>
 			<td><c:out value="${fiesta.horaFin}" /></td>
 		</tr>
 		<tr>
@@ -62,7 +64,7 @@
 			<td><img src="${fiesta.imagen}" alt="${fiesta.imagen}" /></td>
 		</tr>
 		<tr>
-			<th>DecisiÃ³n</th>
+			<th>Decision</th>
 			<td><c:out value="${fiesta.decision}" /></td>
 		</tr>
 		<tr>
@@ -76,7 +78,8 @@
 	</table>
 
 	<sec:authorize access="hasAuthority('propietario')">
-		<c:if test="${fiesta.local.propietario.id==userLoggedId}">
+		<c:if
+			test="${fiesta.local.propietario.id==userLoggedId && fiesta.decision=='PENDIENTE'}">
 			<button type="button" class="btn btn-default"
 				onclick="window.location.replace('/local/${fiesta.local.id}/fiesta/${fiesta.id}/aceptar')">Aceptar</button>
 			<button type="button" class="btn btn-default"
@@ -101,41 +104,34 @@
 			</form>
 		</c:if>
 	</sec:authorize>
-	
-	<h5>
-    	Comentarios
-    </h5>
-    <table id="comentariosTable" class="table table-striped">
-        <thead>
-        <tr>
-        	<th>Cliente</th>
-            <th>Cuerpo</th>
-            <th>Fecha</th>
-            <th></th>
-        </tr>
-        </thead>
-        <tbody>
-        <c:forEach items="${comentarios}" var="comentario">
-            <tr>
-            	<td>
-                    <c:out value="${comentario.cliente}"/>
-                </td>
-                <td>
-                    <c:out value="${comentario.cuerpo}"/>
-                </td>
-                <td>
-                    <c:out value="${comentario.fecha}"/>
-                </td>
-            </tr>
-        </c:forEach>
-        </tbody>
-    </table> 
-    
-    <sec:authorize access="hasAuthority('cliente')">
+
+	<h5>Comentarios</h5>
+	<table id="comentariosTable" class="table table-striped">
+		<thead>
+			<tr>
+				<th>Cliente</th>
+				<th>Cuerpo</th>
+				<th>Fecha</th>
+				<th></th>
+			</tr>
+		</thead>
+		<tbody>
+			<c:forEach items="${comentarios}" var="comentario">
+				<tr>
+					<td><c:out value="${comentario.cliente}" /></td>
+					<td><c:out value="${comentario.cuerpo}" /></td>
+					<td><c:out value="${comentario.fecha}" /></td>
+				</tr>
+			</c:forEach>
+		</tbody>
+	</table>
+
+	<sec:authorize access="hasAuthority('cliente')">
 		<c:if test="${clienteFiesta}">
 			<h2>Comentar fiesta</h2>
-			
-			<form:form id="form" modelAttribute="comentario" class="form-horizontal" action="/comentario/new/fiesta/${fiestaId}">
+
+			<form:form id="form" modelAttribute="comentario"
+				class="form-horizontal" action="/comentario/new/fiesta/${fiestaId}">
 				<div class="form-group has-feedback">
 
 					<petclinic:inputField label="Cuerpo" name="cuerpo" />
@@ -149,10 +145,11 @@
 				</div>
 			</form:form>
 			<script>
-				$(document).ready(function(){
-					$("#form").submit(function(){
+				$(document).ready(function() {
+					$("#form").submit(function() {
 						var cuerpo = $("#cuerpo").val();
-						if(cuerpo==""){
+						debugger;
+						if (cuerpo == "") {							
 							alert("El comentario no puede estar vacio");
 							return false;
 						}
@@ -162,38 +159,67 @@
 			</script>
 		</c:if>
 	</sec:authorize>
-    
-    <h5>
-    	Valoraciones
-    </h5>
-    <table id="valoracionesTable" class="table table-striped">
-        <thead>
-        <tr>
-            <th>Comentario</th>
-            <th>Valoracion</th>
-        </tr>
-        </thead>
-        <tbody>
-        <c:forEach items="${valoraciones}" var="valoracion">
-            <tr>
-                <td>
-                    <c:out value="${valoracion.comentario}"/>
-                </td>
-                <td>
-                    <c:out value="${valoracion.valor}"/>
-                </td>
-            </tr>
-        </c:forEach>
-        </tbody>
-    </table>
-	
+
+	<h5>Valoraciones</h5>
+	<table id="valoracionesTable" class="table table-striped">
+		<thead>
+			<tr>
+				<th>Comentario</th>
+				<th>Valoracion</th>
+			</tr>
+		</thead>
+		<tbody>
+			<c:forEach items="${valoraciones}" var="valoracion">
+				<tr>
+					<td><c:out value="${valoracion.comentario}" /></td>
+					<td><c:out value="${valoracion.valor}" /></td>
+				</tr>
+			</c:forEach>
+		</tbody>
+	</table>
+
 	<sec:authorize access="hasAuthority('cliente')">
-		<c:if test="${fiesta.cliente.id==userLoggedId}">
-	<h2>Solicitudes de asistencia</h2>
+		<c:if test="${clienteValoracion}">
+			<h2>Valorar fiesta</h2>
+
+			<form:form id="formValoracion" modelAttribute="valoracion"
+				class="form-horizontal" action="/valoracion/new/fiesta/${fiestaId}">
+				<div class="form-group has-feedback">
+
+					<petclinic:inputField label="Comentario" name="comentario" />
+					<petclinic:inputField label="Valor" name="valor" />
+
+				</div>
+				<div class="form-group">
+					<div class="col-sm-offset-2 col-sm-10">
+						<button class="btn btn-default" type="submit">Enviar</button>
+					</div>
+				</div>
+			</form:form>
+			<script>
+				$(document).ready(function() {
+					$("#formValoracion").submit(function() {
+						debugger;
+						var valor = $("#valor").val();
+						debugger;
+						if (valor <0 || valor>5 ||valor=="") {
+							alert("El valor debe de ser entre 0 y 5");
+							return false;
+						}
+						return true;
+					});
+				});
+			</script>
 		</c:if>
 	</sec:authorize>
 
-	
+	<sec:authorize access="hasAuthority('cliente')">
+		<c:if test="${fiesta.cliente.id==userLoggedId}">
+			<h2>Solicitudes de asistencia</h2>
+		</c:if>
+	</sec:authorize>
+
+
 
 	<sec:authorize access="hasAuthority('cliente')">
 		<c:if test="${fiesta.cliente.id==userLoggedId}">
@@ -233,7 +259,7 @@
 
 <script type="text/javascript">
 	function alerta(form) {
-		var opcion = confirm("¿Desea solicitar la asistencia a esta fiesta?");
+		var opcion = confirm("�Desea solicitar la asistencia a esta fiesta?");
 		if (opcion == true) {
 			return true;
 		} else {

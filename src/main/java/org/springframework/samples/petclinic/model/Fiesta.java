@@ -53,12 +53,18 @@ public class Fiesta extends BaseEntity {
 	@Column(name = "hora_fin")
 	@NotNull
 	private LocalTime	horaFin;
-
+	
 	@Column(name = "numero_asistentes")
 	@Range(min = 0)
 	@NotNull
 	@NumberFormat
 	private Integer		numeroAsistentes;
+
+	@Column(name = "aforo")
+	@Range(min = 0)
+	@NotNull
+	@NumberFormat
+	private Integer		aforo;
 
 	@Column(name = "imagen")
 	@URL
@@ -142,6 +148,14 @@ public class Fiesta extends BaseEntity {
 
 	public void setNumeroAsistentes(final Integer numeroAsistentes) {
 		this.numeroAsistentes = numeroAsistentes;
+	}
+	
+	public Integer getAforo() {
+		return this.aforo;
+	}
+
+	public void setAforo(final Integer aforo) {
+		this.aforo = aforo;
 	}
 
 	public String getImagen() {
