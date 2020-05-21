@@ -48,8 +48,8 @@ public class FiestaValidator implements Validator {
 			errors.rejectValue("fecha", "ValidateFecha");
 		}
 
-		if (fiesta.getNumeroAsistentes() == null || fiesta.getNumeroAsistentes() <= 0) {
-			errors.rejectValue("numeroAsistentes", "ValidateNumeroAsistentes");
+		if (fiesta.getAforo() == null || fiesta.getAforo() <= 0) {
+			errors.rejectValue("aforo", "ValidateNumeroAsistentes");
 		}
 
 	}

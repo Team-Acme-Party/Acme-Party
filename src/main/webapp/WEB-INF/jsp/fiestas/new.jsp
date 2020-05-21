@@ -21,15 +21,15 @@
     <form:form modelAttribute="fiesta" class="form-horizontal">
         <div class="form-group has-feedback">
        <input type="hidden" name="Id" value="${fiesta.id}"/> 
-            <petclinic:inputField label="Nombre" name="nombre"/>
+                   <petclinic:inputField label="Nombre" name="nombre"/>
             <petclinic:textField label="Descripcion" name="descripcion"/>
             <petclinic:inputField label="Precio" name="precio"/>
             <petclinic:textField label="Requisitos" name="requisitos"/>
             <petclinic:inputField label="Fecha" name="fecha" />
             <petclinic:inputField label="Hora de inicio" name="horaInicio"/>
             <petclinic:inputField label="Hora de fin" name="horaFin"/>
-            <petclinic:inputField label="Numero de asistentes" name="numeroAsistentes"/>
-            <petclinic:inputField label="Imagen" name="imagen"/>
+            <petclinic:inputField label="Aforo" name="aforo"/>
+            <petclinic:inputField label="Imagen" name="imagen"/>           
         </div>
         <div class="form-group">
              <div class="col-sm-offset-2 col-sm-10">

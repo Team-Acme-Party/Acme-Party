@@ -94,7 +94,7 @@
     </table>
     
     <sec:authorize access="hasAuthority('cliente')">
-		<c:if test="${clienteLocal}">
+		
 			<h2>Comentar local</h2>
 			
 			<form:form id="form" modelAttribute="comentario" class="form-horizontal" action="/comentario/new/local/${localId}">
@@ -123,7 +123,7 @@
 	});
 	
 	</script>
-		</c:if>
+		
 	</sec:authorize>
     
     <h5>

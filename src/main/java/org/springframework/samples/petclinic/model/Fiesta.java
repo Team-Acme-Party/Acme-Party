@@ -54,9 +54,8 @@ public class Fiesta extends BaseEntity {
 	@NotNull
 	private LocalTime	horaFin;
 	
-	@Column(name = "numero_asistentes")
-	@Range(min = 0)
-	@NotNull
+	@Column(name = "numero_asistentes")	
+	
 	@NumberFormat
 	private Integer		numeroAsistentes;
 

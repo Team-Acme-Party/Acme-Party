@@ -79,8 +79,8 @@ public class FiestaController {
 	@GetMapping(value = "/fiestas/{fiestaId}")
 	public ModelAndView showFiesta(@PathVariable("fiestaId") final int fiestaId) {
 		ModelAndView mav;
-		 LocalDate now = LocalDate.now();
-		   
+		LocalDate now = LocalDate.now();
+
 		Fiesta fiesta = this.fiestaService.findFiestaById(fiestaId);
 		String username = SecurityContextHolder.getContext().getAuthentication().getName();
 		Propietario p = this.propietarioService.findByUsername(username);
@@ -102,34 +102,34 @@ public class FiestaController {
 				Collection<SolicitudAsistencia> solicitudes = this.solicitudAsistenciaService.findByFiesta(fiesta);
 				mav.addObject("esFiestaSolicitadaPorCliente", esFiestaSolicitadaPorCliente);
 				mav.addObject("solicitudes", solicitudes);
+				Comentario comentario = new Comentario();
+				mav.addObject("comentario", comentario);
 
 				Collection<Fiesta> fiestasCliente = this.solicitudAsistenciaService
 						.findSolicitudFiestaByClienteId(cliente.getId());
-				if (fiestasCliente.contains(this.fiestaService.findFiestaById(fiestaId))) {
-					mav.addObject("clienteFiesta", true);
-					Comentario comentario = new Comentario();
-					mav.addObject("comentario", comentario);
-					if (fiesta.getFecha().isBefore(now)) {
-						mav.addObject("clienteValoracion", true);
-						Valoracion valoracion = new Valoracion();
-						mav.addObject("valoracion", valoracion);
-					}
+				if (fiesta.getFecha().isBefore(now)
+						&& fiestasCliente.contains(this.fiestaService.findFiestaById(fiestaId))) {
+					mav.addObject("clienteValoracion", true);
+					Valoracion valoracion = new Valoracion();
+					mav.addObject("valoracion", valoracion);
 				}
 			}
+		
 
-			Collection<Anuncio> anuncios = this.anuncioService.findByFiestaId(fiestaId);
-			Collection<Comentario> comentarios = this.comentarioService.findByFiestaId(fiestaId);
-			Collection<Valoracion> valoraciones = this.valoracionService.findByFiestaId(fiestaId);
+		Collection<Anuncio> anuncios = this.anuncioService.findByFiestaId(fiestaId);
+		Collection<Comentario> comentarios = this.comentarioService.findByFiestaId(fiestaId);
+		Collection<Valoracion> valoraciones = this.valoracionService.findByFiestaId(fiestaId);
 
-			mav.addObject("valoraciones", valoraciones);
-			mav.addObject("comentarios", comentarios);
-			mav.addObject("fiesta", this.fiestaService.findFiestaById(fiestaId));
-			mav.addObject("anuncios", anuncios);
-		} else {
-			mav = new ModelAndView("exception");
-			mav.addObject("message", "No puede ver esta fiesta");
-		}
-		return mav;
+		mav.addObject("valoraciones", valoraciones);
+		mav.addObject("comentarios", comentarios);
+		mav.addObject("fiesta", this.fiestaService.findFiestaById(fiestaId));
+		mav.addObject("anuncios", anuncios);
+	}else
+
+	{
+		mav = new ModelAndView("exception");
+		mav.addObject("message", "No puede ver esta fiesta");
+	}return mav;
 	}
 
 	@GetMapping(value = { "/fiestas/buscar" })
@@ -182,6 +182,7 @@ public class FiestaController {
 				throw new Exception();
 			} else {
 				Fiesta fiesta = new Fiesta();
+				
 				model.put("fiesta", fiesta);
 				model.put("localId", localId);
 				return "fiestas/new";
@@ -203,6 +204,7 @@ public class FiestaController {
 			Cliente cliente = this.clienteService
 					.findByUsername(SecurityContextHolder.getContext().getAuthentication().getName());
 			Local local = this.localService.findLocalById(localId);
+			fiesta.setNumeroAsistentes(0);
 			fiesta.setLocal(local);
 			fiesta.setCliente(cliente);
 			fiesta.setDecision("PENDIENTE");

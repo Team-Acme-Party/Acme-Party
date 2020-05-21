@@ -83,22 +83,19 @@ public class LocalController {
 			mav.addObject("comentarios", comentarios);
 			mav.addObject(this.localService.findLocalById(localId));
 			mav.addObject("anuncios", anuncios);
-
+			Comentario comentario = new Comentario();
+			mav.addObject("comentario", comentario);
+			
 			if (c != null) {
 				mav.addObject("cliente", c);
 				Collection<Fiesta> fiestasCliente = this.solicitudAsistenciaService
 						.findSolicitudFiestaByClienteId(c.getId());
 				for (Fiesta f : fiestasCliente) {
-					if (f.getLocal() == this.localService.findLocalById(localId)) {
-						mav.addObject("clienteLocal", true);
-						Comentario comentario = new Comentario();
-						mav.addObject("comentario", comentario);
-					}
-					if (f.getHoraFin().isBefore(now)) {
+					if (f.getLocal() == this.localService.findLocalById(localId) && f.getHoraFin().isBefore(now)) {
 						mav.addObject("clienteValoracion", true);
 						Valoracion valoracion = new Valoracion();
-						mav.addObject("valoracion", valoracion);
-					}
+						mav.addObject("valoracion", valoracion);						
+					}					
 				}
 			}
 		} else {

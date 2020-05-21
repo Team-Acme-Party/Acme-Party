@@ -108,5 +108,6 @@ public class SolicitudAsistenciaService {
 	public Collection<Fiesta> findSolicitudFiestaByClienteId(final int id) throws DataAccessException {
 		return this.solicitudAsistenciaRepository.findSolicitudFiestasByClienteId(id);
 	}
+	
 
 }

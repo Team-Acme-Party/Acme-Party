@@ -56,6 +56,10 @@
 			<td><c:out value="${fiesta.horaFin}" /></td>
 		</tr>
 		<tr>
+			<th>Aforo</th>
+			<td><c:out value="${fiesta.aforo}" /></td>
+		</tr>
+		<tr>
 			<th>Asistentes</th>
 			<td><c:out value="${fiesta.numeroAsistentes}" /></td>
 		</tr>
@@ -127,7 +131,7 @@
 	</table>
 
 	<sec:authorize access="hasAuthority('cliente')">
-		<c:if test="${clienteFiesta}">
+		
 			<h2>Comentar fiesta</h2>
 
 			<form:form id="form" modelAttribute="comentario"
@@ -157,7 +161,7 @@
 					});
 				});
 			</script>
-		</c:if>
+	
 	</sec:authorize>
 
 	<h5>Valoraciones</h5>
