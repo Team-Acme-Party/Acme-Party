@@ -85,6 +85,11 @@ INSERT INTO fiestas(id, nombre, descripcion, precio, requisitos, fecha, hora_ini
 	'2020-09-09', '23:00', '7:00', 50, 100,
 	'https://4.bp.blogspot.com/-21qlqUcqgT4/VlUSvE8qmVI/AAAAAAAAAEY/N6RA40TcsQ4/s1600/tumblr_inline_mymygb26FE1ruzwds.jpg', 'RECHAZADO', 2, 1);
 
+INSERT INTO fiestas(id, nombre, descripcion, precio, requisitos, fecha, hora_inicio, hora_fin, numero_asistentes, aforo, imagen, decision, cliente_id, local_id) 
+	VALUES(6, 'Fiesta post-confinamiento', 'Con precaución.', 20, 'mayores de edad',
+	'2020-09-09', '23:00', '7:00', 50, 100,
+	'https://img.huffingtonpost.com/asset/5e7a8eeb2400006007cea3b6.jpeg', 'ACEPTADO', 1, 1);
+
 
 --Solicitudes de asistencia a fiestas
 INSERT INTO solicitudes_asistencia(id, fiesta_id, cliente_id, decision) VALUES(1, 1, 1, 'ACEPTADO');

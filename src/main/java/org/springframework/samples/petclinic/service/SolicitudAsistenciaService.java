@@ -55,8 +55,6 @@ public class SolicitudAsistenciaService {
 		Fiesta fiesta = this.fiestaService.findFiestaById(fiestaId);
 		Assert.notNull(fiesta, "No se ha encontrado la fiesta con ese id.");
 
-		Assert.isTrue(!fiesta.getCliente().equals(cliente), "Eres es el organizador de la fiesta.");
-
 		Collection<Fiesta> fiestas = this.fiestaService.findAsistenciasByClienteId(cliente.getId());
 		Assert.isTrue(!fiestas.contains(fiesta), "Ya has solicitado la asistencia a esta fiesta.");
 

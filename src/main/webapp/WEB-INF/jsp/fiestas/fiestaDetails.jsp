@@ -94,7 +94,7 @@
 		</c:if>
 
 
-		<c:if test="${fiesta.cliente.id ne userLoggedId}">
+		<c:if test="${fiesta.decision eq 'ACEPTADO'}">
 			<c:if test="${!esFiestaSolicitadaPorCliente}">
 				<c:if test="${(fiesta.aforo > fiesta.numeroAsistentes)}">
 

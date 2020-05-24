@@ -68,16 +68,6 @@ public class SolicitudAsistenciaServiceTests {
 	
 	//---------------------------------------------
 	@Test
-	@DisplayName("Test negativo para solicitar asistencia a fiesta por un cliente: cliente es el organizador de la fiesta")
-	void testNegativoSolicitarAsistenciaFiesta1() {
-		
-		Fiesta fiesta = this.fiestaService.findFiestaById(1);
-		Cliente cliente = fiesta.getCliente();
-		 
-		Assertions.assertThrows(IllegalArgumentException.class, () -> solicitudAsistenciaService.create(fiesta.getId(), cliente));
-	}
-	
-	@Test
 	@DisplayName("Test negativo para solicitar asistencia a fiesta por un cliente: cliente ya ha solicitado asistencia a la fiesta")
 	void testNegativoSolicitarAsistenciaFiesta2() {
 		
