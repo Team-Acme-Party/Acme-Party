@@ -18,7 +18,8 @@ import org.springframework.samples.petclinic.service.ValoracionService;
 import org.springframework.test.context.TestPropertySource;
 
 @SpringBootTest
-@TestPropertySource(locations = "classpath:application.properties")
+//@TestPropertySource(locations = "classpath:application-mysql.properties")
+@TestPropertySource(locations = "classpath:application-mysql-travis.properties")
 @Transactional
 public class ValoracionServiceBDTest {
 	@Autowired
