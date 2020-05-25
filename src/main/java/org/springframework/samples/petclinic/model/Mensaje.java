@@ -2,12 +2,12 @@
 package org.springframework.samples.petclinic.model;
 
 import java.time.LocalDate;
+import java.time.LocalTime;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.validation.constraints.NotBlank;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -18,22 +18,25 @@ public class Mensaje extends BaseEntity {
 	//Propiedades
 
 	@Column(name = "asunto")
+	@NotBlank
 	private String		asunto;
 
 	@Column(name = "cuerpo")
+	@NotBlank
 	private String		cuerpo;
 
 	@Column(name = "fecha")
-	@DateTimeFormat(pattern = "yyyy/MM/dd HH:mm")
+	@DateTimeFormat(pattern = "yyyy/MM/dd")
 	private LocalDate	fecha;
 
-	@ManyToOne
-	@JoinColumn(name = "remitente_id")
-	private Cliente		remitente;
+	@Column(name = "hora")
+	private LocalTime	hora;
 
-	@ManyToOne
-	@JoinColumn(name = "receptor_id")
-	private Cliente		receptor;
+	@Column(name = "remitente_id")
+	private String		remitente;
+
+	@Column(name = "destinatario_id")
+	private String		destinatario;
 
 
 	//Getters y setters
@@ -62,20 +65,28 @@ public class Mensaje extends BaseEntity {
 		this.fecha = fecha;
 	}
 
-	public Cliente getRemitente() {
+	public LocalTime getHora() {
+		return this.hora;
+	}
+
+	public void setHora(final LocalTime hora) {
+		this.hora = hora;
+	}
+
+	public String getRemitente() {
 		return this.remitente;
 	}
 
-	public void setRemitente(final Cliente remitente) {
+	public void setRemitente(final String remitente) {
 		this.remitente = remitente;
 	}
 
-	public Cliente getReceptor() {
-		return this.receptor;
+	public String getDestinatario() {
+		return this.destinatario;
 	}
 
-	public void setReceptor(final Cliente receptor) {
-		this.receptor = receptor;
+	public void setDestinatario(final String destinatario) {
+		this.destinatario = destinatario;
 	}
 
 }

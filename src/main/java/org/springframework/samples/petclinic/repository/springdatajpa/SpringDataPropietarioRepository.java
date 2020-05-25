@@ -16,6 +16,8 @@
 
 package org.springframework.samples.petclinic.repository.springdatajpa;
 
+import java.util.Collection;
+
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.Repository;
 import org.springframework.data.repository.query.Param;
@@ -37,5 +39,9 @@ public interface SpringDataPropietarioRepository extends PropietarioRepository, 
 	@Override
 	@Query("SELECT propietario FROM Propietario propietario WHERE propietario.id =:id")
 	Propietario findById(@Param("id") int id);
+
+	@Override
+	@Query("SELECT propietario FROM Propietario propietario")
+	Collection<Propietario> findAll();
 
 }

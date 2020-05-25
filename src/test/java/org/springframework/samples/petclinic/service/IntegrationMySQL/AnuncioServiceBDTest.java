@@ -23,7 +23,7 @@ import org.springframework.test.context.TestPropertySource;
 @SpringBootTest
 @TestPropertySource(locations = "classpath:application-mysql-travis.properties")
 @Transactional
-public class AnuncioServiceBDTest {
+public class AnuncioServiceBDTests {
 
 	@Autowired
 	private AnuncioService		anuncioService;
@@ -46,13 +46,17 @@ public class AnuncioServiceBDTest {
 		Anuncio anuncio3 = this.anuncioService.findById(3);
 		Boolean existe = false;
 		Boolean existe2 = false;
-		for(Anuncio a : anuncios) {
-			if(a.getId() == anuncio1.getId()) existe = true;
+		for (Anuncio a : anuncios) {
+			if (a.getId() == anuncio1.getId()) {
+				existe = true;
+			}
 		}
-		for(Anuncio a : anuncios) {
-			if(a.getId() == anuncio3.getId()) existe2 = true;
+		for (Anuncio a : anuncios) {
+			if (a.getId() == anuncio3.getId()) {
+				existe2 = true;
+			}
 		}
-		
+
 		Assertions.assertEquals(existe, true);
 		Assertions.assertEquals(existe2, false);
 	}

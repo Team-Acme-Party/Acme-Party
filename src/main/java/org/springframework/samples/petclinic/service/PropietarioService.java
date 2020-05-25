@@ -16,6 +16,8 @@
 
 package org.springframework.samples.petclinic.service;
 
+import java.util.Collection;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.samples.petclinic.model.Propietario;
@@ -32,11 +34,12 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 public class PropietarioService {
 
-	private PropietarioRepository propietarioRepository;
+	private PropietarioRepository	propietarioRepository;
 	@Autowired
-	private UserService userService;
+	private UserService				userService;
 	@Autowired
-	private AuthoritiesService authoritiesService;
+	private AuthoritiesService		authoritiesService;
+
 
 	@Autowired
 	public PropietarioService(final PropietarioRepository propietarioRepository) {
@@ -52,14 +55,19 @@ public class PropietarioService {
 	public Propietario findById(final int id) throws DataAccessException {
 		return this.propietarioRepository.findById(id);
 	}
-	
+
 	@Transactional
-	public void save(Propietario propietario) throws DataAccessException {
+	public void save(final Propietario propietario) throws DataAccessException {
 		//creating owner
-		propietarioRepository.save(propietario);		
+		this.propietarioRepository.save(propietario);
 		//creating user
-		userService.saveUser(propietario.getUser());
+		this.userService.saveUser(propietario.getUser());
 		//creating authorities
-		authoritiesService.saveAuthorities(propietario.getUser().getUsername(), "propietario");
-	}		
+		this.authoritiesService.saveAuthorities(propietario.getUser().getUsername(), "propietario");
+	}
+
+	@Transactional
+	public Collection<Propietario> findAll() throws DataAccessException {
+		return this.propietarioRepository.findAll();
+	}
 }

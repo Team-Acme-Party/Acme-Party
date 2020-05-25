@@ -16,6 +16,8 @@
 
 package org.springframework.samples.petclinic.service;
 
+import java.util.Collection;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.samples.petclinic.model.Administrador;
@@ -43,5 +45,10 @@ public class AdministradorService {
 	@Transactional
 	public Administrador findByUsername(final String username) throws DataAccessException {
 		return this.administradorRepository.findByUsername(username);
+	}
+
+	@Transactional
+	public Collection<Administrador> findAll() throws DataAccessException {
+		return this.administradorRepository.findAll();
 	}
 }

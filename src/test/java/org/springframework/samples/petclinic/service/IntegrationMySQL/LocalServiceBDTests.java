@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.ComponentScan;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.samples.petclinic.model.Local;
 import org.springframework.samples.petclinic.model.Propietario;
 import org.springframework.samples.petclinic.service.LocalService;
@@ -70,6 +71,7 @@ public class LocalServiceBDTests {
 	void testFindByDireccion() {
 		Local local = this.localService.findLocalById(1);
 		Collection<Local> todos = this.localService.findByDireccion("Luis Montoto 12");
+<<<<<<< HEAD
 		Boolean existe = false;
 		for(Local l : todos) {
 			if(l.getId().equals(local.getId())) {
@@ -77,13 +79,22 @@ public class LocalServiceBDTests {
 			}
 		}
 		Assertions.assertEquals(existe, true);
+=======
+		Boolean contenido = false;
+		for (Local l : todos) {
+			if (l.getId() == local.getId()) {
+				contenido = true;
+			}
+		}
+		Assertions.assertEquals(contenido, true);
+>>>>>>> remotes/origin/Mensajes
 	}
 
 	@Test
 	void testFindByPropietario() {
-		Propietario propietario = this.propietarioService.findById(1);
-		Collection<Local> locales = this.localService.findByPropietarioId(propietario.getId());
+		Collection<Local> locales = this.localService.findByPropietarioId(1);
 		Local local = this.localService.findLocalById(1);
+<<<<<<< HEAD
 		Boolean existe = false;
 		for(Local l : locales) {
 			if(l.getId().equals(local.getId())) {
@@ -91,6 +102,15 @@ public class LocalServiceBDTests {
 			}
 		}
 		Assertions.assertEquals(existe, true);
+=======
+		Boolean contenido = false;
+		for (Local l : locales) {
+			if (l.getId() == local.getId()) {
+				contenido = true;
+			}
+		}
+		Assertions.assertEquals(contenido, true);
+>>>>>>> remotes/origin/Mensajes
 	}
 
 	@Test

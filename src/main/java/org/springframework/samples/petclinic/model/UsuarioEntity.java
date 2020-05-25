@@ -32,9 +32,14 @@ public class UsuarioEntity extends BaseEntity {
 	@URL
 	private String	foto;
 
+	//@NotNull
 	@OneToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "username", referencedColumnName = "username")
 	private User	user;
+
+//	@OneToOne
+//	@JoinColumn(name = "buzon_id")
+//	private Buzon	buzon;
 
 
 	//Getters y setters
@@ -77,6 +82,13 @@ public class UsuarioEntity extends BaseEntity {
 	public void setUser(final User user) {
 		this.user = user;
 	}
+
+//	public Buzon getBuzon() {
+//		return this.buzon;
+//	}
+//	public void setBuzon(final Buzon buzon) {
+//		this.buzon = buzon;
+//	}
 
 	@Override
 	public String toString() {

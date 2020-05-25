@@ -18,7 +18,7 @@ INSERT INTO authorities VALUES ('patrocinador2','patrocinador');
 
 --Usuarios
 INSERT INTO administradores(id, nombre, apellidos, email, telefono, foto, username) 
-	VALUES(1, 'Admin', 'DB', 'admin@admin.com', '666999666', 'https://oposicionesueblog.files.wordpress.com/2019/02/funcionario.jpg?w=825', 'admin');
+	VALUES(1, 'Admin', 'DB', 'admin@admin.com', '666999666', 'https://oposicionesueblog.files.wordpress.com/2019/02/funcionario.jpg?w=825','admin');
 	
 INSERT INTO propietarios(id, nombre, apellidos, email, telefono, foto, username) 
 	VALUES(1, 'Propietario1', 'DB', 'propietario1@prop.com', '696696696', 
@@ -35,7 +35,7 @@ INSERT INTO clientes(id, nombre, apellidos, email, telefono, foto, descripcion_g
 	
 INSERT INTO clientes(id, nombre, apellidos, email, telefono, foto, descripcion_gustos, username) 
 	VALUES(2, 'Cliente2', 'DB', 'cliente2@cli.com', '696123456', 
-	'https://d1zv66c6p7f9ox.cloudfront.net/fotoweb/fotonoticia_20180118120033_640.jpg', 'Me gusta conocer gente nueva y la música electrónica', 'cliente2');
+	'https://d1zv66c6p7f9ox.cloudfront.net/fotoweb/fotonoticia_20180118120033_640.jpg', 'Me gusta conocer gente nueva y la música electrónica','cliente2');
 	
 INSERT INTO patrocinadores(id, nombre, apellidos, email, telefono, foto, descripcion_experiencia, username) 
 	VALUES(1, 'Patrocinador1', 'DB', 'patrocinador1@patr.com', '654718292', 
@@ -133,6 +133,27 @@ INSERT INTO valoraciones(id, comentario, valor, cliente_id, local_id)
 INSERT INTO valoraciones(id, valor, cliente_id, fiesta_id) 
 	VALUES(2, 4.0, 2, 4);
 
+	
+	
+--Mensajes
+INSERT INTO mensajes(id, asunto, cuerpo, fecha, hora, remitente_id, destinatario_id)
+    VALUES(1, 'Saludo', '¿Como te encuentras?', '2020-07-01', '10:00', 'admin', 'propietario1');
+INSERT INTO mensajes(id, asunto, cuerpo, fecha, hora, remitente_id, destinatario_id)
+    VALUES(2, 'Saludo', '¿Como te encuentras?', '2020-08-02', '15:30', 'cliente1', 'propietario2');
+INSERT INTO mensajes(id, asunto, cuerpo, fecha, hora, remitente_id, destinatario_id)
+    VALUES(3, 'Saludo', '¿Como te encuentras?', '2020-10-03', '16:44', 'patrocinador2','cliente1');
+INSERT INTO mensajes(id, asunto, cuerpo, fecha, hora, remitente_id, destinatario_id)
+    VALUES(4, 'Saludo', '¿Como te encuentras?', '2020-12-09', '18:03', 'patrocinador1', 'propietario2');
+INSERT INTO mensajes(id, asunto, cuerpo, fecha, hora, remitente_id, destinatario_id)
+    VALUES(5, 'Saludo', '¿Como te encuentras?', '2020-08-29', '9:15', 'cliente2', 'cliente1');
+INSERT INTO mensajes(id, asunto, cuerpo, fecha, hora, remitente_id, destinatario_id)
+    VALUES(6, 'Saludo', '¿Como te encuentras?', '2020-07-01', '14:05', 'patrocinador1', 'admin');
+INSERT INTO mensajes(id, asunto, cuerpo, fecha, hora, remitente_id, destinatario_id)
+    VALUES(7, 'Saludo', '¿Como te encuentras?', '2020-11-11', '13:09', 'propietario2', 'cliente2');	
+	
+		
+
+	
 	
 	
 	

@@ -16,6 +16,8 @@
 
 package org.springframework.samples.petclinic.repository.springdatajpa;
 
+import java.util.Collection;
+
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.Repository;
 import org.springframework.data.repository.query.Param;
@@ -37,5 +39,9 @@ public interface SpringDataPatrocinadorRepository extends PatrocinadorRepository
 	@Override
 	@Query("SELECT p FROM Patrocinador p WHERE p.id =:id")
 	Patrocinador findById(@Param("id") int id);
+
+	@Override
+	@Query("SELECT patrocinador FROM Patrocinador patrocinador")
+	Collection<Patrocinador> findAll();
 
 }

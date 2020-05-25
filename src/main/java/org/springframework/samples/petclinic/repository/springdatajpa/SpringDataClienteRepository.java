@@ -16,6 +16,8 @@
 
 package org.springframework.samples.petclinic.repository.springdatajpa;
 
+import java.util.Collection;
+
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.Repository;
 import org.springframework.data.repository.query.Param;
@@ -37,5 +39,9 @@ public interface SpringDataClienteRepository extends ClienteRepository, Reposito
 	@Override
 	@Query("SELECT cliente FROM Cliente cliente WHERE cliente.id =:id")
 	Cliente findById(@Param("id") int id);
+
+	@Override
+	@Query("SELECT cliente FROM Cliente cliente")
+	Collection<Cliente> findAll();
 
 }

@@ -20,9 +20,8 @@ import java.util.Collection;
 
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.Repository;
-import org.springframework.data.repository.query.Param;
-import org.springframework.samples.petclinic.model.Administrador;
-import org.springframework.samples.petclinic.repository.AdministradorRepository;
+import org.springframework.samples.petclinic.model.User;
+import org.springframework.samples.petclinic.repository.UserRepository;
 
 /**
  * Spring Data JPA specialization of the {@link OwnerRepository} interface
@@ -30,14 +29,10 @@ import org.springframework.samples.petclinic.repository.AdministradorRepository;
  * @author Michael Isvy
  * @since 15.1.2013
  */
-public interface SpringDataAdministradorRepository extends AdministradorRepository, Repository<Administrador, Integer> {
+public interface SpringDataUserRepository extends UserRepository, Repository<User, Integer> {
 
 	@Override
-	@Query("SELECT administrador FROM Administrador administrador WHERE administrador.user.username =:username")
-	Administrador findByUsername(@Param("username") String username);
-
-	@Override
-	@Query("SELECT administrador FROM Administrador administrador")
-	Collection<Administrador> findAll();
+	@Query("SELECT user FROM User user")
+	Collection<User> findAll();
 
 }
