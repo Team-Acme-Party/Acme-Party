@@ -87,9 +87,9 @@ INSERT INTO fiestas(id, nombre, descripcion, precio, requisitos, fecha, hora_ini
 
 
 --Solicitudes de asistencia a fiestas
---INSERT INTO solicitudes_asistencia(id, fiesta_id, cliente_id, decision) VALUES(1, 1, 1, 'ACEPTADO');
+INSERT INTO solicitudes_asistencia(id, fiesta_id, cliente_id, decision) VALUES(1, 1, 1, 'ACEPTADO');
 INSERT INTO solicitudes_asistencia(id, fiesta_id, cliente_id, decision) VALUES(2, 1, 2, 'PENDIENTE');
---INSERT INTO solicitudes_asistencia(id, fiesta_id, cliente_id, decision) VALUES(3, 3, 1, 'PENDIENTE');
+INSERT INTO solicitudes_asistencia(id, fiesta_id, cliente_id, decision) VALUES(3, 3, 1, 'PENDIENTE');
 INSERT INTO solicitudes_asistencia(id, fiesta_id, cliente_id, decision) VALUES(4, 3, 2, 'ACEPTADO');
 
 

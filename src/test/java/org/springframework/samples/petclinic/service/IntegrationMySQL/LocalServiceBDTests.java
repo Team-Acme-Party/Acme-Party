@@ -6,15 +6,15 @@ import java.util.Collection;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
-import org.springframework.context.annotation.ComponentScan;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.samples.petclinic.model.Local;
 import org.springframework.samples.petclinic.model.Propietario;
 import org.springframework.samples.petclinic.service.LocalService;
 import org.springframework.samples.petclinic.service.PropietarioService;
-import org.springframework.stereotype.Service;
+import org.springframework.test.context.TestPropertySource;
 
-@DataJpaTest(includeFilters = @ComponentScan.Filter(Service.class))
+@SpringBootTest
+@TestPropertySource(locations = "classpath:application.properties")
 public class LocalServiceBDTests {
 
 	@Autowired
@@ -64,16 +64,25 @@ public class LocalServiceBDTests {
 	void testFindByDireccion() {
 		Local local = this.localService.findLocalById(1);
 		Collection<Local> todos = this.localService.findByDireccion("Luis Montoto 12");
-		Boolean contenida = todos.contains(local);
-		Assertions.assertEquals(contenida, true);
+		Boolean contenido = false;
+		for (Local l : todos) {
+			if (l.getId() == local.getId()) {
+				contenido = true;
+			}
+		}
+		Assertions.assertEquals(contenido, true);
 	}
 
 	@Test
 	void testFindByPropietario() {
-		Propietario propietario = this.propietarioService.findById(1);
-		Collection<Local> locales = this.localService.findByPropietarioId(propietario.getId());
+		Collection<Local> locales = this.localService.findByPropietarioId(1);
 		Local local = this.localService.findLocalById(1);
-		Boolean contenido = locales.contains(local);
+		Boolean contenido = false;
+		for (Local l : locales) {
+			if (l.getId() == local.getId()) {
+				contenido = true;
+			}
+		}
 		Assertions.assertEquals(contenido, true);
 	}
 
@@ -81,7 +90,7 @@ public class LocalServiceBDTests {
 	void testAceptarSolicitud() {
 		Local local = this.localService.findLocalById(2);
 		try {
-			this.localService.aceptarSolicitudLocal(2);
+			local = this.localService.aceptarSolicitudLocal(2);
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
@@ -104,7 +113,7 @@ public class LocalServiceBDTests {
 	void testRechazarSolicitud() {
 		Local local = this.localService.findLocalById(2);
 		try {
-			this.localService.denegarSolicitudLocal(2);
+			local = this.localService.denegarSolicitudLocal(2);
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {

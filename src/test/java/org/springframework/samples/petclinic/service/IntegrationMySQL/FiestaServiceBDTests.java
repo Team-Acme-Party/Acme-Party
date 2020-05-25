@@ -20,7 +20,7 @@ import org.springframework.samples.petclinic.service.LocalService;
 import org.springframework.test.context.TestPropertySource;
 
 @SpringBootTest
-@TestPropertySource(locations = "classpath:application-mysql.properties")
+@TestPropertySource(locations = "classpath:application.properties")
 public class FiestaServiceBDTests {
 
 	@Autowired
@@ -136,8 +136,10 @@ public class FiestaServiceBDTests {
 		Fiesta fiesta1 = this.fiestaService.findFiestaById(1);
 		Collection<Fiesta> todas = this.fiestaService.findByNombre("Fiesta de disfraces");
 		Boolean contenida = false;
-		for(Fiesta a : todas) {
-			if(a.getId() == fiesta1.getId()) contenida = true;
+		for (Fiesta a : todas) {
+			if (a.getId() == fiesta1.getId()) {
+				contenida = true;
+			}
 		}
 		Assertions.assertEquals(contenida, true);
 	}

@@ -19,7 +19,7 @@ import org.springframework.samples.petclinic.service.PatrocinadorService;
 import org.springframework.test.context.TestPropertySource;
 
 @SpringBootTest
-@TestPropertySource(locations = "classpath:application-mysql.properties")
+@TestPropertySource(locations = "classpath:application.properties")
 public class AnuncioServiceBDTests {
 
 	@Autowired
@@ -43,13 +43,17 @@ public class AnuncioServiceBDTests {
 		Anuncio anuncio3 = this.anuncioService.findById(3);
 		Boolean existe = false;
 		Boolean existe2 = false;
-		for(Anuncio a : anuncios) {
-			if(a.getId() == anuncio1.getId()) existe = true;
+		for (Anuncio a : anuncios) {
+			if (a.getId() == anuncio1.getId()) {
+				existe = true;
+			}
 		}
-		for(Anuncio a : anuncios) {
-			if(a.getId() == anuncio3.getId()) existe2 = true;
+		for (Anuncio a : anuncios) {
+			if (a.getId() == anuncio3.getId()) {
+				existe2 = true;
+			}
 		}
-		
+
 		Assertions.assertEquals(existe, true);
 		Assertions.assertEquals(existe2, false);
 	}
