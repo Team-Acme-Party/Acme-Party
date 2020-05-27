@@ -44,7 +44,8 @@ public class LocalService {
 		return this.localRepository.findById(localId);
 	}
 
-	@Transactional
+	@Transactional(readOnly = true)
+	@Cacheable("localByDireccion")
 	public Collection<Local> findByDireccion(String direccion) throws DataAccessException {
 		direccion = direccion.toUpperCase();
 		return this.localRepository.findByDireccion(direccion);
@@ -65,7 +66,9 @@ public class LocalService {
 	}
 
 	@Transactional
-	@CacheEvict(cacheNames = "localPending", allEntries = true)
+	@CacheEvict(cacheNames = {
+		"localPending", "localByDireccion"
+	}, allEntries = true)
 	public Local aceptarSolicitudLocal(final int localId) throws DataAccessException {
 		Local localEdit = this.findLocalById(localId);
 		localEdit.setDecision("ACEPTADO");
