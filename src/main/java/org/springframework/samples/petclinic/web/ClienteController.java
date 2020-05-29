@@ -37,17 +37,16 @@ public class ClienteController {
 	public String initCreationForm(final Map<String, Object> model) {
 		Cliente cliente = new Cliente();
 		model.put("cliente", cliente);
-		return ClienteController.VIEWS_CLIENTE_CREATE_OR_UPDATE_FORM;
+		return VIEWS_CLIENTE_CREATE_OR_UPDATE_FORM;
 	}
 
 	@PostMapping(value = "/cliente/new")
 	public String processCreationForm(@Valid final Cliente cliente, final BindingResult result, final Map<String, Object> model) {
 		if (result.hasErrors()) {
 			model.put("cliente", cliente);
-			return ClienteController.VIEWS_CLIENTE_CREATE_OR_UPDATE_FORM;
+			return VIEWS_CLIENTE_CREATE_OR_UPDATE_FORM;
 		} else {
 			try {
-				// creating owner, user and authorities
 				this.clienteService.save(cliente);
 				return "redirect:/cliente/fiestas";
 

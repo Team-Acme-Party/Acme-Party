@@ -48,10 +48,7 @@ public class ComentarioController {
 			return "redirect:/locales/" + localId;
 		} else {
 			Local local = this.localService.findLocalById(localId);
-			String username = SecurityContextHolder.getContext().getAuthentication().getName();
-			Cliente c = this.clienteService.findByUsername(username);
-			comentario.setCliente(c);
-			comentario.setFecha(LocalDate.now());
+			seteaCamposcomunesComentario(comentario);
 			comentario.setLocal(local);
 
 			this.comentarioService.save(comentario);
@@ -70,10 +67,7 @@ public class ComentarioController {
 			return "redirect:/fiestas/" + fiestaId;
 		} else {
 			Fiesta fiesta = this.fiestaService.findFiestaById(fiestaId);
-			String username = SecurityContextHolder.getContext().getAuthentication().getName();
-			Cliente c = this.clienteService.findByUsername(username);
-			comentario.setCliente(c);
-			comentario.setFecha(LocalDate.now());
+			seteaCamposcomunesComentario(comentario);
 			comentario.setFiesta(fiesta);
 
 			this.comentarioService.save(comentario);
@@ -83,4 +77,12 @@ public class ComentarioController {
 		}
 	}
 
+	private void seteaCamposcomunesComentario(Comentario comentario) {
+		String username = SecurityContextHolder.getContext().getAuthentication().getName();
+		Cliente c = this.clienteService.findByUsername(username);
+		comentario.setCliente(c);
+		comentario.setFecha(LocalDate.now());
+		
+	}
+	
 }

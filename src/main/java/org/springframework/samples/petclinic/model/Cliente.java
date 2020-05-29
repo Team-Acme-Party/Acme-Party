@@ -9,13 +9,9 @@ import javax.persistence.Table;
 @Table(name = "clientes")
 public class Cliente extends UsuarioEntity {
 
-	//Propiedades
-
 	@Column(name = "descripcion_gustos")
 	private String descripcionGustos;
 
-
-	//Getters y setters
 
 	public String getDescripcionGustos() {
 		return this.descripcionGustos;

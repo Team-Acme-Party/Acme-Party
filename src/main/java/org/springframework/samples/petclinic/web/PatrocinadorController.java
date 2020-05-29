@@ -46,7 +46,6 @@ public class PatrocinadorController {
 			model.put("patrocinador", patrocinador);
 			return PatrocinadorController.VIEWS_PATROCINADOR_CREATE_OR_UPDATE_FORM;
 		} else {
-			// creating owner, user and authorities
 			try {
 				this.patrocinadorService.save(patrocinador);
 				return "redirect:/patrocinador/anuncios";

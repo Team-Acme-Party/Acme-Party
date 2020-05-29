@@ -213,7 +213,6 @@ public class FiestaController {
 		}
 	}
 
-	// EDIT
 	@GetMapping(value = "/fiestas/{fiestaId}/editar")
 	public String initUpdateForm(@PathVariable("fiestaId") final int fiestaId, final ModelMap model) {
 		Fiesta fiesta = this.fiestaService.findFiestaById(fiestaId);

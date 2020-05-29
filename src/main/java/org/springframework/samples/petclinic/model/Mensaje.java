@@ -15,31 +15,26 @@ import org.springframework.format.annotation.DateTimeFormat;
 @Table(name = "mensajes")
 public class Mensaje extends BaseEntity {
 
-	//Propiedades
-
 	@Column(name = "asunto")
 	@NotBlank
-	private String		asunto;
+	private String asunto;
 
 	@Column(name = "cuerpo")
 	@NotBlank
-	private String		cuerpo;
+	private String cuerpo;
 
 	@Column(name = "fecha")
 	@DateTimeFormat(pattern = "yyyy/MM/dd")
-	private LocalDate	fecha;
+	private LocalDate fecha;
 
 	@Column(name = "hora")
-	private LocalTime	hora;
+	private LocalTime hora;
 
 	@Column(name = "remitente_id")
-	private String		remitente;
+	private String remitente;
 
 	@Column(name = "destinatario_id")
-	private String		destinatario;
-
-
-	//Getters y setters
+	private String destinatario;
 
 	public String getAsunto() {
 		return this.asunto;

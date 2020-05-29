@@ -12,22 +12,17 @@ import javax.validation.constraints.Pattern;
 @Table(name = "solicitudes_asistencia")
 public class SolicitudAsistencia extends BaseEntity {
 
-	//Propiedades
-
 	@ManyToOne
 	@JoinColumn(name = "fiesta_id")
-	private Fiesta	fiesta;
+	private Fiesta fiesta;
 
 	@ManyToOne
 	@JoinColumn(name = "cliente_id")
-	private Cliente	cliente;
+	private Cliente cliente;
 
 	@Column(name = "decision")
 	@Pattern(regexp = "^(PENDIENTE|ACEPTADO|RECHAZADO)$")
-	private String	decision;
-
-
-	//Getters y setters
+	private String decision;
 
 	public Fiesta getFiesta() {
 		return this.fiesta;

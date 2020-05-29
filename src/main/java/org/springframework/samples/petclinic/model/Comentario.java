@@ -16,8 +16,6 @@ import org.springframework.format.annotation.DateTimeFormat;
 @Table(name = "comentarios")
 public class Comentario extends BaseEntity {
 
-	//Propiedades
-
 	@Column(name = "cuerpo")
 	@NotBlank
 	private String		cuerpo;
@@ -38,8 +36,6 @@ public class Comentario extends BaseEntity {
 	@JoinColumn(name = "fiesta_id")
 	private Fiesta		fiesta;
 
-
-	//Getters y setters
 
 	public String getCuerpo() {
 		return this.cuerpo;
