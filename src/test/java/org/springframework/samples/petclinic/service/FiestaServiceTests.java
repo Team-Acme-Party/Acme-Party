@@ -50,6 +50,7 @@ public class FiestaServiceTests {
 		newFiesta.setDecision("PENDIENTE");
 		newFiesta.setCliente(cliente);
 		newFiesta.setLocal(local);
+		newFiesta.setAforo(100);
 		try {
 			this.fiestaService.save(newFiesta);
 		} catch (Exception e) {
@@ -125,6 +126,7 @@ public class FiestaServiceTests {
 		newFiesta.setDecision("PENDIENTE");
 		newFiesta.setCliente(cliente);
 		newFiesta.setLocal(local);
+		newFiesta.setAforo(100);
 		this.fiestaService.save(newFiesta);
 		Collection<Fiesta> aceptadas = this.fiestaService.findAccepted();
 		Boolean contenida = aceptadas.contains(newFiesta);
