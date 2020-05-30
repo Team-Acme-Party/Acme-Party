@@ -13,6 +13,8 @@ public interface LocalRepository {
 	Collection<Local> findAccepted() throws DataAccessException;
 
 	Collection<Local> findPending() throws DataAccessException;
+	
+	Collection<Local> findRechazado() throws DataAccessException;
 
 	Local findById(int id) throws DataAccessException;
 

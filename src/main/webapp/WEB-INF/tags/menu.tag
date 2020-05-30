@@ -90,6 +90,14 @@
 						<span>Mis Mensajes</span>
 					</petclinic:menuItem>
 				</sec:authorize>
+				
+				<sec:authorize access="hasAuthority('admin')">
+					<petclinic:menuItem active="${name eq 'dashboard'}"
+						url="/administrador/dashboard" title="Dashboard">
+						<span class="glyphicon glyphicon-home" aria-hidden="true"></span>
+						<span>Dashboard</span>
+					</petclinic:menuItem>
+				</sec:authorize>
 
 			</ul>
 

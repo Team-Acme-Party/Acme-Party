@@ -48,5 +48,17 @@ public interface SpringDataSolicitudAsistenciaRepository extends SolicitudAsiste
 	@Override
 	@Query("select solicitud.fiesta from SolicitudAsistencia solicitud where solicitud.cliente.id = :id and solicitud.decision = 'ACEPTADO'")
 	Collection<Fiesta> findSolicitudFiestasByClienteId(@Param("id") int id);
+	
+	@Override
+	@Query("SELECT DISTINCT solicitudAsistencia FROM SolicitudAsistencia solicitudAsistencia WHERE solicitudAsistencia.decision = 'ACEPTADO'")
+	Collection<SolicitudAsistencia> findAccepted();
+	
+	@Override
+	@Query("SELECT DISTINCT solicitudAsistencia FROM SolicitudAsistencia solicitudAsistencia WHERE solicitudAsistencia.decision = 'PENDIENTE'")
+	Collection<SolicitudAsistencia> findPendiente();
+	
+	@Override
+	@Query("SELECT DISTINCT solicitudAsistencia FROM SolicitudAsistencia solicitudAsistencia WHERE solicitudAsistencia.decision = 'RECHAZADO'")
+	Collection<SolicitudAsistencia> findRechazado();
 
 }

@@ -26,4 +26,8 @@ public interface FiestaRepository {
 
 	void save(Fiesta fiesta) throws DataAccessException;
 
+	Collection<Fiesta> findRechazado() throws DataAccessException;
+
+	Collection<Fiesta> findPendiente() throws DataAccessException;
+
 }
