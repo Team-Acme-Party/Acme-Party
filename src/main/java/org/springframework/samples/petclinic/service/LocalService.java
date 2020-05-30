@@ -32,6 +32,11 @@ public class LocalService {
 	}
 
 	@Transactional(readOnly = true)
+	public Collection<Local> findRechazado() throws DataAccessException {
+		return this.localRepository.findRechazado();
+	}
+	
+	@Transactional(readOnly = true)
 	public Collection<Local> findPending() throws DataAccessException {
 		return this.localRepository.findPending();
 	}

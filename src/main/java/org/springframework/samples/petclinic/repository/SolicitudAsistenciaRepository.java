@@ -21,4 +21,10 @@ public interface SolicitudAsistenciaRepository {
 
 	Collection<Fiesta> findSolicitudFiestasByClienteId(int id);
 
+	Collection<SolicitudAsistencia> findAccepted() throws DataAccessException;
+
+	Collection<SolicitudAsistencia> findPendiente() throws DataAccessException;
+
+	Collection<SolicitudAsistencia> findRechazado() throws DataAccessException;
+
 }

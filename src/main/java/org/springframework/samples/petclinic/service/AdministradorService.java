@@ -17,10 +17,14 @@
 package org.springframework.samples.petclinic.service;
 
 import java.util.Collection;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.samples.petclinic.model.Administrador;
+import org.springframework.samples.petclinic.model.Fiesta;
+import org.springframework.samples.petclinic.model.Local;
+import org.springframework.samples.petclinic.model.SolicitudAsistencia;
 import org.springframework.samples.petclinic.repository.AdministradorRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -36,6 +40,14 @@ public class AdministradorService {
 
 	private AdministradorRepository administradorRepository;
 
+	@Autowired
+	private LocalService localService;
+	
+	@Autowired
+	private FiestaService fiestaService;
+	
+	@Autowired
+	private SolicitudAsistenciaService solicitudAsistenciaService;
 
 	@Autowired
 	public AdministradorService(final AdministradorRepository administradorRepository) {
@@ -50,5 +62,113 @@ public class AdministradorService {
 	@Transactional
 	public Collection<Administrador> findAll() throws DataAccessException {
 		return this.administradorRepository.findAll();
+	}
+	
+	public Double localAceptado() {
+		Collection<Local> locales = this.localService.findAll();
+		Collection<Local> localesA = this.localService.findAccepted();
+		Double resultado = null;
+		if(locales.size()!=0) {
+			 resultado = (double) ((100*localesA.size())/locales.size());
+		}else {
+			 resultado = 0.0;
+		}
+		return resultado;
+	}
+	
+	public Double localRechazado() {
+		Collection<Local> locales = this.localService.findAll();
+		Collection<Local> localesA = this.localService.findRechazado();
+		Double resultado = null;
+		if(locales.size()!=0) {
+			 resultado = (double) ((100*localesA.size())/locales.size());
+		}else {
+			 resultado = 0.0;
+		}
+		return resultado;
+	}
+	
+	public Double localPendiente() {
+		Collection<Local> locales = this.localService.findAll();
+		Collection<Local> localesA = this.localService.findPending();
+		Double resultado = null;
+		if(locales.size()!=0) {
+			 resultado = (double) ((100*localesA.size())/locales.size());
+		}else {
+			 resultado = 0.0;
+		}
+		return resultado;
+	}
+	
+	public Double fiestaAceptado() {
+		Collection<Fiesta> fiesta = this.fiestaService.findAll();
+		Collection<Fiesta> fiestaA = this.fiestaService.findAccepted();
+		Double resultado = null;
+		if(fiesta.size()!=0) {
+			 resultado = (double) ((100*fiestaA.size())/fiesta.size());
+		}else {
+			 resultado = 0.0;
+		}
+		return resultado;
+	}
+	
+	public Double fiestaRechazado() {
+		Collection<Fiesta> fiesta = this.fiestaService.findAll();
+		Collection<Fiesta> fiestaA = this.fiestaService.findRechazado();
+		Double resultado = null;
+		if(fiesta.size()!=0) {
+			 resultado = (double) ((100*fiestaA.size())/fiesta.size());
+		}else {
+			 resultado = 0.0;
+		}
+		return resultado;
+	}
+	
+	public Double fiestaPendiente() {
+		Collection<Fiesta> fiesta = this.fiestaService.findAll();
+		Collection<Fiesta> fiestaA = this.fiestaService.findPendiente();
+		Double resultado = null;
+		if(fiesta.size()!=0) {
+			 resultado = (double) ((100*fiestaA.size())/fiesta.size());
+		}else {
+			 resultado = 0.0;
+		}
+		return resultado;
+	}
+	
+	public Double solicitudAceptado() {
+		Collection<SolicitudAsistencia> solicitudAsistencia = this.solicitudAsistenciaService.findAll();
+		Collection<SolicitudAsistencia> solicitudAsistenciaA = this.solicitudAsistenciaService.findAccepted();
+		Double resultado = null;
+		if(solicitudAsistencia.size()!=0) {
+			 resultado = (double) ((100*solicitudAsistenciaA.size())/solicitudAsistencia.size());
+		}else {
+			 resultado = 0.0;
+		}
+		return resultado;
+	}
+	
+	public Double solicitudRechazado() {
+		Collection<SolicitudAsistencia> solicitudAsistencia = this.solicitudAsistenciaService.findAll();
+		Collection<SolicitudAsistencia> solicitudAsistenciaA = this.solicitudAsistenciaService.findRechazado();
+		Double resultado = null;
+		if(solicitudAsistencia.size()!=0) {
+			 resultado = (double) ((100*solicitudAsistenciaA.size())/solicitudAsistencia.size());
+		}else {
+			 resultado = 0.0;
+		}
+		return resultado;
+	}
+	
+	public Double solicitudPendiente() {
+		Collection<SolicitudAsistencia> solicitudAsistencia = this.solicitudAsistenciaService.findAll();
+		Collection<SolicitudAsistencia> solicitudAsistenciaA = this.solicitudAsistenciaService.findPendiente();
+		Double resultado = null;
+		if(solicitudAsistencia.size()!=0) {
+			 resultado = (double) ((100*solicitudAsistenciaA.size())/solicitudAsistencia.size());
+		}else {
+			 resultado = 0.0;
+		}
+		return resultado;
 	}
 }

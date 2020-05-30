@@ -41,6 +41,10 @@ public interface SpringDataLocalRepository extends LocalRepository, Repository<L
 	Collection<Local> findPending();
 
 	@Override
+	@Query("SELECT DISTINCT local FROM Local local WHERE local.decision = 'RECHAZADO'")
+	Collection<Local> findRechazado();
+	
+	@Override
 	@Query("SELECT local FROM Local local WHERE local.id =:id")
 	Local findById(@Param("id") int id);
 
