@@ -29,6 +29,16 @@ public class FiestaService {
 	public Collection<Fiesta> findAccepted() throws DataAccessException {
 		return this.fiestaRepository.findAccepted();
 	}
+	
+	@Transactional(readOnly = true)
+	public Collection<Fiesta> findRechazado() throws DataAccessException {
+		return this.fiestaRepository.findRechazado();
+	}
+	
+	@Transactional(readOnly = true)
+	public Collection<Fiesta> findPendiente() throws DataAccessException {
+		return this.fiestaRepository.findPendiente();
+	}
 
 	@Transactional
 	public Fiesta findFiestaById(final int fiestaId) throws DataAccessException {

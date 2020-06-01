@@ -35,6 +35,14 @@ public interface SpringDataFiestaRepository extends FiestaRepository, Repository
 	@Override
 	@Query("SELECT DISTINCT fiesta FROM Fiesta fiesta WHERE fiesta.decision = 'ACEPTADO'")
 	Collection<Fiesta> findAccepted();
+	
+	@Override
+	@Query("SELECT DISTINCT fiesta FROM Fiesta fiesta WHERE fiesta.decision = 'PENDIENTE'")
+	Collection<Fiesta> findPendiente();
+	
+	@Override
+	@Query("SELECT DISTINCT fiesta FROM Fiesta fiesta WHERE fiesta.decision = 'RECHAZADO'")
+	Collection<Fiesta> findRechazado();
 
 	@Override
 	@Query("SELECT fiesta FROM Fiesta fiesta WHERE fiesta.id =:id")

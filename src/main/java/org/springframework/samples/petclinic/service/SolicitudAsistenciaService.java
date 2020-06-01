@@ -50,6 +50,21 @@ public class SolicitudAsistenciaService {
 	public SolicitudAsistencia findById(final int id) throws DataAccessException {
 		return this.solicitudAsistenciaRepository.findById(id);
 	}
+	
+	@Transactional(readOnly = true)
+	public Collection<SolicitudAsistencia> findAccepted() throws DataAccessException {
+		return this.solicitudAsistenciaRepository.findAccepted();
+	}
+	
+	@Transactional(readOnly = true)
+	public Collection<SolicitudAsistencia> findRechazado() throws DataAccessException {
+		return this.solicitudAsistenciaRepository.findRechazado();
+	}
+	
+	@Transactional(readOnly = true)
+	public Collection<SolicitudAsistencia> findPendiente() throws DataAccessException {
+		return this.solicitudAsistenciaRepository.findPendiente();
+	}
 
 	@Transactional
 	public void save(final SolicitudAsistencia solicitudAsistencia) throws DataAccessException {
