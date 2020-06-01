@@ -15,7 +15,6 @@ import org.springframework.samples.petclinic.service.ClienteService;
 import org.springframework.samples.petclinic.service.ComentarioService;
 import org.springframework.samples.petclinic.service.FiestaService;
 import org.springframework.samples.petclinic.service.LocalService;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -78,8 +77,7 @@ public class ComentarioController {
 	}
 
 	private void seteaCamposcomunesComentario(Comentario comentario) {
-		String username = SecurityContextHolder.getContext().getAuthentication().getName();
-		Cliente c = this.clienteService.findByUsername(username);
+		Cliente c = clienteService.getClienteLogado();
 		comentario.setCliente(c);
 		comentario.setFecha(LocalDate.now());
 		

@@ -7,8 +7,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.samples.petclinic.model.Propietario;
 import org.springframework.samples.petclinic.repository.PropietarioRepository;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.Assert;
 
 @Service
 public class PropietarioService {
@@ -46,4 +48,13 @@ public class PropietarioService {
 	public Collection<Propietario> findAll() throws DataAccessException {
 		return this.propietarioRepository.findAll();
 	}
+	
+	
+	public Propietario getPropietarioLogado() {
+		String username = SecurityContextHolder.getContext().getAuthentication().getName();
+		Assert.notNull(username, "Username no logueado");
+		Propietario propietario = findByUsername(username);
+		return propietario;
+	}
+	
 }

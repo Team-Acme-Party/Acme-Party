@@ -131,13 +131,11 @@ public class LocalControllerTests {
 		BDDMockito.given(this.localService.findByPropietarioId(this.george.getId())).willReturn(locales);
 	}
 
-	// ---------------Crear local
-	// (propietario)----------------------------------------------------------------------------------------
-
 	@WithMockUser(value = "george")
 	@Test
 	@DisplayName("Test para peticion de un formulario")
 	public void testInitCreationForm() throws Exception {
+		devolverPropietarioLogadoGeorge();
 		this.mockMvc.perform(MockMvcRequestBuilders.get("/locales/new")).andExpect(MockMvcResultMatchers.status().isOk()).andExpect(MockMvcResultMatchers.model().attributeExists("local"))
 			.andExpect(MockMvcResultMatchers.view().name("locales/createLocalForm"));
 	}
@@ -146,6 +144,7 @@ public class LocalControllerTests {
 	@Test
 	@DisplayName("Test para peticion POST para registrar un local")
 	public void testProcessCreationFormSuccess() throws Exception {
+		devolverPropietarioLogadoGeorge();
 		this.mockMvc.perform(MockMvcRequestBuilders.post("/locales/new").with(SecurityMockMvcRequestPostProcessors.csrf()).param("direccion", "Direccion prueba").param("capacidad", "1765").param("condiciones", "Condiciones prueba").param("imagen",
 			"https://bangbranding.com/blog/wp-content/uploads/2016/11/700x511_SliderInterior.jpg")).andExpect(MockMvcResultMatchers.status().is3xxRedirection()).andExpect(MockMvcResultMatchers.view().name("redirect:/propietario/locales"));
 	}
@@ -156,9 +155,6 @@ public class LocalControllerTests {
 	public void testProcessCreationFormHasErrors() throws Exception {
 		this.mockMvc.perform(MockMvcRequestBuilders.post("/locales/new").param("direccion", "Direccion Prueba").param("capacidad", "1765").param("condiciones", "Condiciones prueba")).andExpect(MockMvcResultMatchers.status().is4xxClientError());
 	}
-
-	// -----------------Detalles local
-	// (todos)----------------------------------------------------------------------------
 
 	@WithMockUser(value = "spring")
 	@Test
@@ -173,9 +169,6 @@ public class LocalControllerTests {
 	void testNegativoDetallesLocal() throws Exception {
 		this.mockMvc.perform(MockMvcRequestBuilders.get("/locales/{localId}", 50)).andExpect(MockMvcResultMatchers.status().is2xxSuccessful()).andExpect(MockMvcResultMatchers.view().name("exception"));
 	}
-
-	// -------------------Buscar locales
-	// (todos)------------------------------------------------------------------
 
 	@WithMockUser(value = "spring")
 	@Test
@@ -199,13 +192,11 @@ public class LocalControllerTests {
 			.andExpect(MockMvcResultMatchers.view().name("locales/buscarLocales"));
 	}
 
-	// --------------------------Mis locales
-	// (propietario)------------------------------------------------------------------------------------------
-
 	@WithMockUser(value = "george")
 	@Test
 	@DisplayName("Test para peticion GET de los locales de un propietario logeado")
 	void testVerMisLocales() throws Exception {
+		devolverPropietarioLogadoGeorge();
 		this.mockMvc.perform(MockMvcRequestBuilders.get("/propietario/locales")).andExpect(MockMvcResultMatchers.model().attributeExists("locales")).andExpect(MockMvcResultMatchers.status().is2xxSuccessful())
 			.andExpect(MockMvcResultMatchers.view().name("locales/listaLocales"));
 	}
@@ -238,4 +229,8 @@ public class LocalControllerTests {
 			.andExpect(MockMvcResultMatchers.view().name("redirect:/administrador/locales"));
 	}
 
+	private void devolverPropietarioLogadoGeorge() {
+		BDDMockito.given(this.propietarioService.getPropietarioLogado()).willReturn(this.george);
+	}
+	
 }

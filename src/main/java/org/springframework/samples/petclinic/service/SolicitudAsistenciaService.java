@@ -19,9 +19,6 @@ public class SolicitudAsistenciaService {
 	private SolicitudAsistenciaRepository	solicitudAsistenciaRepository;
 
 	@Autowired
-	private ClienteService					clienteService;
-
-	@Autowired
 	private FiestaService					fiestaService;
 
 

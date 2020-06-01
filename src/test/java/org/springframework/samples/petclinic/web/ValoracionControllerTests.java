@@ -59,6 +59,7 @@ public class ValoracionControllerTests {
 	@Test
 	@DisplayName("Test para peticion POST del formulario de registro de una valoracion para fiesta")
 	void testNewComentarioForFiesta() throws Exception {
+		devolverClienteLogadoCliente();
 		this.mockMvc
 				.perform(MockMvcRequestBuilders.post("/valoracion/new/fiesta/1")
 						.with(SecurityMockMvcRequestPostProcessors.csrf()).param("cuerpo", "comentario"))
@@ -70,10 +71,15 @@ public class ValoracionControllerTests {
 	@Test
 	@DisplayName("Test para peticion POST del formulario de registro de una valoracion para local")
 	void testNewComentarioForLocal() throws Exception {
+		devolverClienteLogadoCliente();
 		this.mockMvc
 				.perform(MockMvcRequestBuilders.post("/valoracion/new/local/1")
 						.with(SecurityMockMvcRequestPostProcessors.csrf()).param("cuerpo", "comentario"))
 				.andExpect(MockMvcResultMatchers.status().is3xxRedirection())
 				.andExpect(MockMvcResultMatchers.view().name("redirect:/locales/1"));
+	}
+	
+	private void devolverClienteLogadoCliente() {
+		BDDMockito.given(this.clienteService.getClienteLogado()).willReturn(this.cliente);
 	}
 }

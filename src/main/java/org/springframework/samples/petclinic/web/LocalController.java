@@ -25,7 +25,6 @@ import org.springframework.samples.petclinic.service.LocalService;
 import org.springframework.samples.petclinic.service.PropietarioService;
 import org.springframework.samples.petclinic.service.SolicitudAsistenciaService;
 import org.springframework.samples.petclinic.service.ValoracionService;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -69,10 +68,10 @@ public class LocalController {
 		ModelAndView mav;
 		LocalTime now = LocalTime.now();
 		Local local = this.localService.findLocalById(localId);
-		String username = SecurityContextHolder.getContext().getAuthentication().getName();
-		Cliente c = this.clienteService.findByUsername(username);
-		Propietario propietario = this.propietarioService.findByUsername(username);
-		Administrador admin = this.administradorService.findByUsername(username);
+		Cliente c = this.clienteService.getClienteLogado();
+		Propietario propietario = this.propietarioService.getPropietarioLogado();
+		Administrador admin = this.administradorService.getAdministradorLogado();
+
 		if (local.getDecision().equals("ACEPTADO") || admin != null
 				|| this.localService.findByPropietarioId(propietario.getId()).contains(local)) {
 			mav = new ModelAndView("locales/localDetails");
@@ -85,7 +84,7 @@ public class LocalController {
 			mav.addObject("anuncios", anuncios);
 			Comentario comentario = new Comentario();
 			mav.addObject("comentario", comentario);
-			
+
 			if (c != null) {
 				mav.addObject("cliente", c);
 				Collection<Fiesta> fiestasCliente = this.solicitudAsistenciaService
@@ -94,8 +93,8 @@ public class LocalController {
 					if (f.getLocal() == this.localService.findLocalById(localId) && f.getHoraFin().isBefore(now)) {
 						mav.addObject("clienteValoracion", true);
 						Valoracion valoracion = new Valoracion();
-						mav.addObject("valoracion", valoracion);						
-					}					
+						mav.addObject("valoracion", valoracion);
+					}
 				}
 			}
 		} else {
@@ -121,16 +120,11 @@ public class LocalController {
 			local.setDireccion("");
 		}
 
-		// find owners by last name
 		Collection<Local> results = this.localService.findByDireccion(local.getDireccion());
 		if (results.isEmpty()) {
 			result.rejectValue("direccion", "notFound", "not found");
 			return "locales/buscarLocales";
-		}
-		// else if (results.size() == 1) {
-		// Local res = results.iterator().next();
-		// return "redirect:/locales/" + res.getId();}
-		else {
+		} else {
 			model.put("locales", results);
 			return "locales/listaLocales";
 		}
@@ -139,8 +133,7 @@ public class LocalController {
 	@GetMapping(value = { "/propietario/locales" })
 	public String verMisLocales(final Map<String, Object> model) {
 
-		String username = SecurityContextHolder.getContext().getAuthentication().getName();
-		Propietario p = this.propietarioService.findByUsername(username);
+		Propietario p = this.propietarioService.getPropietarioLogado();
 		Collection<Local> locales = this.localService.findByPropietarioId(p.getId());
 		model.put("locales", locales);
 		model.put("mislocales", true);
@@ -161,12 +154,10 @@ public class LocalController {
 	public String aceptarSolicitud(@PathVariable("fiestaId") final int fiestaId,
 			@PathVariable("localId") final int localId, final Map<String, Object> model) {
 		try {
-			String username = SecurityContextHolder.getContext().getAuthentication().getName();
-			Propietario propietario = this.propietarioService.findByUsername(username);
+			Propietario propietario = this.propietarioService.getPropietarioLogado();
 			Fiesta f = this.fiestaService.findFiestaById(fiestaId);
 
-			if (propietario == null || this.localService.findLocalById(localId).getPropietario() != propietario
-					|| !f.getDecision().equals("PENDIENTE")) {
+			if (noEsPropietarioDelLocal(propietario, localId) || !f.getDecision().equals("PENDIENTE")) {
 				throw new Exception();
 			} else {
 				this.fiestaService.aceptarSolicitud(fiestaId);
@@ -186,12 +177,10 @@ public class LocalController {
 	public String denegarSolicitud(@PathVariable("fiestaId") final int fiestaId,
 			@PathVariable("localId") final int localId, final Map<String, Object> model) {
 		try {
-			String username = SecurityContextHolder.getContext().getAuthentication().getName();
-			Propietario propietario = this.propietarioService.findByUsername(username);
+			Propietario propietario = this.propietarioService.getPropietarioLogado();
 			Fiesta f = this.fiestaService.findFiestaById(fiestaId);
 
-			if (propietario == null || this.localService.findLocalById(localId).getPropietario() != propietario
-					|| !f.getDecision().equals("PENDIENTE")) {
+			if (noEsPropietarioDelLocal(propietario, localId) || !f.getDecision().equals("PENDIENTE")) {
 				throw new Exception();
 			} else {
 				this.fiestaService.denegarSolicitud(fiestaId);
@@ -235,12 +224,11 @@ public class LocalController {
 
 	@GetMapping(value = { "/locales/new" })
 	public String initCreationForm(final Map<String, Object> model) {
-		String username = SecurityContextHolder.getContext().getAuthentication().getName();
-		Propietario propietario = this.propietarioService.findByUsername(username);
+		Propietario propietario = this.propietarioService.getPropietarioLogado();
 		if (propietario != null) {
 			Local local = new Local();
 			model.put("local", local);
-			return LocalController.VIEWS_CAUSE_CREATE_FORM;
+			return VIEWS_CAUSE_CREATE_FORM;
 		} else {
 			model.put("message", "No estas autorizado para crear un local");
 			return "exception";
@@ -254,15 +242,18 @@ public class LocalController {
 
 		if (result.hasErrors()) {
 			model.put("local", local);
-			return LocalController.VIEWS_CAUSE_CREATE_FORM;
+			return VIEWS_CAUSE_CREATE_FORM;
 		} else {
 			local.setDecision("PENDIENTE");
-			String username = SecurityContextHolder.getContext().getAuthentication().getName();
-			Propietario p = this.propietarioService.findByUsername(username);
+			Propietario p = this.propietarioService.getPropietarioLogado();
 			local.setPropietario(p);
 			this.localService.saveLocal(local);
 			return "redirect:/propietario/locales";
 		}
+	}
+
+	private Boolean noEsPropietarioDelLocal(Propietario propietario, Integer localId) {
+		return propietario == null || this.localService.findLocalById(localId).getPropietario() != propietario;
 	}
 
 }

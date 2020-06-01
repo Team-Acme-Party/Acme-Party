@@ -1,7 +1,6 @@
 
 package org.springframework.samples.petclinic.web;
 
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collection;
 
@@ -37,33 +36,31 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 public class MensajeControllerTests {
 
 	@MockBean
-	private PatrocinadorService		patrocinadorService;
+	private PatrocinadorService patrocinadorService;
 
 	@MockBean
-	private MensajeService			mensajeService;
+	private MensajeService mensajeService;
 
 	@MockBean
-	private PropietarioService		propietarioService;
+	private PropietarioService propietarioService;
 
 	@MockBean
-	private ClienteService			clienteService;
+	private ClienteService clienteService;
 
 	@MockBean
-	private AdministradorService	administradorService;
+	private AdministradorService administradorService;
 
 	@MockBean
-	private UserService				userService;
+	private UserService userService;
 
 	@Autowired
-	private MockMvc					mockMvc;
+	private MockMvc mockMvc;
 
-	private Patrocinador			patrocinador;
-	private Propietario				propietario;
-	private Cliente					cliente;
-	private Administrador			administrador;
-	private Mensaje					mensaje;
-	private LocalDate				fecha;
-
+	private Patrocinador patrocinador;
+	private Propietario propietario;
+	private Cliente cliente;
+	private Administrador administrador;
+	private Mensaje mensaje;
 
 	@BeforeEach
 	void datosIniciales() {
@@ -124,94 +121,116 @@ public class MensajeControllerTests {
 		BDDMockito.given(this.mensajeService.findByDestinatario("administrador")).willReturn(mensajes);
 		BDDMockito.given(this.mensajeService.findByRemitente("administrador")).willReturn(mensajes2);
 		BDDMockito.given(this.mensajeService.findById(10)).willReturn(this.mensaje);
-		
-		this.fecha = LocalDate.now();
 
 	}
 
-	//Ver mis mensajes
+	// Ver mis mensajes
 	@WithMockUser(value = "patrocinador")
 	@Test
 	@DisplayName("Test para peticion GET de los mensajes de un patrocinador")
 	void testVerMisMensajesPatrocinador() throws Exception {
-		this.mockMvc.perform(MockMvcRequestBuilders.get("/usuario/mensajes")).andExpect(MockMvcResultMatchers.model().attributeExists("enviados")).andExpect(MockMvcResultMatchers.model().attributeExists("recibidos"))
-			.andExpect(MockMvcResultMatchers.status().is2xxSuccessful()).andExpect(MockMvcResultMatchers.view().name("mensajes/listaMensajes"));
+		this.mockMvc.perform(MockMvcRequestBuilders.get("/usuario/mensajes"))
+				.andExpect(MockMvcResultMatchers.model().attributeExists("enviados"))
+				.andExpect(MockMvcResultMatchers.model().attributeExists("recibidos"))
+				.andExpect(MockMvcResultMatchers.status().is2xxSuccessful())
+				.andExpect(MockMvcResultMatchers.view().name("mensajes/listaMensajes"));
 	}
 
 	@WithMockUser(value = "patrocinador4")
 	@Test
 	@DisplayName("Test Negativo para peticion GET de los mensajes de un patrocinador que no existe")
 	void testNegativoVerMisMensajesPatrocinador() throws Exception {
-		this.mockMvc.perform(MockMvcRequestBuilders.get("/usuario/mensajes")).andExpect(MockMvcResultMatchers.model().attributeDoesNotExist("mensajes")).andExpect(MockMvcResultMatchers.status().is2xxSuccessful())
-			.andExpect(MockMvcResultMatchers.view().name("exception"));
+		this.mockMvc.perform(MockMvcRequestBuilders.get("/usuario/mensajes"))
+				.andExpect(MockMvcResultMatchers.model().attributeDoesNotExist("mensajes"))
+				.andExpect(MockMvcResultMatchers.status().is2xxSuccessful())
+				.andExpect(MockMvcResultMatchers.view().name("exception"));
 	}
 
 	@WithMockUser(value = "propietario")
 	@Test
 	@DisplayName("Test para peticion GET de los mensajes de un propietario")
 	void testVerMisMensajesPropietario() throws Exception {
-		this.mockMvc.perform(MockMvcRequestBuilders.get("/usuario/mensajes")).andExpect(MockMvcResultMatchers.model().attributeExists("enviados")).andExpect(MockMvcResultMatchers.model().attributeExists("recibidos"))
-			.andExpect(MockMvcResultMatchers.status().is2xxSuccessful()).andExpect(MockMvcResultMatchers.view().name("mensajes/listaMensajes"));
+		this.mockMvc.perform(MockMvcRequestBuilders.get("/usuario/mensajes"))
+				.andExpect(MockMvcResultMatchers.model().attributeExists("enviados"))
+				.andExpect(MockMvcResultMatchers.model().attributeExists("recibidos"))
+				.andExpect(MockMvcResultMatchers.status().is2xxSuccessful())
+				.andExpect(MockMvcResultMatchers.view().name("mensajes/listaMensajes"));
 	}
 
 	@WithMockUser(value = "propietario3")
 	@Test
 	@DisplayName("Test Negativo para peticion GET de los mensajes de un propietario que no existe")
 	void testNegativoVerMisMensajesPropietario() throws Exception {
-		this.mockMvc.perform(MockMvcRequestBuilders.get("/usuario/mensajes")).andExpect(MockMvcResultMatchers.model().attributeDoesNotExist("mensajes")).andExpect(MockMvcResultMatchers.status().is2xxSuccessful())
-			.andExpect(MockMvcResultMatchers.view().name("exception"));
+		this.mockMvc.perform(MockMvcRequestBuilders.get("/usuario/mensajes"))
+				.andExpect(MockMvcResultMatchers.model().attributeDoesNotExist("mensajes"))
+				.andExpect(MockMvcResultMatchers.status().is2xxSuccessful())
+				.andExpect(MockMvcResultMatchers.view().name("exception"));
 	}
 
 	@WithMockUser(value = "cliente")
 	@Test
 	@DisplayName("Test para peticion GET de los mensajes de un cliente")
 	void testVerMisMensajesCliente() throws Exception {
-		this.mockMvc.perform(MockMvcRequestBuilders.get("/usuario/mensajes")).andExpect(MockMvcResultMatchers.model().attributeExists("enviados")).andExpect(MockMvcResultMatchers.model().attributeExists("recibidos"))
-			.andExpect(MockMvcResultMatchers.status().is2xxSuccessful()).andExpect(MockMvcResultMatchers.view().name("mensajes/listaMensajes"));
+		this.mockMvc.perform(MockMvcRequestBuilders.get("/usuario/mensajes"))
+				.andExpect(MockMvcResultMatchers.model().attributeExists("enviados"))
+				.andExpect(MockMvcResultMatchers.model().attributeExists("recibidos"))
+				.andExpect(MockMvcResultMatchers.status().is2xxSuccessful())
+				.andExpect(MockMvcResultMatchers.view().name("mensajes/listaMensajes"));
 	}
 
 	@WithMockUser(value = "cliente3")
 	@Test
 	@DisplayName("Test Negativo para peticion GET de los mensajes de un cliente que no existe")
 	void testNegativoVerMisMensajesCliente() throws Exception {
-		this.mockMvc.perform(MockMvcRequestBuilders.get("/usuario/mensajes")).andExpect(MockMvcResultMatchers.model().attributeDoesNotExist("mensajes")).andExpect(MockMvcResultMatchers.status().is2xxSuccessful())
-			.andExpect(MockMvcResultMatchers.view().name("exception"));
+		this.mockMvc.perform(MockMvcRequestBuilders.get("/usuario/mensajes"))
+				.andExpect(MockMvcResultMatchers.model().attributeDoesNotExist("mensajes"))
+				.andExpect(MockMvcResultMatchers.status().is2xxSuccessful())
+				.andExpect(MockMvcResultMatchers.view().name("exception"));
 	}
 
 	@WithMockUser(value = "administrador")
 	@Test
 	@DisplayName("Test para peticion GET de los mensajes de un administrador")
 	void testVerMisMensajesAdministrador() throws Exception {
-		this.mockMvc.perform(MockMvcRequestBuilders.get("/usuario/mensajes")).andExpect(MockMvcResultMatchers.model().attributeExists("enviados")).andExpect(MockMvcResultMatchers.model().attributeExists("recibidos"))
-			.andExpect(MockMvcResultMatchers.status().is2xxSuccessful()).andExpect(MockMvcResultMatchers.view().name("mensajes/listaMensajes"));
+		this.mockMvc.perform(MockMvcRequestBuilders.get("/usuario/mensajes"))
+				.andExpect(MockMvcResultMatchers.model().attributeExists("enviados"))
+				.andExpect(MockMvcResultMatchers.model().attributeExists("recibidos"))
+				.andExpect(MockMvcResultMatchers.status().is2xxSuccessful())
+				.andExpect(MockMvcResultMatchers.view().name("mensajes/listaMensajes"));
 	}
 
 	@WithMockUser(value = "administrador3")
 	@Test
 	@DisplayName("Test Negativo para peticion GET de los mensajes de un administrador que no existe")
 	void testNegativoVerMisMensajesAdministrador() throws Exception {
-		this.mockMvc.perform(MockMvcRequestBuilders.get("/usuario/mensajes")).andExpect(MockMvcResultMatchers.model().attributeDoesNotExist("mensajes")).andExpect(MockMvcResultMatchers.status().is2xxSuccessful())
-			.andExpect(MockMvcResultMatchers.view().name("exception"));
+		this.mockMvc.perform(MockMvcRequestBuilders.get("/usuario/mensajes"))
+				.andExpect(MockMvcResultMatchers.model().attributeDoesNotExist("mensajes"))
+				.andExpect(MockMvcResultMatchers.status().is2xxSuccessful())
+				.andExpect(MockMvcResultMatchers.view().name("exception"));
 	}
 
-	//Ver detalles de un mensaje
+	// Ver detalles de un mensaje
 
 	@WithMockUser(value = "patrocinador")
 	@Test
 	@DisplayName("Test para peticion GET de los detalles de un mensaje ")
 	void testDetallesMensaje() throws Exception {
-		this.mockMvc.perform(MockMvcRequestBuilders.get("/mensajes/10")).andExpect(MockMvcResultMatchers.status().is2xxSuccessful()).andExpect(MockMvcResultMatchers.view().name("mensajes/mensajeDetails"));
+		this.mockMvc.perform(MockMvcRequestBuilders.get("/mensajes/10"))
+				.andExpect(MockMvcResultMatchers.status().is2xxSuccessful())
+				.andExpect(MockMvcResultMatchers.view().name("mensajes/mensajeDetails"));
 	}
 
 	@WithMockUser(value = "patrocinador")
 	@Test
 	@DisplayName("Test Negativo para peticion GET de los detalles de un mensaje cuyo id no existe")
 	void testNegativoDetallesMensaje() throws Exception {
-		this.mockMvc.perform(MockMvcRequestBuilders.get("/mensajes/15")).andExpect(MockMvcResultMatchers.status().is2xxSuccessful()).andExpect(MockMvcResultMatchers.view().name("exception"));
+		this.mockMvc.perform(MockMvcRequestBuilders.get("/mensajes/15"))
+				.andExpect(MockMvcResultMatchers.status().is2xxSuccessful())
+				.andExpect(MockMvcResultMatchers.view().name("exception"));
 	}
-	
+
 	// Crear un mensaje
-	
+
 	@WithMockUser(value = "patrocinador")
 	@Test
 	@DisplayName("Test para peticion POST para crear un formulario")
@@ -221,29 +240,28 @@ public class MensajeControllerTests {
 				.andExpect(MockMvcResultMatchers.model().attributeExists("mensaje"))
 				.andExpect(MockMvcResultMatchers.view().name("mensajes/new"));
 	}
-	
+
 	@WithMockUser(value = "propietario")
 	@Test
 	@DisplayName("Test positivo para peticion POST de crear un mensaje")
 	void testCreateMensaje() throws Exception {
 		this.mockMvc
-		.perform(MockMvcRequestBuilders.post("/mensajes/new").with(SecurityMockMvcRequestPostProcessors.csrf())
-				.param("asunto", "asunto prueba").param("cuerpo", "cuerpo prueba")
-				.param("destinatario", "administrador"))
-		.andExpect(MockMvcResultMatchers.status().is3xxRedirection())
-		.andExpect(MockMvcResultMatchers.view().name("redirect:/usuario/mensajes"));
-}
-	
+				.perform(MockMvcRequestBuilders.post("/mensajes/new").with(SecurityMockMvcRequestPostProcessors.csrf())
+						.param("asunto", "asunto prueba").param("cuerpo", "cuerpo prueba")
+						.param("destinatario", "administrador"))
+				.andExpect(MockMvcResultMatchers.status().is3xxRedirection())
+				.andExpect(MockMvcResultMatchers.view().name("redirect:/usuario/mensajes"));
+	}
+
 	@WithMockUser(value = "propietario")
 	@Test
 	@DisplayName("Test negativo para peticion POST de crear un mensaje")
 	public void testProcessCreationFormHasErrors() throws Exception {
 		this.mockMvc
 				.perform(MockMvcRequestBuilders.post("/mensajes/new").with(SecurityMockMvcRequestPostProcessors.csrf())
-						.param("cuerpo", "cuerpo prueba")
-						.param("destinatario", "administrador"))
+						.param("cuerpo", "cuerpo prueba").param("destinatario", "administrador"))
 				.andExpect(MockMvcResultMatchers.status().is2xxSuccessful())
 				.andExpect(MockMvcResultMatchers.view().name("mensajes/new"));
 	}
-	
+
 }

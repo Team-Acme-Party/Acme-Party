@@ -1,29 +1,20 @@
 package org.springframework.samples.petclinic.web;
 
-import java.time.LocalDate;
 import java.util.Map;
 
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.samples.petclinic.model.Cliente;
-import org.springframework.samples.petclinic.model.Valoracion;
 import org.springframework.samples.petclinic.model.Fiesta;
 import org.springframework.samples.petclinic.model.Local;
-import org.springframework.samples.petclinic.service.AdministradorService;
-import org.springframework.samples.petclinic.service.AnuncioService;
+import org.springframework.samples.petclinic.model.Valoracion;
 import org.springframework.samples.petclinic.service.ClienteService;
-import org.springframework.samples.petclinic.service.ValoracionService;
 import org.springframework.samples.petclinic.service.FiestaService;
 import org.springframework.samples.petclinic.service.LocalService;
-import org.springframework.samples.petclinic.service.PropietarioService;
-import org.springframework.samples.petclinic.service.SolicitudAsistenciaService;
 import org.springframework.samples.petclinic.service.ValoracionService;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
@@ -54,8 +45,7 @@ public class ValoracionController {
 					return "redirect:/locales/" + localId;
 				} else {
 					Local local = this.localService.findLocalById(localId);
-					String username = SecurityContextHolder.getContext().getAuthentication().getName();
-					Cliente c = this.clienteService.findByUsername(username);
+					Cliente c = this.clienteService.getClienteLogado();
 					valoracion.setCliente(c);
 					valoracion.setLocal(local);
 
@@ -75,8 +65,7 @@ public class ValoracionController {
 					return "redirect:/fiestas/" + fiestaId;
 				} else {
 					Fiesta fiesta = this.fiestaService.findFiestaById(fiestaId);
-					String username = SecurityContextHolder.getContext().getAuthentication().getName();
-					Cliente c = this.clienteService.findByUsername(username);
+					Cliente c = this.clienteService.getClienteLogado();
 					valoracion.setCliente(c);
 					valoracion.setFiesta(fiesta);
 

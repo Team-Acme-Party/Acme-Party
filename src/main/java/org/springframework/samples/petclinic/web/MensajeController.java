@@ -102,7 +102,6 @@ public class MensajeController {
 
 		return mav;
 	}
-	//Crear un mensaje
 
 	@GetMapping(value = "/mensajes/new")
 	public String initCreationFormMensaje(final ModelMap model) {
@@ -132,7 +131,6 @@ public class MensajeController {
 	@PostMapping(value = "/mensajes/new")
 	public String processCreationFormMensaje(@Valid final Mensaje mensaje, final BindingResult result, final ModelMap model) {
 		if (result.hasErrors()) {
-			System.out.println(result.getAllErrors());
 			model.put("mensaje", mensaje);
 			Collection<User> users = this.userService.findAll();
 			List<String> usuarios = new ArrayList<String>();
