@@ -41,15 +41,6 @@ public class SolicitudControllerE2ETests {
 				.andExpect(MockMvcResultMatchers.model().attributeDoesNotExist("asistencias"));				
 	}
 	
-//	@WithMockUser(username = "cliente1", authorities = { "cliente" })
-//	@Test
-//	@DisplayName("Test para peticion GET para solicitar una asistencia")
-//	void testSolicitudAsistencia() throws Exception {
-//		this.mockMvc.perform(MockMvcRequestBuilders.get("/cliente/solicitudAsistencia/fiesta/{fiestaId}",3))		
-//				.andExpect(MockMvcResultMatchers.status().is2xxSuccessful())
-//				.andExpect(MockMvcResultMatchers.view().name("/cliente/solicitudesAsistencias"));
-//	}
-	
 	@WithMockUser(username = "cliente1", authorities = { "cliente" })
 	@Test
 	@DisplayName("Test negativo para peticion GET para solicitar una asistencia de una fiesa que no existe")

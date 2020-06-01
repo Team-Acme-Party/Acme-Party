@@ -17,7 +17,6 @@
 package org.springframework.samples.petclinic.service;
 
 import java.util.Collection;
-import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
@@ -71,7 +70,8 @@ public class AdministradorService {
 		Assert.notNull(username, "Username no logueado");
 		Administrador admin = findByUsername(username);
 		return admin;
-    
+	}
+	
 	public Double localAceptado() {
 		Collection<Local> locales = this.localService.findAll();
 		Collection<Local> localesA = this.localService.findAccepted();

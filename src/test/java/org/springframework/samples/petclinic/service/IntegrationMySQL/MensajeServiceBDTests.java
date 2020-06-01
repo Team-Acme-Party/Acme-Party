@@ -25,7 +25,6 @@ public class MensajeServiceBDTests {
 	@Autowired
 	private MensajeService mensajeService;
 
-
 	@Test
 	@DisplayName("Test positivo listar mis mensajes")
 	void testListMensajesPositivo() {
@@ -102,17 +101,17 @@ public class MensajeServiceBDTests {
 		nuevo.setHora(LocalTime.now());
 		try {
 			this.mensajeService.save(nuevo);
-		}catch (Exception e) {
+		} catch (Exception e) {
 			e.printStackTrace();
-		}finally {
+		} finally {
 			Collection<Mensaje> despues = this.mensajeService.findAll();
-			Assertions.assertEquals(mensajesAntes.size(), despues.size()-1 );
+			Assertions.assertEquals(mensajesAntes.size(), despues.size() - 1);
 		}
 	}
+
 	@Test
 	@DisplayName("Test negativo crear mensajes")
 	void testCrearMensajeNegativo() {
-		Collection<Mensaje> mensajesAntes = this.mensajeService.findAll();
 		Mensaje nuevo = new Mensaje();
 		nuevo.setAsunto(null);
 		nuevo.setCuerpo("cuerpo");
@@ -123,7 +122,7 @@ public class MensajeServiceBDTests {
 		nuevo.setHora(LocalTime.now());
 		try {
 			this.mensajeService.save(nuevo);
-		}catch (Exception e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}

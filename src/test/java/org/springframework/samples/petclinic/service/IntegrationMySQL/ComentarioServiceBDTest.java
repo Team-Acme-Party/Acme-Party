@@ -58,7 +58,6 @@ public class ComentarioServiceBDTest {
 	@Test
 	@DisplayName("Test negativo registrar un comentario")
 	void testNegativoComentario() {	
-		Collection<Comentario> antes = this.comentarioService.findAll();
 		Fiesta fiesta = this.fiestaService.findFiestaById(1);
 		Cliente cliente= this.clienteService.findById(1);
 		Comentario comentario = new Comentario();

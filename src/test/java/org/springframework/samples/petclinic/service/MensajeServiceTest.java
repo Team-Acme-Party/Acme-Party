@@ -15,6 +15,7 @@ import org.springframework.samples.petclinic.model.Mensaje;
 import org.springframework.stereotype.Service;
 
 @DataJpaTest(includeFilters = @ComponentScan.Filter(Service.class))
+//@AutoConfigureTestDatabase(replace=Replace.NONE)
 public class MensajeServiceTest {
 
 	@Autowired
@@ -72,7 +73,6 @@ public class MensajeServiceTest {
 	@Test
 	@DisplayName("Test negativo crear mensajes")
 	void testCrearMensajeNegativo() {
-		Collection<Mensaje> mensajesAntes = this.mensajeService.findAll();
 		Mensaje nuevo = new Mensaje();
 		nuevo.setAsunto(null);
 		nuevo.setCuerpo("cuerpo");

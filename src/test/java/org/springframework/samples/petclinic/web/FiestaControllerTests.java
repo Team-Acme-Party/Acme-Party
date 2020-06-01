@@ -82,7 +82,7 @@ public class FiestaControllerTests {
 	private Fiesta test = new Fiesta();
 
 	private Local local = new Local();
-	
+
 	@BeforeEach
 	void datosCliente() {
 		this.cliente = new Cliente();
@@ -109,7 +109,7 @@ public class FiestaControllerTests {
 		Fiesta fiesta1 = new Fiesta();
 		fiesta1.setId(3);
 		fiesta1.setDecision("ACEPTADO");
-		
+
 		Fiesta fiesta2 = new Fiesta();
 		fiesta1.setNombre("Fiesta de disfraces 1");
 		fiesta2.setNombre("Fiesta de disfraces 2");
@@ -157,9 +157,6 @@ public class FiestaControllerTests {
 				.andExpect(MockMvcResultMatchers.view().name("fiestas/buscarFiestas"));
 	}
 
-	// -----------------Detalles fiesta
-	// (todos)----------------------------------------------------------------------------
-
 	@WithMockUser(value = "admin")
 	@Test
 	@DisplayName("Test para peticion GET de los detalles de la fiesta ")
@@ -177,8 +174,6 @@ public class FiestaControllerTests {
 				.andExpect(MockMvcResultMatchers.status().is2xxSuccessful())
 				.andExpect(MockMvcResultMatchers.view().name("exception"));
 	}
-
-	// ------------------------------------------------------------------------------------------------------------------
 
 	@WithMockUser(value = "cliente")
 	@Test
@@ -203,7 +198,6 @@ public class FiestaControllerTests {
 				.andExpect(MockMvcResultMatchers.view().name("exception"));
 	}
 
-	// EDITAR
 	@WithMockUser(value = "cliente")
 	@Test
 	@DisplayName("Test positivo editar fiesta con un el cliente dueño")
@@ -220,7 +214,7 @@ public class FiestaControllerTests {
 	void testNegativoEditarFiesta() throws Exception {
 		devolverPropietarioLogadoPropietario();
 		this.mockMvc.perform(MockMvcRequestBuilders.post("/fiestas/1/editar"))
-		.andExpect(MockMvcResultMatchers.status().is4xxClientError());
+				.andExpect(MockMvcResultMatchers.status().is4xxClientError());
 	}
 
 	@WithMockUser(value = "spring")
@@ -256,9 +250,9 @@ public class FiestaControllerTests {
 	private void devolverClienteLogadoCliente() {
 		BDDMockito.given(this.clienteService.getClienteLogado()).willReturn(this.cliente);
 	}
-	
+
 	private void devolverPropietarioLogadoPropietario() {
 		BDDMockito.given(this.propietarioService.getPropietarioLogado()).willReturn(this.propietario);
 	}
-	
+
 }

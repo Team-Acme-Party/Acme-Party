@@ -28,12 +28,11 @@ import org.springframework.test.context.TestPropertySource;
 public class FiestaServiceBDTests {
 
 	@Autowired
-	private FiestaService	fiestaService;
+	private FiestaService fiestaService;
 	@Autowired
-	private ClienteService	clienteService;
+	private ClienteService clienteService;
 	@Autowired
-	private LocalService	localService;
-
+	private LocalService localService;
 
 	@Test
 	@DisplayName("Test positivo registrar una fiesta")
@@ -156,7 +155,8 @@ public class FiestaServiceBDTests {
 		Collection<Fiesta> fiestas = new LinkedList<>();
 		Cliente cliente = this.clienteService.findById(2);
 		fiestas = this.fiestaService.findByClienteId(cliente.getId());
-		Assertions.assertTrue(!fiestas.isEmpty() && fiestas.size() == 2, "El cliente 2 debe tener 2 fiestas organizadas segun la BD");
+		Assertions.assertTrue(!fiestas.isEmpty() && fiestas.size() == 2,
+				"El cliente 2 debe tener 2 fiestas organizadas segun la BD");
 	}
 
 	@Test
