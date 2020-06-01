@@ -24,7 +24,6 @@ public class AdministratorControllerE2ETests {
 	@Autowired
 	private MockMvc mockMvc;
 
-
 	@WithMockUser(username = "admin", authorities = { "admin" })
 	@Test
 	@DisplayName("Test para peticion GET del dashboard positivo")
@@ -42,7 +41,7 @@ public class AdministratorControllerE2ETests {
 				.andExpect(MockMvcResultMatchers.status().is2xxSuccessful())
 				.andExpect(MockMvcResultMatchers.view().name("admin/dashboard"));
 	}
-	
+
 	@Test
 	@DisplayName("Test para peticion GET del dashboard negativo")
 	void testVerDashboardNegativo() throws Exception {

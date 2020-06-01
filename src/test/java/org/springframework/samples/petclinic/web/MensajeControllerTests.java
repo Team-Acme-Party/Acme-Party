@@ -124,7 +124,6 @@ public class MensajeControllerTests {
 
 	}
 
-	// Ver mis mensajes
 	@WithMockUser(value = "patrocinador")
 	@Test
 	@DisplayName("Test para peticion GET de los mensajes de un patrocinador")
@@ -209,8 +208,6 @@ public class MensajeControllerTests {
 				.andExpect(MockMvcResultMatchers.view().name("exception"));
 	}
 
-	// Ver detalles de un mensaje
-
 	@WithMockUser(value = "patrocinador")
 	@Test
 	@DisplayName("Test para peticion GET de los detalles de un mensaje ")
@@ -228,8 +225,6 @@ public class MensajeControllerTests {
 				.andExpect(MockMvcResultMatchers.status().is2xxSuccessful())
 				.andExpect(MockMvcResultMatchers.view().name("exception"));
 	}
-
-	// Crear un mensaje
 
 	@WithMockUser(value = "patrocinador")
 	@Test
