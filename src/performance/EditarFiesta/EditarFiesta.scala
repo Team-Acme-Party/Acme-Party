@@ -102,7 +102,7 @@ class EditarFiesta extends Simulation {
 			.formParam("horaFin", "6:00")
 			.formParam("aforo", "200")
 			.formParam("imagen", "https://i.pinimg.com/originals/23/45/77/23457712be420ec1a113139552b091a3.jpg")
-			.formParam("_csrf", "66576a72-259c-4d18-8794-a036fc7fe04a"))
+			.formParam("_csrf", "${stoken}"))
 		.pause(9)
 		}
 
@@ -154,8 +154,8 @@ object  DetalleLocal{
 												AceptarLocal.aceptarLocal,
 												Logout.logout)
 
-	setUp(editarFiestaScn.inject(rampUsers(50000) during (10 seconds)),
-	aceptarLocalScn.inject(rampUsers(50000) during (10 seconds))).protocols(httpProtocol).assertions(
+	setUp(editarFiestaScn.inject(rampUsers(5000) during (10 seconds)),
+	aceptarLocalScn.inject(rampUsers(5000) during (10 seconds))).protocols(httpProtocol).assertions(
         global.responseTime.max.lt(5000),    
         global.responseTime.mean.lt(1000),
         global.successfulRequests.percent.gt(95)

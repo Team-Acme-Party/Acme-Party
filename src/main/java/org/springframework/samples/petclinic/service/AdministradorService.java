@@ -71,6 +71,7 @@ public class AdministradorService {
 		Assert.notNull(username, "Username no logueado");
 		Administrador admin = findByUsername(username);
 		return admin;
+	}
     
 	public Double localAceptado() {
 		Collection<Local> locales = this.localService.findAll();
