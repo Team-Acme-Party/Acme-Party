@@ -6,7 +6,6 @@ services:
   - mysql
 before_install:
   - mysql -e 'CREATE DATABASE petclinic;'
-script: mvn test -Dspring.profiles.active=mysql-travis
 install:
 - mvn -N io.takari:maven:wrapper
 - ./mvnw install -DskipTests=true -Dmaven.javadoc.skip=true -B -V
