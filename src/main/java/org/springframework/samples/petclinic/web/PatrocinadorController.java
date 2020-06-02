@@ -37,16 +37,15 @@ public class PatrocinadorController {
 	public String initCreationForm(final Map<String, Object> model) {
 		Patrocinador patrocinador = new Patrocinador();
 		model.put("patrocinador", patrocinador);
-		return PatrocinadorController.VIEWS_PATROCINADOR_CREATE_OR_UPDATE_FORM;
+		return VIEWS_PATROCINADOR_CREATE_OR_UPDATE_FORM;
 	}
 
 	@PostMapping(value = "/patrocinador/new")
 	public String processCreationForm(@Valid final Patrocinador patrocinador, final BindingResult result, final Map<String, Object> model) {
 		if (result.hasErrors()) {
 			model.put("patrocinador", patrocinador);
-			return PatrocinadorController.VIEWS_PATROCINADOR_CREATE_OR_UPDATE_FORM;
+			return VIEWS_PATROCINADOR_CREATE_OR_UPDATE_FORM;
 		} else {
-			// creating owner, user and authorities
 			try {
 				this.patrocinadorService.save(patrocinador);
 				return "redirect:/patrocinador/anuncios";

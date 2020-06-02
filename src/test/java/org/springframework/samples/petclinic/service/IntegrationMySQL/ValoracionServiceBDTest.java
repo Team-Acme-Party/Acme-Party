@@ -23,24 +23,24 @@ import org.springframework.test.context.TestPropertySource;
 @Transactional
 public class ValoracionServiceBDTest {
 	@Autowired
-	private ValoracionService		valoracionService;
-	
+	private ValoracionService valoracionService;
+
 	@Autowired
 	private FiestaService fiestaService;
-	
+
 	@Autowired
 	private ClienteService clienteService;
-	
+
 	@Test
 	@DisplayName("Test positivo registrar un comentario")
-	void testNewComentario() {	
+	void testNewComentario() {
 		Collection<Valoracion> antes = this.valoracionService.findAll();
 		Fiesta fiesta = this.fiestaService.findFiestaById(1);
-		Cliente cliente= this.clienteService.findById(1);
+		Cliente cliente = this.clienteService.findById(1);
 		Valoracion valoracion = new Valoracion();
 		valoracion.setId(10);
-		valoracion.setComentario("Test");		
-		valoracion.setFiesta(fiesta);		
+		valoracion.setComentario("Test");
+		valoracion.setFiesta(fiesta);
 		valoracion.setCliente(cliente);
 		try {
 			this.valoracionService.save(valoracion);
@@ -51,22 +51,21 @@ public class ValoracionServiceBDTest {
 			Assertions.assertEquals(antes.size(), despues.size() - 1);
 		}
 	}
-	
+
 	@Test
 	@DisplayName("Test negativo registrar un comentario")
-	void testNegativoComentario() {	
-		Collection<Valoracion> antes = this.valoracionService.findAll();
+	void testNegativoComentario() {
 		Fiesta fiesta = this.fiestaService.findFiestaById(1);
-		Cliente cliente= this.clienteService.findById(1);
+		Cliente cliente = this.clienteService.findById(1);
 		Valoracion valoracion = new Valoracion();
 		valoracion.setId(10);
-		valoracion.setComentario("Test");		
-		valoracion.setFiesta(fiesta);		
+		valoracion.setComentario("Test");
+		valoracion.setFiesta(fiesta);
 		valoracion.setCliente(cliente);
 		try {
 			this.valoracionService.save(valoracion);
 		} catch (Exception e) {
 			e.printStackTrace();
-		} 
+		}
 	}
 }

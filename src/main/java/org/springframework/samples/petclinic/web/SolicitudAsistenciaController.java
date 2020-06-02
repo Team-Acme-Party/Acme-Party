@@ -9,12 +9,10 @@ import org.springframework.samples.petclinic.model.Cliente;
 import org.springframework.samples.petclinic.model.SolicitudAsistencia;
 import org.springframework.samples.petclinic.service.ClienteService;
 import org.springframework.samples.petclinic.service.SolicitudAsistenciaService;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.Assert;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
@@ -36,9 +34,8 @@ public class SolicitudAsistenciaController {
 	@GetMapping(value = { "/cliente/solicitudesAsistencias" })
 	public String verMisAsistencias(final Map<String, Object> model) {
 
-		String username = SecurityContextHolder.getContext().getAuthentication().getName();
-		Assert.notNull(username, "Username no logueado");
-		Cliente c = clienteService.findByUsername(username);
+		Cliente c = clienteService.getClienteLogado();
+		Assert.notNull(c, "Cliente no logueado");
 		Collection<SolicitudAsistencia> asistencias = this.solicitudAsistenciaService
 				.findAsistenciasByClienteId(c.getId());
 		model.put("asistencias", asistencias);
@@ -47,14 +44,11 @@ public class SolicitudAsistenciaController {
 		return "solicitudesAsistencia/listaSolicitudesAsistencia";
 	}
 
-	@GetMapping(value= {"/cliente/solicitudAsistencia/fiesta/{fiestaId}"})
+	@GetMapping(value = { "/cliente/solicitudAsistencia/fiesta/{fiestaId}" })
 	public String crearSolicitudAsistencia(@RequestParam("fiestaId") int fiestaId, final Map<String, Object> model) {
 		try {
-			String username = SecurityContextHolder.getContext().getAuthentication().getName();
-			Assert.notNull(username, "Username no logueado");
-			Cliente cliente = clienteService.findByUsername(username);
+			Cliente cliente = clienteService.getClienteLogado();
 			Assert.notNull(cliente, "Cliente no logueado");
-
 			SolicitudAsistencia sol = solicitudAsistenciaService.create(fiestaId, cliente);
 			solicitudAsistenciaService.save(sol);
 			return verMisAsistencias(model);
@@ -70,9 +64,7 @@ public class SolicitudAsistenciaController {
 			final Map<String, Object> model) {
 
 		try {
-			String username = SecurityContextHolder.getContext().getAuthentication().getName();
-			Assert.notNull(username, "Username no logueado");
-			Cliente cliente = clienteService.findByUsername(username);
+			Cliente cliente = clienteService.getClienteLogado();
 			Assert.notNull(cliente, "Cliente no logueado");
 			this.solicitudAsistenciaService.aceptarSolicitud(solicitudId, cliente);
 			return "redirect:/cliente/fiestas";
@@ -88,10 +80,9 @@ public class SolicitudAsistenciaController {
 			final Map<String, Object> model) {
 
 		try {
-			String username = SecurityContextHolder.getContext().getAuthentication().getName();
-			Assert.notNull(username, "Username no logueado");
-			Cliente cliente = clienteService.findByUsername(username);
+			Cliente cliente = clienteService.getClienteLogado();
 			Assert.notNull(cliente, "Cliente no logueado");
+
 			this.solicitudAsistenciaService.rechazarSolicitud(solicitudId, cliente);
 			return "redirect:/cliente/fiestas";
 

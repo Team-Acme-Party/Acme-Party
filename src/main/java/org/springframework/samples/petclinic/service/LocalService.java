@@ -33,8 +33,13 @@ public class LocalService {
 		return this.localRepository.findAccepted();
 	}
 
+	@Transactional(readOnly = true)	
+	public Collection<Local> findRechazado() throws DataAccessException {
+		return this.localRepository.findRechazado();
+	}
+	
 	@Transactional(readOnly = true)
-	@Cacheable("localPending")
+  @Cacheable("localPending")
 	public Collection<Local> findPending() throws DataAccessException {
 		return this.localRepository.findPending();
 	}

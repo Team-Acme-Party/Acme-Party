@@ -50,7 +50,8 @@ public class SolicitudAsistenciaControllerTests {
 	private MockMvc mockMvc;
 
 	private Cliente george;
-private SolicitudAsistencia solicitud1;
+	private SolicitudAsistencia solicitud1;
+
 	@BeforeEach
 	void datosCliente() {
 		this.george = new Cliente();
@@ -82,11 +83,13 @@ private SolicitudAsistencia solicitud1;
 
 	}
 
-	// Ver mis asistencias
 	@WithMockUser(value = "george")
 	@Test
 	@DisplayName("Test para peticion GET de las solicitudes de asistencia de un cliente logeado")
 	void testVerMisAsistencias() throws Exception {
+
+		devolverClienteLogadoGeorge();
+
 		this.mockMvc.perform(MockMvcRequestBuilders.get("/cliente/solicitudesAsistencias"))
 				.andExpect(MockMvcResultMatchers.model().attributeExists("asistencias"))
 				.andExpect(MockMvcResultMatchers.model().attributeExists("misasistencias"))
@@ -98,6 +101,9 @@ private SolicitudAsistencia solicitud1;
 	@Test
 	@DisplayName("Test Negativo para peticion GET de las solicitudes de asistencia de un cliente que no existe")
 	void testNegativoVerMisAsistencias() throws Exception {
+
+		devolverClienteLogadoNull();
+
 		this.mockMvc.perform(MockMvcRequestBuilders.get("/cliente/solicitudesAsistencias"))
 				.andExpect(MockMvcResultMatchers.model().attributeDoesNotExist("asistencias"))
 				.andExpect(MockMvcResultMatchers.model().attributeDoesNotExist("misasistencias"))
@@ -105,21 +111,25 @@ private SolicitudAsistencia solicitud1;
 				.andExpect(MockMvcResultMatchers.view().name("exception"));
 	}
 
-	// Registrar una solicitud
 	@WithMockUser(value = "paco")
 	@Test
 	@DisplayName("Test Positivo para registrar una solicitud")
 	void testPositivoRegistrarSolicitud() throws Exception {
+
+		devolverClienteLogadoNull();
+
 		this.mockMvc.perform(MockMvcRequestBuilders.get("/cliente/solicitudAsistencia/fiesta/1"))
 				.andExpect(MockMvcResultMatchers.status().is2xxSuccessful())
 				.andExpect(MockMvcResultMatchers.view().name("exception"));
 	}
 
-	// Aceptar una solicitud
 	@WithMockUser(value = "george")
 	@Test
 	@DisplayName("Test Positivo para aceptar una solicitud")
 	void testPositivoAceptarSolicitud() throws Exception {
+
+		devolverClienteLogadoGeorge();
+
 		this.mockMvc.perform(MockMvcRequestBuilders.get("/cliente/solicitudAsistencia/aceptar/{solicitudId}", 1))
 				.andExpect(MockMvcResultMatchers.status().is3xxRedirection());
 	}
@@ -128,16 +138,21 @@ private SolicitudAsistencia solicitud1;
 	@Test
 	@DisplayName("Test Negativo para aceptar una solicitud, el cliente no puede tomar la decision de esta solicitud")
 	void testNegativoAceptarSolicitud() throws Exception {
+
+		devolverClienteLogadoNull();
+
 		this.mockMvc.perform(MockMvcRequestBuilders.get("/cliente/solicitudAsistencia/aceptar/{solicitudId}", 1))
 				.andExpect(MockMvcResultMatchers.status().is2xxSuccessful())
 				.andExpect(MockMvcResultMatchers.view().name("exception"));
 	}
 
-	// Rechazar una solicitud
 	@WithMockUser(value = "george")
 	@Test
 	@DisplayName("Test Positivo para rechazar una solicitud")
 	void testPositivoRechazarSolicitud() throws Exception {
+
+		devolverClienteLogadoGeorge();
+
 		this.mockMvc.perform(MockMvcRequestBuilders.get("/cliente/solicitudAsistencia/rechazar/{solicitudId}", 1))
 				.andExpect(MockMvcResultMatchers.status().is3xxRedirection());
 	}
@@ -146,8 +161,19 @@ private SolicitudAsistencia solicitud1;
 	@Test
 	@DisplayName("Test Negativo para rechazar una solicitud, el cliente no puede tomar la decision de esta solicitud")
 	void testNegativoRechazarSolicitud() throws Exception {
+
+		devolverClienteLogadoNull();
+
 		this.mockMvc.perform(MockMvcRequestBuilders.get("/cliente/solicitudAsistencia/rechazar/{solicitudId}", 1))
 				.andExpect(MockMvcResultMatchers.status().is2xxSuccessful())
 				.andExpect(MockMvcResultMatchers.view().name("exception"));
+	}
+
+	private void devolverClienteLogadoGeorge() {
+		BDDMockito.given(this.clienteService.getClienteLogado()).willReturn(this.george);
+	}
+
+	private void devolverClienteLogadoNull() {
+		BDDMockito.given(this.clienteService.getClienteLogado()).willReturn(null);
 	}
 }

@@ -1,7 +1,6 @@
 
 package org.springframework.samples.petclinic.web;
 
-import java.time.LocalTime;
 import java.util.Collection;
 import java.util.LinkedList;
 
@@ -83,8 +82,6 @@ public class FiestaControllerTests {
 	private Fiesta test = new Fiesta();
 
 	private Local local = new Local();
-	
-	private LocalTime date=LocalTime.now();
 
 	@BeforeEach
 	void datosCliente() {
@@ -112,7 +109,7 @@ public class FiestaControllerTests {
 		Fiesta fiesta1 = new Fiesta();
 		fiesta1.setId(3);
 		fiesta1.setDecision("ACEPTADO");
-		
+
 		Fiesta fiesta2 = new Fiesta();
 		fiesta1.setNombre("Fiesta de disfraces 1");
 		fiesta2.setNombre("Fiesta de disfraces 2");
@@ -160,9 +157,6 @@ public class FiestaControllerTests {
 				.andExpect(MockMvcResultMatchers.view().name("fiestas/buscarFiestas"));
 	}
 
-	// -----------------Detalles fiesta
-	// (todos)----------------------------------------------------------------------------
-
 	@WithMockUser(value = "admin")
 	@Test
 	@DisplayName("Test para peticion GET de los detalles de la fiesta ")
@@ -181,12 +175,11 @@ public class FiestaControllerTests {
 				.andExpect(MockMvcResultMatchers.view().name("exception"));
 	}
 
-	// ------------------------------------------------------------------------------------------------------------------
-
 	@WithMockUser(value = "cliente")
 	@Test
 	@DisplayName("Test para peticion GET de las fiestas organizadas por un cliente logeado")
 	void testVerMisFiestas() throws Exception {
+		devolverClienteLogadoCliente();
 		this.mockMvc.perform(MockMvcRequestBuilders.get("/cliente/fiestas"))
 				.andExpect(MockMvcResultMatchers.model().attributeExists("fiestas"))
 				.andExpect(MockMvcResultMatchers.model().attributeExists("misfiestas"))
@@ -205,11 +198,11 @@ public class FiestaControllerTests {
 				.andExpect(MockMvcResultMatchers.view().name("exception"));
 	}
 
-	// EDITAR
 	@WithMockUser(value = "cliente")
 	@Test
 	@DisplayName("Test positivo editar fiesta con un el cliente dueño")
 	void testPositivoEditarMisFiestas() throws Exception {
+		devolverClienteLogadoCliente();
 		this.mockMvc.perform(MockMvcRequestBuilders.get("/fiestas/{fiestaId}/editar", 1))
 				.andExpect(MockMvcResultMatchers.status().is2xxSuccessful())
 				.andExpect(MockMvcResultMatchers.view().name("fiestas/new"));
@@ -219,22 +212,10 @@ public class FiestaControllerTests {
 	@Test
 	@DisplayName("Test Negativo editar fiesta con otro usuario que no es su dueño")
 	void testNegativoEditarFiesta() throws Exception {
+		devolverPropietarioLogadoPropietario();
 		this.mockMvc.perform(MockMvcRequestBuilders.post("/fiestas/1/editar"))
-		.andExpect(MockMvcResultMatchers.status().is4xxClientError());
+				.andExpect(MockMvcResultMatchers.status().is4xxClientError());
 	}
-
-//	@WithMockUser(value = "spring")
-//	@Test
-//	@DisplayName("TestPositivoUpdateFiesta")
-//	void testProcessUpdateFiestaFormSuccess() throws Exception {
-//		this.mockMvc.perform(MockMvcRequestBuilders.post("/fiestas/{fiestaId}/editar", 1)
-//				.with(SecurityMockMvcRequestPostProcessors.csrf()).param("nombre", "Joe").param("descripcion", "Bloggs")
-//				.param("id", "1").param("precio", "3.3").param("requisitos", "Testing").param("fecha", "2015/05/25")
-//				.param("horaInicio", "18:20:58.417").param("horaFin", "12:00").param("numeroAsistentes", "12")
-//				.param("imagen", "https://welcometoibiza.jpg"))
-//		.andExpect(MockMvcResultMatchers.status().is2xxSuccessful())
-//		.andExpect(MockMvcResultMatchers.view().name("fiestas/new"));
-//	}
 
 	@WithMockUser(value = "spring")
 	@Test
@@ -253,6 +234,7 @@ public class FiestaControllerTests {
 	@Test
 	@DisplayName("Test positivo aceptar fiesta")
 	void testPositivoAceptarFiestas() throws Exception {
+		devolverPropietarioLogadoPropietario();
 		this.mockMvc.perform(MockMvcRequestBuilders.get("/local/{localId}/fiesta/{fiestaId}/aceptar", 3, 3))
 				.andExpect(MockMvcResultMatchers.status().is4xxClientError());
 	}
@@ -263,6 +245,14 @@ public class FiestaControllerTests {
 	void testNegativoAceptarFiesta() throws Exception {
 		this.mockMvc.perform(MockMvcRequestBuilders.get("/local/{localId}/fiesta/{fiestaId}/aceptar", 2, 2))
 				.andExpect(MockMvcResultMatchers.status().is4xxClientError());
+	}
+
+	private void devolverClienteLogadoCliente() {
+		BDDMockito.given(this.clienteService.getClienteLogado()).willReturn(this.cliente);
+	}
+
+	private void devolverPropietarioLogadoPropietario() {
+		BDDMockito.given(this.propietarioService.getPropietarioLogado()).willReturn(this.propietario);
 	}
 
 }

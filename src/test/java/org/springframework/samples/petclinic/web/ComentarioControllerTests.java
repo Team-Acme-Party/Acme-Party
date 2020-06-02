@@ -52,6 +52,7 @@ public class ComentarioControllerTests {
 		this.cliente.setNombre("cliente");
 		this.cliente.setTelefono("654321987");
 		BDDMockito.given(this.clienteService.findByUsername("cliente")).willReturn(this.cliente);
+		BDDMockito.given(this.clienteService.getClienteLogado()).willReturn(this.cliente);
 
 	}
 
@@ -65,7 +66,7 @@ public class ComentarioControllerTests {
 				.andExpect(MockMvcResultMatchers.status().is3xxRedirection())
 				.andExpect(MockMvcResultMatchers.view().name("redirect:/fiestas/1"));
 	}
-	
+
 	@WithMockUser(value = "cliente")
 	@Test
 	@DisplayName("Test para peticion POST del formulario de registro de un comentario para local")

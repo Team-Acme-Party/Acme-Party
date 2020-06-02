@@ -15,7 +15,6 @@ import org.springframework.samples.petclinic.service.ClienteService;
 import org.springframework.samples.petclinic.service.ComentarioService;
 import org.springframework.samples.petclinic.service.FiestaService;
 import org.springframework.samples.petclinic.service.LocalService;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -48,10 +47,7 @@ public class ComentarioController {
 			return "redirect:/locales/" + localId;
 		} else {
 			Local local = this.localService.findLocalById(localId);
-			String username = SecurityContextHolder.getContext().getAuthentication().getName();
-			Cliente c = this.clienteService.findByUsername(username);
-			comentario.setCliente(c);
-			comentario.setFecha(LocalDate.now());
+			seteaCamposcomunesComentario(comentario);
 			comentario.setLocal(local);
 
 			this.comentarioService.save(comentario);
@@ -70,10 +66,7 @@ public class ComentarioController {
 			return "redirect:/fiestas/" + fiestaId;
 		} else {
 			Fiesta fiesta = this.fiestaService.findFiestaById(fiestaId);
-			String username = SecurityContextHolder.getContext().getAuthentication().getName();
-			Cliente c = this.clienteService.findByUsername(username);
-			comentario.setCliente(c);
-			comentario.setFecha(LocalDate.now());
+			seteaCamposcomunesComentario(comentario);
 			comentario.setFiesta(fiesta);
 
 			this.comentarioService.save(comentario);
@@ -83,4 +76,11 @@ public class ComentarioController {
 		}
 	}
 
+	private void seteaCamposcomunesComentario(Comentario comentario) {
+		Cliente c = clienteService.getClienteLogado();
+		comentario.setCliente(c);
+		comentario.setFecha(LocalDate.now());
+		
+	}
+	
 }

@@ -21,10 +21,9 @@ import org.springframework.test.context.TestPropertySource;
 public class LocalServiceBDTests {
 
 	@Autowired
-	private LocalService		localService;
+	private LocalService localService;
 	@Autowired
-	private PropietarioService	propietarioService;
-
+	private PropietarioService propietarioService;
 
 	@Test
 	void testNewLocalPendiente() {
@@ -68,8 +67,8 @@ public class LocalServiceBDTests {
 		Local local = this.localService.findLocalById(1);
 		Collection<Local> todos = this.localService.findByDireccion("Luis Montoto 12");
 		Boolean existe = false;
-		for(Local l : todos) {
-			if(l.getId().equals(local.getId())) {
+		for (Local l : todos) {
+			if (l.getId().equals(local.getId())) {
 				existe = true;
 			}
 		}
@@ -82,8 +81,8 @@ public class LocalServiceBDTests {
 		Collection<Local> locales = this.localService.findByPropietarioId(propietario.getId());
 		Local local = this.localService.findLocalById(1);
 		Boolean existe = false;
-		for(Local l : locales) {
-			if(l.getId().equals(local.getId())) {
+		for (Local l : locales) {
+			if (l.getId().equals(local.getId())) {
 				existe = true;
 			}
 		}

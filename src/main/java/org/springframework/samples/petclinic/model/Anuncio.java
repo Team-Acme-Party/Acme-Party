@@ -15,8 +15,6 @@ import org.hibernate.validator.constraints.URL;
 @Table(name = "anuncios")
 public class Anuncio extends BaseEntity {
 
-	//Propiedades
-
 	@Column(name = "imagen")
 	@NotBlank
 	@URL
@@ -38,8 +36,6 @@ public class Anuncio extends BaseEntity {
 	@Pattern(regexp = "^(PENDIENTE|ACEPTADO|RECHAZADO)$")
 	private String			decision;
 
-
-	//Getters y setters
 
 	public String getImagen() {
 		return this.imagen;

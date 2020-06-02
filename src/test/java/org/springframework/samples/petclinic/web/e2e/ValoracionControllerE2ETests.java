@@ -21,26 +21,28 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 @Transactional
 public class ValoracionControllerE2ETests {
 	@Autowired
-	private MockMvc					mockMvc;
+	private MockMvc mockMvc;
 
-	
-	@WithMockUser(username = "cliente1", authorities = {
-			"cliente"
-		})
-		@Test
-		@DisplayName("Test para peticion POST para crear una valoracion sobre una fiesta")
-		void testNewAnuncioForLocal() throws Exception {
-			this.mockMvc.perform(MockMvcRequestBuilders.post("/valoracion/new/fiesta/{fiestaId}",1).with(SecurityMockMvcRequestPostProcessors.csrf()).param("comentario",
-				"comentario").param("valor", "5")).andExpect(MockMvcResultMatchers.status().is3xxRedirection()).andExpect(MockMvcResultMatchers.view().name("redirect:/fiestas/1"));
-		}
-
-		@WithMockUser(username = "cliente1", authorities = {
-			"cliente"
-		})
-		@Test
-		@DisplayName("Test negativo para peticion POST para crear una valoracion sobre una fiesta (falta un parametro)")
-		void testNegativoNewAnuncioForLocal() throws Exception {
-			this.mockMvc.perform(MockMvcRequestBuilders.post("/valoracion/new/fiesta/{fiestaId}",1).with(SecurityMockMvcRequestPostProcessors.csrf())).andExpect(MockMvcResultMatchers.status().is3xxRedirection())
+	@WithMockUser(username = "cliente1", authorities = { "cliente" })
+	@Test
+	@DisplayName("Test para peticion POST para crear una valoracion sobre una fiesta")
+	void testNewAnuncioForLocal() throws Exception {
+		this.mockMvc
+				.perform(MockMvcRequestBuilders.post("/valoracion/new/fiesta/{fiestaId}", 1)
+						.with(SecurityMockMvcRequestPostProcessors.csrf()).param("comentario", "comentario")
+						.param("valor", "5"))
+				.andExpect(MockMvcResultMatchers.status().is3xxRedirection())
 				.andExpect(MockMvcResultMatchers.view().name("redirect:/fiestas/1"));
-		}
+	}
+
+	@WithMockUser(username = "cliente1", authorities = { "cliente" })
+	@Test
+	@DisplayName("Test negativo para peticion POST para crear una valoracion sobre una fiesta (falta un parametro)")
+	void testNegativoNewAnuncioForLocal() throws Exception {
+		this.mockMvc
+				.perform(MockMvcRequestBuilders.post("/valoracion/new/fiesta/{fiestaId}", 1)
+						.with(SecurityMockMvcRequestPostProcessors.csrf()))
+				.andExpect(MockMvcResultMatchers.status().is3xxRedirection())
+				.andExpect(MockMvcResultMatchers.view().name("redirect:/fiestas/1"));
+	}
 }

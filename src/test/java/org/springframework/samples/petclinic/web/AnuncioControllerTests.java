@@ -38,45 +38,44 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 public class AnuncioControllerTests {
 
 	@MockBean
-	private AnuncioService			anuncioService;
+	private AnuncioService anuncioService;
 
 	@MockBean
-	private PatrocinadorService		patrocinadorService;
+	private PatrocinadorService patrocinadorService;
 
 	@MockBean
-	private PropietarioService		propietarioService;
+	private PropietarioService propietarioService;
 
 	@MockBean
-	private ClienteService			clienteService;
+	private ClienteService clienteService;
 
 	@MockBean
-	private LocalService			localService;
+	private LocalService localService;
 
 	@MockBean
-	private FiestaService			fiestaService;
+	private FiestaService fiestaService;
 
 	@MockBean
-	private AdministradorService	administradorService;
+	private AdministradorService administradorService;
 
 	@MockBean
-	private UserService				userService;
+	private UserService userService;
 
 	@MockBean
-	private AuthoritiesService		authoritiesService;
+	private AuthoritiesService authoritiesService;
 
 	@Autowired
-	private MockMvc					mockMvc;
+	private MockMvc mockMvc;
 
-	private Patrocinador			patrocinador;
+	private Patrocinador patrocinador;
 
-	private Propietario				propietario;
-	private Propietario				propietario2;
-	private Cliente					cliente;
-	private Cliente					cliente2;
+	private Propietario propietario;
+	private Propietario propietario2;
+	private Cliente cliente;
+	private Cliente cliente2;
 
-	private Anuncio					anuncio;
-	private Anuncio					a2;
-
+	private Anuncio anuncio;
+	private Anuncio a2;
 
 	@BeforeEach
 	void datosIniciales() {
@@ -138,156 +137,248 @@ public class AnuncioControllerTests {
 		BDDMockito.given(this.anuncioService.findByClienteId(this.cliente.getId())).willReturn(anuncios);
 	}
 
-	//Ver anuncios
 	@WithMockUser(value = "george")
 	@Test
 	@DisplayName("Test para peticion GET de los anuncios de un patrocinador")
 	void testVerMisAnuncios() throws Exception {
-		this.mockMvc.perform(MockMvcRequestBuilders.get("/patrocinador/anuncios")).andExpect(MockMvcResultMatchers.model().attributeExists("paraFiestas")).andExpect(MockMvcResultMatchers.model().attributeExists("paraLocales"))
-			.andExpect(MockMvcResultMatchers.status().is2xxSuccessful()).andExpect(MockMvcResultMatchers.view().name("anuncios/listaAnuncios"));
+
+		devolverPatrocinadorLogadoPatrocinador();
+
+		this.mockMvc.perform(MockMvcRequestBuilders.get("/patrocinador/anuncios"))
+				.andExpect(MockMvcResultMatchers.model().attributeExists("paraFiestas"))
+				.andExpect(MockMvcResultMatchers.model().attributeExists("paraLocales"))
+				.andExpect(MockMvcResultMatchers.status().is2xxSuccessful())
+				.andExpect(MockMvcResultMatchers.view().name("anuncios/listaAnuncios"));
 	}
 
 	@WithMockUser(value = "paco")
 	@Test
 	@DisplayName("Test Negativo para peticion GET de los locales de un propietario que no existe")
 	void testNegativoVerMisLocales() throws Exception {
-		this.mockMvc.perform(MockMvcRequestBuilders.get("/patrocinador/anuncios")).andExpect(MockMvcResultMatchers.model().attributeDoesNotExist("anuncios")).andExpect(MockMvcResultMatchers.status().is2xxSuccessful())
-			.andExpect(MockMvcResultMatchers.view().name("exception"));
+
+		devolverPatrocinadorLogadoNoUsuario();
+
+		this.mockMvc.perform(MockMvcRequestBuilders.get("/patrocinador/anuncios"))
+				.andExpect(MockMvcResultMatchers.model().attributeDoesNotExist("anuncios"))
+				.andExpect(MockMvcResultMatchers.status().is2xxSuccessful())
+				.andExpect(MockMvcResultMatchers.view().name("exception"));
 	}
 
 	@WithMockUser(value = "george")
 	@Test
 	@DisplayName("Test para peticion GET de los detalles del anuncio ")
 	void testDetallesAnuncio() throws Exception {
-		this.mockMvc.perform(MockMvcRequestBuilders.get("/anuncios/10")).andExpect(MockMvcResultMatchers.status().is2xxSuccessful()).andExpect(MockMvcResultMatchers.view().name("anuncios/anuncioDetails"));
+		devolverPatrocinadorLogadoPatrocinador();
+		this.mockMvc.perform(MockMvcRequestBuilders.get("/anuncios/10"))
+				.andExpect(MockMvcResultMatchers.status().is2xxSuccessful())
+				.andExpect(MockMvcResultMatchers.view().name("anuncios/anuncioDetails"));
 	}
 
 	@WithMockUser(value = "george")
 	@Test
 	@DisplayName("Test Negativo para peticion GET de los detalles de un anuncio cuyo id no existe")
 	void testNegativoDetallesAnuncio() throws Exception {
-		this.mockMvc.perform(MockMvcRequestBuilders.get("/anuncios/{anuncioId}", this.a2.getId())).andExpect(MockMvcResultMatchers.status().is4xxClientError());
+		devolverPatrocinadorLogadoPatrocinador();
+		this.mockMvc.perform(MockMvcRequestBuilders.get("/anuncios/{anuncioId}", this.a2.getId()))
+				.andExpect(MockMvcResultMatchers.status().is4xxClientError());
 	}
 
-	//Crear anuncio para local
 	@WithMockUser(value = "george")
 	@Test
 	@DisplayName("Test para peticion GET del formulario de registro de anuncio para local")
 	void testFormularioAnuncioForLocal() throws Exception {
-		this.mockMvc.perform(MockMvcRequestBuilders.get("/anuncio/new/10/local")).andExpect(MockMvcResultMatchers.status().isOk()).andExpect(MockMvcResultMatchers.model().attributeExists("anuncio"))
-			.andExpect(MockMvcResultMatchers.view().name("anuncios/new"));
+		devolverPatrocinadorLogadoPatrocinador();
+		this.mockMvc.perform(MockMvcRequestBuilders.get("/anuncio/new/10/local"))
+				.andExpect(MockMvcResultMatchers.status().isOk())
+				.andExpect(MockMvcResultMatchers.model().attributeExists("anuncio"))
+				.andExpect(MockMvcResultMatchers.view().name("anuncios/new"));
 	}
 
 	@WithMockUser(value = "paco")
 	@Test
 	@DisplayName("Test negativo para peticion GET del formulario de registro de anuncio para local")
 	void testNegativoFormularioAnuncioForLocal() throws Exception {
-		this.mockMvc.perform(MockMvcRequestBuilders.get("/anuncio/new/10/local")).andExpect(MockMvcResultMatchers.status().isOk()).andExpect(MockMvcResultMatchers.model().attributeDoesNotExist("anuncio"))
-			.andExpect(MockMvcResultMatchers.view().name("exception"));
+		devolverPatrocinadorLogadoNoUsuario();
+		this.mockMvc.perform(MockMvcRequestBuilders.get("/anuncio/new/10/local"))
+				.andExpect(MockMvcResultMatchers.status().isOk())
+				.andExpect(MockMvcResultMatchers.model().attributeDoesNotExist("anuncio"))
+				.andExpect(MockMvcResultMatchers.view().name("exception"));
 	}
 
 	@WithMockUser(value = "george")
 	@Test
 	@DisplayName("Test para peticion POST del formulario de registro de anuncio para local")
 	void testNewAnuncioForLocal() throws Exception {
-		this.mockMvc.perform(MockMvcRequestBuilders.post("/anuncio/new/10/local").with(SecurityMockMvcRequestPostProcessors.csrf()).param("imagen", "https://bangbranding.com/blog/wp-content/uploads/2016/11/700x511_SliderInterior.jpg"))
-			.andExpect(MockMvcResultMatchers.status().is3xxRedirection()).andExpect(MockMvcResultMatchers.view().name("redirect:/patrocinador/anuncios"));
+		devolverPatrocinadorLogadoPatrocinador();
+		this.mockMvc
+				.perform(MockMvcRequestBuilders.post("/anuncio/new/10/local")
+						.with(SecurityMockMvcRequestPostProcessors.csrf()).param("imagen",
+								"https://bangbranding.com/blog/wp-content/uploads/2016/11/700x511_SliderInterior.jpg"))
+				.andExpect(MockMvcResultMatchers.status().is3xxRedirection())
+				.andExpect(MockMvcResultMatchers.view().name("redirect:/patrocinador/anuncios"));
 	}
 
 	@WithMockUser(value = "george")
 	@Test
 	@DisplayName("Test negativo para peticion POST del formulario de registro de anuncio para local")
 	void testNegativoNewAnuncioForLocal() throws Exception {
-		this.mockMvc.perform(MockMvcRequestBuilders.post("/anuncio/new/10/local").with(SecurityMockMvcRequestPostProcessors.csrf())).andExpect(MockMvcResultMatchers.status().is2xxSuccessful()).andExpect(MockMvcResultMatchers.view().name("anuncios/new"));
+		devolverPatrocinadorLogadoPatrocinador();
+		this.mockMvc
+				.perform(MockMvcRequestBuilders.post("/anuncio/new/10/local")
+						.with(SecurityMockMvcRequestPostProcessors.csrf()))
+				.andExpect(MockMvcResultMatchers.status().is2xxSuccessful())
+				.andExpect(MockMvcResultMatchers.view().name("anuncios/new"));
 	}
 
-	//Crear anuncio para fiesta
 	@WithMockUser(value = "george")
 	@Test
 	@DisplayName("Test para peticion GET del formulario de registro de anuncio para fiesta")
 	void testFormularioAnuncioForFiesta() throws Exception {
-		this.mockMvc.perform(MockMvcRequestBuilders.get("/anuncio/new/10/fiesta")).andExpect(MockMvcResultMatchers.status().isOk()).andExpect(MockMvcResultMatchers.model().attributeExists("anuncio"))
-			.andExpect(MockMvcResultMatchers.view().name("anuncios/new"));
+		devolverPatrocinadorLogadoPatrocinador();
+		this.mockMvc.perform(MockMvcRequestBuilders.get("/anuncio/new/10/fiesta"))
+				.andExpect(MockMvcResultMatchers.status().isOk())
+				.andExpect(MockMvcResultMatchers.model().attributeExists("anuncio"))
+				.andExpect(MockMvcResultMatchers.view().name("anuncios/new"));
 	}
 
 	@WithMockUser(value = "paco")
 	@Test
 	@DisplayName("Test negativo para peticion GET del formulario de registro de anuncio para fiesta")
 	void testNegativoFormularioAnuncioForFiesta() throws Exception {
-		this.mockMvc.perform(MockMvcRequestBuilders.get("/anuncio/new/10/fiesta")).andExpect(MockMvcResultMatchers.status().isOk()).andExpect(MockMvcResultMatchers.model().attributeDoesNotExist("anuncio"))
-			.andExpect(MockMvcResultMatchers.view().name("exception"));
+		BDDMockito.given(this.patrocinadorService.getPatrocinadorLogado()).willReturn(null);
+		this.mockMvc.perform(MockMvcRequestBuilders.get("/anuncio/new/10/fiesta"))
+				.andExpect(MockMvcResultMatchers.status().isOk())
+				.andExpect(MockMvcResultMatchers.model().attributeDoesNotExist("anuncio"))
+				.andExpect(MockMvcResultMatchers.view().name("exception"));
 	}
 
 	@WithMockUser(value = "george")
 	@Test
 	@DisplayName("Test para peticion POST del formulario de registro de anuncio para fiesta")
 	void testNewAnuncioForFiesta() throws Exception {
-		this.mockMvc.perform(MockMvcRequestBuilders.post("/anuncio/new/10/fiesta").with(SecurityMockMvcRequestPostProcessors.csrf()).param("imagen", "https://bangbranding.com/blog/wp-content/uploads/2016/11/700x511_SliderInterior.jpg"))
-			.andExpect(MockMvcResultMatchers.status().is3xxRedirection()).andExpect(MockMvcResultMatchers.view().name("redirect:/patrocinador/anuncios"));
+		BDDMockito.given(this.patrocinadorService.getPatrocinadorLogado()).willReturn(this.patrocinador);
+		this.mockMvc
+				.perform(MockMvcRequestBuilders.post("/anuncio/new/10/fiesta")
+						.with(SecurityMockMvcRequestPostProcessors.csrf()).param("imagen",
+								"https://bangbranding.com/blog/wp-content/uploads/2016/11/700x511_SliderInterior.jpg"))
+				.andExpect(MockMvcResultMatchers.status().is3xxRedirection())
+				.andExpect(MockMvcResultMatchers.view().name("redirect:/patrocinador/anuncios"));
 	}
 
 	@WithMockUser(value = "george")
 	@Test
 	@DisplayName("Test negativo para peticion POST del formulario de registro de anuncio para fiesta")
 	void testNegativoNewAnuncioForFiesta() throws Exception {
-		this.mockMvc.perform(MockMvcRequestBuilders.post("/anuncio/new/10/fiesta").with(SecurityMockMvcRequestPostProcessors.csrf())).andExpect(MockMvcResultMatchers.status().is2xxSuccessful()).andExpect(MockMvcResultMatchers.view().name("anuncios/new"));
+		BDDMockito.given(this.patrocinadorService.getPatrocinadorLogado()).willReturn(this.patrocinador);
+		this.mockMvc
+				.perform(MockMvcRequestBuilders.post("/anuncio/new/10/fiesta")
+						.with(SecurityMockMvcRequestPostProcessors.csrf()))
+				.andExpect(MockMvcResultMatchers.status().is2xxSuccessful())
+				.andExpect(MockMvcResultMatchers.view().name("anuncios/new"));
 	}
 
-	//Aceptar y rechazar anuncio para local
 	@WithMockUser(username = "propietario")
 	@Test
 	@DisplayName("Test aceptar anuncio para local")
 	void testAceptarAnuncioParaLocal() throws Exception {
-		this.mockMvc.perform(MockMvcRequestBuilders.get("/propietario/anuncio/10/aceptar")).andExpect(MockMvcResultMatchers.status().is3xxRedirection()).andExpect(MockMvcResultMatchers.view().name("redirect:/propietario/anuncios"));
+		devolverPropietarioLogadoPropietario();
+		this.mockMvc.perform(MockMvcRequestBuilders.get("/propietario/anuncio/10/aceptar"))
+				.andExpect(MockMvcResultMatchers.status().is3xxRedirection())
+				.andExpect(MockMvcResultMatchers.view().name("redirect:/propietario/anuncios"));
 	}
 
 	@WithMockUser(username = "propietario2")
 	@Test
 	@DisplayName("Test negativo aceptar anuncio para local")
 	void testNegativoAceptarAnuncioParaLocal() throws Exception {
-		this.mockMvc.perform(MockMvcRequestBuilders.get("/propietario/anuncio/10/aceptar")).andExpect(MockMvcResultMatchers.status().is2xxSuccessful()).andExpect(MockMvcResultMatchers.view().name("exception"));
+		devolverPropietarioLogadoPropietario2();
+		this.mockMvc.perform(MockMvcRequestBuilders.get("/propietario/anuncio/10/aceptar"))
+				.andExpect(MockMvcResultMatchers.status().is2xxSuccessful())
+				.andExpect(MockMvcResultMatchers.view().name("exception"));
 	}
 
 	@WithMockUser(username = "propietario")
 	@Test
 	@DisplayName("Test rechazar anuncio para local")
 	void testRechazarAnuncioParaLocal() throws Exception {
-		this.mockMvc.perform(MockMvcRequestBuilders.get("/propietario/anuncio/10/rechazar")).andExpect(MockMvcResultMatchers.status().is3xxRedirection()).andExpect(MockMvcResultMatchers.view().name("redirect:/propietario/anuncios"));
+		devolverPropietarioLogadoPropietario();
+		this.mockMvc.perform(MockMvcRequestBuilders.get("/propietario/anuncio/10/rechazar"))
+				.andExpect(MockMvcResultMatchers.status().is3xxRedirection())
+				.andExpect(MockMvcResultMatchers.view().name("redirect:/propietario/anuncios"));
 	}
 
 	@WithMockUser(username = "propietario2")
 	@Test
 	@DisplayName("Test negativo rechazar anuncio para local")
 	void testNegativoRechazarAnuncioParaLocal() throws Exception {
-		this.mockMvc.perform(MockMvcRequestBuilders.get("/propietario/anuncio/10/rechazar")).andExpect(MockMvcResultMatchers.status().is2xxSuccessful()).andExpect(MockMvcResultMatchers.view().name("exception"));
+		devolverPropietarioLogadoPropietario2();
+		this.mockMvc.perform(MockMvcRequestBuilders.get("/propietario/anuncio/10/rechazar"))
+				.andExpect(MockMvcResultMatchers.status().is2xxSuccessful())
+				.andExpect(MockMvcResultMatchers.view().name("exception"));
 	}
 
-	//Aceptar y rechazar anuncio para fiesta
 	@WithMockUser(username = "cliente")
 	@Test
 	@DisplayName("Test aceptar anuncio para fiesta")
 	void testAceptarAnuncioParaFiesta() throws Exception {
-		this.mockMvc.perform(MockMvcRequestBuilders.get("/cliente/anuncio/10/aceptar")).andExpect(MockMvcResultMatchers.status().is3xxRedirection()).andExpect(MockMvcResultMatchers.view().name("redirect:/cliente/anuncios"));
+		devolverClienteLogadoCliente();
+		this.mockMvc.perform(MockMvcRequestBuilders.get("/cliente/anuncio/10/aceptar"))
+				.andExpect(MockMvcResultMatchers.status().is3xxRedirection())
+				.andExpect(MockMvcResultMatchers.view().name("redirect:/cliente/anuncios"));
 	}
 
 	@WithMockUser(username = "cliente2")
 	@Test
 	@DisplayName("Test negativo aceptar anuncio para local")
 	void testNegativoAceptarAnuncioParaFiesta() throws Exception {
-		this.mockMvc.perform(MockMvcRequestBuilders.get("/cliente/anuncio/10/aceptar")).andExpect(MockMvcResultMatchers.status().is2xxSuccessful()).andExpect(MockMvcResultMatchers.view().name("exception"));
+		devolverClienteLogadoCliente2();
+		this.mockMvc.perform(MockMvcRequestBuilders.get("/cliente/anuncio/10/aceptar"))
+				.andExpect(MockMvcResultMatchers.status().is2xxSuccessful())
+				.andExpect(MockMvcResultMatchers.view().name("exception"));
 	}
 
 	@WithMockUser(username = "cliente")
 	@Test
 	@DisplayName("Test rechazar anuncio para fiesta")
 	void testRechazarAnuncioParaFiesta() throws Exception {
-		this.mockMvc.perform(MockMvcRequestBuilders.get("/cliente/anuncio/10/rechazar")).andExpect(MockMvcResultMatchers.status().is3xxRedirection()).andExpect(MockMvcResultMatchers.view().name("redirect:/cliente/anuncios"));
+		devolverClienteLogadoCliente();
+		this.mockMvc.perform(MockMvcRequestBuilders.get("/cliente/anuncio/10/rechazar"))
+				.andExpect(MockMvcResultMatchers.status().is3xxRedirection())
+				.andExpect(MockMvcResultMatchers.view().name("redirect:/cliente/anuncios"));
 	}
 
 	@WithMockUser(username = "cliente2")
 	@Test
 	@DisplayName("Test negativo rechazar anuncio para local")
 	void testNegativoRechazarAnuncioParaFiesta() throws Exception {
-		this.mockMvc.perform(MockMvcRequestBuilders.get("/cliente/anuncio/10/rechazar")).andExpect(MockMvcResultMatchers.status().is2xxSuccessful()).andExpect(MockMvcResultMatchers.view().name("exception"));
+		devolverClienteLogadoCliente2();
+		this.mockMvc.perform(MockMvcRequestBuilders.get("/cliente/anuncio/10/rechazar"))
+				.andExpect(MockMvcResultMatchers.status().is2xxSuccessful())
+				.andExpect(MockMvcResultMatchers.view().name("exception"));
 	}
+	
+	private void devolverPatrocinadorLogadoPatrocinador() {
+		BDDMockito.given(this.patrocinadorService.getPatrocinadorLogado()).willReturn(this.patrocinador);
+	}
+	
+	private void devolverPatrocinadorLogadoNoUsuario() {
+		BDDMockito.given(this.patrocinadorService.getPatrocinadorLogado()).willReturn(null);
+	}
+	
+	private void devolverPropietarioLogadoPropietario() {
+		BDDMockito.given(this.propietarioService.getPropietarioLogado()).willReturn(this.propietario);
+	}
+	
+	private void devolverPropietarioLogadoPropietario2() {
+		BDDMockito.given(this.propietarioService.getPropietarioLogado()).willReturn(this.propietario2);
+	}
+	
+	private void devolverClienteLogadoCliente2() {
+		BDDMockito.given(this.clienteService.getClienteLogado()).willReturn(this.cliente2);
+	}
+	
+	private void devolverClienteLogadoCliente() {
+		BDDMockito.given(this.clienteService.getClienteLogado()).willReturn(this.cliente);
+	}
+	
 }

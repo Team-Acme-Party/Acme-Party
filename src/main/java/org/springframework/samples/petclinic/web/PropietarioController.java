@@ -44,7 +44,6 @@ public class PropietarioController {
 			return VIEWS_PROPIETARIO_CREATE_OR_UPDATE_FORM;
 		} else {
 			try {
-				// creating owner, user and authorities
 				this.propietarioService.save(propietario);
 				return "redirect:/propietario/locales";
 			} catch (Exception e) {

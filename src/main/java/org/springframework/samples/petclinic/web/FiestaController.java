@@ -2,10 +2,7 @@
 package org.springframework.samples.petclinic.web;
 
 import java.time.LocalDate;
-import java.time.LocalTime;
-import java.time.chrono.ChronoLocalDate;
 import java.util.Collection;
-import java.util.Date;
 import java.util.Map;
 
 import javax.validation.Valid;
@@ -30,7 +27,6 @@ import org.springframework.samples.petclinic.service.LocalService;
 import org.springframework.samples.petclinic.service.PropietarioService;
 import org.springframework.samples.petclinic.service.SolicitudAsistenciaService;
 import org.springframework.samples.petclinic.service.ValoracionService;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
@@ -82,14 +78,12 @@ public class FiestaController {
 		LocalDate now = LocalDate.now();
 
 		Fiesta fiesta = this.fiestaService.findFiestaById(fiestaId);
-		String username = SecurityContextHolder.getContext().getAuthentication().getName();
-		Propietario p = this.propietarioService.findByUsername(username);
-		Cliente cliente = this.clienteService.findByUsername(username);
-		Administrador admin = this.administradorService.findByUsername(username);
+		Propietario p = this.propietarioService.getPropietarioLogado();
+		Cliente cliente = this.clienteService.getClienteLogado();
+		Administrador admin = this.administradorService.getAdministradorLogado();
 
-		if (fiesta.getDecision().equals("ACEPTADO") || admin != null
-				|| cliente != null && this.fiestaService.findByClienteId(cliente.getId()).contains(fiesta)
-				|| p != null && this.localService.findByPropietarioId(p.getId()).contains(fiesta.getLocal())) {
+		if (fiesta.getDecision().equals("ACEPTADO") || admin != null || esFiestaDelCliente(cliente, fiesta)
+				|| esFiestaDelPropietario(p, fiesta)) {
 			mav = new ModelAndView("fiestas/fiestaDetails");
 
 			if (p != null) {
@@ -114,22 +108,22 @@ public class FiestaController {
 					mav.addObject("valoracion", valoracion);
 				}
 			}
-		
 
-		Collection<Anuncio> anuncios = this.anuncioService.findByFiestaId(fiestaId);
-		Collection<Comentario> comentarios = this.comentarioService.findByFiestaId(fiestaId);
-		Collection<Valoracion> valoraciones = this.valoracionService.findByFiestaId(fiestaId);
+			Collection<Anuncio> anuncios = this.anuncioService.findByFiestaId(fiestaId);
+			Collection<Comentario> comentarios = this.comentarioService.findByFiestaId(fiestaId);
+			Collection<Valoracion> valoraciones = this.valoracionService.findByFiestaId(fiestaId);
 
-		mav.addObject("valoraciones", valoraciones);
-		mav.addObject("comentarios", comentarios);
-		mav.addObject("fiesta", this.fiestaService.findFiestaById(fiestaId));
-		mav.addObject("anuncios", anuncios);
-	}else
+			mav.addObject("valoraciones", valoraciones);
+			mav.addObject("comentarios", comentarios);
+			mav.addObject("fiesta", this.fiestaService.findFiestaById(fiestaId));
+			mav.addObject("anuncios", anuncios);
+		} else
 
-	{
-		mav = new ModelAndView("exception");
-		mav.addObject("message", "No puede ver esta fiesta");
-	}return mav;
+		{
+			mav = new ModelAndView("exception");
+			mav.addObject("message", "No puede ver esta fiesta");
+		}
+		return mav;
 	}
 
 	@GetMapping(value = { "/fiestas/buscar" })
@@ -161,8 +155,7 @@ public class FiestaController {
 	@GetMapping(value = { "/cliente/fiestas" })
 	public String verMisFiestas(final Map<String, Object> model) {
 
-		String username = SecurityContextHolder.getContext().getAuthentication().getName();
-		Cliente c = this.clienteService.findByUsername(username);
+		Cliente c = this.clienteService.getClienteLogado();
 		Collection<Fiesta> fiestas = this.fiestaService.findByClienteId(c.getId());
 		model.put("fiestas", fiestas);
 		model.put("misfiestas", true);
@@ -170,19 +163,17 @@ public class FiestaController {
 		return "fiestas/listaFiestas";
 	}
 
-	// CREATE
 	@GetMapping(value = "/fiestas/new/{localId}")
 	public String initCreationForm(@PathVariable("localId") final int localId, final ModelMap model) {
 		try {
-			String username = SecurityContextHolder.getContext().getAuthentication().getName();
-			Cliente cliente = this.clienteService.findByUsername(username);
+			Cliente cliente = this.clienteService.getClienteLogado();
 			Local local = this.localService.findLocalById(localId);
 
 			if (cliente == null || !local.getDecision().equals("ACEPTADO")) {
 				throw new Exception();
 			} else {
 				Fiesta fiesta = new Fiesta();
-				
+
 				model.put("fiesta", fiesta);
 				model.put("localId", localId);
 				return "fiestas/new";
@@ -201,8 +192,7 @@ public class FiestaController {
 			model.put("fiesta", fiesta);
 			return "fiestas/new";
 		} else {
-			Cliente cliente = this.clienteService
-					.findByUsername(SecurityContextHolder.getContext().getAuthentication().getName());
+			Cliente cliente = this.clienteService.getClienteLogado();
 			Local local = this.localService.findLocalById(localId);
 			fiesta.setNumeroAsistentes(0);
 			fiesta.setLocal(local);
@@ -213,15 +203,13 @@ public class FiestaController {
 		}
 	}
 
-	// EDIT
 	@GetMapping(value = "/fiestas/{fiestaId}/editar")
 	public String initUpdateForm(@PathVariable("fiestaId") final int fiestaId, final ModelMap model) {
 		Fiesta fiesta = this.fiestaService.findFiestaById(fiestaId);
 
 		try {
-			String username = SecurityContextHolder.getContext().getAuthentication().getName();
-			Cliente cliente = this.clienteService.findByUsername(username);
-			if (cliente == null || !this.fiestaService.findByClienteId(cliente.getId()).contains(fiesta)) {
+			Cliente cliente = this.clienteService.getClienteLogado();
+			if (!esFiestaDelCliente(cliente, fiesta)) {
 				throw new Exception();
 			} else {
 				model.put("fiesta", fiesta);
@@ -251,6 +239,14 @@ public class FiestaController {
 
 			return "redirect:/fiestas/" + fiesta.getId();
 		}
+	}
+
+	private Boolean esFiestaDelCliente(Cliente cliente, Fiesta fiesta) {
+		return cliente != null && this.fiestaService.findByClienteId(cliente.getId()).contains(fiesta);
+	}
+
+	private Boolean esFiestaDelPropietario(Propietario p, Fiesta fiesta) {
+		return p != null && this.localService.findByPropietarioId(p.getId()).contains(fiesta.getLocal());
 	}
 
 }

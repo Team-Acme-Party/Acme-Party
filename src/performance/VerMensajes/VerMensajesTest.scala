@@ -76,19 +76,21 @@ class VerMensajesTest extends Simulation {
 
 	val positivo = scenario("VerMensajeTestPositivo").exec(
 		Welcome.welcome,
+        Login.login,
 		MyMensajes.myMensajes,
 		ShowMensaje.showMensaje
 	)
 
 	val negativo = scenario("VerMensajesTestNegativo").exec(
 		Welcome.welcome,
+        Login.login,
 		MyMensajes.myMensajes,
 		ShowMensajeWrong.showMensajeWrong
 	)
 	
 	setUp(
-        positivo.inject(rampUsers(5000) during(100 seconds)),
-        negativo.inject(rampUsers(5000) during(100 seconds))
+        positivo.inject(rampUsers(4000) during(100 seconds)),
+        negativo.inject(rampUsers(4000) during(100 seconds))
     )
     .protocols(httpProtocol)
     .assertions(

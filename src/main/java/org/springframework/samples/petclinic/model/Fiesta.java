@@ -21,8 +21,6 @@ import org.springframework.format.annotation.NumberFormat;
 @Table(name = "fiestas")
 public class Fiesta extends BaseEntity {
 
-	//Propiedades
-
 	@Column(name = "nombre")
 	@NotBlank
 	private String		nombre;
@@ -82,8 +80,6 @@ public class Fiesta extends BaseEntity {
 	@JoinColumn(name = "local_id")
 	private Local		local;
 
-
-	//Getters y setters
 
 	public String getNombre() {
 		return this.nombre;

@@ -18,8 +18,6 @@ import org.springframework.format.annotation.NumberFormat;
 @Table(name = "locales")
 public class Local extends BaseEntity {
 
-	//Propiedades
-
 	@NotBlank
 	@Column(name = "direccion")
 	private String		direccion;
@@ -47,8 +45,6 @@ public class Local extends BaseEntity {
 	@JoinColumn(name = "propietario_id")
 	private Propietario	propietario;
 
-
-	//Getters y setters
 
 	public String getDireccion() {
 		return this.direccion;

@@ -23,81 +23,72 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 public class LocalControllerE2ETests {
 
 	@Autowired
-	private MockMvc					mockMvc;
+	private MockMvc mockMvc;
 
-	private static final Integer	LOCAL_ID			= 1;
-	private static final Integer	LOCAL_FALSO_ID	= 50;
-	private static final Integer	LOCAL_ACEPTADO_ID	= 4;
-	private static final Integer	LOCAL_PENDIENTE_LOCAL_ID	= 2;
-	private static final Integer	FIESTA_ID			= 1;
+	private static final Integer LOCAL_ID = 1;
+	private static final Integer LOCAL_FALSO_ID = 50;
+	private static final Integer LOCAL_PENDIENTE_LOCAL_ID = 2;
 
-
-	//Ver locales
-	@WithMockUser(username = "propietario1", authorities = {
-		"propietario"
-	})
+	@WithMockUser(username = "propietario1", authorities = { "propietario" })
 	@Test
 	@DisplayName("Test para peticion GET de los locales de un propietario")
 	void testVerMisAnuncios() throws Exception {
-		this.mockMvc.perform(MockMvcRequestBuilders.get("/propietario/locales")).andExpect(MockMvcResultMatchers.model().attributeExists("locales")).andExpect(MockMvcResultMatchers.model().attributeExists("mislocales"))
-			.andExpect(MockMvcResultMatchers.status().is2xxSuccessful()).andExpect(MockMvcResultMatchers.view().name("locales/listaLocales"));
+		this.mockMvc.perform(MockMvcRequestBuilders.get("/propietario/locales"))
+				.andExpect(MockMvcResultMatchers.model().attributeExists("locales"))
+				.andExpect(MockMvcResultMatchers.model().attributeExists("mislocales"))
+				.andExpect(MockMvcResultMatchers.status().is2xxSuccessful())
+				.andExpect(MockMvcResultMatchers.view().name("locales/listaLocales"));
 	}
 
-	@WithMockUser(username = "propietario50", authorities = {
-		"propietario"
-	})
+	@WithMockUser(username = "propietario50", authorities = { "propietario" })
 	@Test
 	@DisplayName("Test Negativo para peticion GET de los locales de un propietario que no existe")
 	void testNegativoVerMisLocales() throws Exception {
-		this.mockMvc.perform(MockMvcRequestBuilders.get("/propietario/locales")).andExpect(MockMvcResultMatchers.model().attributeDoesNotExist("locales")).andExpect(MockMvcResultMatchers.status().is2xxSuccessful())
-			.andExpect(MockMvcResultMatchers.view().name("exception"));
+		this.mockMvc.perform(MockMvcRequestBuilders.get("/propietario/locales"))
+				.andExpect(MockMvcResultMatchers.model().attributeDoesNotExist("locales"))
+				.andExpect(MockMvcResultMatchers.status().is2xxSuccessful())
+				.andExpect(MockMvcResultMatchers.view().name("exception"));
 	}
 
-	@WithMockUser(username = "propietario1", authorities = {
-		"propietario"
-	})
+	@WithMockUser(username = "propietario1", authorities = { "propietario" })
 	@Test
 	@DisplayName("Test para peticion GET de los detalles del local ")
 	void testDetallesLocal() throws Exception {
-		this.mockMvc.perform(MockMvcRequestBuilders.get("/locales/{localId}", LOCAL_ID)).andExpect(MockMvcResultMatchers.status().is2xxSuccessful()).andExpect(MockMvcResultMatchers.view().name("locales/localDetails"))
-		.andExpect(MockMvcResultMatchers.model().attributeExists("valoraciones")).andExpect(MockMvcResultMatchers.model().attributeExists("comentarios")).andExpect(MockMvcResultMatchers.model().attributeExists("anuncios"));
+		this.mockMvc.perform(MockMvcRequestBuilders.get("/locales/{localId}", LOCAL_ID))
+				.andExpect(MockMvcResultMatchers.status().is2xxSuccessful())
+				.andExpect(MockMvcResultMatchers.view().name("locales/localDetails"))
+				.andExpect(MockMvcResultMatchers.model().attributeExists("valoraciones"))
+				.andExpect(MockMvcResultMatchers.model().attributeExists("comentarios"))
+				.andExpect(MockMvcResultMatchers.model().attributeExists("anuncios"));
 	}
 
-	@WithMockUser(username = "propietario2", authorities = {
-		"propietario"
-	})
+	@WithMockUser(username = "propietario2", authorities = { "propietario" })
 	@Test
 	@DisplayName("Test Negativo para peticion GET de los detalles de un local no aceptado")
 	void testNegativoDetallesLocal() throws Exception {
 		this.mockMvc.perform(MockMvcRequestBuilders.get("/locales/{localId}", LOCAL_PENDIENTE_LOCAL_ID))
-		.andExpect(MockMvcResultMatchers.status().is2xxSuccessful())
-		.andExpect(MockMvcResultMatchers.view().name("exception"))
-		.andExpect(MockMvcResultMatchers.model().attributeExists("message"))
-		;
+				.andExpect(MockMvcResultMatchers.status().is2xxSuccessful())
+				.andExpect(MockMvcResultMatchers.view().name("exception"))
+				.andExpect(MockMvcResultMatchers.model().attributeExists("message"));
 	}
-	
-	@WithMockUser(username = "propietario1", authorities = {
-		"propietario"
-	})
+
+	@WithMockUser(username = "propietario1", authorities = { "propietario" })
 	@Test
 	@DisplayName("Test Negativo para peticion GET de los detalles de un local que no existe")
 	void testNegativoDetallesLocal2() throws Exception {
 		this.mockMvc.perform(MockMvcRequestBuilders.get("/locales/{localId}", LOCAL_FALSO_ID))
-		.andExpect(MockMvcResultMatchers.status().is2xxSuccessful())
-		.andExpect(MockMvcResultMatchers.view().name("exception"));
+				.andExpect(MockMvcResultMatchers.status().is2xxSuccessful())
+				.andExpect(MockMvcResultMatchers.view().name("exception"));
 	}
-	
-	//Crear local
-	@WithMockUser(username = "propietario1", authorities = {
-		"propietario"
-	})
+
+	@WithMockUser(username = "propietario1", authorities = { "propietario" })
 	@Test
 	@DisplayName("Test para peticion GET del formulario de registro de un local")
 	void testFormularioLocal() throws Exception {
 		this.mockMvc.perform(MockMvcRequestBuilders.get("/locales/new"))
-		.andExpect(MockMvcResultMatchers.status().isOk())
-		.andExpect(MockMvcResultMatchers.model().attributeExists("local"))
-		.andExpect(MockMvcResultMatchers.view().name("locales/createLocalForm"));
+				.andExpect(MockMvcResultMatchers.status().isOk())
+				.andExpect(MockMvcResultMatchers.model().attributeExists("local"))
+				.andExpect(MockMvcResultMatchers.view().name("locales/createLocalForm"));
 	}
 
 	@WithMockUser(username = "propietario50", authorities = { "propietario" })
@@ -135,7 +126,6 @@ public class LocalControllerE2ETests {
 				.andExpect(MockMvcResultMatchers.view().name("locales/createLocalForm"));
 	}
 
-	// Aceptar y rechazar un local
 	@WithMockUser(username = "admin", authorities = { "admin" })
 	@Test
 	@DisplayName("Test aceptar solicitud del local")
@@ -176,7 +166,6 @@ public class LocalControllerE2ETests {
 				.andExpect(MockMvcResultMatchers.status().is4xxClientError());
 	}
 
-	// Formulario buscar local
 	@WithMockUser(username = "propietario1", authorities = { "propietario" })
 	@Test
 	@DisplayName("Test para peticion GET del formulario de busqueda de un local")
@@ -186,6 +175,7 @@ public class LocalControllerE2ETests {
 				.andExpect(MockMvcResultMatchers.model().attributeExists("local"))
 				.andExpect(MockMvcResultMatchers.view().name("locales/buscarLocales"));
 	}
+
 	@WithMockUser(value = "spring")
 	@Test
 	@DisplayName("Test para peticion GET del resultado del formulario de busqueda de locales")
@@ -204,6 +194,5 @@ public class LocalControllerE2ETests {
 				.andExpect(MockMvcResultMatchers.status().is2xxSuccessful())
 				.andExpect(MockMvcResultMatchers.view().name("locales/buscarLocales"));
 	}
-
 
 }

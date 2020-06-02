@@ -30,8 +30,6 @@ public class FiestaControllerE2ETests {
 	private static final Integer	FIESTA_FALSO_ID	= 21;
 
 
-	//Listado de fiestas
-
 	@WithMockUser(username = "cliente1", authorities = {
 		"cliente"
 	})
@@ -63,8 +61,6 @@ public class FiestaControllerE2ETests {
 			.andExpect(MockMvcResultMatchers.view().name("fiestas/buscarFiestas"));
 	}
 
-	//Detalles de una fiesta
-
 	@WithMockUser(username = "cliente2", authorities = {
 		"cliente"
 	})
@@ -91,8 +87,6 @@ public class FiestaControllerE2ETests {
 	void testNegativoDetallesFiestaPorRolIncorrecto() throws Exception {
 		this.mockMvc.perform(MockMvcRequestBuilders.get("/fiestas/{fiestaId}", 2)).andExpect(MockMvcResultMatchers.status().is2xxSuccessful()).andExpect(MockMvcResultMatchers.view().name("exception"));
 	}
-
-	//Listado de fiestas organizadas por un cliente
 
 	@WithMockUser(username = "cliente1", authorities = {
 		"cliente"
@@ -123,8 +117,6 @@ public class FiestaControllerE2ETests {
 		this.mockMvc.perform(MockMvcRequestBuilders.get("/cliente/fiestas")).andExpect(MockMvcResultMatchers.status().is4xxClientError());
 	}
 
-	//Editar una fiesta
-
 	@WithMockUser(username = "cliente1", authorities = {
 		"cliente"
 	})
@@ -152,18 +144,18 @@ public class FiestaControllerE2ETests {
 		this.mockMvc.perform(MockMvcRequestBuilders.post("/fiestas/1/editar")).andExpect(MockMvcResultMatchers.status().is4xxClientError());
 	}
 
-	//	@WithMockUser(value = "spring")
-	//	@Test
-	//	@DisplayName("TestPositivoUpdateFiesta")
-	//	void testProcessUpdateFiestaFormSuccess() throws Exception {
-	//		this.mockMvc.perform(MockMvcRequestBuilders.post("/fiestas/{fiestaId}/editar", 1)
-	//				.with(SecurityMockMvcRequestPostProcessors.csrf()).param("nombre", "Joe").param("descripcion", "Bloggs")
-	//				.param("id", "1").param("precio", "3.3").param("requisitos", "Testing").param("fecha", "2015/05/25")
-	//				.param("horaInicio", "18:20:58.417").param("horaFin", "12:00").param("numeroAsistentes", "12")
-	//				.param("imagen", "https://welcometoibiza.jpg"))
-	//		.andExpect(MockMvcResultMatchers.status().is2xxSuccessful())
-	//		.andExpect(MockMvcResultMatchers.view().name("fiestas/new"));
-	//	}
+	@WithMockUser(value = "spring")
+	@Test
+	@DisplayName("TestPositivoUpdateFiesta")
+	void testProcessUpdateFiestaFormSuccess() throws Exception {
+		this.mockMvc.perform(MockMvcRequestBuilders.post("/fiestas/{fiestaId}/editar", 1)
+				.with(SecurityMockMvcRequestPostProcessors.csrf()).param("nombre", "Joe").param("descripcion", "Bloggs")
+				.param("id", "1").param("precio", "3.3").param("requisitos", "Testing").param("fecha", "2015/05/25")
+				.param("horaInicio", "18:20:58.417").param("horaFin", "12:00").param("numeroAsistentes", "12")
+				.param("imagen", "https://welcometoibiza.jpg"))
+				.andExpect(MockMvcResultMatchers.status().is2xxSuccessful())
+				.andExpect(MockMvcResultMatchers.view().name("fiestas/new"));
+	}
 
 	@WithMockUser(username = "cliente2", authorities = {
 		"cliente"

@@ -13,29 +13,24 @@ import org.hibernate.validator.constraints.Range;
 @Table(name = "valoraciones")
 public class Valoracion extends BaseEntity {
 
-	//Propiedades
-
 	@Column(name = "comentario")
-	private String	comentario;
+	private String comentario;
 
 	@Column(name = "valor")
 	@Range(min = 0, max = 5)
-	private Double	valor;
+	private Double valor;
 
 	@ManyToOne
 	@JoinColumn(name = "cliente_id")
-	private Cliente	cliente;
+	private Cliente cliente;
 
 	@ManyToOne
 	@JoinColumn(name = " local_id")
-	private Local	local;
+	private Local local;
 
 	@ManyToOne
 	@JoinColumn(name = " fiesta_id")
-	private Fiesta	fiesta;
-
-
-	//Getters y setters
+	private Fiesta fiesta;
 
 	public String getComentario() {
 		return this.comentario;
