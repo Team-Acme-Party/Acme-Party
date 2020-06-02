@@ -9,13 +9,15 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
+import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase.Replace;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.samples.petclinic.model.Mensaje;
 import org.springframework.stereotype.Service;
 
 @DataJpaTest(includeFilters = @ComponentScan.Filter(Service.class))
-//@AutoConfigureTestDatabase(replace=Replace.NONE)
+@AutoConfigureTestDatabase(replace = Replace.NONE)
 public class MensajeServiceTest {
 
 	@Autowired
@@ -47,8 +49,7 @@ public class MensajeServiceTest {
 		Assertions.assertEquals(mensajes.contains(mensaje2), false);
 		Assertions.assertEquals(mensajes2.contains(mensaje3), false);
 	}
-	
-	
+
 	@Test
 	@DisplayName("Test positivo crear mensajes")
 	void testCrearMensajePositivo() {
@@ -63,11 +64,11 @@ public class MensajeServiceTest {
 		nuevo.setHora(LocalTime.now());
 		try {
 			this.mensajeService.save(nuevo);
-		}catch (Exception e) {
+		} catch (Exception e) {
 			e.printStackTrace();
-		}finally {
+		} finally {
 			Collection<Mensaje> despues = this.mensajeService.findAll();
-			Assertions.assertEquals(mensajesAntes.size(), despues.size()-1 );
+			Assertions.assertEquals(mensajesAntes.size(), despues.size() - 1);
 		}
 	}
 	@Test
@@ -83,10 +84,9 @@ public class MensajeServiceTest {
 		nuevo.setHora(LocalTime.now());
 		try {
 			this.mensajeService.save(nuevo);
-		}catch (Exception e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
-
 
 }
