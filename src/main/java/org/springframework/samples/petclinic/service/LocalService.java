@@ -4,6 +4,8 @@ package org.springframework.samples.petclinic.service;
 import java.util.Collection;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.dao.DataAccessException;
 import org.springframework.samples.petclinic.model.Local;
 import org.springframework.samples.petclinic.repository.LocalRepository;
@@ -31,12 +33,13 @@ public class LocalService {
 		return this.localRepository.findAccepted();
 	}
 
-	@Transactional(readOnly = true)
+	@Transactional(readOnly = true)	
 	public Collection<Local> findRechazado() throws DataAccessException {
 		return this.localRepository.findRechazado();
 	}
 	
 	@Transactional(readOnly = true)
+  @Cacheable("localPending")
 	public Collection<Local> findPending() throws DataAccessException {
 		return this.localRepository.findPending();
 	}
@@ -46,9 +49,10 @@ public class LocalService {
 		return this.localRepository.findById(localId);
 	}
 
-	@Transactional
+	@Transactional(readOnly = true)
+	@Cacheable("localByDireccion")
 	public Collection<Local> findByDireccion(String direccion) throws DataAccessException {
-		direccion=direccion.toUpperCase();
+		direccion = direccion.toUpperCase();
 		return this.localRepository.findByDireccion(direccion);
 	}
 
@@ -58,6 +62,7 @@ public class LocalService {
 	}
 
 	@Transactional
+	@CacheEvict(cacheNames = "localPending", allEntries = true)
 	public Local denegarSolicitudLocal(final int localId) throws DataAccessException {
 		Local localEdit = this.findLocalById(localId);
 		localEdit.setDecision("RECHAZADO");
@@ -66,6 +71,9 @@ public class LocalService {
 	}
 
 	@Transactional
+	@CacheEvict(cacheNames = {
+		"localPending", "localByDireccion"
+	}, allEntries = true)
 	public Local aceptarSolicitudLocal(final int localId) throws DataAccessException {
 		Local localEdit = this.findLocalById(localId);
 		localEdit.setDecision("ACEPTADO");
@@ -74,6 +82,7 @@ public class LocalService {
 	}
 
 	@Transactional
+	@CacheEvict(cacheNames = "localPending", allEntries = true)
 	public void saveLocal(final Local local) throws DataAccessException {
 		this.localRepository.save(local);
 	}

@@ -31,7 +31,7 @@ public class AnuncioService {
 		return this.anuncioRepository.findByPatrocinadorId(id);
 	}
 
-	@Transactional
+	@Transactional(readOnly = true)
 	public Collection<Anuncio> findByClienteId(final int id) throws DataAccessException {
 		return this.anuncioRepository.findByClienteId(id);
 	}
