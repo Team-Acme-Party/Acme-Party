@@ -26,17 +26,17 @@ public class AdministratorServiceBDTest {
 	@Test
 	@DisplayName("Test positivo dashboard")
 	void testPositivoDashboard() {
-		Double localP = this.administratorService.localPendiente();
-		Double localA = this.administratorService.localAceptado();
-		Double localR = this.administratorService.localRechazado();
+		String localP = this.administratorService.localPendiente();
+		String localA = this.administratorService.localAceptado();
+		String localR = this.administratorService.localRechazado();
 		
-		Double fiestaA = this.administratorService.fiestaAceptado();
-		Double fiestaP = this.administratorService.fiestaPendiente();
-		Double fiestaR = this.administratorService.fiestaRechazado();
+		String fiestaA = this.administratorService.fiestaAceptado();
+		String fiestaP = this.administratorService.fiestaPendiente();
+		String fiestaR = this.administratorService.fiestaRechazado();
 		
-		Double solicitudA = this.administratorService.solicitudAceptado();
-		Double solicitudP = this.administratorService.solicitudPendiente();
-		Double solicitudR = this.administratorService.solicitudRechazado();
+		String solicitudA = this.administratorService.solicitudAceptado();
+		String solicitudP = this.administratorService.solicitudPendiente();
+		String solicitudR = this.administratorService.solicitudRechazado();
 		
 		assertNotNull(localP);
 		assertNotNull(localA);
@@ -55,27 +55,27 @@ public class AdministratorServiceBDTest {
 	@Test
 	@DisplayName("Test negativo dashboard")
 	void testNegativoDashboard() {
-		Double localP = this.administratorService.localPendiente();
-		Double localA = this.administratorService.localAceptado();
-		Double localR = this.administratorService.localRechazado();
+		String localP = this.administratorService.localPendiente();
+		String localA = this.administratorService.localAceptado();
+		String localR = this.administratorService.localRechazado();
 		
-		Double fiestaA = this.administratorService.fiestaAceptado();
-		Double fiestaP = this.administratorService.fiestaPendiente();
-		Double fiestaR = this.administratorService.fiestaRechazado();
+		String fiestaA = this.administratorService.fiestaAceptado();
+		String fiestaP = this.administratorService.fiestaPendiente();
+		String fiestaR = this.administratorService.fiestaRechazado();
 		
-		Double solicitudA = this.administratorService.solicitudAceptado();
-		Double solicitudP = this.administratorService.solicitudPendiente();
-		Double solicitudR = this.administratorService.solicitudRechazado();
+		String solicitudA = this.administratorService.solicitudAceptado();
+		String solicitudP = this.administratorService.solicitudPendiente();
+		String solicitudR = this.administratorService.solicitudRechazado();
 		
-		assertNotEquals(0.0, localA);
+		assertNotEquals("0.0", localA);
 		assertNotNull(localP);
 		assertNotNull(localR);
 		
-		assertNotEquals(0.0, fiestaA);
+		assertNotEquals("0.0", fiestaA);
 		assertNotNull(fiestaP);
 		assertNotNull(fiestaR);
 		
-		assertNotEquals(0.0, solicitudA);
+		assertNotEquals("0.0", solicitudA);
 		assertNotNull(solicitudP);
 		assertNotNull(solicitudR);	
 		

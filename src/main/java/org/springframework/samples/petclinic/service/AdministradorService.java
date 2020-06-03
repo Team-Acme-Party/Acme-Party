@@ -16,6 +16,8 @@
 
 package org.springframework.samples.petclinic.service;
 
+import java.math.RoundingMode;
+import java.text.DecimalFormat;
 import java.util.Collection;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,10 +45,10 @@ public class AdministradorService {
 
 	@Autowired
 	private LocalService localService;
-	
+
 	@Autowired
 	private FiestaService fiestaService;
-	
+
 	@Autowired
 	private SolicitudAsistenciaService solicitudAsistenciaService;
 
@@ -64,119 +66,137 @@ public class AdministradorService {
 	public Collection<Administrador> findAll() throws DataAccessException {
 		return this.administradorRepository.findAll();
 	}
-	
+
 	public Administrador getAdministradorLogado() {
 		String username = SecurityContextHolder.getContext().getAuthentication().getName();
 		Assert.notNull(username, "Username no logueado");
 		Administrador admin = findByUsername(username);
 		return admin;
 	}
-	
-	public Double localAceptado() {
+
+	public String localAceptado() {
+		DecimalFormat df = new DecimalFormat("#.##");
+		df.setRoundingMode(RoundingMode.DOWN);
 		Collection<Local> locales = this.localService.findAll();
 		Collection<Local> localesA = this.localService.findAccepted();
 		Double resultado = null;
-		if(locales.size()!=0) {
-			 resultado = (double) ((100*localesA.size())/locales.size());
-		}else {
-			 resultado = 0.0;
+		if (locales.size() != 0) {
+			resultado = ((double) (100 * localesA.size()) / (double) locales.size());
+		} else {
+			resultado = 0.00;
 		}
-		return resultado;
+		return (df.format(resultado));
 	}
-	
-	public Double localRechazado() {
+
+	public String localRechazado() {
+		DecimalFormat df = new DecimalFormat("#.##");
+		df.setRoundingMode(RoundingMode.DOWN);
 		Collection<Local> locales = this.localService.findAll();
 		Collection<Local> localesA = this.localService.findRechazado();
 		Double resultado = null;
-		if(locales.size()!=0) {
-			 resultado = (double) ((100*localesA.size())/locales.size());
-		}else {
-			 resultado = 0.0;
+		if (locales.size() != 0) {
+			resultado = ((double) (100 * localesA.size()) / (double) locales.size());
+		} else {
+			resultado = 0.00;
 		}
-		return resultado;
+		return (df.format(resultado));
 	}
-	
-	public Double localPendiente() {
+
+	public String localPendiente() {
+		DecimalFormat df = new DecimalFormat("#.##");
+		df.setRoundingMode(RoundingMode.DOWN);
 		Collection<Local> locales = this.localService.findAll();
 		Collection<Local> localesA = this.localService.findPending();
 		Double resultado = null;
-		if(locales.size()!=0) {
-			 resultado = (double) ((100*localesA.size())/locales.size());
-		}else {
-			 resultado = 0.0;
+		if (locales.size() != 0) {
+			resultado = ((double) (100 * localesA.size()) / (double) locales.size());
+		} else {
+			resultado = 0.00;
 		}
-		return resultado;
+				return (df.format(resultado));
 	}
-	
-	public Double fiestaAceptado() {
+
+	public String fiestaAceptado() {
+		DecimalFormat df = new DecimalFormat("#.##");
+		df.setRoundingMode(RoundingMode.DOWN);
 		Collection<Fiesta> fiesta = this.fiestaService.findAll();
 		Collection<Fiesta> fiestaA = this.fiestaService.findAccepted();
 		Double resultado = null;
-		if(fiesta.size()!=0) {
-			 resultado = (double) ((100*fiestaA.size())/fiesta.size());
-		}else {
-			 resultado = 0.0;
+		if (fiesta.size() != 0) {
+			resultado = ((double) (100 * fiestaA.size()) / (double) fiesta.size());
+		} else {
+			resultado = 0.00;
 		}
-		return resultado;
+				return (df.format(resultado));
 	}
-	
-	public Double fiestaRechazado() {
+
+	public String fiestaRechazado() {
+		DecimalFormat df = new DecimalFormat("#.##");
+		df.setRoundingMode(RoundingMode.DOWN);
 		Collection<Fiesta> fiesta = this.fiestaService.findAll();
 		Collection<Fiesta> fiestaA = this.fiestaService.findRechazado();
 		Double resultado = null;
-		if(fiesta.size()!=0) {
-			 resultado = (double) ((100*fiestaA.size())/fiesta.size());
-		}else {
-			 resultado = 0.0;
+		if (fiesta.size() != 0) {
+			resultado = ((double) (100 * fiestaA.size()) / (double) fiesta.size());
+		} else {
+			resultado = 0.00;
 		}
-		return resultado;
+				return (df.format(resultado));
 	}
-	
-	public Double fiestaPendiente() {
+
+	public String fiestaPendiente() {
+		DecimalFormat df = new DecimalFormat("#.##");
+		df.setRoundingMode(RoundingMode.DOWN);
 		Collection<Fiesta> fiesta = this.fiestaService.findAll();
 		Collection<Fiesta> fiestaA = this.fiestaService.findPendiente();
 		Double resultado = null;
-		if(fiesta.size()!=0) {
-			 resultado = (double) ((100*fiestaA.size())/fiesta.size());
-		}else {
-			 resultado = 0.0;
+		if (fiesta.size() != 0) {
+			resultado = ((double) (100 * fiestaA.size()) / (double) fiesta.size());
+		} else {
+			resultado = 0.00;
 		}
-		return resultado;
+				return (df.format(resultado));
 	}
-	
-	public Double solicitudAceptado() {
+
+	public String solicitudAceptado() {
+		DecimalFormat df = new DecimalFormat("#.##");
+		df.setRoundingMode(RoundingMode.DOWN);
 		Collection<SolicitudAsistencia> solicitudAsistencia = this.solicitudAsistenciaService.findAll();
 		Collection<SolicitudAsistencia> solicitudAsistenciaA = this.solicitudAsistenciaService.findAccepted();
 		Double resultado = null;
-		if(solicitudAsistencia.size()!=0) {
-			 resultado = (double) ((100*solicitudAsistenciaA.size())/solicitudAsistencia.size());
-		}else {
-			 resultado = 0.0;
+		if (solicitudAsistencia.size() != 0) {
+			resultado = ((double) (100 * solicitudAsistenciaA.size()) / (double) solicitudAsistencia.size());
+		} else {
+			resultado = 0.00;
 		}
-		return resultado;
+				return (df.format(resultado));
 	}
-	
-	public Double solicitudRechazado() {
+
+	public String solicitudRechazado() {
+		DecimalFormat df = new DecimalFormat("#.##");
+		df.setRoundingMode(RoundingMode.DOWN);
 		Collection<SolicitudAsistencia> solicitudAsistencia = this.solicitudAsistenciaService.findAll();
 		Collection<SolicitudAsistencia> solicitudAsistenciaA = this.solicitudAsistenciaService.findRechazado();
 		Double resultado = null;
-		if(solicitudAsistencia.size()!=0) {
-			 resultado = (double) ((100*solicitudAsistenciaA.size())/solicitudAsistencia.size());
-		}else {
-			 resultado = 0.0;
+		if (solicitudAsistencia.size() != 0) {
+			resultado = ((double) (100 * solicitudAsistenciaA.size()) / (double) solicitudAsistencia.size());
+		} else {
+			resultado = 0.00;
 		}
-		return resultado;
+				return (df.format(resultado));
 	}
-	
-	public Double solicitudPendiente() {
+
+	public String solicitudPendiente() {
+		DecimalFormat df = new DecimalFormat("#.##");
+		df.setRoundingMode(RoundingMode.DOWN);
 		Collection<SolicitudAsistencia> solicitudAsistencia = this.solicitudAsistenciaService.findAll();
 		Collection<SolicitudAsistencia> solicitudAsistenciaA = this.solicitudAsistenciaService.findPendiente();
 		Double resultado = null;
-		if(solicitudAsistencia.size()!=0) {
-			 resultado = (double) ((100*solicitudAsistenciaA.size())/solicitudAsistencia.size());
-		}else {
-			 resultado = 0.0;
+		if (solicitudAsistencia.size() != 0) {
+			resultado = ((double) (100 * solicitudAsistenciaA.size()) / (double) solicitudAsistencia.size());
+		} else {
+			resultado = 0.00;
 		}
-		return resultado;
+				return (df.format(resultado));
 	}
 }

@@ -29,17 +29,17 @@ public class AdministratorControllerTests {
 
 	@BeforeEach
 	void datosIniciales() {
-		BDDMockito.given(this.administradorService.fiestaAceptado()).willReturn(new Double(20.0));
-		BDDMockito.given(this.administradorService.fiestaPendiente()).willReturn(new Double(20.0));
-		BDDMockito.given(this.administradorService.fiestaRechazado()).willReturn(new Double(60.0));
+		BDDMockito.given(this.administradorService.fiestaAceptado()).willReturn("20.0");
+		BDDMockito.given(this.administradorService.fiestaPendiente()).willReturn("20.0");
+		BDDMockito.given(this.administradorService.fiestaRechazado()).willReturn("60.0");
 
-		BDDMockito.given(this.administradorService.localAceptado()).willReturn(new Double(20.0));
-		BDDMockito.given(this.administradorService.localPendiente()).willReturn(new Double(20.0));
-		BDDMockito.given(this.administradorService.localRechazado()).willReturn(new Double(60.0));
+		BDDMockito.given(this.administradorService.localAceptado()).willReturn("20.0");
+		BDDMockito.given(this.administradorService.localPendiente()).willReturn("20.0");
+		BDDMockito.given(this.administradorService.localRechazado()).willReturn("60.0");
 
-		BDDMockito.given(this.administradorService.solicitudAceptado()).willReturn(new Double(20.0));
-		BDDMockito.given(this.administradorService.solicitudPendiente()).willReturn(new Double(20.0));
-		BDDMockito.given(this.administradorService.solicitudRechazado()).willReturn(new Double(60.0));
+		BDDMockito.given(this.administradorService.solicitudAceptado()).willReturn("20.0");
+		BDDMockito.given(this.administradorService.solicitudPendiente()).willReturn("20.0");
+		BDDMockito.given(this.administradorService.solicitudRechazado()).willReturn("60.0");
 
 	}
 
