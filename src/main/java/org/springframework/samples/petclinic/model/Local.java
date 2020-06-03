@@ -12,7 +12,6 @@ import javax.validation.constraints.Pattern;
 
 import org.hibernate.validator.constraints.Range;
 import org.hibernate.validator.constraints.URL;
-import org.springframework.format.annotation.NumberFormat;
 
 @Entity
 @Table(name = "locales")
@@ -23,7 +22,6 @@ public class Local extends BaseEntity {
 	private String		direccion;
 
 	@NotNull
-	@NumberFormat
 	@Column(name = "capacidad")
 	@Range(min = 0)
 	private Integer		capacidad;

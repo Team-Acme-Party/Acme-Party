@@ -52,20 +52,18 @@ public class Fiesta extends BaseEntity {
 	@NotNull
 	private LocalTime	horaFin;
 	
+	@Range(min = 0)
 	@Column(name = "numero_asistentes")	
-	
-	@NumberFormat
 	private Integer		numeroAsistentes;
 
 	@Column(name = "aforo")
 	@Range(min = 0)
 	@NotNull
-	@NumberFormat
 	private Integer		aforo;
 
 	@Column(name = "imagen")
-	@URL
 	@NotBlank
+	@URL
 	private String		imagen;
 
 	@Column(name = "decision")

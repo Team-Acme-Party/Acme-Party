@@ -61,7 +61,7 @@
 		</tr>
 		<tr>
 			<th>Imagen</th>
-			<td><img src="${fiesta.imagen}" alt="${fiesta.imagen}" /></td>
+			<td><img src="${fiesta.imagen}" alt="${fiesta.imagen}" height="300px" width="300px" /></td>
 		</tr>
 		<tr>
 			<th>Decision</th>

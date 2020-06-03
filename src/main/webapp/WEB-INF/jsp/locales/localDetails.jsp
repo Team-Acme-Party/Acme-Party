@@ -42,7 +42,7 @@
         </tr>
         <tr>
             <th>Imagen</th>
-            <td><img src="${local.imagen}" alt="${local.imagen}"/></td>
+            <td><img src="${local.imagen}" alt="${local.imagen}"  height="300px" width="300px" /></td>
         </tr>
         <tr>
             <th>Decisión</th>
