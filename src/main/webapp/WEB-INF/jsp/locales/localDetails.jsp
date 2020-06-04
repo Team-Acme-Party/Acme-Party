@@ -160,7 +160,7 @@
 				<div class="form-group has-feedback">
 
 					<petclinic:inputField label="Comentario" name="comentario" />
-
+<petclinic:inputField label="Valor" name="valor" />
 
 				</div>
 				<div class="form-group">

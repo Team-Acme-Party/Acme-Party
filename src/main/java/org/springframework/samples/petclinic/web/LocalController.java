@@ -1,6 +1,7 @@
 
 package org.springframework.samples.petclinic.web;
 
+import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.Collection;
 import java.util.Map;
@@ -66,7 +67,7 @@ public class LocalController {
 	@GetMapping(value = { "/locales/{localId}" })
 	public ModelAndView showLocal(@PathVariable("localId") final int localId) {
 		ModelAndView mav;
-		LocalTime now = LocalTime.now();
+		LocalDate now = LocalDate.now();
 		Local local = this.localService.findLocalById(localId);
 		Cliente c = this.clienteService.getClienteLogado();
 		Propietario propietario = this.propietarioService.getPropietarioLogado();
@@ -90,7 +91,7 @@ public class LocalController {
 				Collection<Fiesta> fiestasCliente = this.solicitudAsistenciaService
 						.findSolicitudFiestaByClienteId(c.getId());
 				for (Fiesta f : fiestasCliente) {
-					if (f.getLocal() == this.localService.findLocalById(localId) && f.getHoraFin().isBefore(now)) {
+					if (f.getLocal() == this.localService.findLocalById(localId) && f.getFecha().isBefore(now)) {
 						mav.addObject("clienteValoracion", true);
 						Valoracion valoracion = new Valoracion();
 						mav.addObject("valoracion", valoracion);

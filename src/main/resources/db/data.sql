@@ -52,7 +52,7 @@ INSERT INTO locales(id, direccion, capacidad, condiciones, imagen, decision, pro
 	'https://salonparafiesta.com/wp-content/uploads/2016/05/local-para-fiestas-hortaleza-1.jpg', 'ACEPTADO', 1);
 INSERT INTO locales(id, direccion, capacidad, condiciones, imagen, decision, propietario_id) 
 	VALUES(2, 'Eduardo Dato 33', 50, 'Para fiestas familiares', 
-	'https://revistafamily.com/wp-content/uploads/2019/01/local-ideal-para-tus-fiestas.jpg', 'PENDIENTE', 1);
+	'https://revistafamily.com/wp-content/uploads/2019/01/local-ideal-para-tus-fiestas.jpg', 'ACEPTADO', 1);
 INSERT INTO locales(id, direccion, capacidad, condiciones, imagen, decision, propietario_id) 
 	VALUES(3, 'Poligono Calonge 2', 1000, 'Para fiestas con drogas', 
 	'https://salonparafiesta.com/wp-content/uploads/2018/03/alquiler-local-fiesta-privada-madrid-2.jpg', 'RECHAZADO', 1);
@@ -66,7 +66,7 @@ INSERT INTO locales(id, direccion, capacidad, condiciones, imagen, decision, pro
 --Fiestas
 INSERT INTO fiestas(id, nombre, descripcion, precio, requisitos, fecha, hora_inicio, hora_fin, numero_asistentes, aforo, imagen, decision, cliente_id, local_id) 
 	VALUES(1, 'Fiesta de disfraces', 'Fiesta de disfraces de todo tipo. Sin alcohol', 15, 'Venir disfrazado y en buen estado',
-	'2020-08-15', '18:00', '23:00', 50, 75, 'https://welcometoibiza.com/wp-content/uploads/2018/02/Fiestas-de-disfraces-en-Ibiza.jpg', 'ACEPTADO', 1, 2);
+	'2020-05-15', '18:00', '23:00', 50, 75, 'https://welcometoibiza.com/wp-content/uploads/2018/02/Fiestas-de-disfraces-en-Ibiza.jpg', 'ACEPTADO', 1, 2);
 	
 INSERT INTO fiestas(id, nombre, descripcion, precio, requisitos, fecha, hora_inicio, hora_fin, numero_asistentes, aforo, imagen, decision, cliente_id, local_id) 
 	VALUES(2, 'Fiesta electronica', 'Fiesta de música electronica para mayores de edad.', 20, 'Ser mayor de edad y no traer drogas.',
