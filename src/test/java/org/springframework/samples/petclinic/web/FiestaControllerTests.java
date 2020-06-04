@@ -1,6 +1,8 @@
 
 package org.springframework.samples.petclinic.web;
 
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
+
 import java.util.Collection;
 import java.util.LinkedList;
 
@@ -105,6 +107,8 @@ public class FiestaControllerTests {
 		BDDMockito.given(this.propietarioService.findByUsername("propietario")).willReturn(this.propietario);
 
 		this.local.setId(3);
+		this.local.setDecision("ACEPTADO");
+		this.local.setCapacidad(100);
 		this.local.setPropietario(this.propietario);
 		Fiesta fiesta1 = new Fiesta();
 		fiesta1.setId(3);
@@ -112,6 +116,7 @@ public class FiestaControllerTests {
 
 		Fiesta fiesta2 = new Fiesta();
 		fiesta1.setNombre("Fiesta de disfraces 1");
+		fiesta1.setLocal(local);
 		fiesta2.setNombre("Fiesta de disfraces 2");
 		Collection<Fiesta> fiestas1 = new LinkedList<Fiesta>();
 		Collection<Fiesta> fiestas2 = new LinkedList<Fiesta>();
@@ -225,7 +230,7 @@ public class FiestaControllerTests {
 				.perform(MockMvcRequestBuilders.post("/fiestas/{fiestasId}/editar", 1)
 						.with(SecurityMockMvcRequestPostProcessors.csrf()).param("nombre", "Joe")
 						.param("descripcion", "Bloggs").param("precio", "3.3").param("fecha", "2015/05/25")
-						.param("horaInicio", "23:00").param("horaFin", "14:00"))
+						.param("aforo", "50").param("horaInicio", "23:00").param("horaFin", "14:00"))
 				.andExpect(MockMvcResultMatchers.status().is2xxSuccessful())
 				.andExpect(MockMvcResultMatchers.view().name("fiestas/new"));
 	}
@@ -245,6 +250,59 @@ public class FiestaControllerTests {
 	void testNegativoAceptarFiesta() throws Exception {
 		this.mockMvc.perform(MockMvcRequestBuilders.get("/local/{localId}/fiesta/{fiestaId}/aceptar", 2, 2))
 				.andExpect(MockMvcResultMatchers.status().is4xxClientError());
+	}
+
+	// NUEVO CREAR FIESTA
+	@WithMockUser(value = "cliente")
+	@Test
+	@DisplayName("Test para peticion GET de un formulario positivo")
+	public void testIniciarFormularioCrearFiestaPostivo() throws Exception {
+		devolverClienteLogadoCliente();
+		this.mockMvc.perform(MockMvcRequestBuilders.get("/fiestas/new/{localId}", 3))
+				.andExpect(MockMvcResultMatchers.status().isOk())
+				.andExpect(MockMvcResultMatchers.view().name("fiestas/new"));
+	}
+
+	@WithMockUser(value = "cliente")
+	@Test
+	@DisplayName("Test para peticion GET de un formulario negativo - No existe el local")
+	public void testIniciarFormularioCrearFiestaNegativoLocal() throws Exception {
+		devolverClienteLogadoCliente();
+		this.mockMvc.perform(MockMvcRequestBuilders.get("/fiestas/new/{localId}", 6666))
+				.andExpect(MockMvcResultMatchers.status().isOk())
+				.andExpect(MockMvcResultMatchers.view().name("exception"));
+	}
+
+	@WithMockUser(value = "cliente")
+	@Test
+	@DisplayName("Test negativo para peticion POST para crear una nueva fiesta - URL incorrecto")
+	public void testProcessCreationFormWrongURL() throws Exception {
+
+		devolverClienteLogadoCliente();
+		this.mockMvc
+				.perform(MockMvcRequestBuilders.post("/fiestas/new/{localId}", 3)
+						.with(SecurityMockMvcRequestPostProcessors.csrf()).param("nombre", "nueva fiesta")
+						.param("descripcion", "creacion").param("precio", "13,3").param("requisitos", "ninguno")
+						.param("aforo", "50").param("imagen", "ddgf"))
+				.andExpect(model().attributeHasFieldErrors("fiesta", "imagen"))
+				.andExpect(MockMvcResultMatchers.status().is2xxSuccessful())
+				.andExpect(MockMvcResultMatchers.view().name("fiestas/new"));
+	}
+
+	@WithMockUser(value = "cliente")
+	@Test
+	@DisplayName("Test negativo para peticion POST para crear una nueva fiesta - Precio incorrecto")
+	public void testProcessCreationFormWrongPrice() throws Exception {
+
+		devolverClienteLogadoCliente();
+		this.mockMvc.perform(MockMvcRequestBuilders.post("/fiestas/new/{localId}", 3)
+				.with(SecurityMockMvcRequestPostProcessors.csrf()).param("nombre", "nueva fiesta")
+				.param("descripcion", "creacion").param("precio", "rerer").param("requisitos", "ninguno")
+				.param("aforo", "50").param("imagen",
+						"https://4.bp.blogspot.com/-21qlqUcqgT4/VlUSvE8qmVI/AAAAAAAAAEY/N6RA40TcsQ4/s1600/tumblr_inline_mymygb26FE1ruzwds.jpg"))
+				.andExpect(model().attributeHasFieldErrors("fiesta", "precio"))
+				.andExpect(MockMvcResultMatchers.status().is2xxSuccessful())
+				.andExpect(MockMvcResultMatchers.view().name("fiestas/new"));
 	}
 
 	private void devolverClienteLogadoCliente() {

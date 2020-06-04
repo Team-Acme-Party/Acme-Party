@@ -17,14 +17,13 @@ import org.springframework.util.Assert;
 public class SolicitudAsistenciaService {
 
 	private SolicitudAsistenciaRepository	solicitudAsistenciaRepository;
-
-	@Autowired
 	private FiestaService					fiestaService;
 
 
 	@Autowired
-	public SolicitudAsistenciaService(final SolicitudAsistenciaRepository solicitudAsistenciaRepository) {
+	public SolicitudAsistenciaService(final SolicitudAsistenciaRepository solicitudAsistenciaRepository,final FiestaService fiestaService) {
 		this.solicitudAsistenciaRepository = solicitudAsistenciaRepository;
+		this.fiestaService = fiestaService;
 	}
 
 	public SolicitudAsistencia create(final Integer fiestaId, final Cliente cliente) {

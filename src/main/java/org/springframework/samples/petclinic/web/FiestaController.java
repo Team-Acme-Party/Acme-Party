@@ -30,9 +30,7 @@ import org.springframework.samples.petclinic.service.ValoracionService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.ModelAndView;;
@@ -65,11 +63,6 @@ public class FiestaController {
 		this.valoracionService = valoracionService;
 		this.solicitudAsistenciaService = solicitudAsistenciaService;
 		this.administradorService = administradorService;
-	}
-
-	@InitBinder("fiesta")
-	public void initPetBinder(final WebDataBinder dataBinder) {
-		dataBinder.setValidator(new FiestaValidator());
 	}
 
 	@GetMapping(value = "/fiestas/{fiestaId}")
@@ -187,13 +180,16 @@ public class FiestaController {
 	@PostMapping(value = "/fiestas/new/{localId}")
 	public String processCreationForm(@PathVariable("localId") final int localId, @Valid final Fiesta fiesta,
 			final BindingResult result, final ModelMap model) {
+
+		Local local = this.localService.findLocalById(localId);
+		validacionesEditarYCrear(fiesta, local, result);
+
 		if (result.hasErrors()) {
 			System.out.println(result.getAllErrors());
 			model.put("fiesta", fiesta);
 			return "fiestas/new";
 		} else {
 			Cliente cliente = this.clienteService.getClienteLogado();
-			Local local = this.localService.findLocalById(localId);
 			fiesta.setNumeroAsistentes(0);
 			fiesta.setLocal(local);
 			fiesta.setCliente(cliente);
@@ -224,6 +220,11 @@ public class FiestaController {
 	@PostMapping(value = "/fiestas/{fiestaId}/editar")
 	public String processUpdateForm(@Valid final Fiesta fiesta, final BindingResult result,
 			@PathVariable("fiestaId") final int fiestaId, final ModelMap model) {
+
+		Fiesta f = fiestaService.findFiestaById(fiestaId);
+		Local local = f.getLocal();
+		validacionesEditarYCrear(fiesta, local, result);
+
 		if (result.hasErrors()) {
 			model.put("fiesta", fiesta);
 			return "fiestas/new";
@@ -249,4 +250,13 @@ public class FiestaController {
 		return p != null && this.localService.findByPropietarioId(p.getId()).contains(fiesta.getLocal());
 	}
 
+	private void validacionesEditarYCrear(Fiesta fiesta, Local local, BindingResult result) {
+		if (fiesta.getAforo() == null || local.getCapacidad() == null || fiesta.getAforo() > local.getCapacidad()) {
+			result.rejectValue("aforo", "ValidateNumeroAsistentesMayor");
+		}
+		if (fiesta.getFecha() == null || fiesta.getFecha().compareTo(LocalDate.now()) < 0) {
+			result.rejectValue("fecha", "ValidateFechaFutura");
+		}
+	}
+	
 }
