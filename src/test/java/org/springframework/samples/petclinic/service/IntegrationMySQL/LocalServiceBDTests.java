@@ -91,9 +91,9 @@ public class LocalServiceBDTests {
 
 	@Test
 	void testAceptarSolicitud() throws Exception {
-		Local local = this.localService.findLocalById(2);
+		Local local = this.localService.findLocalById(5);
 		try {
-			local = this.localService.aceptarSolicitudLocal(2);
+			local = this.localService.aceptarSolicitudLocal(5);
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
@@ -114,9 +114,9 @@ public class LocalServiceBDTests {
 
 	@Test
 	void testRechazarSolicitud() throws Exception {
-		Local local = this.localService.findLocalById(2);
+		Local local = this.localService.findLocalById(5);
 		try {
-			local = this.localService.denegarSolicitudLocal(2);
+			local = this.localService.denegarSolicitudLocal(5);
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {

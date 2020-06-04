@@ -27,7 +27,7 @@ public class LocalControllerE2ETests {
 
 	private static final Integer LOCAL_ID = 1;
 	private static final Integer LOCAL_FALSO_ID = 50;
-	private static final Integer LOCAL_PENDIENTE_LOCAL_ID = 2;
+	private static final Integer LOCAL_PENDIENTE_LOCAL_ID = 5;
 
 	@WithMockUser(username = "propietario1", authorities = { "propietario" })
 	@Test
@@ -62,7 +62,7 @@ public class LocalControllerE2ETests {
 				.andExpect(MockMvcResultMatchers.model().attributeExists("anuncios"));
 	}
 
-	@WithMockUser(username = "propietario2", authorities = { "propietario" })
+	@WithMockUser(username = "propietario1", authorities = { "propietario" })
 	@Test
 	@DisplayName("Test Negativo para peticion GET de los detalles de un local no aceptado")
 	void testNegativoDetallesLocal() throws Exception {
