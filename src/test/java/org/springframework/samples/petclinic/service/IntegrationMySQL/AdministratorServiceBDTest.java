@@ -25,7 +25,7 @@ public class AdministratorServiceBDTest {
 
 	@Test
 	@DisplayName("Test positivo dashboard")
-	void testPositivoDashboard() {
+	void testPositivoDashboard() throws Exception {
 		String localP = this.administratorService.localPendiente();
 		String localA = this.administratorService.localAceptado();
 		String localR = this.administratorService.localRechazado();
@@ -54,7 +54,7 @@ public class AdministratorServiceBDTest {
 	
 	@Test
 	@DisplayName("Test negativo dashboard")
-	void testNegativoDashboard() {
+	void testNegativoDashboard() throws Exception {
 		String localP = this.administratorService.localPendiente();
 		String localA = this.administratorService.localAceptado();
 		String localR = this.administratorService.localRechazado();

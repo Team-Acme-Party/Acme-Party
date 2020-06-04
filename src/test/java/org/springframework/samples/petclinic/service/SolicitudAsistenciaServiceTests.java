@@ -22,18 +22,17 @@ import org.springframework.stereotype.Service;
 public class SolicitudAsistenciaServiceTests {
 
 	@Autowired
-	private SolicitudAsistenciaService	solicitudAsistenciaService;
+	private SolicitudAsistenciaService solicitudAsistenciaService;
 
 	@Autowired
-	private ClienteService				clienteService;
+	private ClienteService clienteService;
 
 	@Autowired
-	private FiestaService				fiestaService;
-
+	private FiestaService fiestaService;
 
 	@Test
 	@DisplayName("Test positivo para ver las solicitudes de un cliente")
-	void testFindAsistenciasByClienteId() {
+	void testFindAsistenciasByClienteId() throws Exception {
 		Collection<SolicitudAsistencia> solicitudesAsistencia = new LinkedList<>();
 		Cliente cliente = this.clienteService.findById(2);
 		solicitudesAsistencia = this.solicitudAsistenciaService.findAsistenciasByClienteId(cliente.getId());
@@ -51,35 +50,38 @@ public class SolicitudAsistenciaServiceTests {
 			}
 		}
 
-		Assertions.assertTrue(!solicitudesAsistencia.isEmpty() && contaisSa1 && contaisSa2, "El cliente 2 contiene al menos las solicitudes creadas en el data.sql");
+		Assertions.assertTrue(!solicitudesAsistencia.isEmpty() && contaisSa1 && contaisSa2,
+				"El cliente 2 contiene al menos las solicitudes creadas en el data.sql");
 	}
 
 	@Test
 	@DisplayName("Test negativo para ver las solicitudes de un cliente que no existe")
-	void testNegativoFindAsistenciasByClienteId() {
+	void testNegativoFindAsistenciasByClienteId() throws Exception {
 		Collection<SolicitudAsistencia> solicitudesAsistencia = new LinkedList<>();
 		Integer idCliente = 99;
 		solicitudesAsistencia = this.solicitudAsistenciaService.findAsistenciasByClienteId(idCliente);
-		Assertions.assertTrue(solicitudesAsistencia.isEmpty(), "El cliente con id 99 no existe debe tener 0 solicitudes segun la BD");
+		Assertions.assertTrue(solicitudesAsistencia.isEmpty(),
+				"El cliente con id 99 no existe debe tener 0 solicitudes segun la BD");
 	}
 
 	@Test
 	@DisplayName("Test negativo para solicitar asistencia a fiesta por un cliente: cliente ya ha solicitado asistencia a la fiesta")
-	void testNegativoSolicitarAsistenciaFiesta2() {
+	void testNegativoSolicitarAsistenciaFiesta2() throws Exception {
 
 		Fiesta fiesta = this.fiestaService.findFiestaById(1);
 		Cliente cliente = this.clienteService.findById(2);
 
-		Assertions.assertThrows(IllegalArgumentException.class, () -> this.solicitudAsistenciaService.create(fiesta.getId(), cliente));
+		Assertions.assertThrows(IllegalArgumentException.class,
+				() -> this.solicitudAsistenciaService.create(fiesta.getId(), cliente));
 
 	}
 
 	@Test
 	@DisplayName("Test positivo para solicitar asistencia a fiesta por un cliente")
-	void testPositivoSolicitarAsistenciaFiesta() {
+	void testPositivoSolicitarAsistenciaFiesta() throws Exception {
 
 		Fiesta fiesta = this.fiestaService.findFiestaById(2);
-		Cliente cliente = this.clienteService.findById(2);
+		Cliente cliente = this.clienteService.findById(1);
 
 		SolicitudAsistencia sa = this.solicitudAsistenciaService.create(fiesta.getId(), cliente);
 		this.solicitudAsistenciaService.save(sa);
@@ -98,7 +100,7 @@ public class SolicitudAsistenciaServiceTests {
 
 	@Test
 	@DisplayName("Test positivo para aceptar una solicitud")
-	void testPositivoAceptarSolicitud() {
+	void testPositivoAceptarSolicitud() throws Exception {
 
 		Cliente cliente = this.clienteService.findById(1);
 		SolicitudAsistencia solicitud = this.solicitudAsistenciaService.findById(2);
@@ -112,18 +114,19 @@ public class SolicitudAsistenciaServiceTests {
 
 	@Test
 	@DisplayName("Test negativo para aceptar una solicitud, la fiesta no pertenece al cliente que va tomar la decision")
-	void testNegativoAceptarSolicitud() {
+	void testNegativoAceptarSolicitud() throws Exception {
 
 		Cliente cliente = this.clienteService.findById(2);
 		SolicitudAsistencia solicitud = this.solicitudAsistenciaService.findById(2);
 		Assertions.assertTrue(solicitud.getDecision().equals("PENDIENTE"), "La solicitud no esta pendiente");
-		Assertions.assertThrows(IllegalArgumentException.class, () -> this.solicitudAsistenciaService.aceptarSolicitud(solicitud.getId(), cliente));
+		Assertions.assertThrows(IllegalArgumentException.class,
+				() -> this.solicitudAsistenciaService.aceptarSolicitud(solicitud.getId(), cliente));
 
 	}
 
 	@Test
 	@DisplayName("Test positivo para rechazar una solicitud")
-	void testPositivoRechazarSolicitud() {
+	void testPositivoRechazarSolicitud() throws Exception {
 
 		Cliente cliente = this.clienteService.findById(1);
 		SolicitudAsistencia solicitud = this.solicitudAsistenciaService.findById(2);
@@ -137,13 +140,14 @@ public class SolicitudAsistenciaServiceTests {
 
 	@Test
 	@DisplayName("Test negativo para Rechazar una solicitud, la fiesta no pertenece al cliente que va tomar la decision")
-	void testNegativoRechazarSolicitud() {
+	void testNegativoRechazarSolicitud() throws Exception {
 
 		Cliente cliente = this.clienteService.findById(2);
 		SolicitudAsistencia solicitud = this.solicitudAsistenciaService.findById(2);
 		solicitud.setDecision("PENDIENTE");
 		Assertions.assertTrue(solicitud.getDecision().equals("PENDIENTE"), "La solicitud no esta pendiente");
-		Assertions.assertThrows(IllegalArgumentException.class, () -> this.solicitudAsistenciaService.rechazarSolicitud(solicitud.getId(), cliente));
+		Assertions.assertThrows(IllegalArgumentException.class,
+				() -> this.solicitudAsistenciaService.rechazarSolicitud(solicitud.getId(), cliente));
 
 	}
 }

@@ -22,21 +22,20 @@ import org.springframework.stereotype.Service;
 public class AnuncioServiceTest {
 
 	@Autowired
-	private AnuncioService		anuncioService;
+	private AnuncioService anuncioService;
 
 	@Autowired
-	private PatrocinadorService	patrocinadorService;
+	private PatrocinadorService patrocinadorService;
 
 	@Autowired
-	private LocalService		localService;
+	private LocalService localService;
 
 	@Autowired
-	private FiestaService		fiestaService;
-
+	private FiestaService fiestaService;
 
 	@Test
 	@DisplayName("Test positivo listar mis anuncios")
-	void testListAnuncios() {
+	void testListAnuncios() throws Exception {
 		Collection<Anuncio> anuncios = this.anuncioService.findByPatrocinadorId(1);
 		Anuncio anuncio1 = this.anuncioService.findById(1);
 		Anuncio anuncio3 = this.anuncioService.findById(3);
@@ -46,7 +45,7 @@ public class AnuncioServiceTest {
 
 	@Test
 	@DisplayName("Test positivo registro para locales")
-	void testNewAnuncioForLocal() {
+	void testNewAnuncioForLocal() throws Exception {
 		Collection<Anuncio> before = this.anuncioService.findAll();
 		Patrocinador patrocinador = this.patrocinadorService.findById(1);
 		Local local = this.localService.findLocalById(1);
@@ -68,7 +67,7 @@ public class AnuncioServiceTest {
 
 	@Test
 	@DisplayName("Test negativo registro para locales")
-	void testNegativoNewAnuncioForLocal() {
+	void testNegativoNewAnuncioForLocal() throws Exception {
 		Patrocinador patrocinador = this.patrocinadorService.findById(1);
 		Local local = this.localService.findLocalById(1);
 		Anuncio anuncio = new Anuncio();
@@ -86,7 +85,7 @@ public class AnuncioServiceTest {
 
 	@Test
 	@DisplayName("Test positivo registro para fiestas")
-	void testNewAnuncioForFiesta() {
+	void testNewAnuncioForFiesta() throws Exception {
 		Collection<Anuncio> before = this.anuncioService.findAll();
 		Patrocinador patrocinador = this.patrocinadorService.findById(1);
 		Fiesta fiesta = this.fiestaService.findFiestaById(1);
@@ -107,7 +106,7 @@ public class AnuncioServiceTest {
 
 	@Test
 	@DisplayName("Test negativo registro para fiestas")
-	void testNegativoNewAnuncioForFiesta() {
+	void testNegativoNewAnuncioForFiesta() throws Exception {
 		Patrocinador patrocinador = this.patrocinadorService.findById(1);
 		Fiesta fiesta = this.fiestaService.findFiestaById(1);
 		Anuncio anuncio = new Anuncio();
@@ -125,7 +124,7 @@ public class AnuncioServiceTest {
 
 	@Test
 	@DisplayName("Test aceptar anuncio")
-	void testAceptarAnuncio() {
+	void testAceptarAnuncio() throws Exception {
 		Anuncio anuncio = this.anuncioService.findById(4);
 		try {
 			anuncio = this.anuncioService.aceptar(anuncio);
@@ -138,7 +137,7 @@ public class AnuncioServiceTest {
 
 	@Test
 	@DisplayName("Test negativo aceptar anuncio")
-	void testNegativoAceptarAnuncio() {
+	void testNegativoAceptarAnuncio() throws Exception {
 		Anuncio anuncio = this.anuncioService.findById(50);
 		try {
 			this.anuncioService.aceptar(anuncio);
@@ -149,7 +148,7 @@ public class AnuncioServiceTest {
 
 	@Test
 	@DisplayName("Test rechazar anuncio")
-	void testRechazarAnuncio() {
+	void testRechazarAnuncio() throws Exception {
 		Anuncio anuncio = this.anuncioService.findById(4);
 		try {
 			anuncio = this.anuncioService.rechazar(anuncio);
@@ -162,7 +161,7 @@ public class AnuncioServiceTest {
 
 	@Test
 	@DisplayName("Test negativo rechazar anuncio")
-	void testNegativoRechazarAnuncio() {
+	void testNegativoRechazarAnuncio() throws Exception {
 		Anuncio anuncio = this.anuncioService.findById(50);
 		try {
 			this.anuncioService.rechazar(anuncio);

@@ -50,7 +50,7 @@ public class WelcomeControllerTests {
 
 
 	@BeforeEach
-	void datosIniciales() {
+	void datosIniciales() throws Exception {
 		Collection<Local> locales = new ArrayList<Local>();
 		Collection<Fiesta> fiestas = new ArrayList<Fiesta>();
 		Local localA = new Local();

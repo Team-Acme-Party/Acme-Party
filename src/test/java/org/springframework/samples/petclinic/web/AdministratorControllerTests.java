@@ -28,7 +28,7 @@ public class AdministratorControllerTests {
 	private MockMvc mockMvc;
 
 	@BeforeEach
-	void datosIniciales() {
+	void datosIniciales() throws Exception {
 		BDDMockito.given(this.administradorService.fiestaAceptado()).willReturn("20.0");
 		BDDMockito.given(this.administradorService.fiestaPendiente()).willReturn("20.0");
 		BDDMockito.given(this.administradorService.fiestaRechazado()).willReturn("60.0");

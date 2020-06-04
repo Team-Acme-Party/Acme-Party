@@ -23,10 +23,9 @@ public class MensajeServiceTest {
 	@Autowired
 	private MensajeService mensajeService;
 
-
 	@Test
 	@DisplayName("Test positivo listar mis mensajes")
-	void testListMensajesPositivo() {
+	void testListMensajesPositivo() throws Exception {
 		Collection<Mensaje> mensajes = this.mensajeService.findByDestinatario("cliente1");
 		Collection<Mensaje> mensajes2 = this.mensajeService.findByRemitente("cliente1");
 		Mensaje mensaje = this.mensajeService.findById(3);
@@ -39,7 +38,7 @@ public class MensajeServiceTest {
 
 	@Test
 	@DisplayName("Test negativo listar mis mensajes")
-	void testListMensajesNegativo() {
+	void testListMensajesNegativo() throws Exception {
 		Collection<Mensaje> mensajes = this.mensajeService.findByDestinatario("cliente1");
 		Collection<Mensaje> mensajes2 = this.mensajeService.findByRemitente("cliente1");
 		Mensaje mensaje = this.mensajeService.findById(6);
@@ -52,7 +51,7 @@ public class MensajeServiceTest {
 
 	@Test
 	@DisplayName("Test positivo crear mensajes")
-	void testCrearMensajePositivo() {
+	void testCrearMensajePositivo() throws Exception {
 		Collection<Mensaje> mensajesAntes = this.mensajeService.findAll();
 		Mensaje nuevo = new Mensaje();
 		nuevo.setAsunto("asunto");
@@ -71,9 +70,10 @@ public class MensajeServiceTest {
 			Assertions.assertEquals(mensajesAntes.size(), despues.size() - 1);
 		}
 	}
+
 	@Test
 	@DisplayName("Test negativo crear mensajes")
-	void testCrearMensajeNegativo() {
+	void testCrearMensajeNegativo() throws Exception {
 		Mensaje nuevo = new Mensaje();
 		nuevo.setAsunto(null);
 		nuevo.setCuerpo("cuerpo");

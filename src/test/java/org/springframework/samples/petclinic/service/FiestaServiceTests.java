@@ -24,16 +24,15 @@ import org.springframework.stereotype.Service;
 public class FiestaServiceTests {
 
 	@Autowired
-	private FiestaService	fiestaService;
+	private FiestaService fiestaService;
 	@Autowired
-	private ClienteService	clienteService;
+	private ClienteService clienteService;
 	@Autowired
-	private LocalService	localService;
-
+	private LocalService localService;
 
 	@Test
 	@DisplayName("Test positivo registrar una fiesta")
-	void testNewFiesta() {
+	void testNewFiesta() throws Exception {
 		Collection<Fiesta> antes = this.fiestaService.findAll();
 		Cliente cliente = this.clienteService.findById(1);
 		Local local = this.localService.findLocalById(1);
@@ -63,7 +62,7 @@ public class FiestaServiceTests {
 
 	@Test
 	@DisplayName("Test negativo registrar una fiesta")
-	void testNegativoNewFiesta() {
+	void testNegativoNewFiesta() throws Exception {
 		Cliente cliente = this.clienteService.findById(1);
 		Local local = this.localService.findLocalById(1);
 		Fiesta newFiesta = new Fiesta();
@@ -87,7 +86,7 @@ public class FiestaServiceTests {
 
 	@Test
 	@DisplayName("Test editar una fiesta")
-	void testEditarFiesta() {
+	void testEditarFiesta() throws Exception {
 		Fiesta fiesta = this.fiestaService.findFiestaById(1);
 		fiesta.setDescripcion("Testing");
 		try {
@@ -99,7 +98,7 @@ public class FiestaServiceTests {
 
 	@Test
 	@DisplayName("Test negativo editar una fiesta")
-	void testNegativoEditarFiesta() {
+	void testNegativoEditarFiesta() throws Exception {
 		Fiesta fiesta = this.fiestaService.findFiestaById(1);
 		fiesta.setCliente(null);
 		try {
@@ -110,7 +109,7 @@ public class FiestaServiceTests {
 	}
 
 	@Test
-	void testFindAccepted() {
+	void testFindAccepted() throws Exception {
 		Cliente cliente = this.clienteService.findById(1);
 		Local local = this.localService.findLocalById(1);
 		Fiesta newFiesta = new Fiesta();
@@ -134,7 +133,7 @@ public class FiestaServiceTests {
 	}
 
 	@Test
-	void testFindByNombre() {
+	void testFindByNombre() throws Exception {
 		Fiesta fiesta1 = this.fiestaService.findFiestaById(1);
 		Collection<Fiesta> todas = this.fiestaService.findByNombre("Fiesta de disfraces");
 		Boolean contenida = todas.contains(fiesta1);
@@ -143,16 +142,17 @@ public class FiestaServiceTests {
 
 	@Test
 	@DisplayName("Test positivo para ver las fiestas organizadas por un cliente")
-	void testFindFiestasByClienteId() {
+	void testFindFiestasByClienteId() throws Exception {
 		Collection<Fiesta> fiestas = new LinkedList<>();
 		Cliente cliente = this.clienteService.findById(2);
 		fiestas = this.fiestaService.findByClienteId(cliente.getId());
-		Assertions.assertTrue(!fiestas.isEmpty() && fiestas.size() == 2, "El cliente 2 debe tener 2 fiestas organizadas segun la BD");
+		Assertions.assertTrue(!fiestas.isEmpty() && fiestas.size() == 2,
+				"El cliente 2 debe tener 2 fiestas organizadas segun la BD");
 	}
 
 	@Test
 	@DisplayName("Test negativo para ver las fiestas organizadas por un cliente que no existe")
-	void testNegativoFindFiestasByClienteId() {
+	void testNegativoFindFiestasByClienteId() throws Exception {
 		Collection<Fiesta> fiestas = new LinkedList<>();
 		Integer idCliente = -1;
 		fiestas = this.fiestaService.findByClienteId(idCliente);
@@ -161,7 +161,7 @@ public class FiestaServiceTests {
 
 	@Test
 	@DisplayName("Test positivo aceptar fiesta")
-	void testAceptarFiesta() {
+	void testAceptarFiesta() throws Exception {
 		Fiesta fiesta = this.fiestaService.findFiestaById(2);
 		try {
 			this.fiestaService.aceptarSolicitud(2);
@@ -174,7 +174,7 @@ public class FiestaServiceTests {
 
 	@Test
 	@DisplayName("Test negativo aceptar fiesta")
-	void testNegativoAceptarFiesta() {
+	void testNegativoAceptarFiesta() throws Exception {
 		try {
 			this.fiestaService.aceptarSolicitud(50);
 		} catch (Exception e) {
@@ -184,7 +184,7 @@ public class FiestaServiceTests {
 
 	@Test
 	@DisplayName("Test positivo rechazar fiesta")
-	void testRechazarFiesta() {
+	void testRechazarFiesta() throws Exception {
 		Fiesta fiesta = this.fiestaService.findFiestaById(2);
 		try {
 			this.fiestaService.denegarSolicitud(2);
@@ -197,7 +197,7 @@ public class FiestaServiceTests {
 
 	@Test
 	@DisplayName("Test negativo aceptar fiesta")
-	void testNegativoRechazarFiesta() {
+	void testNegativoRechazarFiesta() throws Exception {
 		try {
 			this.fiestaService.denegarSolicitud(50);
 		} catch (Exception e) {

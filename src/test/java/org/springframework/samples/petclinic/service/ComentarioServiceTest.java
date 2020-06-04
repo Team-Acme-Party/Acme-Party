@@ -22,18 +22,17 @@ import org.springframework.stereotype.Service;
 public class ComentarioServiceTest {
 
 	@Autowired
-	private ComentarioService	comentarioService;
+	private ComentarioService comentarioService;
 
 	@Autowired
-	private FiestaService		fiestaService;
+	private FiestaService fiestaService;
 
 	@Autowired
-	private ClienteService		clienteService;
-
+	private ClienteService clienteService;
 
 	@Test
 	@DisplayName("Test positivo registrar un comentario")
-	void testNewComentario() {
+	void testNewComentario() throws Exception {
 		Collection<Comentario> antes = this.comentarioService.findAll();
 		Fiesta fiesta = this.fiestaService.findFiestaById(1);
 		Cliente cliente = this.clienteService.findById(1);
@@ -55,7 +54,7 @@ public class ComentarioServiceTest {
 
 	@Test
 	@DisplayName("Test negativo registrar un comentario")
-	void testNegativoComentario() {
+	void testNegativoComentario() throws Exception {
 		Fiesta fiesta = this.fiestaService.findFiestaById(1);
 		Cliente cliente = this.clienteService.findById(1);
 		Comentario comentario = new Comentario();

@@ -56,6 +56,10 @@
 			<td><c:out value="${fiesta.horaFin}" /></td>
 		</tr>
 		<tr>
+			<th>Aforo</th>
+			<td><c:out value="${fiesta.aforo}" /></td>
+		</tr>
+		<tr>
 			<th>Asistentes</th>
 			<td><c:out value="${fiesta.numeroAsistentes}" /></td>
 		</tr>

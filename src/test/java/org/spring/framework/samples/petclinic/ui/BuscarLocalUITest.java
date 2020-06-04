@@ -7,27 +7,20 @@ import org.junit.Assert;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.openqa.selenium.Alert;
 import org.openqa.selenium.By;
-import org.openqa.selenium.NoAlertPresentException;
-import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 
 public class BuscarLocalUITest {
 
-	private WebDriver		driver;
-	private String			baseUrl;
-	private boolean			acceptNextAlert		= true;
-	private StringBuffer	verificationErrors	= new StringBuffer();
-
+	private WebDriver driver;
+	private StringBuffer verificationErrors = new StringBuffer();
 
 	@BeforeEach
 	public void setUp() throws Exception {
 		String pathToGeckoDriver = "C:\\Users\\Frank\\Downloads";
 		System.setProperty("webdriver.gecko.driver", pathToGeckoDriver + "\\geckodriver.exe");
 		this.driver = new FirefoxDriver();
-		this.baseUrl = "https://www.google.com/";
 		this.driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
 	}
 
@@ -39,7 +32,8 @@ public class BuscarLocalUITest {
 		this.driver.findElement(By.name("direccion")).clear();
 		this.driver.findElement(By.name("direccion")).sendKeys("Luis Montoto");
 		this.driver.findElement(By.xpath("//button[@type='submit']")).click();
-		Assert.assertEquals("Luis Montoto 12", this.driver.findElement(By.xpath("//table[@id='localesTable']/tbody/tr/td")).getText());
+		Assert.assertEquals("Luis Montoto 12",
+				this.driver.findElement(By.xpath("//table[@id='localesTable']/tbody/tr/td")).getText());
 	}
 
 	@AfterEach
@@ -51,36 +45,4 @@ public class BuscarLocalUITest {
 		}
 	}
 
-	private boolean isElementPresent(final By by) {
-		try {
-			this.driver.findElement(by);
-			return true;
-		} catch (NoSuchElementException e) {
-			return false;
-		}
-	}
-
-	private boolean isAlertPresent() {
-		try {
-			this.driver.switchTo().alert();
-			return true;
-		} catch (NoAlertPresentException e) {
-			return false;
-		}
-	}
-
-	private String closeAlertAndGetItsText() {
-		try {
-			Alert alert = this.driver.switchTo().alert();
-			String alertText = alert.getText();
-			if (this.acceptNextAlert) {
-				alert.accept();
-			} else {
-				alert.dismiss();
-			}
-			return alertText;
-		} finally {
-			this.acceptNextAlert = true;
-		}
-	}
 }

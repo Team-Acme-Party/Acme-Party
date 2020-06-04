@@ -53,7 +53,7 @@ public class SolicitudAsistenciaControllerTests {
 	private SolicitudAsistencia solicitud1;
 
 	@BeforeEach
-	void datosCliente() {
+	void datosCliente() throws Exception {
 		this.george = new Cliente();
 		this.george.setApellidos("Apellidos prueba");
 		this.george.setDescripcionGustos("Gustos de prueba");
@@ -169,11 +169,11 @@ public class SolicitudAsistenciaControllerTests {
 				.andExpect(MockMvcResultMatchers.view().name("exception"));
 	}
 
-	private void devolverClienteLogadoGeorge() {
+	private void devolverClienteLogadoGeorge() throws Exception {
 		BDDMockito.given(this.clienteService.getClienteLogado()).willReturn(this.george);
 	}
 
-	private void devolverClienteLogadoNull() {
+	private void devolverClienteLogadoNull() throws Exception {
 		BDDMockito.given(this.clienteService.getClienteLogado()).willReturn(null);
 	}
 }

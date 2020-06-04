@@ -86,7 +86,7 @@ public class FiestaControllerTests {
 	private Local local = new Local();
 
 	@BeforeEach
-	void datosCliente() {
+	void datosCliente() throws Exception {
 		this.cliente = new Cliente();
 		this.cliente.setApellidos("Apellidos prueba");
 		this.cliente.setDescripcionGustos("Gustos de prueba");
@@ -305,11 +305,11 @@ public class FiestaControllerTests {
 				.andExpect(MockMvcResultMatchers.view().name("fiestas/new"));
 	}
 
-	private void devolverClienteLogadoCliente() {
+	private void devolverClienteLogadoCliente() throws Exception {
 		BDDMockito.given(this.clienteService.getClienteLogado()).willReturn(this.cliente);
 	}
 
-	private void devolverPropietarioLogadoPropietario() {
+	private void devolverPropietarioLogadoPropietario() throws Exception {
 		BDDMockito.given(this.propietarioService.getPropietarioLogado()).willReturn(this.propietario);
 	}
 

@@ -85,7 +85,7 @@ public class LocalControllerTests {
 
 
 	@BeforeEach
-	void datosIniciales() {
+	void datosIniciales() throws Exception {
 		this.george = new Propietario();
 		this.george.setApellidos("Apellidos prueba");
 		this.george.setEmail("email@prueba.es");
@@ -229,7 +229,7 @@ public class LocalControllerTests {
 			.andExpect(MockMvcResultMatchers.view().name("redirect:/administrador/locales"));
 	}
 
-	private void devolverPropietarioLogadoGeorge() {
+	private void devolverPropietarioLogadoGeorge() throws Exception {
 		BDDMockito.given(this.propietarioService.getPropietarioLogado()).willReturn(this.george);
 	}
 	

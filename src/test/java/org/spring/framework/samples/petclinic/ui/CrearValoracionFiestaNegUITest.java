@@ -8,14 +8,11 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.Alert;
 import org.openqa.selenium.By;
-import org.openqa.selenium.NoAlertPresentException;
-import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 
 public class CrearValoracionFiestaNegUITest {	
 	  private WebDriver driver;
-	  private String baseUrl;
 	  private boolean acceptNextAlert = true;
 	  private StringBuffer verificationErrors = new StringBuffer();
 
@@ -24,7 +21,6 @@ public class CrearValoracionFiestaNegUITest {
 		  String pathToGeckoDriver = "C:\\Users\\Danie\\Downloads";
 		  System.setProperty("webdriver.gecko.driver", pathToGeckoDriver + "\\geckodriver.exe");
 	    driver = new FirefoxDriver();
-	    baseUrl = "https://www.google.com/";
 	    driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
 	  }
 
@@ -56,24 +52,6 @@ public class CrearValoracionFiestaNegUITest {
 	    String verificationErrorString = verificationErrors.toString();
 	    if (!"".equals(verificationErrorString)) {
 	     Assert.fail(verificationErrorString);
-	    }
-	  }
-
-	  private boolean isElementPresent(By by) {
-	    try {
-	      driver.findElement(by);
-	      return true;
-	    } catch (NoSuchElementException e) {
-	      return false;
-	    }
-	  }
-
-	  private boolean isAlertPresent() {
-	    try {
-	      driver.switchTo().alert();
-	      return true;
-	    } catch (NoAlertPresentException e) {
-	      return false;
 	    }
 	  }
 

@@ -63,7 +63,7 @@ public class MensajeControllerTests {
 	private Mensaje mensaje;
 
 	@BeforeEach
-	void datosIniciales() {
+	void datosIniciales() throws Exception {
 
 		this.patrocinador = new Patrocinador();
 		this.patrocinador.setApellidos("Apellidos prueba");

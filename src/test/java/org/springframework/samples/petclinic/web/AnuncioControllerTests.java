@@ -78,7 +78,7 @@ public class AnuncioControllerTests {
 	private Anuncio a2;
 
 	@BeforeEach
-	void datosIniciales() {
+	void datosIniciales() throws Exception {
 		this.patrocinador = new Patrocinador();
 		this.patrocinador.setApellidos("Apellidos prueba");
 		this.patrocinador.setEmail("email@prueba.es");
@@ -357,27 +357,27 @@ public class AnuncioControllerTests {
 				.andExpect(MockMvcResultMatchers.view().name("exception"));
 	}
 	
-	private void devolverPatrocinadorLogadoPatrocinador() {
+	private void devolverPatrocinadorLogadoPatrocinador() throws Exception {
 		BDDMockito.given(this.patrocinadorService.getPatrocinadorLogado()).willReturn(this.patrocinador);
 	}
 	
-	private void devolverPatrocinadorLogadoNoUsuario() {
+	private void devolverPatrocinadorLogadoNoUsuario() throws Exception {
 		BDDMockito.given(this.patrocinadorService.getPatrocinadorLogado()).willReturn(null);
 	}
 	
-	private void devolverPropietarioLogadoPropietario() {
+	private void devolverPropietarioLogadoPropietario() throws Exception {
 		BDDMockito.given(this.propietarioService.getPropietarioLogado()).willReturn(this.propietario);
 	}
 	
-	private void devolverPropietarioLogadoPropietario2() {
+	private void devolverPropietarioLogadoPropietario2() throws Exception {
 		BDDMockito.given(this.propietarioService.getPropietarioLogado()).willReturn(this.propietario2);
 	}
 	
-	private void devolverClienteLogadoCliente2() {
+	private void devolverClienteLogadoCliente2() throws Exception {
 		BDDMockito.given(this.clienteService.getClienteLogado()).willReturn(this.cliente2);
 	}
 	
-	private void devolverClienteLogadoCliente() {
+	private void devolverClienteLogadoCliente() throws Exception {
 		BDDMockito.given(this.clienteService.getClienteLogado()).willReturn(this.cliente);
 	}
 	

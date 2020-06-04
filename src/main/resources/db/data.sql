@@ -90,6 +90,16 @@ INSERT INTO fiestas(id, nombre, descripcion, precio, requisitos, fecha, hora_ini
 	'2020-09-09', '23:00', '7:00', 50, 100,
 	'https://img.huffingtonpost.com/asset/5e7a8eeb2400006007cea3b6.jpeg', 'ACEPTADO', 1, 1);
 
+--Para poder comentar y valorar por cliente 1 y 2.
+INSERT INTO fiestas(id, nombre, descripcion, precio, requisitos, fecha, hora_inicio, hora_fin, numero_asistentes, aforo, imagen, decision, cliente_id, local_id) 
+	VALUES(7, 'Fiesta pre-confinamiento', 'Con precaución.', 50, 'mayores de edad',
+	'2020-03-09', '23:00', '7:00', 100, 100,
+	'https://img.huffingtonpost.com/asset/5e7a8eeb2400006007cea3b6.jpeg', 'ACEPTADO', 1, 1);
+
+INSERT INTO fiestas(id, nombre, descripcion, precio, requisitos, fecha, hora_inicio, hora_fin, numero_asistentes, aforo, imagen, decision, cliente_id, local_id) 
+	VALUES(8, 'Fiesta techno', 'Solo mayores de edad.', 50, 'Poder menear el cuello',
+	'2021-06-20', '22:00', '5:00', 0, 200, 'https://i.pinimg.com/originals/23/45/77/23457712be420ec1a113139552b091a3.jpg', 'PENDIENTE', 1, 1);
+
 
 --Solicitudes de asistencia a fiestas
 INSERT INTO solicitudes_asistencia(id, fiesta_id, cliente_id, decision) VALUES(1, 1, 1, 'ACEPTADO');
@@ -97,6 +107,10 @@ INSERT INTO solicitudes_asistencia(id, fiesta_id, cliente_id, decision) VALUES(2
 INSERT INTO solicitudes_asistencia(id, fiesta_id, cliente_id, decision) VALUES(3, 3, 1, 'PENDIENTE');
 INSERT INTO solicitudes_asistencia(id, fiesta_id, cliente_id, decision) VALUES(4, 3, 2, 'ACEPTADO');
 INSERT INTO solicitudes_asistencia(id, fiesta_id, cliente_id, decision) VALUES(5, 4, 2, 'ACEPTADO');
+
+--Para poder comentar y valorar por cliente 1 y 2.
+INSERT INTO solicitudes_asistencia(id, fiesta_id, cliente_id, decision) VALUES(6, 7, 1, 'ACEPTADO');
+INSERT INTO solicitudes_asistencia(id, fiesta_id, cliente_id, decision) VALUES(7, 7, 2, 'ACEPTADO');
 
 
 --Anuncios

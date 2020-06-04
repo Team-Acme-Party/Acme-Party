@@ -26,7 +26,7 @@ public class LocalServiceBDTests {
 	private PropietarioService propietarioService;
 
 	@Test
-	void testNewLocalPendiente() {
+	void testNewLocalPendiente() throws Exception {
 		Collection<Local> yaConfirmados = this.localService.findAll();
 		Propietario propietario = this.propietarioService.findById(1);
 		Local nuevo = new Local();
@@ -47,7 +47,7 @@ public class LocalServiceBDTests {
 	}
 
 	@Test
-	void testNegativoNewLocalPendiente() {
+	void testNegativoNewLocalPendiente() throws Exception {
 		Propietario propietario = this.propietarioService.findById(1);
 		Local nuevo = new Local();
 		nuevo.setDireccion("Calle Hermes nº12, 3ºA");
@@ -63,7 +63,7 @@ public class LocalServiceBDTests {
 	}
 
 	@Test
-	void testFindByDireccion() {
+	void testFindByDireccion() throws Exception {
 		Local local = this.localService.findLocalById(1);
 		Collection<Local> todos = this.localService.findByDireccion("Luis Montoto 12");
 		Boolean existe = false;
@@ -76,7 +76,7 @@ public class LocalServiceBDTests {
 	}
 
 	@Test
-	void testFindByPropietario() {
+	void testFindByPropietario() throws Exception {
 		Propietario propietario = this.propietarioService.findById(1);
 		Collection<Local> locales = this.localService.findByPropietarioId(propietario.getId());
 		Local local = this.localService.findLocalById(1);
@@ -90,7 +90,7 @@ public class LocalServiceBDTests {
 	}
 
 	@Test
-	void testAceptarSolicitud() {
+	void testAceptarSolicitud() throws Exception {
 		Local local = this.localService.findLocalById(2);
 		try {
 			local = this.localService.aceptarSolicitudLocal(2);
@@ -103,7 +103,7 @@ public class LocalServiceBDTests {
 	}
 
 	@Test
-	void testNegativoAceptarSolicitud() {
+	void testNegativoAceptarSolicitud() throws Exception {
 		try {
 			this.localService.aceptarSolicitudLocal(50);
 		} catch (Exception e) {
@@ -113,7 +113,7 @@ public class LocalServiceBDTests {
 	}
 
 	@Test
-	void testRechazarSolicitud() {
+	void testRechazarSolicitud() throws Exception {
 		Local local = this.localService.findLocalById(2);
 		try {
 			local = this.localService.denegarSolicitudLocal(2);
@@ -126,7 +126,7 @@ public class LocalServiceBDTests {
 	}
 
 	@Test
-	void testNegativoRechazarSolicitud() {
+	void testNegativoRechazarSolicitud() throws Exception {
 		try {
 			this.localService.denegarSolicitudLocal(50);
 		} catch (Exception e) {

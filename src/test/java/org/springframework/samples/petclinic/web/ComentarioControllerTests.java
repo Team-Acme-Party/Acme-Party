@@ -43,7 +43,7 @@ public class ComentarioControllerTests {
 	private Cliente cliente;
 
 	@BeforeEach
-	void datosIniciales() {
+	void datosIniciales() throws Exception {
 		this.cliente = new Cliente();
 		this.cliente.setApellidos("Apellidos prueba");
 		this.cliente.setEmail("email@prueba.es");

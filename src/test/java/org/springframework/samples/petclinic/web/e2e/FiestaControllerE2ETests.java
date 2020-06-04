@@ -83,7 +83,7 @@ public class FiestaControllerE2ETests {
 	@Test
 	@DisplayName("Test negativo para peticion GET de los detalles de una fiesta con un rol incorrecto")
 	void testNegativoDetallesFiestaPorRolIncorrecto() throws Exception {
-		this.mockMvc.perform(MockMvcRequestBuilders.get("/fiestas/{fiestaId}", 2))
+		this.mockMvc.perform(MockMvcRequestBuilders.get("/fiestas/{fiestaId}", 5))
 				.andExpect(MockMvcResultMatchers.status().is2xxSuccessful())
 				.andExpect(MockMvcResultMatchers.view().name("exception"));
 	}
@@ -203,7 +203,7 @@ public class FiestaControllerE2ETests {
 	@Test
 	@DisplayName("Test positivo denegar fiesta")
 	void testPositivoRechazarFiestas() throws Exception {
-		this.mockMvc.perform(MockMvcRequestBuilders.get("/local/{localId}/fiesta/{fiestaId}/denegar", 1, 2))
+		this.mockMvc.perform(MockMvcRequestBuilders.get("/local/{localId}/fiesta/{fiestaId}/denegar", 1, 8))
 				.andExpect(MockMvcResultMatchers.status().is2xxSuccessful())
 				.andExpect(MockMvcResultMatchers.view().name("welcome"));
 	}

@@ -43,7 +43,7 @@ public class ValoracionControllerTests {
 	private Cliente cliente;
 
 	@BeforeEach
-	void datosIniciales() {
+	void datosIniciales() throws Exception {
 		this.cliente = new Cliente();
 		this.cliente.setApellidos("Apellidos prueba");
 		this.cliente.setEmail("email@prueba.es");
@@ -79,7 +79,7 @@ public class ValoracionControllerTests {
 				.andExpect(MockMvcResultMatchers.view().name("redirect:/locales/1"));
 	}
 	
-	private void devolverClienteLogadoCliente() {
+	private void devolverClienteLogadoCliente() throws Exception {
 		BDDMockito.given(this.clienteService.getClienteLogado()).willReturn(this.cliente);
 	}
 }

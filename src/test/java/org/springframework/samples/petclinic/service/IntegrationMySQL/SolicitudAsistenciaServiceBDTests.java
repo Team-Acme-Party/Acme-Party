@@ -37,7 +37,7 @@ public class SolicitudAsistenciaServiceBDTests {
 
 	@Test
 	@DisplayName("Test positivo para ver las solicitudes de un cliente")
-	void testFindAsistenciasByClienteId() {
+	void testFindAsistenciasByClienteId() throws Exception {
 		Collection<SolicitudAsistencia> solicitudesAsistencia = new LinkedList<>();
 		Cliente cliente = this.clienteService.findById(2);
 		solicitudesAsistencia = solicitudAsistenciaService.findAsistenciasByClienteId(cliente.getId());
@@ -61,7 +61,7 @@ public class SolicitudAsistenciaServiceBDTests {
 
 	@Test
 	@DisplayName("Test negativo para ver las solicitudes de un cliente que no existe")
-	void testNegativoFindAsistenciasByClienteId() {
+	void testNegativoFindAsistenciasByClienteId() throws Exception {
 		Collection<SolicitudAsistencia> solicitudesAsistencia = new LinkedList<>();
 		Integer idCliente = 99;
 		solicitudesAsistencia = solicitudAsistenciaService.findAsistenciasByClienteId(idCliente);
@@ -71,7 +71,7 @@ public class SolicitudAsistenciaServiceBDTests {
 
 	@Test
 	@DisplayName("Test negativo para solicitar asistencia a fiesta por un cliente: cliente es el organizador de la fiesta")
-	void testNegativoSolicitarAsistenciaFiesta1() {
+	void testNegativoSolicitarAsistenciaFiesta1() throws Exception {
 
 		Fiesta fiesta = this.fiestaService.findFiestaById(1);
 		Cliente cliente = fiesta.getCliente();
@@ -82,7 +82,7 @@ public class SolicitudAsistenciaServiceBDTests {
 
 	@Test
 	@DisplayName("Test negativo para solicitar asistencia a fiesta por un cliente: cliente ya ha solicitado asistencia a la fiesta")
-	void testNegativoSolicitarAsistenciaFiesta2() {
+	void testNegativoSolicitarAsistenciaFiesta2() throws Exception {
 
 		Fiesta fiesta = this.fiestaService.findFiestaById(1);
 		Cliente cliente = clienteService.findById(2);
@@ -94,7 +94,7 @@ public class SolicitudAsistenciaServiceBDTests {
 
 	@Test
 	@DisplayName("Test positivo para solicitar asistencia a fiesta por un cliente")
-	void testPositivoSolicitarAsistenciaFiesta() {
+	void testPositivoSolicitarAsistenciaFiesta() throws Exception {
 
 		Fiesta fiesta = this.fiestaService.findFiestaById(2);
 		Cliente cliente = clienteService.findById(2);
@@ -116,7 +116,7 @@ public class SolicitudAsistenciaServiceBDTests {
 
 	@Test
 	@DisplayName("Test positivo para aceptar una solicitud")
-	void testPositivoAceptarSolicitud() {
+	void testPositivoAceptarSolicitud() throws Exception {
 
 		Cliente cliente = clienteService.findById(1);
 		SolicitudAsistencia solicitud = this.solicitudAsistenciaService.findById(2);
@@ -130,7 +130,7 @@ public class SolicitudAsistenciaServiceBDTests {
 
 	@Test
 	@DisplayName("Test negativo para aceptar una solicitud, la fiesta no pertenece al cliente que va tomar la decision")
-	void testNegativoAceptarSolicitud() {
+	void testNegativoAceptarSolicitud() throws Exception {
 
 		Cliente cliente = clienteService.findById(2);
 		SolicitudAsistencia solicitud = this.solicitudAsistenciaService.findById(2);
@@ -142,7 +142,7 @@ public class SolicitudAsistenciaServiceBDTests {
 
 	@Test
 	@DisplayName("Test positivo para rechazar una solicitud")
-	void testPositivoRechazarSolicitud() {
+	void testPositivoRechazarSolicitud() throws Exception {
 
 		Cliente cliente = clienteService.findById(1);
 		SolicitudAsistencia solicitud = this.solicitudAsistenciaService.findById(2);
@@ -156,7 +156,7 @@ public class SolicitudAsistenciaServiceBDTests {
 
 	@Test
 	@DisplayName("Test negativo para Rechazar una solicitud, la fiesta no pertenece al cliente que va tomar la decision")
-	void testNegativoRechazarSolicitud() {
+	void testNegativoRechazarSolicitud() throws Exception {
 
 		Cliente cliente = clienteService.findById(2);
 		SolicitudAsistencia solicitud = this.solicitudAsistenciaService.findById(2);
