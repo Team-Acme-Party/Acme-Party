@@ -19,7 +19,7 @@ public class CrearLocalNegUITest {
 
 	@BeforeEach
 	public void setUp() throws Exception {
-		String pathToGeckoDriver = "C:\\Users\\Frank\\Downloads";
+		String pathToGeckoDriver = "C:\\Users\\Danie\\Downloads";
 		System.setProperty("webdriver.gecko.driver", pathToGeckoDriver + "\\geckodriver.exe");
 		this.driver = new FirefoxDriver();
 		this.driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
@@ -31,7 +31,8 @@ public class CrearLocalNegUITest {
 		this.driver.findElement(By.xpath("//a[contains(@href, '/login')]")).click();
 		this.driver.findElement(By.id("password")).clear();
 		this.driver.findElement(By.id("password")).sendKeys("propietario1");
-		this.driver.findElement(By.id("username")).click();
+		this.driver.findElement(By.id("username")).clear();
+		this.driver.findElement(By.id("username")).sendKeys("propietario1");
 		this.driver.findElement(By.xpath("//button[@type='submit']")).click();
 		Assert.assertEquals("PROPIETARIO1", this.driver.findElement(By.xpath("//div[@id='main-navbar']/ul[2]/li/a/strong")).getText());
 		this.driver.findElement(By.xpath("//div[@id='main-navbar']/ul/li[3]/a/span[2]")).click();

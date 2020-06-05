@@ -144,7 +144,7 @@
 	</table>
 
 	<sec:authorize access="hasAuthority('cliente')">
-		<c:if test="${clienteFiesta}">
+		<c:if test="${esFiestaSolicitadaPorCliente}">
 			<h2>Comentar fiesta</h2>
 
 			<form:form id="form" modelAttribute="comentario"

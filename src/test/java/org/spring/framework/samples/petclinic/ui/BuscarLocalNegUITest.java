@@ -13,12 +13,13 @@ import org.openqa.selenium.firefox.FirefoxDriver;
 
 public class BuscarLocalNegUITest {
 
-	private WebDriver driver;
-	private StringBuffer verificationErrors = new StringBuffer();
+	private WebDriver		driver;
+	private StringBuffer	verificationErrors	= new StringBuffer();
+
 
 	@BeforeEach
 	public void setUp() throws Exception {
-		String pathToGeckoDriver = "C:\\Users\\Frank\\Downloads";
+		String pathToGeckoDriver = "C:\\Users\\Danie\\Downloads";
 		System.setProperty("webdriver.gecko.driver", pathToGeckoDriver + "\\geckodriver.exe");
 		this.driver = new FirefoxDriver();
 		this.driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
@@ -30,7 +31,7 @@ public class BuscarLocalNegUITest {
 		this.driver.findElement(By.xpath("//a[contains(@href, '/locales/buscar')]")).click();
 		this.driver.findElement(By.name("direccion")).click();
 		this.driver.findElement(By.name("direccion")).clear();
-		this.driver.findElement(By.name("direccion")).sendKeys("LUIS");
+		this.driver.findElement(By.name("direccion")).sendKeys("test");
 		this.driver.findElement(By.id("search-owner-form")).submit();
 		Assert.assertEquals("has not been found", this.driver.findElement(By.id("local.errors")).getText());
 	}

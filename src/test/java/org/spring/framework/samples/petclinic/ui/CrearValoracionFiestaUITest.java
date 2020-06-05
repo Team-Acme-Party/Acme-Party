@@ -32,16 +32,17 @@ public class CrearValoracionFiestaUITest {
 	    driver.findElement(By.id("password")).click();
 	    driver.findElement(By.id("password")).clear();
 	    driver.findElement(By.id("password")).sendKeys("cliente2");
-	    driver.findElement(By.xpath("//button[@type='submit']")).click();
-	    driver.findElement(By.xpath("(//button[@type='button'])[4]")).click();
+		driver.findElement(By.xpath("//button[@type='submit']")).click();	
+		driver.findElement(By.cssSelector("a[title=\"Mis asistencias\"]")).click();
+		 driver.findElement(By.xpath("(//button[@type='button'])[5]")).click();
 	    driver.findElement(By.id("comentario")).click();
 	    driver.findElement(By.id("comentario")).clear();
-	    driver.findElement(By.id("comentario")).sendKeys("fiesta tremenda");
+	    driver.findElement(By.id("comentario")).sendKeys("asd");
 	    driver.findElement(By.id("valor")).click();
 	    driver.findElement(By.id("valor")).clear();
-	    driver.findElement(By.id("valor")).sendKeys("3");
-	    driver.findElement(By.xpath("(//button[@type='submit'])[2]")).click();
-	    Assert.assertEquals("fiesta tremenda", driver.findElement(By.xpath("//table[@id='valoracionesTable']/tbody/tr[2]/td")).getText());
+	    driver.findElement(By.id("valor")).sendKeys("5");
+	    driver.findElement(By.xpath("(//button[@type='button'])[6]")).click();
+	    Assert.assertEquals("asd", driver.findElement(By.xpath("//table[@id='valoracionesTable']/tbody/tr/td")).getText());
 	  }
 
 	  @AfterEach

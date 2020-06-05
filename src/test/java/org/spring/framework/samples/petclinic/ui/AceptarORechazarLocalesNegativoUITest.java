@@ -16,7 +16,7 @@ public class AceptarORechazarLocalesNegativoUITest {
 
 	@BeforeEach
 	public void setUp() throws Exception {
-		String pathToGeckoDriver = "C:\\Users\\sergio\\Desktop";
+		String pathToGeckoDriver = "C:\\Users\\Danie\\Downloads";
 		System.setProperty("webdriver.gecko.driver", pathToGeckoDriver + "\\geckodriver.exe");
 		driver = new FirefoxDriver();
 	}

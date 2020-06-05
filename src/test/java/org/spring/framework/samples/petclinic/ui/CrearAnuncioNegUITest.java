@@ -18,7 +18,7 @@ public class CrearAnuncioNegUITest {
 
 	@BeforeEach
 	public void setUp() throws Exception {
-		String pathToGeckoDriver = "C:\\Users\\Frank\\Downloads";
+		String pathToGeckoDriver = "C:\\Users\\Danie\\Downloads";
 		System.setProperty("webdriver.gecko.driver", pathToGeckoDriver + "\\geckodriver.exe");
 		this.driver = new FirefoxDriver();
 		this.driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);

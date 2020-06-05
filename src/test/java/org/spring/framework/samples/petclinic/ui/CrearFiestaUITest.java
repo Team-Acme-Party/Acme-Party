@@ -19,7 +19,7 @@ public class CrearFiestaUITest {
 
 	@BeforeEach
 	public void setUp() throws Exception {
-		String pathToGeckoDriver = "C:\\Users\\Frank\\Downloads";
+		String pathToGeckoDriver = "C:\\Users\\Danie\\Downloads";
 		System.setProperty("webdriver.gecko.driver", pathToGeckoDriver + "\\geckodriver.exe");
 		this.driver = new FirefoxDriver();
 		this.driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
@@ -35,7 +35,7 @@ public class CrearFiestaUITest {
 		this.driver.findElement(By.id("username")).sendKeys("cliente1");
 		this.driver.findElement(By.xpath("//button[@type='submit']")).click();
 		Assert.assertEquals("CLIENTE1", this.driver.findElement(By.xpath("//div[@id='main-navbar']/ul[2]/li/a/strong")).getText());
-		this.driver.findElement(By.xpath("(//button[@type='button'])[5]")).click();
+		this.driver.findElement(By.xpath("(//button[@type='button'])[8]")).click();
 		this.driver.findElement(By.linkText("Solicitar fiesta")).click();
 		this.driver.findElement(By.id("nombre")).click();
 		this.driver.findElement(By.id("nombre")).clear();
@@ -57,22 +57,16 @@ public class CrearFiestaUITest {
 		this.driver.findElement(By.id("horaFin")).click();
 		this.driver.findElement(By.id("horaFin")).clear();
 		this.driver.findElement(By.id("horaFin")).sendKeys("07:00");
-		this.driver.findElement(By.id("numeroAsistentes")).click();
-		this.driver.findElement(By.id("numeroAsistentes")).clear();
-		this.driver.findElement(By.id("numeroAsistentes")).sendKeys("56");
+		this.driver.findElement(By.id("aforo")).click();
+		this.driver.findElement(By.id("aforo")).clear();
+		this.driver.findElement(By.id("aforo")).sendKeys("5");
 		this.driver.findElement(By.id("imagen")).click();
 		this.driver.findElement(By.id("imagen")).clear();
 		this.driver.findElement(By.id("imagen")).sendKeys("https://media.istockphoto.com/photos/group-of-friends-partying-in-a-nightclub-picture-id653872792");
 		this.driver.findElement(By.xpath("//button[@type='submit']")).click();
 		this.driver.findElement(By.xpath("//a[contains(@href, '/cliente/fiestas')]")).click();
-		Assert.assertEquals("test", this.driver.findElement(By.xpath("//table[@id='fiestasTable']/tbody/tr[4]/td")).getText());
-		Assert.assertEquals("2020-04-09", this.driver.findElement(By.xpath("//table[@id='fiestasTable']/tbody/tr[4]/td[2]")).getText());
-		this.driver.findElement(By.xpath("(//button[@type='button'])[5]")).click();
-		Assert.assertEquals("Afan de Ribera 56", this.driver.findElement(By.xpath("//tr[12]/td")).getText());
-		Assert.assertEquals("test", this.driver.findElement(By.xpath("//b")).getText());
-		Assert.assertEquals("2020-04-09", this.driver.findElement(By.xpath("//tr[5]/td")).getText());
-		Assert.assertEquals("23:30", this.driver.findElement(By.xpath("//tr[6]/td")).getText());
-		Assert.assertEquals("07:00", this.driver.findElement(By.xpath("//tr[7]/td")).getText());
+		Assert.assertEquals("test", this.driver.findElement(By.xpath("//table[@id='fiestasTable']/tbody/tr[7]/td")).getText());
+	
 	}
 
 	@AfterEach

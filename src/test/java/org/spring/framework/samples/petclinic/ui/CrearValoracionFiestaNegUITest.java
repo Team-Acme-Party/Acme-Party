@@ -39,11 +39,10 @@ public class CrearValoracionFiestaNegUITest {
 	    driver.findElement(By.id("comentario")).click();
 	    driver.findElement(By.id("comentario")).clear();
 	    driver.findElement(By.id("comentario")).sendKeys("fiesta tremenda");
-	    driver.findElement(By.id("valor")).click();
 	    driver.findElement(By.id("valor")).clear();
 	    driver.findElement(By.id("valor")).sendKeys("6");
 	    driver.findElement(By.xpath("(//button[@type='submit'])[2]")).click();
-	    Assert.assertEquals("El valor debe de ser entre 0 y 5", this.closeAlertAndGetItsText());
+	   Assert.assertEquals("El valor debe de ser entre 0 y 5", closeAlertAndGetItsText());
 	  }
 
 	  @AfterEach

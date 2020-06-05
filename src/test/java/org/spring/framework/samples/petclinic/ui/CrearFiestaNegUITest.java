@@ -19,7 +19,7 @@ public class CrearFiestaNegUITest {
 
 	@BeforeEach
 	public void setUp() throws Exception {
-		String pathToGeckoDriver = "C:\\Users\\Frank\\Downloads";
+		String pathToGeckoDriver = "C:\\Users\\Danie\\Downloads";
 		System.setProperty("webdriver.gecko.driver", pathToGeckoDriver + "\\geckodriver.exe");
 		this.driver = new FirefoxDriver();
 		this.driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
@@ -35,7 +35,7 @@ public class CrearFiestaNegUITest {
 		this.driver.findElement(By.id("username")).sendKeys("cliente1");
 		this.driver.findElement(By.xpath("//button[@type='submit']")).click();
 		Assert.assertEquals("CLIENTE1", this.driver.findElement(By.xpath("//div[@id='main-navbar']/ul[2]/li/a/strong")).getText());
-		this.driver.findElement(By.xpath("(//button[@type='button'])[5]")).click();
+		this.driver.findElement(By.xpath("(//button[@type='button'])[7]")).click();
 		this.driver.findElement(By.linkText("Solicitar fiesta")).click();
 		this.driver.findElement(By.id("nombre")).click();
 		this.driver.findElement(By.id("nombre")).clear();
@@ -61,8 +61,7 @@ public class CrearFiestaNegUITest {
 		this.driver.findElement(By.id("horaFin")).sendKeys("rfc");
 		this.driver.findElement(By.id("imagen")).click();
 		this.driver.findElement(By.xpath("//button[@type='submit']")).click();
-		Assert.assertEquals("Debe de indicar los asistentes", this.driver.findElement(By.xpath("//form[@id='fiesta']/div/div[8]/div/span[2]")).getText());
-		Assert.assertEquals("Este campo no puede estar vacio", this.driver.findElement(By.xpath("//form[@id='fiesta']/div/div[9]/div/span[2]")).getText());
+		Assert.assertEquals("no puede ser null", this.driver.findElement(By.xpath("//form[@id='fiesta']/div/div[8]/div/span[2]")).getText());
 	}
 
 	@AfterEach
